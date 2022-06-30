@@ -1,0 +1,131 @@
+% we include the glossary here (frontmatter is included with \input, so this command is as if it was in main.tex)
+\input{frontmatter/glossary}
+
+\frontmatter % Use roman page numbering style (i, ii, iii, iv...) for the pre-content pages
+
+\pagestyle{plain} % Default to the plain heading style until the thesis style is called for the body content
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\maketitlepage
+
+%----------------------------------------------------------------------------------------
+%	DEDICATION  (optional)
+%----------------------------------------------------------------------------------------
+%
+%\dedicatory{For/Dedicated to/To my\ldots}
+\begin{dedicatory}
+TODO
+\end{dedicatory}
+
+%----------------------------------------------------------------------------------------
+%	ABSTRACT PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{abstract}
+
+% here you put the abstract in the main language of the work.
+
+Today there are more smart devices than people. According to \cite{statista-number-devices} the number of devices worldwide is forecast to almost triple from 8.74 billion in 2020 to more than 25.4 billion devices in 2030.
+
+The \gls{IoT} is the connection of millions of smart devices and sensors connected to the Internet. These connected devices and sensors collect and share data for use and evaluation by many organisations.
+Some examples of intelligent connected sensors are: GPS asset tracking, parking spots, refrigerator thermostats, soil condition and many others. The limit of different objects that could become intelligent sensors is limited only by our imagination. But this devices are mostly useless without a platform to analyse, store and present the aggregated data.
+
+Recently, several platforms have emerged to address this need and help companies/governments to increase efficiency, cut on operational costs and improve safety. Sadly, most of this platforms are tailor made for the devices that the company offers. This dissertation presents a platform and its development that assembles multiple services related to \gls{IoT} into a single application. All the services provided by this platform attempt to be sensor-neutral and are to be exhibited under the same unified application.
+
+\end{abstract}
+
+\begin{abstractotherlanguage}
+% here you put the abstract in the "other language": English, if the work is written in Portuguese; Portuguese, if the work is written in English.
+
+Atualmente, existem mais sensores inteligentes do que pessoas. De acordo com \cite{statista-number-devices}, o número de sensores em todo o mundo deve quase triplicar de 8,74 bilhões em 2020 para mais de 25,4 bilhões em 2030.
+
+O conceito de \gls{IoT} está relacionado com a interacção entre milhões de dispositivos inteligentes através da Internet. Estes dispositivos e sensores conectados recolhem e disponibilizam dados para uso e avaliação por parte de muitas organizações.
+Alguns exemplos de sensores inteligentes e seus usos são: dispositivos GPS para rastreamento de activos, monitorização de vagas de estacionamento, termostatos em arcas frigoríficas, condição do solo e muitos outros. O número de diferentes objectos que podem vir-se a tornar sensores inteligentes é limitado apenas pela nossa imaginação. Mas estes dispositivos são praticamente inúteis sem uma plataforma para analisar, armazenar e apresentar os dados por eles agregados.
+
+Recentemente, várias plataformas surgiram para responder a essa necessidade e ajudar empresas/governos a aumentar a sua eficiência, reduzir custos operacionais e melhorar a segurança dos espaços e negócios. Infelizmente, a maioria dessas plataformas é feita à medida para os dispositivos que a empresa em questão oferece. Esta tese apresenta uma plataforma que permite a criação e agregação de vários serviços relacionados com \gls{IoT} num ambiente único. Todos os serviços fornecidos por esta plataforma procuram ser agnósticos em relação aos dispositivos inteligentes suportados.
+
+\end{abstractotherlanguage}
+
+%----------------------------------------------------------------------------------------
+%	ACKNOWLEDGEMENTS (optional)
+%----------------------------------------------------------------------------------------
+
+\begin{acknowledgements}
+
+TODO
+
+\end{acknowledgements}
+
+%----------------------------------------------------------------------------------------
+%	LIST OF CONTENTS/FIGURES/TABLES PAGES
+%----------------------------------------------------------------------------------------
+
+\tableofcontents % Prints the main table of contents
+
+\listoffigures % Prints the list of figures
+
+\listoftables % Prints the list of tables
+
+\iflanguage{portuguese}{
+\renewcommand{\listalgorithmname}{Lista de Algor\'itmos}
+}
+\listofalgorithms % Prints the list of algorithms
+\addchaptertocentry{\listalgorithmname}
+
+
+\renewcommand{\lstlistlistingname}{List of Source Code}
+\iflanguage{portuguese}{
+\renewcommand{\lstlistlistingname}{Lista de C\'odigo}
+}
+\lstlistoflistings % Prints the list of listings (programming language source code)
+\addchaptertocentry{\lstlistlistingname}
+
+
+%----------------------------------------------------------------------------------------
+%	ABBREVIATIONS
+%----------------------------------------------------------------------------------------
+%\begin{abbreviations}{ll} % Include a list of abbreviations (a table of two columns)
+%%\textbf{LAH} & \textbf{L}ist \textbf{A}bbreviations \textbf{H}ere\\
+%%\textbf{WSF} & \textbf{W}hat (it) \textbf{S}tands \textbf{F}or\\
+%\end{abbreviations}
+
+%----------------------------------------------------------------------------------------
+%	SYMBOLS
+%----------------------------------------------------------------------------------------
+
+\begin{symbols}{lll} % Include a list of Symbols (a three column table)
+
+$a$ & distance & \si{\meter} \\
+$P$ & power & \si{\watt} (\si{\joule\per\second}) \\
+%Symbol & Name & Unit \\
+
+\addlinespace % Gap to separate the Roman symbols from the Greek
+
+$\omega$ & angular frequency & \si{\radian} \\
+
+\end{symbols}
+
+
+
+%----------------------------------------------------------------------------------------
+%	ACRONYMS
+%----------------------------------------------------------------------------------------
+
+\newcommand{\listacronymname}{List of Acronyms}
+\iflanguage{portuguese}{
+\renewcommand{\listacronymname}{Lista de Acr\'onimos}
+}
+
+%Use GLS
+\glsresetall
+\printglossary[title=\listacronymname,type=\acronymtype,style=long]
+
+%----------------------------------------------------------------------------------------
+%	DONE
+%----------------------------------------------------------------------------------------
+
+\mainmatter % Begin numeric (1,2,3...) page numbering
+\pagestyle{thesis} % Return the page headers back to the "thesis" style

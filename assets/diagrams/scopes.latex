@@ -34,6 +34,9 @@
 \draw[pstyle0] (511.37pt,362pt) ..controls (566.84pt,362pt) and (642.35pt,362pt) .. (697.19pt,362pt);
 \draw[pstyle3] (702.43pt,362pt) -- (693.43pt,358pt) -- (697.43pt,362pt) -- (693.43pt,366pt) -- (702.43pt,362pt) -- cycle;
 \node at (529.25pt,341pt)[below right,color=black]{feeds sanitized data to};
+\draw[pstyle0] (702.43pt,380.24pt) ..controls (694.83pt,381.78pt) and (687.16pt,383.1pt) .. (679.75pt,384pt) ..controls (615.34pt,391.86pt) and (598.23pt,391.28pt) .. (533.75pt,384pt) ..controls (527.96pt,383.35pt) and (522.01pt,382.48pt) .. (516.05pt,381.47pt);
+\draw[pstyle3] (511.04pt,380.58pt) -- (519.2033pt,386.09pt) -- (515.9632pt,381.453pt) -- (520.6002pt,378.2129pt) -- (511.04pt,380.58pt) -- cycle;
+\node at (534.75pt,366pt)[below right,color=black]{feeds specific data to};
 \draw[pstyle0] (451.5pt,94.35pt) ..controls (451.5pt,131.87pt) and (451.5pt,187.5pt) .. (451.5pt,218.98pt);
 \draw[pstyle3] (451.5pt,224.2pt) -- (455.5pt,215.2pt) -- (451.5pt,219.2pt) -- (447.5pt,215.2pt) -- (451.5pt,224.2pt) -- cycle;
 \node at (452.5pt,134.5pt)[below right,color=black]{configures};

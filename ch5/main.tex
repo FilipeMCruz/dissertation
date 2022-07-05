@@ -1,8 +1,9 @@
 \chapter{Design}
 \label{chap:design}
 
-In order to describe the system in detail at the architectural level, an approach
-based on the combination of two models, C4 and 4+1 will eb followed.
+This section goal is to describe the overall system design to the reader.
+First the reference architectures used for this project will be presented. Then the various system scopes will be introduced, followed by section regarding the domain model.
+After this the system's architectural design will be presented and major decisions/alternatives discussed. At last, a synopsis of this chapter can be read.
 
 \section{Reference Architecture}
 \label{sec:design:ref_architecture}
@@ -14,12 +15,12 @@ The system designed can be divided is three main scopes as disclosed in the Figu
 
 \begin{figure}[H]
     \centering
-\resizebox{\columnwidth}{!}
-{
-   \input{assets/diagrams/scopes.latex}
-}
-\caption[System Scopes]{System Scopes}
-\label{fig:design:system_scopes:scopes}
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/scopes.latex}
+   }
+   \caption[System Scopes]{System Scopes}
+   \label{fig:design:system_scopes:scopes}
 \end{figure}
 
 The \textbf{Configuration Scope} adheres to the configuration and visualization of internal processes/contexts. This processes, such as: (i) data decoders, (ii) device inventory, (iii) warning rules definition and (iv) device ownership, are related to the \textbf{Data Flow Scope}. It is also possible to manage tenants' access and permissions in the system in this scope.
@@ -38,7 +39,7 @@ The \textbf{Configuration Scope} is responsible for managing the following conte
    \item \textbf{Data Decoder}: manages scripts to transform data;
    \item \textbf{Device Management}: manages device information such as name, metadata, static data and other notions;
    \item \textbf{Identity Management}: manages device ownership and users permissions;
-   \item \textbf{Rule Management}: manages scripts that consume device data and produce alerts;
+   \item \textbf{Rule Management}: manages scripts that consume device data and produce alerts.
 \end{itemize}
 
 Each context allows an authorized user to manage its resources, e.g. the data processor context manages the creation, deletion and renovation of data mappers.
@@ -72,10 +73,20 @@ The \textbf{Configuration Scope} requires scarce but heavy computations that alt
    \label{tab:design:system_scopes:data_flow_scope:comparison}
 \end{table}
 
-Due to this discrepancy it's expected for each scope to have different requirements regarding horizontal scaling. With the addition of more devices to the platform, and subsequently higher ingress volume, \textbf{Data Flow Scope} will need to scale. Since the \textbf{Configuration Scope} is intended mostly for the manager of the platform, never more than 10 concurrent users, the need to scale is smaller.
+Due to this discrepancy it's expected for each scope to have different requirements regarding horizontal scaling. With the addition of more devices to the platform, and subsequently higher ingress volume, \textbf{Data Flow Scope} will need to scale. Since the \textbf{Configuration Scope} is intended mostly for the manager of the platform, a small user pool, the need to scale is smaller.
 
 \subsection{Service Scope}
 \label{subsec:design:system_scopes:service_scope}
+
+The \textbf{Service Scope} is responsible for presenting \gls{IoT} business cases to end users. This scope is comprised of services that consume and publish data to \textbf{Data Flow Scope}. Currently, as an \gls{MVP} the following business cases are:
+
+\begin{itemize}
+   \item \textbf{Fleet Management}: basic service to monitor a fleet of cars regarding their location;
+   \item \textbf{Smart Irrigation}: service to automate and monitor the irrigation of zones based on sensor readings;
+   \item \textbf{Notification Management}: service to view and manage the delivery of triggered alerts.
+\end{itemize}
+
+Each service is bounded to what type of data receives and sends back to the \textbf{Data Flow Scope} as detailed in Sections~\ref{subsec:design:domain:concepts} and \ref{subsec:design:domain:shared_model}.
 
 \section{Domain}
 \label{sec:design:domain}
@@ -92,8 +103,7 @@ Due to this discrepancy it's expected for each scope to have different requireme
 \section{Architectural Design}
 \label{sec:design:architecture}
 
-In order to describe the system in detail at the architectural level, an approach
-based on the combination of two models, C4 (\cite{c4model-site}) and 4+1  will be followed.
+In order to describe the system in detail at the architectural level, an approach based on the combination of two models, C4 (\cite{c4model-site}) and 4+1  will be followed.
 
 The 4+1 View Model (\cite{4plus1model}), proposes the description of the system through complementary views thus allowing to separately analyze the requirements of various software stakeholders, such as users, system administrators, project managers, architects, and programmers.
 
@@ -133,7 +143,7 @@ The C4 level 4, code, will not be exhibited.
 \label{subsec:design:architecture:context}
 
 The context level aims at introducing the system as a whole. The external
-systems and users that communicate/interact with the system, \textbf{Sensae}, are demonstrated.
+systems and users that communicate/interact with the system, \textbf{Sensae Console}, are demonstrated.
 Throughout this section the relevant C4 views of level 1 (context level) are presented.
 
 \subsubsection*{Context Level - Logical View}
@@ -157,7 +167,7 @@ The external systems and its functions are as follows:
    \item \textbf{Azure Active Directory}: User authentication/identity;
    \item \textbf{Google Identity Platform}: User authentication/identity;
    \item \textbf{Twilio Platform}: SMS delivery;
-   \item \textbf{Google Email Platform}: Email delivery;
+   \item \textbf{Google Email Platform}: Email delivery.
 \end{itemize}
 
 The reason behind the use of external authentication/identity services is described in the Section~\ref{subsec:design:alternatives:auth}.
@@ -191,7 +201,9 @@ Next is the development view (Figure~\ref{fig:design:architecture:context:develo
    \label{fig:design:architecture:context:development:diagram}
 \end{figure}
 
-The package \textit{iot-core} contains the shared model discussed in the Section~\ref{subsec:design:domain:shared_model}, and functions to define what type of device data/internal state one wants to subscribe to and publish (discussed in Section~\ref{subsec:design:domain:concepts}).
+The package \textit{iot-core} contains the shared model discussed in the Section~\ref{subsec:design:domain:shared_model}, and functions to define what type of device data/internal state a backend containers wants to subscribe or publish (discussed in Section~\ref{subsec:design:domain:concepts}).
+
+The package \textit{sensae-console} contains software of the various containers needed to run the \textbf{Sensae Console}. As expected \textit{iot-core} is a core dependency for the \textit{sensae-console} backend containers.
 
 \subsubsection*{Context Level - Synopsis}
 \label{subsubsec:design:architecture:context:synopsis}
@@ -206,6 +218,9 @@ The process view was not represented since at this level the interactions betwee
 
 \section{Architectural Alternatives Discussed}
 \label{sec:design:alternatives}
+
+\subsection{Data Streaming/Pipeline}
+\label{subsec:design:alternatives:streaming}
 
 \subsection{User Authorization/Authentication}
 \label{subsec:design:alternatives:auth}

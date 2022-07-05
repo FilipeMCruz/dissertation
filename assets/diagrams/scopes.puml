@@ -22,6 +22,7 @@ ExternalSystem -> DataFlow : feeds unsanitized data to
 Configuration --> DataFlow : defines the behaviour of
 
 DataFlow -> Service : feeds sanitized data to
+Service -> DataFlow : feeds specific data to
 
 Manager --> Configuration : configures\nthe ETL
 

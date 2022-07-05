@@ -1,0 +1,30 @@
+@startuml scopes
+
+skinparam componentStyle rectangle
+
+actor Manager
+
+actor "Tenant or\nAnonymous User" as User
+
+component "External System" as ExternalSystem
+
+component "System" {
+
+    component "Configuration Scope" as Configuration
+
+    component "Data Flow Scope" as DataFlow
+
+    component "Services Scope" as Service
+}
+
+ExternalSystem -> DataFlow : feeds unsanitized data to
+
+Configuration --> DataFlow : defines the behaviour of
+
+DataFlow -> Service : feeds sanitized data to
+
+Manager --> Configuration : configures\nthe ETL
+
+User ---> Service : interacts with the\nsevices available
+
+@enduml

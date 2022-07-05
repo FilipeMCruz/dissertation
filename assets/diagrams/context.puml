@@ -1,0 +1,35 @@
+@startuml context
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!include FONTAWESOME/users.puml
+
+AddRelTag("dash", $lineStyle = DashedLine())
+
+Person(managerAlias, "Manager", "An adminstrator with elevated priviledges")
+Person(tenantAlias, "Tenant", "A customer with an account in the system")
+Person(anonymousAlias, "Anonymous User", "A customer without an account in the system")
+
+System(sensaeAlias, "Sensae Console", "The developed System")
+
+System_Ext(heliumAlias, "Helium Console", "Manages IoT devices and routes devices uplinks/downlinks as requested")
+System_Ext(azureAlias, "Azure Active Directory", "Manages users identity via accounts (outlook business accounts)")
+System_Ext(googleAlias, "Google Identity Platform", "Manages users identity via accounts (gmail accounts)")
+
+System_Ext(twilioAlias, "Twilio Platform", "Delivers SMS")
+System_Ext(emailAlias, "Gmail Platform", "Delivers Email")
+
+Rel(managerAlias, sensaeAlias, "Controls the platform", "HTTPS")
+Rel(tenantAlias, sensaeAlias, "Acess his/her services, devices and data", "HTTPS")
+Rel(anonymousAlias, sensaeAlias, "Access public information", "HTTPS")
+
+Rel_R(sensaeAlias, emailAlias, "Sends e-mail using", "SMTP")
+Rel_R(sensaeAlias, twilioAlias, "Sends SMS using", "HTTPS")
+Lay_D(emailAlias, twilioAlias)
+
+Rel_R(heliumAlias, sensaeAlias, "Sends device uplink data", "HTTPS")
+Rel_L(sensaeAlias, heliumAlias, "Sends device downlinks", "HTTPS")
+
+Rel(sensaeAlias, googleAlias, "Requests user identity", "HTTPS")
+Rel(sensaeAlias, azureAlias, "Requests user identity", "HTTPS")
+
+@enduml

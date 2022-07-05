@@ -1,0 +1,52 @@
+@startuml physical-view-level1
+
+skinparam defaultFontSize 20
+skinparam Monochrome true
+skinparam sequenceMessageAlign center
+skinparam componentStyle uml2
+skinparam packageStyle rectangle
+
+cloud "Kubernetes" {
+    node "linux-1" as SYSTEM1 {
+        component "Sensae A Service"
+        component "Sensae B Service"
+        component "Sensae C Service"
+    }
+    node "linux-n" as SYSTEMN {
+        component "Sensae X Service"
+        component "Sensae A Service" as A
+        component "Sensae Y Service"
+        component "Sensae Z Service"
+    }
+    SYSTEMN -- SYSTEM1 : http
+    SYSTEMN -- SYSTEM1 : amqp
+    SYSTEMN --- SYSTEM1 : sql
+}
+
+cloud "Helium" {
+    node "Helium Console" <<External System>> as HC
+}
+
+cloud "Azure" {
+    node "Azure Active Directory" <<External System>> as AAD
+}
+
+cloud "Google Cloud" {
+    node "Google Identity Platform" <<External System>> as GIP
+    node "Google Email Platform" <<External System>> as EMAIL
+}
+
+cloud "Twilio Paltform" {
+    node "SMS Service" <<External System>> as SMS
+}
+
+HC -- SYSTEM1 : http
+HC - SYSTEMN : http
+EMAIL -- SYSTEM1 : smtp
+SYSTEM1 ---- SMS : http
+
+AAD -- SYSTEMN : http
+GIP -- SYSTEMN : http
+
+
+@enduml

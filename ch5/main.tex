@@ -78,7 +78,7 @@ Due to this discrepancy it's expected for each scope to have different requireme
 \subsection{Service Scope}
 \label{subsec:design:system_scopes:service_scope}
 
-The \textbf{Service Scope} is responsible for presenting \gls{IoT} business cases to end users. This scope is comprised of services that consume and publish data to \textbf{Data Flow Scope}. Currently, as an \gls{MVP} the following business cases are:
+The \textbf{Service Scope} is responsible for presenting \gls{IoT} business cases to end users. This scope is comprised of services that consume and publish data to \textbf{Data Flow Scope}. Currently, as a \gls{MVP} the following business cases implemented are:
 
 \begin{itemize}
    \item \textbf{Fleet Management}: basic service to monitor a fleet of cars regarding their location;
@@ -88,17 +88,57 @@ The \textbf{Service Scope} is responsible for presenting \gls{IoT} business case
 
 Each service is bounded to what type of data receives and sends back to the \textbf{Data Flow Scope} as detailed in Sections~\ref{subsec:design:domain:concepts} and \ref{subsec:design:domain:shared_model}.
 
+\subsection{Synopsis}
+\label{subsec:design:system_scopes:synopsis}
+
+This section introduces the system as three separated scopes each with different needs and responsibilities. Despite this they all have a common domain model. The Section~\ref{sec:design:domain} addresses this shared domain and each context peculiarity.
+
 \section{Domain}
 \label{sec:design:domain}
 
+This system's domain model will be discussed here. The idea behind this section is to introduced core business concepts to the reader and explain how they map to the contexts present in the system. To represent this ideas the \gls{UML} notation is used.
+
+This section is split into four pieces: (i) concepts, (ii) shared model, (iii) bounded contexts and (iv) synopsis.
+
 \subsection{Concepts}
 \label{subsec:design:domain:concepts}
+
+In order for the reader to better understand how the system functions some concepts need to be better explained:
+
+\begin{itemize}
+   \item \textbf{Device}: A device is a "Thing" that can collect data and submit it to \textbf{Sensae Console} via an external system though \textbf{Uplink}s. A device can, optionally, receive \textbf{Downlink}s;
+   \item \textbf{Controller}: A controller is a \textbf{Device} that controls and aggregates data from various \textbf{Device}s;
+   \item \textbf{Records/Metadata}: Records, or Metadata are labels associated to a \textbf{Device} that help an organization to classify and add some context to the owned \textbf{Device}s;
+   \item \textbf{Downlink}: A downlink is a term commonly used in radio communications to denote the transmission from the network to the end user. In this case the network is the \textbf{Sensae Console} and the end user is a \textbf{Device};
+   \item \textbf{Uplink}: An uplink is the opposite of a \textbf{Downlink}, it's the transmission from a \textbf{Device} to the \textbf{Sensae Console};
+   \item \textbf{Device Data/Measures}: A device data or measure is the collected data that is submitted via an \textbf{Uplink} to the \textbf{Sensae Console}. This data should be, at least, enriched with an unique identifier of the \textbf{Uplink} and \textbf{Device} that sent it;
+   \item \textbf{Device Command}: A device command is an abstraction on top of a \textbf{Downlink} intended to order a \textbf{Device} to execute a specific action. As an example, one could send a command to open or close a valve that is incorporated into a \textbf{Controller};
+   \item \textbf{Decoder}: A decoder is a function that translates a \textbf{Device Data/Measures} into something that \textbf{Sensae Console} understands;
+   \item \textbf{Domain}: A domain represents a department in a organization. An organization is composed of several domains structured in a tree like format;
+   \item \textbf{Tenant}: A tenant is a user that belongs to one or more \textbf{Domain}s;
+   \item \textbf{Alert/Warning}: A report about a detected condition based on the gather \textbf{Device Data/Measures};
+   \item \textbf{Topic}: A Topic is a subcategory of the contents that are traded between the various containers in the system.
+\end{itemize}
+
+Currently the \textbf{Topic}s that flow in the system are:
+
+\begin{itemize}
+   \item \textbf{Data}: This topic references the \textbf{Device Data/Measures} concept and is intended to be consumed by the \textbf{Service Scope};
+   \item \textbf{Command}: This topic references the \textbf{Device Command} concept and is intended to be used mainly by the \textbf{Service Scope};
+   \item \textbf{Alert}: This topic references the \textbf{Alert/Warning} concept and is intended to be consumed mainly by the \textbf{Service Scope};
+   \item \textbf{Internal}: This topic references the internal state maintained in the \textbf{Configuration Scope} and \textbf{Data Flow Scope}.
+\end{itemize}
+
+This concepts are referenced across the document.
 
 \subsection{Shared Model}
 \label{subsec:design:domain:shared_model}
 
 \subsection{Bounded Contexts}
 \label{subsec:design:domain:bounded_contexts}
+
+\subsection{Synopsis}
+\label{subsec:design:domain:synopsis}
 
 \section{Architectural Design}
 \label{sec:design:architecture}
@@ -133,7 +173,7 @@ The levels are defined as follows:
 These two models can be said to expand along distinct axes, with the
 C4 Model presenting the system with different levels of detail and the 4+1 View Model
 presents the system from different perspectives. By combining the two models it becomes possible to represent the system from several perspectives, each with various levels of detail.
-To visually model/represent the ideas designed and alternatives considered, the Unified Modeling Language (UML) was used.
+To visually model/represent the ideas designed and alternatives considered, the \gls{UML} was used.
 
 In the following sections only combinations of perspectives and level deemed relevant for the design of the solution are presented.
 
@@ -142,8 +182,7 @@ The C4 level 4, code, will not be exhibited.
 \subsection{C4 Level 1 - Context}
 \label{subsec:design:architecture:context}
 
-The context level aims at introducing the system as a whole. The external
-systems and users that communicate/interact with the system, \textbf{Sensae Console}, are demonstrated.
+The context level aims at introducing the system as a whole. The external systems and users that communicate/interact with the system, \textbf{Sensae Console}, are demonstrated.
 Throughout this section the relevant C4 views of level 1 (context level) are presented.
 
 \subsubsection*{Context Level - Logical View}

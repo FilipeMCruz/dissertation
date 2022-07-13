@@ -1,0 +1,106 @@
+@startuml device-management-model
+
+hide empty members
+
+left to right direction
+
+class Device {
+
+}
+
+class DeviceName {
+    value: String
+}
+
+class DeviceId {
+    value: UUID
+}
+
+class DeviceDownlink {
+    value: URL
+}
+
+class DeviceCommand {
+
+}
+
+class DeviceRecord {
+
+}
+
+class DeviceStaticData {
+
+}
+
+class SubDevice {
+
+}
+
+enum PropertyName {
+    GPS_LATITUDE
+    GPS_LONGITUDE
+    GPS_ALTITUDE
+    BATTERY_MAX_VOLTS
+    BATTERY_MIN_VOLTS
+    ...
+}
+
+class DeviceStaticDataValue {
+    value: String
+}
+
+class DeviceRecordContent {
+    value: String
+}
+
+class DeviceRecordLabel {
+    value: String
+}
+
+class SubDeviceReference {
+    reference: Integer
+}
+
+class SubDeviceId {
+    reference: Integer
+}
+
+class CommandId {
+    value: String
+}
+
+class CommandName {
+    value: String
+}
+
+class CommandPayload {
+    value: String
+}
+
+class CommandDevicePort {
+    value: Integer
+}
+
+Device "1" -- "1" DeviceName: titled >
+Device "1" -- "1" DeviceId:  with >
+Device "1" -- "0..1" DeviceDownlink: with >
+Device "1" -- "*" DeviceStaticData: composed by >
+Device "1" -- "*" DeviceCommand: composed by  >
+Device "1" -- "*" DeviceRecord: composed by  >
+Device "1" -- "*" SubDevice: composed by  >
+
+DeviceStaticData "1" -- "1" PropertyName: references >
+DeviceStaticData "1" -- "1" DeviceStaticDataValue: with >
+
+DeviceRecord "1" -- "1" DeviceRecordContent: with >
+DeviceRecord "1" -- "1" DeviceRecordLabel: with >
+
+SubDevice "1" -- "1" SubDeviceId: with >
+SubDevice "1" -- "1" SubDeviceReference: with >
+
+DeviceCommand "1" -- "1" CommandId: with >
+DeviceCommand "1" -- "1" CommandName: with >
+DeviceCommand "1" -- "1" CommandPayload: with >
+DeviceCommand "1" -- "1" CommandDevicePort: with >
+
+@enduml

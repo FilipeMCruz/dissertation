@@ -1,0 +1,31 @@
+@startuml data-decoder-model
+
+hide empty members
+
+class DataDecoder {
+
+}
+
+class DeviceTypeId {
+    value: String
+}
+
+class Script {
+
+}
+
+class ScriptContext {
+    value: String
+}
+
+
+enum ScriptType {
+    JAVASCRIPT
+}
+
+DataDecoder "1" -- "1" Script : has >
+DataDecoder "1" -- "1" DeviceTypeId : for >
+Script "1" -- "1" ScriptContext : defined >
+Script "1" -- "1" ScriptType : written in >
+
+@enduml

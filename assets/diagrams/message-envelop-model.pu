@@ -1,0 +1,33 @@
+@startuml message-envelop-model
+
+left to right direction
+
+hide empty members
+
+class MessageConsumed {
+    oid : UUID
+    hops : Number
+    toSupplied(updateDataFunction, updateRoutingKeysFunction) : Optional<MessageSupplied> 
+}
+
+class MessageSupplied {
+    oid : UUID
+    hops : Number
+    {static} create(data, routingKeys) : MessageSupplied
+    {static} from(messageConsumed, data, routingKeys) :  Optional<MessageSupplied>
+}
+
+interface RoutingKeys {
+    
+}
+
+interface Information {
+
+}
+
+MessageConsumed "1" --> "1" RoutingKeys : routingKeys
+MessageSupplied "1" --> "1" RoutingKeys : routingKeys
+MessageConsumed "1" --> "1" Information : information
+MessageSupplied "1" --> "1" Information : information
+
+@enduml

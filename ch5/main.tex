@@ -61,9 +61,9 @@ The \textbf{Configuration Scope} requires scarce but heavy computations that alt
 
 \begin{table}[!ht]
    \centering
-   \begin{tabular}{|l|l|l|}
-   \hline
-   \textbf{Comparison of Operations} & \textbf{Configuration Scope} & \textbf{Data Flow Scope} \\ \hline
+   \begin{tabular}{@{}lllll@{}}
+   \toprule
+   \textbf{Comparison of Operations} & \textbf{Configuration Scope} & \textbf{Data Flow Scope} \\ \midrule
        Alter internal system state & yes & no \\ \hline
        Alter sensor data & no & yes \\ \hline
        Required computation power/time & high & low \\ \hline
@@ -111,19 +111,19 @@ In order for the reader to better understand how the system functions some conce
    \item \textbf{Records/Metadata}: Records, or Metadata are labels associated to a \textbf{Device} that help an organization to classify and add some context to the owned \textbf{Device}s;
    \item \textbf{Downlink}: A downlink is a term commonly used in radio communications to denote the transmission from the network to the end user. In this case the network is the \textbf{Sensae Console} and the end user is a \textbf{Device};
    \item \textbf{Uplink}: An uplink is the opposite of a \textbf{Downlink}, it's the transmission from a \textbf{Device} to the \textbf{Sensae Console};
-   \item \textbf{Device Data/Measures}: A device data or measure is the collected data that is submitted via an \textbf{Uplink} to the \textbf{Sensae Console}. This data should be, at least, enriched with an unique identifier of the \textbf{Uplink} and \textbf{Device} that sent it;
+   \item \textbf{Data Unit}: A device data or measure is the collected data that is submitted via an \textbf{Uplink} to the \textbf{Sensae Console}. This data should be, at least, enriched with an unique identifier of the \textbf{Uplink} and \textbf{Device} that sent it;
    \item \textbf{Device Command}: A device command is an abstraction on top of a \textbf{Downlink} intended to order a \textbf{Device} to execute a specific action. As an example, one could send a command to open or close a valve that is incorporated into a \textbf{Controller};
-   \item \textbf{Decoder}: A decoder is a function that translates a \textbf{Device Data/Measures} into something that \textbf{Sensae Console} understands;
+   \item \textbf{Decoder}: A decoder is a function that translates a \textbf{Data Unit} into something that \textbf{Sensae Console} understands;
    \item \textbf{Domain}: A domain represents a department in a organization. An organization is composed of several domains structured in a tree like format;
    \item \textbf{Tenant}: A tenant is a user that belongs to one or more \textbf{Domain}s;
-   \item \textbf{Alert/Warning}: A report about a detected condition based on the gather \textbf{Device Data/Measures};
-   \item \textbf{Topic}: A Topic is a subcategory of the contents that are traded between the various containers in the system.
+   \item \textbf{Alert/Warning}: A report about a detected condition based on the gather \textbf{Data Unit};
+   \item \textbf{Topic}: A Topic is a subcategory of the type of contents that are traded between the various containers in the system.
 \end{itemize}
 
 Currently the \textbf{Topic}s that flow in the system are:
 
 \begin{itemize}
-   \item \textbf{Data}: This topic references the \textbf{Device Data/Measures} concept and is intended to be consumed by the \textbf{Service Scope};
+   \item \textbf{Data}: This topic references the \textbf{Data Unit} concept and is intended to be consumed by the \textbf{Service Scope};
    \item \textbf{Command}: This topic references the \textbf{Device Command} concept and is intended to be used mainly by the \textbf{Service Scope};
    \item \textbf{Alert}: This topic references the \textbf{Alert/Warning} concept and is intended to be consumed mainly by the \textbf{Service Scope};
    \item \textbf{Internal}: This topic references the internal state maintained in the \textbf{Configuration Scope} and \textbf{Data Flow Scope}.
@@ -134,8 +134,495 @@ This concepts are referenced across the document.
 \subsection{Shared Model}
 \label{subsec:design:domain:shared_model}
 
+The shared model is comprised of concepts that transverse the entire \textbf{Sensae Console} business model. Therefore, it is built as a separated project, \textit{iot-core}, that can be imported in each micro service.
+It is comprised of three big components: (i) data model, (ii) message envelop model, and (iii) routing model. 
+
+\subsubsection*{Data Model}
+\label{subsubsec:design:domain:shared_model:data}
+
+The data model represents the \textbf{Data Unit} that \textbf{Sensae Console} is currently capable of understanding. The following diagram, Figure~\ref{fig:design:domain:shared_model:data:diagram}, introduces a high level specification of it.
+
+\begin{figure}[H]
+   \centering
+  \resizebox{\columnwidth}{!}
+  {
+     \input{assets/diagrams/shared-model.latex}
+  }
+  \caption[Shared Model]{Shared Model}
+  \label{fig:design:domain:shared_model:data:diagram}
+\end{figure}
+
+As a brief description:
+
+\begin{itemize}
+   \item \textbf{Data Unit} is represented in the diagram as \textit{Data} and is the entry point to the shared model;
+   \item The \textit{reportedAt} field represents the unix timestamp when the \textbf{Data Unit} was captured, in milliseconds;
+   \item The \textit{Device} concept represents the \textbf{Device} that sent the \textit{Data}, and therefore the \textit{Data};
+   \item The \textit{Record} concept represents an entry of \textbf{Records/Metadata};
+   \item The \textit{Domain} concept references the \textbf{Domain} that owns the \textit{Device};
+   \item The \textit{SubDeviceMeasures} concept introduces an approach to handle \textbf{Controller}s by mapping readings captured by a sub device to a \textit{reference} that can later be resolved;
+   \item The \textit{SubDeviceCommands} concept introduces an approach to handle \textbf{Controller}s by mapping commands tailored for a sub device to a \textit{reference} that can later be resolved;
+   \item The \textit{Measures} concept contains various common data types related to \gls{IoT}.
+\end{itemize}
+
+As explained, \textit{Measures} contains various data types. Currently the supported types are presented in the Table~\ref{tab:design:domain:shared_model:data:data_types}.
+
+\begin{landscape}
+   \begin{longtable}{cllll}
+   \cline{1-4}
+   \multicolumn{2}{l}{\textbf{Data Type}}                                     & \multirow{2}{*}{\textbf{Description}}                  & \multirow{2}{*}{\textbf{Unit}} &  \\
+   \textit{Property}                     & \textit{Sub Property}              &                                                        &                                &  \\ \cline{1-4}
+   \endfirsthead
+   %
+   \multicolumn{5}{c}%
+   {{\bfseries Table \thetable\ continued from previous page}} \\
+   \cline{1-4}
+   \multicolumn{2}{l}{\textbf{Data Type}}                                     & \multirow{2}{*}{\textbf{Description}}                  & \multirow{2}{*}{\textbf{Unit}} &  \\
+   \textit{Property}                     & \textit{Sub Property}              &                                                        &                                &  \\ \cline{1-4}
+   \endhead
+   %
+   \cline{1-4}
+   \endfoot
+   %
+   \endlastfoot
+   %
+   \multicolumn{2}{l}{\textbf{GPS}}                                           & \multicolumn{2}{l}{Point reference in the Geographic Coordinate System}                 &  \\
+   \multirow{3}{*}{\textit{gps}}         & \textit{latitude}                  & Value between -90 and 90 measured in                   & degrees                        &  \\
+                                         & \textit{longitude}                 & Value between -180 and 180 measured in                 & degrees                        &  \\
+                                         & \textit{altitude}                  & Value determined according to the mean sea level       & meters                         &  \\ \cline{1-4}
+   \multicolumn{2}{l}{\textbf{Motion}}                                        & \multicolumn{2}{l}{Status related to the motion of a device}                            &  \\
+   \textit{motion}                       & \textit{value}                     & Value can be "ACTIVE", "INACTIVE" or "UNKNOWN"         & n.a.                           &  \\ \cline{1-4}
+   \multicolumn{2}{l}{\textbf{Velocity}}                                      & \multicolumn{2}{l}{How fast a device is moving}                                         &  \\
+   \textit{velocity}                     & \textit{kilometerPerHour}          & Value measured in                                      & km/h                           &  \\ \cline{1-4}
+   \multicolumn{2}{l}{\textbf{Temperature}}                                   & \multicolumn{2}{l}{Temperature measured by a device}                                    &  \\
+   \textit{temperature}                  & \textit{celsius}                   & Value measured in                                      & celsius                        &  \\ \cline{1-4}
+   \multicolumn{2}{l}{\textbf{AQI}}                                           & \multicolumn{2}{l}{Air Quality Index according to the U.S. AQI}                         &  \\
+   \textit{aqi}                          & \textit{value}                     & Value measured in                                      & AQI                            &  \\ \cline{1-4}
+   \multicolumn{2}{l}{\textbf{Air Humidity}}                                  & \multicolumn{2}{l}{Concentration of water vapour present in the air}                    &  \\
+   \multirow{2}{*}{\textit{airHumidity}} & \textit{gramsPerCubicMeter}        & Value measured in                                      & g/m3                           &  \\
+                                         & \textit{relativePercentage}        & Value measured in                                      & \%                             &  \\ \cline{1-4}
+   \multicolumn{2}{l}{\textbf{Air Pressure}}                                  & \multicolumn{2}{l}{Pressure within the atmosphere of Earth}                             &  \\
+   \textit{airPressure}                  & \textit{hectoPascal}               & Value measured in                                      & hPa                            &  \\ \cline{1-4}
+   \multicolumn{2}{l}{\textbf{Battery}}                                       & \multicolumn{2}{l}{Battery of the device}                                               &  \\
+   \multirow{4}{*}{\textit{battery}}     & \textit{volts}                     & Value measured in                                      & volts                          &  \\
+                                         & \textit{percentage}                & Value measured in                                      & \%                             &  \\
+                                         & \textit{maxVolts}                  & Minimum volts the battery needs for the device to work & volts                          &  \\
+                                         & \textit{minVolts}                  & Maximum volts the battery can hold                     & volts                          &  \\ \cline{1-4}
+   \multicolumn{2}{l}{\textbf{Soil Moisture}}                                 & \multicolumn{2}{l}{Amount of water, including water vapor, in an unsaturated soil}      &  \\
+   \textit{soilMoisture}                  & \textit{relativePercentage}        & Value measured in                                      & \%                             &  \\ \cline{1-4}
+   \multicolumn{2}{l}{\textbf{Illuminance}}                                   & \multicolumn{2}{l}{Illuminance level - luminous flux per unit area}                     &  \\
+   \textit{illuminance}                  & \textit{lux}                       & Value measured in                                      & lux                            &  \\ \cline{1-4}
+   \multicolumn{2}{l}{\textbf{Trigger}}                                       & \multicolumn{2}{l}{Type related to something with an on / off or open / close state}    &  \\
+   \textit{trigger}                      & \textit{value}                     & Value true or false                                    & boolean                        &  \\ \cline{1-4}
+   \multicolumn{2}{l}{\textbf{CO2}}                                           & \multicolumn{2}{l}{Atmospheric Carbon Dioxide concentration}                            &  \\
+   \textit{co2}                          & \textit{ppm}                       & Value measured in                                      & ppm                            &  \\ \cline{1-4}
+   \multicolumn{2}{l}{\textbf{CO}}                                            & \multicolumn{2}{l}{Atmospheric Carbon Oxide concentration}                              &  \\
+   \textit{co}                           & \textit{ppm}                       & Value measured in                                      & ppm                            &  \\ \cline{1-4}
+   \multicolumn{2}{l}{\textbf{VOC}}                                           & \multicolumn{2}{l}{Volatile Organic Compounds concentration measured by a device}       &  \\
+   \textit{voc}                          & \textit{ppm}                       & Value measured in                                      & ppm                            &  \\ \cline{1-4}
+   \multicolumn{2}{l}{\textbf{NH3}}                                           & \multicolumn{2}{l}{Atmospheric Ammonia concentration}                                   &  \\
+   \textit{nh3}                          & \textit{ppm}                       & Value measured in                                      & ppm                            &  \\ \cline{1-4}
+   \multicolumn{2}{l}{\textbf{O3}}                                            & \multicolumn{2}{l}{Atmospheric Ozone concentration measured by a device}                &  \\
+   \textit{o3}                           & \textit{ppm}                       & Value measured in                                      & ppm                            &  \\ \cline{1-4}
+   \multicolumn{2}{l}{\textbf{NO2}}                                           & \multicolumn{2}{l}{Atmospheric Nitrogen dioxide concentration}                          &  \\
+   \textit{no2}                          & \textit{ppm}                       & Value measured in                                      & ppm                            &  \\ \cline{1-4}
+   \multicolumn{2}{l}{\textbf{PM2.5}}                                         & \multicolumn{2}{l}{Particulate Matter in the air (size up to 2.5 micrometers)}          &  \\
+   \textit{pm2\_5}                       & \textit{microGramsPerCubicMeter}   & Value measured in                                      & $\mu$g/m3                      &  \\ \cline{1-4}
+   \multicolumn{2}{l}{\textbf{PM10}}                                          & \multicolumn{2}{l}{Particulate Matter in the air (size up to 10 micrometers)}           &  \\
+   \textit{pm10}                         & \textit{microGramsPerCubicMeter}   & Value measured in                                      & $\mu$g/m3                      &  \\ \cline{1-4}
+   \multicolumn{2}{l}{\textbf{Water Pressure}}                                & \multicolumn{2}{l}{Water Pressure measured in pipes by a device}                        &  \\
+   \textit{waterPressure}                & \textit{bar}                       & Value measured in                                      & bar                            &  \\ \cline{1-4}
+   \multicolumn{2}{l}{\textbf{pH}}                                            & \multicolumn{2}{l}{Scale used to specify how acidic or basic a water-based solution is} &  \\
+   \textit{ph}                           & \textit{value}                     & Value between 0 and 14 measured in                     & pH                             &  \\ \cline{1-4}
+   \multicolumn{2}{l}{\textbf{Occupation}}                                    & Occupation percentage measured inside a vessel         &                                &  \\
+   \textit{occupation}                   & \textit{percentage}                & Value measured in                                      & \%                             &  \\ \cline{1-4}
+   \multicolumn{2}{l}{\textbf{Soil Conductivity}}                             & \multicolumn{2}{l}{Substances ability to conduct an electrical current in the soil}     &  \\
+   \textit{soilConductivity}             & \textit{microSiemensPerCentimeter} & Value measured in                                      & $\mu$S/cm                      &  \\ \cline{1-4}
+   \multicolumn{2}{l}{\textbf{Distance}}                                      & \multicolumn{2}{l}{Distance measured from the device to a surface}                      &  \\
+   \multirow{3}{*}{\textit{distance}}    & \textit{millimeters}               & Value measured in                                      & mm                             &  \\
+                                         & \textit{maxMillimeters}            & Maximum distance the sensor can be to a given surface  & mm                             &  \\
+                                         & \textit{minMillimeters}            & Minimum distance the sensor can be to a given surface  & mm                             &  \\ \cline{1-4}
+   \caption{Measure Data Types}
+   \label{tab:design:domain:shared_model:data:data_types}\\
+   \end{longtable}
+\end{landscape}
+
+The current shared model schema can be found in \textbf{***TODO***}.
+
+\subsubsection*{Message Envelop Model}
+\label{subsubsec:design:domain:shared_model:message}
+
+The message envelop model refers to how, coupled with the routing model in Section~\ref{subsubsec:design:domain:shared_model:routing}, information can easily transverse the system.
+The message envelop is used when a message is expected to flow though the system and is therefore used in all \textbf{Topic}s but the \textbf{Internal} one.
+
+The diagram present in Figure~\ref{fig:design:domain:shared_model:messsage:diagram} details this model.
+
+\begin{figure}[H]
+   \centering
+  \resizebox{\columnwidth}{!}
+  {
+     \input{assets/diagrams/message-envelop-model.latex}
+  }
+  \caption[Message Envelop Model]{Message Envelop Model}
+  \label{fig:design:domain:shared_model:messsage:diagram}
+\end{figure}
+
+As a brief description:
+
+\begin{itemize}
+   \item A \textit{MessageSupplied} is created in a container and supplied to start the flow of information in the system;
+   \item A \textit{MessageConsumed} is consumed by a container and can then be transformed into a \textit{MessageSupplied} if needed;
+   \item \textit{Information} represents the content of the message;
+   \item \textit{RoutingKeys} represents the model referenced in Section~\ref{subsubsec:design:domain:shared_model:routing};
+\end{itemize}
+
+This concept is mainly used to ensure that information flowing in the system is not reprocessed, by verifying the unique id - \textit{oid}, and is drooped if it enters a routing loop by verifying that the \textit{hops} have not reached a maximum value.  
+
+\subsubsection*{Routing Model}
+\label{subsubsec:design:domain:shared_model:routing}
+
+The routing model refers to how information can be routed through the system based on various parameters. The initial and current idea is based on the \textit{pub/sub} pattern (\textbf{**TODO**}), containers subscribe to information in a \textbf{Topic} with specific \textit{RoutingKey}s and publish information with \textit{RoutingKey}s.
+
+The diagram present in Figure~\ref{fig:design:domain:shared_model:routing:diagram} details this model.
+
+\begin{figure}[H]
+   \centering
+  \resizebox{\columnwidth}{!}
+  {
+     \input{assets/diagrams/routing-model.latex}
+  }
+  \caption[Routing Model]{Routing Model}
+  \label{fig:design:domain:shared_model:routing:diagram}
+\end{figure}
+
+As a brief description:
+
+\begin{itemize}
+   \item \textit{RoutingKeys} is the concept referenced in Figure~\ref{fig:design:domain:shared_model:messsage:diagram} and represents a collection of different \textit{RoutingKeyOption}s;
+   \item There are currently 4 types of \textit{RoutingKeys}, one for each \textbf{Topic};
+   \item To ensure that the various containers in \textbf{Sensae Console} understand each other a \textit{ProtocolVersionOptions} is provided. This concept follows the Semantic Versioning Specification 2.0 (\cite{semver}) an is constructed according to the version of \textit{iot-core} imported by the container;
+   \item There are multiple \textit{RoutingKey} types not displayed in the diagram for brevity.
+   \item The \textit{RoutingKeysBuilder} implements the \textit{Builder} pattern and its single responsibility is to validate and create \textit{RoutingKeys};
+   \item A \textit{RoutingKeyOption} can have the value \textit{any}, if the \textit{RoutingKeysBuilderOptions} has the value \textit{CONSUMER}. This provides a 'relaxed' mode, for containers that consume/subscribe to messages and a 'strict' mode, where each \textit{RoutingKey} must be specified, for containers that supply/publish messages. 
+\end{itemize}
+
+In the Table~\ref{tab:design:domain:shared_model:routing} all currently used \textit{RoutingKey} are presented.
+
+\begin{landscape}
+   \begin{longtable}{cll}
+   \cline{1-2}
+   \multicolumn{1}{l}{\textbf{Topic}}      & \multirow{2}{*}{\textbf{Description}}                                                                     &  \\
+   \textit{Routing Key}                    &                                                                                                           &  \\ \cline{1-2}
+   \endfirsthead
+   %
+   \multicolumn{3}{c}%
+   {{\bfseries Table \thetable\ continued from previous page}} \\
+   \cline{1-2}
+   \multicolumn{1}{l}{\textbf{Topic}}      & \multirow{2}{*}{\textbf{Description}}                                                                     &  \\
+   \textit{Routing Key}                    &                                                                                                           &  \\ \cline{1-2}
+   \endhead
+   %
+   \cline{1-2}
+   \endfoot
+   %
+   \endlastfoot
+   %
+   \multicolumn{1}{l}{\textbf{Common}}     & Routing Keys that belong to every Topic                                                                   &  \\
+   \textit{Protocol Version Options}       & Version of the used \textit{iot-core} package                                                             &  \\
+   \textit{Container Type Options}         & Type of the Container that published the message                                                          &  \\
+   \textit{Ownership Options}              & Does the message contains the \textbf{Domain}s that own it\footnotemark[1]                                &  \\
+   \textit{Topic Type Options}             & Topic used to publish the message                                                                         &  \\ \cline{1-2}
+   \multicolumn{1}{l}{\textbf{Internal}}   & Routing Keys that belong to the Internal Topic                                                            &  \\
+   \textit{Operation Type Options}         & Intent of the message, e.g. unknown context found                                                         &  \\
+   \textit{Context Type Options}           & Type of content in the message, e.g. device information                                                   &  \\ \cline{1-2}
+   \multicolumn{1}{l}{\textbf{Data}}       & Routing Keys that belong to the Data Topic                                                                &  \\
+   \textit{Info Type Options}              & How data is shaped: (i) ENCODED, (ii) DECODED and (iii) PROCESSED                                         &  \\
+   \textit{Device Type Options}            & Type of device, e.g. LGT-92 or EM300-TH                                                                   &  \\
+   \textit{Channel Options}                & Name of channel where data flows, e.g. \textit{smartIrrigation} or \textit{default}                       &  \\
+   \textit{Data Legitimacy Options}        & Is the data legitimate: (i) UNKNOWN, (ii) CORRECT, (iii) INCORRECT and (iv) UNDETERMINED      &  \\
+   \textit{Records Options}                & Does the data contains \textbf{Records/Metadata}\footnotemark[1]                                          &  \\
+   \textit{Air Humidity Data Options}      & Does the data contains information about Air Humidity\footnotemark[1]\footnotemark[2]                     &  \\
+   \textit{Air Pressure Data Options}      & Does the data contains information about Air Pressure\footnotemark[1]\footnotemark[2]                     &  \\
+   \textit{Air Quality Data Options}       & Does the data contains information about Air Quality\footnotemark[1]\footnotemark[2]                      &  \\
+   \textit{Battery Data Options}           & Does the data contains information about the device Battery\footnotemark[1]\footnotemark[2]               &  \\
+   \textit{CO2 Data Options}               & Does the data contains information about CO2 levels\footnotemark[1]\footnotemark[2]                       &  \\
+   \textit{CO Data Options}                & Does the data contains information about CO levels\footnotemark[1]\footnotemark[2]                        &  \\
+   \textit{Distance Data Options}          & Does the data contains information about distances to a surface\footnotemark[1]\footnotemark[2]           &  \\
+   \textit{GPS Data Options}               & Does the data contains information about the device GPS coordinates\footnotemark[1]\footnotemark[2]       &  \\
+   \textit{Illuminance Data Options}       & Does the data contains information about illuminance in the environment\footnotemark[1]\footnotemark[2]   &  \\
+   \textit{Motion Data Options}            & Does the data contains information about the device motion\footnotemark[1]\footnotemark[2]                &  \\
+   \textit{NH3 Data Options}               & Does the data contains information about NH3 levels\footnotemark[1]\footnotemark[2]                       &  \\
+   \textit{NO2 Data Options}               & Does the data contains information about NO2 levels\footnotemark[1]\footnotemark[2]                       &  \\
+   \textit{O3 Data Options}                & Does the data contains information about O3 levels\footnotemark[1]\footnotemark[2]                        &  \\
+   \textit{Occupation Data Options}        & Does the data contains information about occupation levels\footnotemark[1]\footnotemark[2]                &  \\
+   \textit{pH Data Options}                & Does the data contains information about ph level\footnotemark[1]\footnotemark[2]                         &  \\
+   \textit{PM2.5 Data Options}             & Does the data contains information about pm 2.5 concentration\footnotemark[1]\footnotemark[2]             &  \\
+   \textit{PM10 Data Options}              & Does the data contains information about pm 10 concentration\footnotemark[1]\footnotemark[2]              &  \\
+   \textit{Soil Conductivity Data Options} & Does the data contains information about the soil conductivity\footnotemark[1]\footnotemark[2]            &  \\
+   \textit{Soil Moisture Data Options}     & Does the data contains information about the soil moisture\footnotemark[1]\footnotemark[2]                &  \\
+   \textit{Temperature Data Options}       & Does the data contains information about the temperature\footnotemark[1]\footnotemark[2]                  &  \\
+   \textit{Trigger Data Options}           & Does the data contains information about something that works as a switch\footnotemark[1]\footnotemark[2] &  \\
+   \textit{Velocity Data Options}          & Does the data contains information about the device velocity\footnotemark[1]\footnotemark[2]              &  \\
+   \textit{VOC Data Options}               & Does the data contains information about VOC concentration\footnotemark[1]\footnotemark[2]                &  \\
+   \textit{Water Pressure Data Options}    & Does the data contains information about water pressure\footnotemark[1]\footnotemark[2]                   &  \\ \cline{1-2}
+   \multicolumn{1}{l}{\textbf{Command}}    & Routing Keys that belong to the Command Topic                                                             &  \\
+   \textit{Command Type Options}           & Type of command, e.g. Open Valve                                                                          &  \\ \cline{1-2}
+   \multicolumn{1}{l}{\textbf{Alert}}      & Routing Keys that belong to the Alert Topic                                                               &  \\
+   \textit{Alert Category Options}         & Category of the alert published, e.g. Fire Detention                                                      &  \\
+   \textit{Alert Subcategory Options}      & Category of the alert published, e.g. Humidity With High Rate Of Change                                   &  \\
+   \textit{Alert Severity Options}         & Severity of the alert published, from \textit{Information} level to \textit{Critical} level               &  \\ \cline{1-2}
+   \caption{Routing Types}
+   \label{tab:design:domain:shared_model:routing}\\
+   \end{longtable}
+   \footnotetext[1]{has three possible values: (i) UNDETERMINED, (ii) WITH, (iii) WITHOUT}
+   \footnotetext[2]{related to the explored Data Types}
+   \end{landscape}
+
+Routing keys help to strengthen the boundaries that a container is expected to have. As an example, a Service in the \textbf{Service Scope} related to Waste Management would subscribe to the \textit{Data Topic} with the following \textit{Routing Keys}: 
+
+\begin{itemize}
+   \item \textit{Info Type Options}: PROCESSED;
+   \item \textit{Channel Options}: 'wasteManagement';
+   \item \textit{Data Legitimacy Options}: CORRECT;
+   \item \textit{GPS Data Options}: WITH;
+   \item \textit{Occupation Data Options}: WITH;
+   \item \textit{Records Options}: WITH;
+   \item \textit{Ownership Options}: WITH;
+\end{itemize}
+
+And would, for example, subscribe to the \textit{Alert Topic} with the following \textit{Routing Keys}:
+
+\begin{itemize}
+   \item \textit{Alert Category Options}: 'wasteManagement';
+   \item \textit{Alert SubCategory Options}: 'trashAlmostFull'; 
+   \item \textit{Ownership Options}: WITH;
+\end{itemize}
+
+As expected, the structure and semantics of the information subscribed to are known upfront with the help of the package \textit{iot-core}.
+
 \subsection{Bounded Contexts}
 \label{subsec:design:domain:bounded_contexts}
+
+The \textbf{Bounded Context} concept, defined by \cite{evans2014domain}, refers to an unified model - with well-defined boundaries and internally consistent - that is a single piece in a  larger system composed by various bounded contexts.
+
+The \textbf{Sensae Console} is composed by the following bounded contexts:
+
+\begin{itemize}
+   \item In \textbf{Configuration/Data Flow Scopes}:
+   \begin{itemize}
+      \item Data Processor;
+      \item Data Decoder;
+      \item Device Management;
+      \item Identity Management;
+      \item Rule Management.
+   \end{itemize}
+   \item In \textbf{Service Scope}:
+   \begin{itemize}
+      \item Smart Irrigation;
+      \item Fleet Management.
+   \end{itemize}
+\end{itemize}
+
+Each of this contexts will be briefly addressed in the following sections.
+
+\subsection*{Data Processor}
+\label{subsubsec:design:domain:bounded_contexts:processor}
+
+The \textbf{Data Processor} context refers to simple data mappers that translate inbound information to \textbf{Data Unit}s, discussed in Section~\ref{subsubsec:design:domain:shared_model:data}.
+
+The received information must be \textit{decoded}, meaning that the inbound information simply has a different structure than \textbf{Data Unit}.
+
+The diagram in Figure~\ref{fig:design:domain:bounded_contexts:processor:diagram} displays the noteworthy concepts in this context.
+
+\begin{figure}[H]
+   \centering
+  \resizebox{\columnwidth}{!}
+  {
+     \input{assets/diagrams/data-processor-model.latex}
+  }
+  \caption[Data Processor Context Model]{Data Processor Context Model}
+  \label{fig:design:domain:bounded_contexts:processor:diagram}
+\end{figure}
+
+As a brief description:
+
+\begin{itemize}
+   \item \textbf{DataMapper}, the root entity in this context is identified by a \textbf{DeviceTypeId} and has various instructions to map properties from the inbound information to a \textbf{Data Unit} properties;
+   \item \textbf{DeviceTypeId} corresponds to the \textbf{Routing Key} \textit{Device Type Options} mentioned in Table~\ref{tab:design:domain:shared_model:routing};
+   \item \textbf{SubDeviceReference} represents a number that will be used later to reference a sub device when dealing with \textbf{Controller}s. For simple \textbf{Devices} the used and default value is \textit{0}; 
+   \item \textbf{PropertyName} has much more properties that haven't been presented for brevity.
+\end{itemize}
+
+As an example, one could define an inbound information as a JSON document with the structure in the example \ref{code:design:domain:bounded_contexts:processor:json}. 
+
+To map the \textit{temperature} value to the \textbf{TEMPERATURE\_CELSIUS} property of a \textbf{Data Unit} the \textbf{EncodedDataPropertyPath} would be \textit{decoded.data[0].temperature}.
+
+
+\begin{lstlisting}[caption=Inbound Information Example, label={code:design:domain:bounded_contexts:processor:json}]
+{
+   "uuid": "de1a9d15-c018-4547-8453-87111cb4f81b",
+   "id": "d81e6e69-1955-48a1-a1dd-4c812c15ebac",
+   "time": 1657646955748,
+   "decoded": {
+      "data": [
+         {
+            "temperature": 18,
+         }
+      ]
+   }
+}
+\end{lstlisting}
+
+This process is simple since it expects the inbound information to be predisposed, but when working with \gls{IoT} Devices, to optimize the bandwidth used, it is common to send information encoded. The following section presents an alternative to this process.   
+
+\subsection*{Data Decoder}
+\label{subsubsec:design:domain:bounded_contexts:decoder}
+
+The \textbf{Data Decoder} context refers to a more complex data mapper that translates inbound information to \textbf{Data Unit}s, discussed in Section~\ref{subsubsec:design:domain:shared_model:data}.
+It was created to deal with the limitations mentioned in Section~\ref{subsubsec:design:domain:bounded_contexts:processor}.
+
+The received information is usually \textit{encoded}, meaning that the inbound information is received as it was sent by the \textbf{Device}, commonly as a \textit{Base64} encoded string that needs to be processed so that information can be extracted.
+
+The diagram in Figure~\ref{fig:design:domain:bounded_contexts:decoder:diagram} displays the noteworthy concepts in this context.
+
+\begin{figure}[H]
+   \centering
+  \resizebox{\columnwidth}{!}
+  {
+     \input{assets/diagrams/data-decoder-model.latex}
+  }
+  \caption[Data Decoder Context Model]{Data Decoder Context Model}
+  \label{fig:design:domain:bounded_contexts:decoder:diagram}
+\end{figure}
+
+As a brief description:
+
+\begin{itemize}
+   \item \textbf{DataDecoder}, the root entity in this context is identified by a \textbf{DeviceTypeId} and has a \textbf{Script};
+   \item Currently a \textbf{Script} can only be written in \textit{JavaScript} but in the future more languages like \textit{Python} or \textit{Groovy} can be added;
+   \item The \textbf{ScriptContent} contains the code that will run for each inbound information that matches the \textbf{DeviceTypeId}.
+\end{itemize}
+
+This process requires some programing language knowledge but is much more flexible than the \textbf{Data Processor} operation.
+
+\subsection*{Device Management}
+\label{subsubsec:design:domain:bounded_contexts:device}
+
+The \textbf{Device Management} context refers to the inventory of all registered \textbf{Device}s in the \textbf{Sensae Console}.
+
+The diagram in Figure~\ref{fig:design:domain:bounded_contexts:device:diagram} displays the noteworthy concepts in this context.
+
+\begin{figure}[H]
+   \centering
+  \resizebox{\columnwidth}{!}
+  {
+     \input{assets/diagrams/device-management-model.latex}
+  }
+  \caption[Device Management Context Model]{Device Management Context Model}
+  \label{fig:design:domain:bounded_contexts:device:diagram}
+\end{figure}
+
+As a brief description:
+
+\begin{itemize}
+   \item A \textbf{Device} is uniquely identified by a \textbf{DeviceId}, has a \textbf{DeviceName} and may have a \textbf{DeviceDownlink};% Apart from this it can also have other details regarding: (i) \textbf{DeviceCommand}s, (ii) \textbf{DeviceRecord}s, (iii) \textbf{DeviceStaticData} and (iv) \textbf{SubDevice};
+   \item A \textbf{DeviceCommand} defines how to send a \textbf{Downlink} with a specific action;
+   \item A \textbf{DeviceStaticData} helps to define data such as the device location;
+   \item A \textbf{DeviceRecord} enriches the device information with anything deemed important. This can also help to group devices by projects, type of utility and others;
+   \item A \textbf{SubDevice} references another \textbf{Device} by its \textbf{DeviceId}. This, coupled with the concepts \textbf{SubDeviceMeasures} and \textbf{SubDeviceCommands} presented in Figure~\ref{fig:design:domain:shared_model:data:diagram} help to split a \textbf{Controller}'s \textbf{Data Unit} into various \textbf{Data Unit}, one for each referenced \textbf{SubDevice}.
+\end{itemize}
+
+\subsection*{Identity Management}
+\label{subsubsec:design:domain:bounded_contexts:identity}
+
+The \textbf{Identity Management} is concerned with identifying \textbf{Tenant}s, defining their permissions and what \textbf{Device}s they own.
+To simplify this a forth concept is introduced: \textbf{Domain}.
+
+The diagram in Figure~\ref{fig:design:domain:bounded_contexts:identity:diagram} displays the noteworthy concepts in this context.
+
+\begin{figure}[H]
+   \centering
+  \resizebox{\columnwidth}{!}
+  {
+     \input{assets/diagrams/identity-management-model.latex}
+  }
+  \caption[Identity Management Context Model]{Identity Management Context Model}
+  \label{fig:design:domain:bounded_contexts:identity:diagram}
+\end{figure}
+
+As a brief description:
+
+\begin{itemize}
+   \item A \textbf{Domain} is uniquely identified by a \textbf{DomainId} and can have a parent \textbf{Domain};
+   \item There's a root \textbf{Domain}, the only one doesn't have a parent and has all available permissions;
+   \item A \textbf{Tenant} has a \textbf{TenantName} and \textbf{TenantEmail}, unique \textbf{TenantId} and can have a \textbf{TenantPhoneNumber};
+   \item A \textbf{Device} is uniquely identified by a \textbf{DeviceId};
+   \item The \textbf{PermissionType} has much more types that haven't been presented for brevity.
+\end{itemize}
+
+A \textbf{Domain} represents a department in a hierarchical organization. An organization is composed by several domains in a tree like structure as presented in Figure~\ref{fig:design:domain:bounded_contexts:identity:organization}.
+
+\begin{figure}[H]
+   \centering
+  \resizebox{\columnwidth}{!}
+  {
+     \input{assets/diagrams/organization.latex}
+  }
+  \caption[Domain Structure]{Domain Structure}
+  \label{fig:design:domain:bounded_contexts:identity:organization}
+\end{figure}
+
+Coupled with the figure above, there are other constrains:
+
+\begin{itemize}
+   \item A domain owns all devices in it and in his subdomains;
+   \item A domain can only inherit his parent domain permissions;
+   \item A tenant has all the domain permissions that he is registered in;
+   \item A tenant can only see the devices that the domains he is registered in has access to;
+   \item All \textit{Unallocated} domains have no permissions or devices and contain only tenants that are waiting to be assigned to a department or organization;
+   \item The \textit{Public} domain can be accessed by any tenant, including those who are not authenticated in the system;
+\end{itemize}
+
+\subsection*{Rule Management}
+\label{subsubsec:design:domain:bounded_contexts:rule}
+
+The \textbf{Rule Management} context refers to rule scenarios that produce \textbf{Alert}s based on incoming \textbf{Data Unit}s. 
+
+The diagram in Figure~\ref{fig:design:domain:bounded_contexts:rule:diagram} displays the noteworthy concepts in this context.
+
+\begin{figure}[H]
+   \centering
+  \resizebox{\columnwidth}{!}
+  {
+     \input{assets/diagrams/rule-management-model.latex}
+  }
+  \caption[Rule Management Context Model]{Rule Management Context Model}
+  \label{fig:design:domain:bounded_contexts:rule:diagram}
+\end{figure}
+
+\subsection*{Notification Management}
+\label{subsubsec:design:domain:bounded_contexts:notification}
+
+The \textbf{Notification Management} context refers to notifications and how/what types an addressee wants to receive. 
+
+The diagram in Figure~\ref{fig:design:domain:bounded_contexts:notification:diagram} displays the noteworthy concepts in this context.
+
+\begin{figure}[H]
+   \centering
+  \resizebox{\columnwidth}{!}
+  {
+     \input{assets/diagrams/notification-management-model.latex}
+  }
+  \caption[Notification Management Context Model]{Notification Management Context Model}
+  \label{fig:design:domain:bounded_contexts:notification:diagram}
+\end{figure}
+
+
+\subsection*{Smart Irrigation}
+\label{subsubsec:design:domain:bounded_contexts:irrigation}
+
+\subsection*{Fleet Management}
+\label{subsubsec:design:domain:bounded_contexts:fleet}
 
 \subsection{Synopsis}
 \label{subsec:design:domain:synopsis}

@@ -1,0 +1,21 @@
+@startuml notification-management-model
+
+hide empty members
+
+class Notification
+
+class ContentType
+
+class Category
+
+class SubCategory
+
+class Severity
+
+class Addressee
+
+ContentType "1" -- "1" Category : composed by >
+ContentType "1" -- "1" SubCategory : composed by >
+ContentType "1" -- "1" Severity : composed by >
+
+@enduml

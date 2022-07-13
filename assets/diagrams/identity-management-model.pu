@@ -1,0 +1,64 @@
+@startuml identity-management-model
+
+left to right direction
+
+hide empty members
+
+class Domain
+
+class Tenant
+
+class Device
+
+class Permission
+
+class DeviceId {
+    value: UUID
+}
+
+class TenantId {
+    value: UUID
+}
+
+class TenantName {
+    value: String
+}
+
+class TenantEmail {
+    value: String
+}
+
+class TenantPhoneNumber {
+    value: String
+}
+
+class DomainId {
+    value: UUID
+}
+
+enum PermissionType {
+    READ_DEVICE_INFORMATION
+    EDIT_DATA_DECODER
+    CREATE_DOMAIN
+    READ_LIVE_DATA_FLEET_MANAGEMENT
+    CREATE_GARDEN_SMART_IRRIGATION
+    CONTROL_VALVE_SMART_IRRIGATION
+    ...
+}
+
+Domain "*" -- "1" Tenant: is registered in <
+Domain "1" -- "*" Device: belongs to <
+Domain "1" -- "*" Permission: has >
+Domain "0..1" -- "1" Domain: parent <
+Permission "1" -- "1" PermissionType: of type >
+
+Domain "1" -- "1" DomainId:  identitfied by >
+
+Tenant "1" - "1" TenantId: identitfied by <
+Tenant "1" -- "1" TenantName : with >
+Tenant "1" -- "1" TenantEmail : with >
+Tenant "1" -- "1..0" TenantPhoneNumber: with >
+
+Device "1" -- "1" DeviceId: identitfied by >
+
+@enduml

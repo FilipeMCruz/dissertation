@@ -1,0 +1,113 @@
+@startuml routing-model
+
+hide empty members
+
+interface "RoutingKey" as RoutingKey2 {
+
+}
+note right: same as concept\nbelow
+
+interface RoutingKeys {
+    details() : String
+    keys() : String
+}
+
+class AlertRoutingKeys {
+
+}
+
+class InternalRoutingKeys {
+
+}
+
+class CommandRoutingKeys {
+
+}
+
+class DataRoutingKeys {
+
+}
+
+enum ContainerTypeOptions {
+    DATA_GATEWAY
+    DATA_DECODER
+    DATA_STORE
+    SMART_IRRIGATION
+    ...
+    OTHER
+}
+
+enum RoutingKeysBuilderOptions {
+    SUPPLIER
+    CONSUMER
+}
+
+class ProtocolVersionOptions {
+    majorVersion: Number
+    minorVersion: Number
+    patchVersion: Number
+}
+
+abstract RoutingKeysBuilder<? extends RoutingKeys> {
+    build() : Optional<RoutingKeys>
+}
+
+class AlertRoutingKeysBuilder {
+}
+
+class InternalRoutingKeysBuilder {
+}
+
+class CommandRoutingKeysBuilder {
+}
+
+class DataRoutingKeysBuilder {
+}
+
+class RoutingKeyOption<? extends RoutingKey> {
+    isAny : Boolean
+    details() : String
+    value() : String
+    {static} of( routingKey ) : RoutingKeyOption
+    {static} any() : RoutingKeyOption
+}
+
+interface RoutingKey {
+    details() : String
+    value() : String
+}
+
+RoutingKeys <|-- AlertRoutingKeys
+RoutingKeys <|-- InternalRoutingKeys
+RoutingKeys <|-- CommandRoutingKeys
+RoutingKeys <|-- DataRoutingKeys
+
+RoutingKeysBuilder <|-- AlertRoutingKeysBuilder
+RoutingKeysBuilder <|-- InternalRoutingKeysBuilder
+RoutingKeysBuilder <|-- CommandRoutingKeysBuilder
+RoutingKeysBuilder <|-- DataRoutingKeysBuilder
+
+RoutingKeyOption *-- RoutingKey : key
+RoutingKeysBuilder *-- RoutingKeys : type
+
+AlertRoutingKeys "1" --> "*" RoutingKeyOption
+InternalRoutingKeys "1" --> "*" RoutingKeyOption
+note on link: each one has different\ntypes of RoutingKey
+CommandRoutingKeys "1" --> "*" RoutingKeyOption
+DataRoutingKeys "1" --> "*" RoutingKeyOption
+
+DataRoutingKeysBuilder ..> DataRoutingKeys: creates
+AlertRoutingKeysBuilder ..> AlertRoutingKeys: creates
+InternalRoutingKeysBuilder ..> InternalRoutingKeys: creates
+CommandRoutingKeysBuilder ..> CommandRoutingKeys: creates
+
+ProtocolVersionOptions "1" <-- "1" RoutingKeysBuilder: protocolVersion
+ContainerTypeOptions "1" <-- "1" RoutingKeysBuilder: contaienrType
+RoutingKeysBuilderOptions "1" <-- "1" RoutingKeysBuilder: options
+
+
+RoutingKey2 <|-- RoutingKeysBuilderOptions
+RoutingKey2 <|-- ContainerTypeOptions
+RoutingKey2 <|-- ProtocolVersionOptions
+
+@enduml

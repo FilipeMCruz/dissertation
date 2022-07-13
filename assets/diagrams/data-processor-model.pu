@@ -1,0 +1,60 @@
+@startuml data-processor-model
+
+hide empty members
+
+class DataMapper {
+
+}
+
+class DeviceTypeId {
+    id: String
+}
+
+class SubDeviceReference {
+    reference: Integer
+}
+
+class EncodedDataPropertyPath {
+    path: String
+}
+
+abstract PropertyMapper {
+    ' dataUnitPropertyPath() : String
+    ' transform(encodedData, dataUnit) : void
+}
+
+class UnknownPropertyMapper {
+    dataUnitPropertyPath : String
+}
+
+class KnownPropertyMapper {
+}
+
+enum PropertyName {
+    DATA_ID
+    DEVICE_ID
+    DEVICE_NAME
+    REPORTED_AT
+    MOTION
+    TEMPERATURE_CELSIUS
+    VELOCITY
+    BATTERY_MIN_VOLTS
+    ...
+    path( subDeviceReference ) : String
+}
+
+DataMapper "1" -- "1" DeviceTypeId : for a >
+DataMapper "1" -- "*" PropertyMapper : composed by >
+
+PropertyMapper "1" - "1" SubDeviceReference: related to >
+PropertyMapper "1" -- "1" EncodedDataPropertyPath: for >
+
+SubDeviceReference -[hidden]- EncodedDataPropertyPath
+DeviceTypeId -[hidden] PropertyMapper
+
+PropertyMapper <|-- UnknownPropertyMapper
+PropertyMapper <|-- KnownPropertyMapper
+
+KnownPropertyMapper "1" --  "1" PropertyName: references >
+
+@enduml

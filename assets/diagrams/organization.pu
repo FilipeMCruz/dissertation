@@ -1,0 +1,19 @@
+@startmindmap organization
+
+* Root Organization
+** Public
+** <b>Unallocated</b>
+** <i>Organization 1</i>
+*** <b>Unallocated</b>
+*** <i>Department</i>
+**** <i>Sub Department 1</i>
+**** <i>Sub Department 2</i>
+** <i>Organization 2</i>
+*** <b>Unallocated</b>
+*** <i>Department</i>
+** <i>Organization N</i>
+*** <b>Unallocated</b>
+*** <i>Department</i>
+**** <i>Sub Department 1</i>
+
+@endmindmap

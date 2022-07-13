@@ -1,0 +1,226 @@
+@startuml shared-model
+
+hide empty members
+
+class Data {
+    dataId: UUID
+    reportedAt: Long
+}
+
+class Device {
+    id: UUID
+    name: String
+    downlink: String
+}
+
+class Record {
+    label: String
+    content: String 
+}
+
+class Domain {
+    id: UUID
+}
+
+class SubDeviceCommands {
+    reference: Number
+}
+
+class Command {
+    id: UUID
+    name: String
+    payload: String
+    port: Number
+}
+
+class SubDeviceMeasures {
+    reference: Number
+}
+
+class Measures {
+
+}
+
+' class AdditionalData {
+'     name
+'     value
+'     unit
+' }
+
+' interface DataType {
+
+' }
+
+' class AirHumidity {
+'     gramsPerCubicMeter
+'     relativePercentage
+' }
+
+' class AirPressure {
+'     hectoPascal
+' }
+
+' class AQI {
+'     value
+' }
+
+' class Battery {
+'     percentage
+'     volts
+'     maxVolts
+'     minVolts
+' }
+
+' class CO2 {
+'     ppm
+' }
+
+' class CO {
+'     ppm
+' }
+
+' class Distance {
+'     millimeters
+'     maxMillimeters
+'     minMillimeters
+' }
+
+' class GPS {
+'     latitude
+'     longitude
+'     altitude
+' }
+
+' class Illuminance {
+'     lux
+' }
+
+' class Motion {
+'     value
+' }
+
+' class NH3 {
+'     ppm
+' }
+
+' class NO2 {
+'     ppm
+' }
+
+' class O3 {
+'     ppm
+' }
+
+' class Occupation {
+'     percentage
+' }
+
+' class pH {
+'     value
+' }
+
+' class "PM2.5" as PM2_5 {
+'     microGramsPerCubicMeter
+' }
+
+' class PM10 {
+'     microGramsPerCubicMeter
+' }
+
+' class SoilConductivity {
+'     microSiemensPerCentimeter
+' }
+
+' class SoilMoisture {
+'     relativePercentage
+' }
+
+' class Temperature {
+'     celsius
+' }
+
+' class Trigger {
+'     value
+' }
+
+' class Velocity {
+'     kilometerPerHour
+' }
+
+' class VOC {
+'     ppm
+' }
+
+' class WaterPressure {
+'     bar
+' }
+
+Data "1" - "1" Device : device >
+
+Device "1" -- "0..*" Record : records >
+
+Device "1" -- "0..*" Domain : domains >
+
+Device "1" -- "0..*" SubDeviceCommands : sub devices commands >
+
+SubDeviceCommands "1" -- "0..*" Command : commands >
+
+Data "1" -- "0.." SubDeviceMeasures : sub device measures >
+
+SubDeviceMeasures "1" -- "1" Measures : measure >
+
+'Measures "1" -- "x" DataType : measure
+
+'Measures "1" -- "x" AdditionalData : measure
+
+' Measures "1" -- "1" AirHumidity : airHumidity >
+
+' Measures "1" -- "1" AirPressure : airPressure >
+
+' Measures "1" -- "1" AQI : aqi >
+
+' Measures "1" -- "1" Battery : battery >
+
+' Measures "1" -- "1" CO2 : co2 >
+
+' Measures "1" -- "1" CO : co >
+
+' Measures "1" -- "1" Distance : distance >
+
+' Measures "1" -- "1" GPS : gps  >
+
+' Measures "1" -- "1" Illuminance : illuminance >
+
+' Measures "1" -- "1" Motion : motion >
+
+' Measures "1" -- "1" NH3 : nh3 >
+
+' Measures "1" -- "1" NO2 : no2 >
+
+' Measures "1" -- "1" O3 : o3 >
+
+' Measures "1" -- "1" Occupation : occupation >
+
+' Measures "1" -- "1" pH : pH >
+
+' Measures "1" -- "1" PM2_5 : pm2_5 >
+
+' Measures "1" -- "1" PM10 : pm10 >
+
+' Measures "1" -- "1" SoilConductivity : soilConductivity >
+
+' Measures "1" -- "1" SoilMoisture : soilMoisture >
+
+' Measures "1" -- "1" Temperature : temperature >
+
+' Measures "1" -- "1" Trigger : trigger >
+
+' Measures "1" -- "1" Velocity : velocity >
+
+' Measures "1" -- "1" VOC : voc >
+
+' Measures "1" -- "1" WaterPressure : waterPressure >
+
+
+
+@enduml

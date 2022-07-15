@@ -1,0 +1,48 @@
+@startuml smart-irrigation-model-4
+
+left to right direction
+
+hide empty members
+
+class ParkSensorReading
+
+class SoilMoistureReading
+
+class IlluminanceReading
+
+class GreenHouseSensorReading
+
+class AirHumidityReading
+
+class AirTemperatureReading
+
+class ValveReading
+
+class ValveStatusReading
+
+class ReportedTime
+
+class ReadingId
+
+interface Reading
+
+ParkSensorReading "1" -- "0..1" SoilMoistureReading : details >
+ParkSensorReading "1" -- "0..1" IlluminanceReading : details >
+
+GreenHouseSensorReading "1" -- "0..1" AirHumidityReading : details >
+GreenHouseSensorReading "1" -- "0..1" AirTemperatureReading : details >
+
+ValveReading "1" -- "0..1" ValveStatusReading : details >
+
+ParkSensor "*" - "1" ParkSensorReading : collects <
+Valve "*" - "1" ValveReading : collects <
+GreenHouseSensor "*" - "1" GreenHouseSensorReading : collects <
+
+Reading <|-- ValveReading
+Reading <|-- GreenHouseSensorReading
+Reading <|-- ParkSensorReading
+
+Reading "1" - "1" ReadingId : identified by <
+ReportedTime "1" - "1" Reading : collected at >
+
+@enduml

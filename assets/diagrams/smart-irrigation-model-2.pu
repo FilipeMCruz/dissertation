@@ -1,0 +1,27 @@
+@startuml smart-irrigation-model-2
+
+hide empty members
+
+class IrrigationZone
+
+class IrrigationZoneName
+
+class Area
+
+class IrrigationZoneId
+
+class BoundaryEntry
+
+class GPSPoint
+
+class EntryPosition
+
+Area "1" -- "*" BoundaryEntry: has boundaries >
+IrrigationZone "1" -- "1" Area: defined by >
+IrrigationZone "1" -- "1" IrrigationZoneName: named >
+IrrigationZone "1" -- "1" IrrigationZoneId: identified by >
+
+BoundaryEntry "1" -- "1" GPSPoint : at >
+BoundaryEntry "1" -- "1" EntryPosition : numbered according to >
+
+@enduml

@@ -1,0 +1,86 @@
+@startuml smart-irrigation-model-1
+
+hide empty members
+
+class ParkDevice
+
+class GreenHouseDevice
+
+class Valve
+
+interface Device
+
+class LedgerEntry
+
+class Content
+
+class OpenDate
+
+class CloseDate
+
+class DeviceName
+
+class DeviceId
+
+class GPSPoint
+
+class Record
+
+class ParkDeviceReading
+
+class SoilMoistureReading
+
+class IlluminanceReading
+
+class GreenHouseDeviceReading
+
+class AirHumidityReading
+
+class AirTemperatureReading
+
+class ValveReading
+
+class ValveStatusReading
+
+class ReportedTime
+
+class ReadingId
+
+class RemoteControl
+
+interface Reading
+
+Valve --|> Device
+ParkDevice --|> Device
+GreenHouseDevice --|> Device
+Device "1" -- "*" LedgerEntry: has info >
+Device "1" -- "1" DeviceId: has >
+LedgerEntry "1" -- "1" OpenDate: has >
+LedgerEntry "1" -- "0..1" CloseDate: has >
+LedgerEntry "1" -- "1" Content: refer to >
+Content "1" -- "*" Record: has >
+Content "1" -- "1" DeviceName: has >
+Content "1" -- "1" GPSPoint: placed in >
+
+SoilMoistureReading "0..1" -- "1" ParkDeviceReading : details <
+IlluminanceReading "0..1" -- "1" ParkDeviceReading : details <
+
+AirHumidityReading "0..1" -- "1" GreenHouseDeviceReading : details <
+AirTemperatureReading "0..1" -- "1" GreenHouseDeviceReading : details <
+
+ValveReading "1" - "0..1" ValveStatusReading : details >
+
+ParkDeviceReading "*" -- "1" ParkDevice : collects <
+ValveReading "*" -- "1" Valve : collects <
+GreenHouseDeviceReading "*" -- "1" GreenHouseDevice : collects <
+
+Reading <|-- ValveReading
+Reading <|-- GreenHouseDeviceReading
+Reading <|-- ParkDeviceReading
+
+ReadingId "1" -- "1" Reading : identified by <
+ReportedTime "1" -- "1" Reading : collected at <
+
+RemoteControl "0..1" - "1" Valve : has <
+
+@enduml

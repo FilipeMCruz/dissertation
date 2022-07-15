@@ -4,18 +4,75 @@ hide empty members
 
 class Notification
 
+class NotificationId
+
+class NotificationReportedTime
+
+class NotificationContext
+
+class DataIdContext
+
+class DomainIdContext
+
+class DeviceIdContext
+
+class Description
+
 class ContentType
 
 class Category
 
 class SubCategory
 
-class Severity
+enum Severity {
+    INFORMATION
+    WATCH
+    ADVISORY
+    WARNING
+    CRITICAL
+}
 
 class Addressee
+
+class AddresseeId
+
+class AddresseeConfiguration
+
+enum DeliveryType {
+    UI
+    NOTIFICATION
+    EMAIL
+    SMS
+}
+
+class NotificationRead
+
+class NotificationReadReportedTime
+
+Notification "1" -- "1" ContentType : type >
+NotificationId "1" -- "1" Notification : identified by <
+Notification "1" -- "1" Description : details >
+Notification "1" -- "1" NotificationContext : correlated with >
+Notification "1" -- "1" NotificationReportedTime : reported at >
 
 ContentType "1" -- "1" Category : composed by >
 ContentType "1" -- "1" SubCategory : composed by >
 ContentType "1" -- "1" Severity : composed by >
+
+AddresseeId "1" -- "1" Addressee : identified by <
+
+Addressee "1" -- "*" AddresseeConfiguration : with >
+
+AddresseeConfiguration "1" -- "1" DeliveryType : presented by >
+AddresseeConfiguration "1" -- "1" ContentType : type >
+
+NotificationContext "1" -- "*" DataIdContext : with >
+NotificationContext "1" -- "*" DeviceIdContext : with >
+NotificationContext "1" -- "*" DomainIdContext : with >
+
+NotificationRead "1" -- "1" Notification : this >
+NotificationRead "1"-- "1" NotificationReadReportedTime : reported at >
+
+NotificationRead "1" -- "1" Addressee : read by >
 
 @enduml

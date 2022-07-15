@@ -1,0 +1,26 @@
+@startuml fleet-management-model
+
+hide empty members
+
+class Device
+
+class DeviceId
+
+class DeviceName
+
+class Reading
+
+class ReadingId
+
+class ReadingTime
+
+class GPSPoint
+
+Device "1" -- "1" DeviceId : identityfied by >
+Device "1" -- "1" DeviceName : named >
+Reading "1" -- "1" ReadingId : identityfied by >
+Reading "1" -- "1" ReadingTime : collected at >
+Reading "1" -- "1" Device : collected by >
+Reading "1" -- "1" GPSPoint : referes to >
+
+@enduml

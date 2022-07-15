@@ -21,3 +21,7 @@ sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," data-processor-m
 sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," device-management-model.latex
 
 sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," identity-management-model.latex
+
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," notification-management-model.latex
+
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," smart-irrigation-model-4.latex

@@ -1,0 +1,52 @@
+@startuml smart-irrigation-model-3
+
+hide empty members
+
+class ParkSensor
+
+class GreenHouseSensor
+
+class Valve
+
+interface Device
+
+class LedgerEntry
+
+class Content
+
+class OpenDate
+
+class CloseDate
+
+class DeviceName
+
+class DeviceId
+
+class GPSPoint
+
+class Record
+
+class RemoteControl
+
+Valve --|> Device
+ParkSensor --|> Device
+GreenHouseSensor --|> Device
+Device "1" -- "1" DeviceId: identified by >
+Device "1" -- "*" LedgerEntry: has info >
+LedgerEntry "1" -- "1" OpenDate: has >
+LedgerEntry "1" -- "0..1" CloseDate: has >
+LedgerEntry "1" -- "1" Content: refer to >
+Content "1" -- "*" Record: has >
+Content "1" -- "1" DeviceName: has >
+Content "1" -- "1" GPSPoint: placed in >
+
+Valve "1" -- "0..1" RemoteControl : has >
+
+ParkSensorReading "*" -- "1" ParkSensor : collects <
+ValveReading "*" -- "1" Valve : collects <
+GreenHouseSensorReading "*" -- "1" GreenHouseSensor : collects <
+
+DeviceId -[hidden]- Content
+RemoteControl -[hidden]- DeviceId
+
+@enduml

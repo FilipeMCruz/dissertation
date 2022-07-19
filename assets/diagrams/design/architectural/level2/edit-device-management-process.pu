@@ -1,0 +1,21 @@
+@startuml edit-device-management-process
+
+autonumber 1.1
+
+skinparam style strictuml
+
+participant "Device Management\nFrontend" as FRONT
+participant "Device Management\nBackend" as BACK
+participant "Device Management\nDatabase" as DB
+participant "Message\nBroker" as MB
+
+FRONT -> BACK ++ : device\ninformation update
+BACK -> BACK: verifies if the\ntoken is valid
+BACK -> BACK: verifies if the\nuser has the\nneeded permissions
+BACK -> BACK : verify if user\nowns the device
+BACK -> DB ++: store changes made to\ndevice information
+return updated\ndevice information
+BACK -> MB : notify that the device was updated\n@ Internal Topic
+return updated\ndevice information
+
+@enduml

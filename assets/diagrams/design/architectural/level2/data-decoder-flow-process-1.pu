@@ -1,0 +1,61 @@
+@startuml data-decoder-flow-process-1
+
+autonumber 1.1
+
+skinparam style strictuml
+
+participant "Data Decoder\nFlow Bakend" as DECODER_FLOW
+participant "Message Broker" as MB
+participant "Data Decoder\nBakend" as DECODER
+participant "Data Decoder\nDatabase" as DECODER_DB
+
+activate MB
+
+-> MB : published encoded data\nunit message @ Data Topic
+
+autonumber inc A
+MB -> DECODER_FLOW : sends the message\n@ Data Topic
+activate DECODER_FLOW
+DECODER_FLOW -> DECODER_FLOW : searches for the script of\nthe device type mentioned\nin the data unit
+alt indentified device type
+
+    DECODER_FLOW -> DECODER_FLOW : decodes the data unit
+    DECODER_FLOW -> MB : publishes processed data\nunit @ Data Topic
+    DECODER_FLOW -> MB : publishes a "ping\ndata decoder" message\nfor the device type\n@ Internal Topic
+
+    autonumber inc A
+    MB ->? :  sends the message\n@ Data Topic
+
+    autonumber inc A
+    MB -> DECODER : sends the message\n@ Internal Topic
+    activate DECODER
+    DECODER -> DECODER : processes "ping\ndata decoder"
+    DECODER -> DECODER_DB : updates the last time that\nthe decoder was used
+    activate DECODER_DB
+    DECODER_DB --> DECODER : success
+    deactivate DECODER_DB
+    deactivate DECODER
+
+else unidentified device type
+    autonumber 2.3
+    DECODER_FLOW -> DECODER_FLOW: stores the data unit
+
+    DECODER_FLOW -> MB: publishes a "unkown\ndata decoder" message\nfor the device type\n@ Internal Topic
+
+    autonumber inc A
+    MB -> DECODER: sends the message\n@ Internal Topic
+    activate DECODER
+    DECODER -> DECODER: processes "unkown\ndata decoder"
+    DECODER -> DECODER_DB : updates the last time that\nthe decoder was used
+    activate DECODER_DB
+    DECODER_DB --> DECODER : success
+    deactivate DECODER_DB
+    DECODER -> DECODER_DB : searches for the decoder
+    activate DECODER_DB
+    DECODER_DB --> DECODER : success
+    deactivate DECODER_DB
+    alt decoder exists
+        DECODER -> MB : publishes a "info data\ndecoder" message for\nthe device type\n@ Internal Topic
+    end
+end
+@enduml

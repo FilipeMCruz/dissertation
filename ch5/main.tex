@@ -9,6 +9,7 @@ After this the system's architectural design will be presented and major decisio
 \label{sec:design:ref_architecture}
 
 TODO
+- 3 tier architecture
 
 \section{System Scopes}
 \label{sec:design:system_scopes}
@@ -51,9 +52,11 @@ This operations require various verifications, alter the system internal state a
 \subsection{Data Flow Scope}
 \label{subsec:design:system_scopes:data_flow_scope}
 
-The \textbf{Data Flow Scope} is responsible for processing incoming data according to what is defined in the \textbf{Configuration Scope}. Both scopes share the same contexts, apart from the data validation context (only present in this scope).
+The \textbf{Data Flow Scope} is responsible for processing incoming data according to what is defined in the \textbf{Configuration Scope}. Both scopes share the same contexts, apart from the data validation and data store contexts (only present in this scope).
 
 The data validation context preforms basic data filtering based on static rules, e.g. battery percentage reported has to be in between 0 and 100.
+
+The data store context persists data captured in a defined and static state.
 
 This scope applies changes to the device data that flows though the system. This changes are stateless and don't change the overall state of the internal system state.
 
@@ -137,7 +140,10 @@ This concepts are referenced across the document.
 \label{subsec:design:domain:shared_model}
 
 The shared model is comprised of concepts that transverse the entire \textbf{Sensae Console} business model. Therefore, it is built as a separated project, \textit{iot-core}, that can be imported in each micro service.
-It is comprised of three big components: (i) data model, (ii) message envelop model, and (iii) routing model. 
+
+The intent behind this Shared Model is to alleviate one of the issues related to distributed systems - heterogeneity in data formats (\cite{nadiminti2006distributed}) - and to provide a simple \gls{SDK} for third-parties to develop new services that interact with the \textbf{Sensae Console}.
+
+It is comprised of three big components: (i) data model, (ii) message envelop model, and (iii) routing model.
 
 \subsubsection*{Data Model}
 \label{subsubsec:design:domain:shared_model:data}
@@ -378,7 +384,19 @@ In the Table~\ref{tab:design:domain:shared_model:routing} all currently used \te
    \end{longtable}
    \footnotetext[1]{has three possible values: (i) UNDETERMINED, (ii) WITH, (iii) WITHOUT}
    \footnotetext[2]{related to the explored Data Types}
-   \end{landscape}
+\end{landscape}
+
+The routing key \textit{OperationType} from the \textbf{Internal} topic can have the following values:
+
+\begin{itemize}
+   \item \textbf{Sync}: message contains the current state of the related \textit{ContextType}, used to populate a container's state;
+   \item \textbf{Info}: message contains information about an entry of the related \textit{ContextType}, e.g. entry X in context Y was removed;
+   \item \textbf{Unknown}: message contains entry of the related \textit{ContextType} that the container that published the message can't identify;
+   \item \textbf{Init}: message to notify that a container has initiated and needs the current state of the related \textit{ContextType} to be ready;
+   \item \textbf{Ping}: message to notify that an entry of the related \textit{ContextType} was used, e.g. entry X in context Y was just used.
+\end{itemize}
+
+The \textit{ContextType}, used to identity what piece of the state is referenced can have the following values: (i) \textit{Data processor}, (ii) \textit{Data Decoder}, (iii) \textit{Device Information}, (iv) \textit{Device Identity}, (v) \textit{Tenant Identity}, (vi) \textit{Addressee Configuration} and (vii) \textit{Rule Management}.
 
 Routing keys help to strengthen the boundaries that a container is expected to have. As an example, a Service in the \textbf{Service Scope} related to Waste Management would subscribe to the \textit{Data Topic} with the following \textit{Routing Keys}: 
 
@@ -396,7 +414,7 @@ And would, for example, subscribe to the \textit{Alert Topic} with the following
 
 \begin{itemize}
    \item \textit{Alert Category Options}: 'wasteManagement';
-   \item \textit{Alert SubCategory Options}: 'trashAlmostFull'; 
+   \item \textit{Alert SubCategory Options}: 'garbageFull'; 
    \item \textit{Ownership Options}: WITH;
 \end{itemize}
 
@@ -421,7 +439,8 @@ The \textbf{Sensae Console} is composed by the following bounded contexts:
    \item In \textbf{Service Scope}:
    \begin{itemize}
       \item Smart Irrigation;
-      \item Fleet Management.
+      \item Fleet Management;
+      \item Notification Management;
    \end{itemize}
 \end{itemize}
 
@@ -694,6 +713,8 @@ As a brief description:
    \item A \textbf{GreenHouseSensor} measures air humidity and air temperature.
 \end{itemize}
 
+The concepts in this last diagram are different from the concepts in the other two diagram since readings data is suppose to be immutable and ample as opposed to devices and irrigation zones where information should be mutable but with a negligible size compared with readings.
+
 \subsubsection*{Fleet Management}
 \label{subsubsec:design:domain:bounded_contexts:fleet}
 
@@ -788,23 +809,6 @@ The external systems and its functions are as follows:
 
 The reason behind the use of external authentication/identity services is described in the Section~\ref{subsec:design:alternatives:auth}.
 
-\subsubsection*{Context Level - Physical View}
-\label{subsubsec:design:architecture:context:physical}
-
-Next is the physical view (Figure~\ref{fig:design:architecture:context:physical:diagram}), intended to familiarize the reader with the idealized production environment.
-
-\begin{figure}[H]
-   \centering
-   \resizebox{\columnwidth}{!}
-   {
-      \input{assets/diagrams/physical-view-level1.latex}
-   }
-   \caption[Context Level - Physical View Diagram]{Context Level - Physical View Diagram}
-   \label{fig:design:architecture:context:physical:diagram}
-\end{figure}
-
-Due to time constrains the environment was not deployed to \textit{Kubernetes} and the solution is instead orchestrated using \textit{Docker Compose} in a single node/server.
-
 \subsubsection*{Context Level - Development View}
 \label{subsubsec:design:architecture:context:development}
 
@@ -821,20 +825,408 @@ The package \textit{iot-core} contains the shared model discussed in the Section
 
 The package \textit{sensae-console} contains software of the various containers needed to run the \textbf{Sensae Console}. As expected \textit{iot-core} is a core dependency for the \textit{sensae-console} backend containers.
 
+\subsubsection*{Context Level - Physical View}
+\label{subsubsec:design:architecture:context:physical}
+
+Next is the physical view (Figure~\ref{fig:design:architecture:context:physical:diagram}), intended to familiarize the reader with the idealized production environment. Each service that composes the system is containerized via \textit{Docker} so that orchestration software like \textit{Docker Compose}, \textit{Docker Swarm}, \textit{Kubernetes} and \textit{OpenShift} can be used to ease the operation phase.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/physical-view-level1.latex}
+   }
+   \caption[Context Level - Physical View Diagram]{Context Level - Physical View Diagram}
+   \label{fig:design:architecture:context:physical:diagram}
+\end{figure}
+
+Due to time constrains the environment was not deployed to \textit{Kubernetes} and the solution is instead orchestrated using \textit{Docker Compose} in a single node/server.
+
 \subsubsection*{Context Level - Synopsis}
 \label{subsubsec:design:architecture:context:synopsis}
 
-The context level introduces the reader to the bigger picture of \textbf{Sensae Console}, but it contains little to none information about how the system functions internally, the Section~\ref{subsec:design:architecture:containers} will dive into this subject.
+The context level introduces the reader to the bigger picture of \textbf{Sensae Console}, but it contains little to no information about how the system functions internally, the Section~\ref{subsec:design:architecture:containers} will dive into this subject.
+
 The process view was not represented since at this level the interactions between the system, actors and external systems, are too abstract to be relevant for the reader.
 
 \subsection{C4 Level 2 - Containers}
 \label{subsec:design:architecture:containers}
+
+The C4 level 2 introduces the reader to the various containers that compose the system. In this section all relevant views will be presented according to the alternative in use or idealized for the system. In the Section~\ref{sec:design:alternatives} other alternatives are discussed. 
+
+The Physical View will not be represented since the fundamental idea behind the idealized deployment of \textbf{Sensae Console} is already described in the Section \nameref{subsubsec:design:architecture:context:physical}.
+
+\subsubsection*{Container Level - Logical View}
+\label{subsubsec:design:architecture:container:logical}
+
+The description of this level of abstraction begins with a logical view of the containers that compose the system. Alternatives were also analyzed taking into account several requirements namely (i) configurability, (ii) maintainability, (iii) extensibility (iv) development cost and (v) scalability.
+
+In order to support the functional requirements identified (\textbf{***TODO***}), and knowing that \textbf{Sensae Console} will serve multiple users with different levels of access to the managed information, the various business concepts were segregated from the user interaction. The business management also had to be separated from the  data pipeline, knowing that \textbf{Sensae Console} will process a high level of device data.
+
+Considering the need to persist and provide the information collected, the system integrates databases, which are not developed, but only configured and operated - using a \gls{DBMS}.
+
+The system also uses one (or more) message brokers, \cite{broker}, that will be configured but not developed.
+
+In order to ease the analysis of the system the following diagrams will be divided by scopes, mentioned in \ref{sec:design:system_scopes}. In the Appendix~TODO a complete logical view is provided.
+
+The logical view of the \textbf{Configuration Scope} is represented in Figure~\ref{fig:design:architecture:container:logical:diagram:configuration}. This scope is composed by the processes discussed in \ref{subsec:design:system_scopes:configuration_scope}. Each process is composed by a three tier architecture, as per \cite{3tier}:
+
+\begin{itemize}
+   \item \textbf{Presentation Tier}: the user interface and communication tier of the application where the user interacts with the system;
+   \item \textbf{Application Tier}: the business tier of the application where information from the \textbf{Presentation Tier} is processed and sent to the \textbf{Data Tier};
+   \item \textbf{Data Tier}: the infrastructure tier of the application where data is stored and requested as needed. 
+\end{itemize}
+
+This scope was also divided into micro services - \cite{newman2021building} - \textit{'small, autonomous services that work together'}. Each bounded context/business process - (i) Data Processor, (ii) Data Decoder, (iii) Device Management, (iv) Identity Management, (v) Rule Management - is mapped to the three tier architecture mention before.
+
+\begin{landscape}
+   \begin{figure}[H]
+      \centering
+   \resizebox{\columnwidth}{!}
+   {      
+      \input{assets/diagrams/logical-view-level2-configuration.latex}
+   }
+   \caption[Container Level - Configuration Scope - Logical View Diagram]{Container Level - Configuration Scope - Logical View Diagram}
+      \label{fig:design:architecture:container:logical:diagram:configuration}
+   \end{figure}
+\end{landscape}
+
+As a brief description:
+
+\begin{itemize}
+   \item Frontend containers correspond to the \textbf{Presentation Tier} and are provided to the user though \textbf{UI Aggregator};
+   \item Backend containers correspond to the \textbf{Application Tier} and communication with each other though \textbf{Message Broker};
+   \item Database containers correspond to the \textbf{Data Tier}.
+\end{itemize}
+
+Next, the logical view of the \textbf{Data Flow} is represented in Figure~\ref{fig:design:architecture:container:logical:diagram:data_flow}. This scope is composed by the processes discussed in \ref{subsec:design:system_scopes:data_flow_scope}. In parallel with the \textbf{Configuration Scope} this scope is also divided into multiple micro services in order for them to better scale once needed. This scope is also built based on a \textit{Reactive architecture} as described in \cite{reactivemanifesto} and \cite{reactivesystem}.  
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {      
+      \input{assets/diagrams/logical-view-level2-data-flow.latex}
+   }
+   \caption[Container Level - Data Flow Scope - Logical View Diagram]{Container Level - Data Flow Scope - Logical View Diagram}
+   \label{fig:design:architecture:container:logical:diagram:data_flow}
+\end{figure}
+
+Most containers presented here collect specific information from a single backend in the \textbf{Configuration Scope} though the \textit{Internal} Topic:
+
+\begin{itemize}
+   \item \textbf{Data Processor Flow Backend}: Collects information related to the \textbf{Data Processor} context - published by \textbf{Data Processor Backend} - and noting else;
+   \item \textbf{Data Decoder Flow Backend}: Collects information related to the \textbf{Data Decoder} context - published by \textbf{Data Decoder Backend} - and noting else;
+   \item \textbf{Device Ownership Backend}: Collects information related to the \textbf{Identity Management} context (more specifically device ownership) - published by \textbf{Identity Management Backend} - and noting else;
+   \item \textbf{Device Management Flow Backend}: Collects information related to the \textbf{Device Management} context - published by \textbf{Device Management Backend} - and noting else;
+   \item \textbf{Alert Dispatcher Backend}: Collects information related to the \textbf{Rule Management} context - published by \textbf{Rule Management Backend} - and noting else;
+   \item \textbf{Device Command Backend}: Collects information related to the \textbf{Device Management} context - published by \textbf{Device Management Backend} - and noting else;
+   \item The remaining containers don't subscribe to any type of information from the \textbf{Configuration Scope}.
+\end{itemize}
+
+Finally the \textbf{Service Scope} is represented in Figure~\ref{fig:design:architecture:container:logical:diagram:service}. This scope is composed by the processes discussed in \ref{subsec:design:system_scopes:service_scope}.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {      
+      \input{assets/diagrams/logical-view-level2-service.latex}
+   }
+   \caption[Container Level - Service Scope - Logical View Diagram]{Container Level - Service Scope - Logical View Diagram}
+   \label{fig:design:architecture:container:logical:diagram:service}
+\end{figure}
+
+Once again the ideas behind this scope architecture are the same discussed in the \textbf{Configuration Scope} apart from two particular points:
+
+\begin{itemize}
+   \item \textbf{Smart Irrigation Data Database/Business Database}: As explained in the domain presented in \ref{subsubsec:design:domain:bounded_contexts:irrigation}, since there are two distinct types of information to store and manage it was decided to use different technologies for each type;
+   \item \textbf{Notification Management/Dispatcher Backend}: It was also decided to split the delivery of notifications (by email and SMS) from the management of them. 
+\end{itemize}
+
+Lastly, as we can seen some containers are present in more than one scope, this containers, and their responsibilities are:
+
+\begin{itemize}
+   \item \textbf{Message Broker}: Container responsible for routing messages/events sent by backend containers. This communication is explored in the section, \nameref{subsubsec:design:architecture:container:process};
+   \item \textbf{UI Aggregator}: Container responsible for aggregating all frontends in a single \gls{UI}.
+\end{itemize}
+
+In the following section the internal communication of the system is clarified.
+
+\subsubsection*{Container Level - Process View}
+\label{subsubsec:design:architecture:container:process}
+
+In this section several use cases (according to \textbf{***TODO***}) are presented through sequence diagrams, in order to introduce the reader to the interactions that occur between the various containers of the \textbf{Sensae Console}. 
+
+The routing keys used for communication between backend containers can be extrapolated from the model described in the Section~\ref{subsubsec:design:domain:shared_model:routing}. 
+
+This section is composed by five sets of important functionalities to discuss at this level of abstraction: (i) system/container initialization (ii) data pipeline operation, (iii) data pipeline configuration, (iv) user authentication/authorization, (v) service usage.
+
+The system/container initialization, presented in Figure~\ref{fig:design:architecture:container:process:diagram:init}, refers to the interval of time since a container is launched till it is ready to process requests or events.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {      
+      \input{assets/diagrams/design/architectural/level2/container-init-process-view.latex}
+   }
+   \caption[Container Level - System/Container Initialization - Process View Diagram]{Container Level - System/Container Initialization - Process View Diagram}
+   \label{fig:design:architecture:container:process:diagram:init}
+\end{figure}
+
+Not all containers are displayed in this diagram for brevity reasons.
+The system relies heavily in the Pub/Sub (\cite{pubsub}) pattern to communicate internally via a message broker. In this scenarios the first step in a container lifecycle is to subscribe to the information that it needs as presented in the diagram above.
+
+Certain containers need the entire state related to their \textit{ContextType} to function. So, after subscribing to the needed information, they notify the system that they have entered an \textit{init state} for a specific context. This triggers the creation of new events to help that container to reach a \textit{ready state}. An example of this interaction is presented in the following diagram, Figure~\ref{fig:design:architecture:container:process:diagram:ready},note that this only occurs in the Internal Topic.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {      
+      \input{assets/diagrams/design/architectural/level2/container-ready-process-view.latex}
+   }
+   \caption[Container Level - System/Container Initialization - Part 2 - Process View Diagram]{Container Level - System/Container Initialization - Part 2 - Process View Diagram}
+   \label{fig:design:architecture:container:process:diagram:ready}
+\end{figure}
+
+Apart from the Alert Dispatcher Backend all containers in the \textbf{Data Flow Scope} benefit from a stateless process and can function with just a portion of a single \textit{ContextType} state or no state at all.
+
+To dive into this some common data pipeline operations, related to the Data Flow Scope, are presented next. This operations are intended to behave in a \textit{reactive} manner (\cite{reactivemanifesto}) and are therefore non-blocking. The idea behind the Data Flow Scope is analog to a data pipeline. This scope operates mostly on Data Units, transforming, filtering and enriching this data.
+
+The following diagram in Figure~\ref{fig:design:architecture:container:process:diagram:flow} presents a high level view of the flow that a Data Unit takes through the system in the Data topic. This diagram does not account for what happens to invalid Data Units and the interactions with the message broker are hidden for brevity reasons even tho it is used by all containers but the Data Relayer to publish messages.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {      
+      \input{assets/diagrams/design/architectural/level2/data-flow-scope.latex}
+   }
+   \caption[Container Level - Data Flow - Diagram]{Container Level - Data Flow - Diagram}
+   \label{fig:design:architecture:container:process:diagram:flow}
+\end{figure}
+
+Most of this containers have just a portion of their context state and may be unable to preform the needed operation on some Data Units. The following diagrams, Figure~\ref{fig:design:architecture:container:process:diagram:decoder:1} and Figure~\ref{fig:design:architecture:container:process:diagram:decoder:2}, addresses how state is managed in Data Decoder Flow Backend and most \textbf{Data Flow Scope} containers.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {      
+      \input{assets/diagrams/design/architectural/level2/data-decoder-flow-process-1.latex}
+   }
+   \caption[Container Level - Data Decoder Operation part 1 - Process View Diagram]{Container Level - Data Decoder Operation Part 1 - Process View Diagram}
+   \label{fig:design:architecture:container:process:diagram:decoder:1}
+\end{figure}
+
+As we can see the Data Decoder Flow Backend, upon receiving a Data Unit, can preform two operations depending on the script being available or not: decode the Data Unit and notify that the script was used or store the Data Unit and notify that a script for an unknown device type is needed.
+
+The next diagram demonstrates what happens when a decoder is published via the \textit{OperationType} Info.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {      
+      \input{assets/diagrams/design/architectural/level2/data-decoder-flow-process-2.latex}
+   }
+   \caption[Container Level - Data Decoder Operation Part 2 - Process View Diagram]{Container Level - Data Decoder Operation Part 2 - Process View Diagram}
+   \label{fig:design:architecture:container:process:diagram:decoder:2}
+\end{figure}
+
+As we can see Data Decoder Flow Backend, upon receiving an info regarding a data decoder, searches for unhandled Data Units and processes them.
+To minimize the memory in use, a data decoder has to be continually used in order for it to remain in cache. As seen in step \textbf{2.2}, if \textit{X} hours pass since the last time a decoder was used it is evicted from the container internal state.
+
+The operations described here for the Data Decoder Flow Backend are replicated in the following contexts/containers:
+
+\begin{itemize}
+   \item \textbf{Data Processor Context}: Data Processor Flow Backend;
+   \item \textbf{Device Management Context}: Device Management Flow Backend and Device Commander Backend;
+   \item \textbf{Identity Management Context}: Device Ownership.
+\end{itemize}
+
+As described before containers that belong to the \textbf{Data Flow Scope} are configured according to what is defined in the \textbf{Configuration Scope}. The next diagrams, in Figure~\ref{fig:design:architecture:container:process:diagram:processor} and Figure~\ref{fig:design:architecture:container:process:diagram:device} present some of the common operations that happen in that scope.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {      
+      \input{assets/diagrams/design/architectural/level2/consult-data-processor-process.latex}
+   }
+   \caption[Container Level - Consult Data Processors - Process View Diagram]{Container Level - Consult Data Processors - Process View Diagram}
+   \label{fig:design:architecture:container:process:diagram:processor}
+\end{figure}
+
+The diagram presented above represents a single consult of data mappers, as we can see, only the Data Processor Context in the Configuration Scope is invoked. When a change to the state is made in any Context of the Configuration Scope events are published. The next diagram, Figure~\ref{fig:design:architecture:container:process:diagram:device} displays an example of this occurrence.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {      
+      \input{assets/diagrams/design/architectural/level2/edit-device-management-process.latex}
+   }
+   \caption[Container Level - Edit Device Information - Process View Diagram]{Container Level - Edit Device Information - Process View Diagram}
+   \label{fig:design:architecture:container:process:diagram:device}
+\end{figure}
+
+In this use case a device information is changed. Since this operation changes the internal state of the device management context an event is published in the Internal Topic.
+
+As an example this specific event, according to the Section~\ref{subsubsec:design:domain:shared_model:routing}, uses the following \textit{Routing Keys}:
+
+\begin{itemize}
+   \item \textbf{Protocol Version}: the version of \textit{iot-core} currently in use by Device Management Backend;
+   \item \textbf{Container Type}: Device Management Backend;
+   \item \textbf{Topic Type}: Internal;
+   \item \textbf{Operation Type}: Info;
+   \item \textbf{Context Type}: Device Management;
+\end{itemize}
+
+There are three containers that subscribe to this type of event:
+
+\begin{itemize}
+   \item \textbf{Device Management Flow Backend}: so that the Data Units of the device changed are enriched with the latest information;
+   \item \textbf{Device Command Backend}: so that commands for this device are treated according to the latest information;
+   \item \textbf{Identity Management Backend}: so that information related to the device changed is presented according to the latest update. This container maintains local copies of all devices names to present to the user without needing to request Device Management for that information every time.
+\end{itemize}
+
+The step \textbf{1.3} in the last two diagrams references user permissions but there is no mention of how this permissions are associated to the user. In the next diagrams - Figure~\ref{fig:design:architecture:container:process:diagram:authentication} and Figure~\ref{fig:design:architecture:container:process:diagram:authorization} - authentication and authorization in the \textbf{Sensae Console} are addressed.
+
+The system verifies the identity of a user based on the authentication performed by an External Authorization Server or Identity Platform using OpenID Connect 1.0, \cite{openid}, an identity layer on top of the OAuth 2.0 protocol. According to \cite{oauth} OAuth2.0 \textit{"enables a third-party application to obtain limited access to an HTTP service"}. In this situation the Frontend of \textbf{Sensae Console} is the third-party application and the HTTP service is any of the \textbf{Sensae Console} backend services.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {      
+      \input{assets/diagrams/design/architectural/level2/user-authentication-process.latex}
+   }
+   \caption[Container Level - User Authentication - Process View Diagram]{Container Level - User Authentication - Process View Diagram}
+   \label{fig:design:architecture:container:process:diagram:authentication}
+\end{figure}
+
+This diagram ilustrastes how a user can authenticate against \textbf{Sensae Console}.
+The user identity and credentials validation are assured by an external identity platform such as \citetitle{googleid} or \citetitle{azureid}. Once an \textit{id token} is provided to \textbf{Sensae Console} it can use it to verify the user identity against the local registry. To ensure that the \textit{id token} is valid, Identity Management Backend checks if it was signed by the platform that supposedly issued it (step \textbf{3.3} and \textbf{3.5}). After validating the \textit{id token} it searches for the needed information to create an \textit{access token} and then provides it. The \textit{access token} can then be used for a limited time to access any protected HTTP resource of \textbf{Sensae Console} as demonstrated in Figure~\ref{fig:design:architecture:container:process:diagram:authorization}.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/architectural/level2/user-authorization-process.latex}
+   }
+   \caption[Container Level - User Authorization - Process View Diagram]{Container Level - User Authorization - Process View Diagram}
+   \label{fig:design:architecture:container:process:diagram:authorization}
+\end{figure}
+
+In this diagram the expected behavior for any pair of frontend and backend containers in \textbf{Configuration Scope} and \textbf{Service Scope} is presented. Each frontend displays only the actions and information that the user permissions allow. The user permissions are once again verified in the backend to secure the system against malicious accesses. Other alternatives related to authentication and authorization are presented in the Section~\ref{subsec:design:alternatives:auth}.
+
+Finally some operations performed in the \textbf{Service Scope} are presented starting with how a user can see the current location of a device via the Fleet Management Service (Figure~\ref{fig:design:architecture:container:process:diagram:fleet}). Authentication details will be omitted for brevity reasons.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/architectural/level2/device-live-location-process.latex}
+   }
+   \caption[Container Level - Consult Device Live Location via Fleet Management - Process View Diagram]{Container Level - Consult Device Live Location via Fleet Management - Process View Diagram}
+   \label{fig:design:architecture:container:process:diagram:fleet}
+\end{figure}
+
+In order to provide live information to the user \textbf{Service Scope} services rely on \textit{WebSockets}. A bidirectional channel is created between the frontend and backend so that data can be sent directly from the backend to the frontend as we can see in the step \textbf{2.6}. Fist the frontend must subscribe to new information with a valid \textit{access token} - steps \textbf{1.2} to \textbf{1.6} - then this channel is maintained till the user leaves the page. Once the user leaves the page the subscription is closed in the frontend and subsequently in the backend - steps \textbf{3.2} to \textbf{3.5}.
+
+The next diagram in Figure~\ref{fig:design:architecture:container:process:diagram:notification} describes how a user receives notifications via several different delivery channels. For brevity reasons the subscription process is omitted.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/architectural/level2/notification-dispatch-process.latex}
+   }
+   \caption[Container Level - Receive notification via Notification Management - Process View Diagram]{Container Level - Receive notification via Notification Management - Process View Diagram}
+   \label{fig:design:architecture:container:process:diagram:notification}
+\end{figure}
+
+As a brief description this diagram describes what happens when an alert is dispatched inside \textbf{Sensae Console}. An alert is created in Alert Dispatcher Backend, flows though Device Ownership Backend to be enriched with the domains that own it and is then collected by, at least, Notification Management Backend and Notification Dispatcher Backend. Notification Management Backend deliveries alerts in the form of \gls{UI} notifications - step \textbf{3.5} and \textbf{3.6} - and stores this alert as a notification for later use - step \textbf{3.3}. Notification Dispatcher Backend deliveries alerts in the form of Emails - step \textbf{4.4} - and SMS - step \textbf{4.7}.
+
+Certain types of alerts are also collected by Smart Irrigation Backend to automatically control conditions inside an irrigation zone. In the next diagram, Figure \ref{fig:design:architecture:container:process:diagram:irrigation}, this process is presented.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/architectural/level2/smart-irrigation-process.latex}
+   }
+   \caption[Container Level - Valve Activation Process via Smart Irrigation - Process View Diagram]{Container Level - Valve Activation Process via Smart Irrigation - Process View Diagram}
+   \label{fig:design:architecture:container:process:diagram:irrigation}
+\end{figure}
+
+The alerts created in \textbf{Sensae Console} are captured by containers in the \textbf{Service Scope} so that they can act based on the alert warnings.
+
+The Smart Irrigation Backend subscribes to three types of \textit{Sub Category} alerts all with the same \textit{Category} - \textit{Smart Irrigation}:
+
+\begin{itemize}
+   \item \textbf{Damped Environment}: a valve needs to be closed;
+   \item \textbf{Dry Environment}: a valve needs to be open;
+   \item \textbf{Valve Open For Lengthy Period}: a valve needs to be close.
+\end{itemize}
+
+\subsubsection*{Container Level - Development View}
+\label{subsubsec:design:architecture:container:development}
+
+Each container mentioned in the Section~\ref{subsec:design:architecture:containers} is developed inside the same package, \textit{sensae-console}. The following diagrams presents how containers are mapped to packages.
+
+Frontend services are organized according to the diagram in Figure~\ref{fig:design:architecture:container:process:diagram:development:frontend}.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/architectural/level2/development-frontend.latex}
+   }
+   \caption[Container Level - Frontend Services - Development View Diagram]{Container Level - Frontend Services - Development View Diagram}
+   \label{fig:design:architecture:container:process:diagram:development:frontend}
+\end{figure}
+
+Each frontend service is divided between the \textit{apps} package and \textit{libs} package. Each \textit{app} depends on the corresponding \textit{lib} and the \textit{core} and \textit{auth} packages.
+
+Backend services are organized according to the diagram in Figure~\ref{fig:design:architecture:container:process:diagram:development:backend}.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/architectural/level2/development-backend.latex}
+   }
+   \caption[Container Level - Backend Services - Development View Diagram]{Container Level - Backend Services - Development View Diagram}
+   \label{fig:design:architecture:container:process:diagram:development:backend}
+\end{figure}
+
+Each backend service software lives inside its own package. All containers have been develop besides the \textit{Data Relayer} that was only configured.
+
+Database services are organized according to the diagram in Figure~\ref{fig:design:architecture:container:process:diagram:development:backend}.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/architectural/level2/development-database.latex}
+   }
+   \caption[Container Level - Database Services - Development View Diagram]{Container Level - Database Services - Development View Diagram}
+   \label{fig:design:architecture:container:process:diagram:development:database}
+\end{figure}
+
+No database service has been developed, only configured. The Fleet Management Database and Smart Irrigation Data Database needed no configuration and as such aren't associated with any package. The Message Broker also has no package in the project since it didn't need any configuration and wasn't developed.
+
+\subsubsection*{Container Level - Synopsis}
+\label{subsubsec:design:architecture:container:synopsis}
+
+The container level introduces the reader to the internals of \textbf{Sensae Console}. Each container is introduced and the interactions between them are explored.
+In the following section the internals of some containers, the C4 level 3,  will be presented.
 
 \subsection{C4 Level 3 - Components}
 \label{subsec:design:architecture:components}
 
 \section{Architectural Alternatives Discussed}
 \label{sec:design:alternatives}
+
+\subsection{Backend Segregation}
+\label{subsec:design:alternatives:backend}
+
+\subsection{Frontend Segregation}
+\label{subsec:design:alternatives:frontend}
 
 \subsection{Data Streaming/Pipeline}
 \label{subsec:design:alternatives:streaming}

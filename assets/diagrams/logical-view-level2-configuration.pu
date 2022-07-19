@@ -1,0 +1,86 @@
+@startuml logical-view-level2-configuration
+
+skinparam sequenceMessageAlign center
+skinparam Shadowing false
+skinparam componentStyle uml2
+skinparam packageStyle rectangle
+
+interface "UI" as UI
+
+interface "Azure Active\nDirectory API" as AUTH_ENDPOINT
+interface "Google Identity\nPlatform API" as GOOGLE_ENDPOINT
+
+component "Sensae Console" <<System>> {
+    component "UI Aggregator" as UIAG <<Container>>  {
+        component "Device Management Frontend" as DRF <<Container>> 
+        component "Data Processor Frontend" as DPF <<Container>> 
+        component "Data Decoder Frontend" as DDF <<Container>> 
+        component "Identity Management Frontend" as IAMF <<Container>> 
+        component "Rule Management Frontend" as RULE_MAN_FRONT <<Container>> 
+    }
+    component "Message Broker" as MB <<Container>> 
+
+    component "Device Management Backend" as DRB <<Container>> 
+    component "Data Processor Backend" as DPB <<Container>> 
+    component "Data Decoder Backend" as DDB <<Container>> 
+    component "Device Management Database" as DRDB <<Container>> 
+    component "Data Processor Database" as DPDB <<Container>> 
+    component "Data Decoder Database" as DDDB <<Container>> 
+    component "Identity Management Database" as IAMDB <<Container>> 
+    component "Identity Management Backend" as IAMB <<Container>> 
+
+    component "Rule Management Backend" as RULE_MAN_BACK <<Container>> 
+    component "Rule Management Database" as RULE_MAN_DB <<Container>> 
+
+    interface "Message Broker\nAPI" as MB_API
+    interface "Device Management Master\nBackend API" as DRB_API
+    interface "Data Processor Master\nBackend API" as DPB_API
+    interface "Data Decoder Master\nBackend API" as DDMB_API
+    interface "Device Management\nDatabase API" as DRDB_API
+    interface "Data Processor\nDatabase API" as DPDB_API
+    interface "Data Decoder\nDatabase API" as DDDB_API
+    interface "Identity Management\nDatabase API" as IAMDB_API
+    interface "Identity Management\nBackend API" as IAMB_API
+    interface "Rule Management\nBackend API" as RULE_MAN_BACK_API
+    interface "Rule Management\nDatabase API" as RULE_MAN_DB_API
+
+    RULE_MAN_BACK --( RULE_MAN_DB_API
+    DPB_API -- DPB
+    DDMB_API -- DDB
+    DRB_API -- DRB
+    DRDB_API -- DRDB
+    DPDB_API -- DPDB
+    DDDB_API -- DDDB
+    IAMDB_API -- IAMDB
+    RULE_MAN_BACK_API -- RULE_MAN_BACK
+    IAMB_API -- IAMB
+    UI -- UIAG
+    RULE_MAN_DB_API -- RULE_MAN_DB
+    DRB --( DRDB_API
+    DPB --( DPDB_API
+    DDB --( DDDB_API
+    IAMB --( IAMDB_API
+    DPF --( DPB_API
+    DDF --( DDMB_API
+    DRF --( DRB_API
+    IAMF --( IAMB_API
+    RULE_MAN_FRONT --( RULE_MAN_BACK_API
+
+    DRB ---( MB_API
+    DPB ---( MB_API
+    DDB ---( MB_API
+    IAMB ---( MB_API
+    RULE_MAN_BACK ---( MB_API
+
+    IAMF --( AUTH_ENDPOINT
+    AUTH_ENDPOINT )-- IAMB
+    IAMF --( GOOGLE_ENDPOINT
+    GOOGLE_ENDPOINT )-- IAMB
+
+    MB_API -- MB
+
+    GOOGLE_ENDPOINT -[hidden]- AUTH_ENDPOINT
+
+}
+
+@enduml

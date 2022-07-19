@@ -1,0 +1,35 @@
+@startuml development-frontend
+
+left to right direction
+
+folder "sensae-console" {
+    folder "project" {
+        folder "frontend-services" {
+            folder "apps" as a {
+                folder "data-decoder-frontend"
+                folder "data-processor-frontend"
+                folder "device-management-frontend"
+                folder "fleet-management-frontend"
+                folder "identity-management-frontend"
+                folder "notification-management-frontend"
+                folder "rule-management-frontend"
+                folder "smart-irrigation-frontend"
+                folder "ui-aggregator"
+            }
+            folder "libs" as b {
+                folder "data-decoder"
+                folder "data-processor"
+                folder "device-management"
+                folder "fleet-management"
+                folder "identity-management"
+                folder "notification-management"
+                folder "auth"
+                folder "core"
+                folder "rule-management"
+                folder "smart-irrigation"
+            }            
+        }
+    }
+}
+
+@enduml

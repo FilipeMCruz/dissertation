@@ -1,0 +1,15 @@
+@startuml alert-flow-scope
+
+state "Device Ownership" as Identity
+state "Alert Dispatcher" as Alert
+
+Identity : Device ownership details are
+Identity : added to the Alert
+
+Alert: Data Unit is analised and
+Alert: alerts are produced
+Alert: based on rules
+
+Alert -> Identity
+
+@enduml

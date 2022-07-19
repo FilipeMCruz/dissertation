@@ -1,0 +1,38 @@
+@startuml data-decoder-flow-process-2
+
+autonumber 1.1
+
+skinparam style strictuml
+
+participant "Data Decoder\nFlow Bakend" as DECODER_FLOW
+participant "Message Broker" as MB
+
+activate MB
+
+-> MB : publishes a "info data decoder" message\nfor the device type @ Internal Topic
+
+autonumber inc A
+MB -> DECODER_FLOW : sends the message @ Internal Topic
+activate DECODER_FLOW
+DECODER_FLOW -> DECODER_FLOW : stores the data decoder of that device type\nfor a defined amount of hours
+DECODER_FLOW -> DECODER_FLOW : retieves stored data units of that device type
+
+alt data units found
+    loop for each data unit found
+        DECODER_FLOW -> DECODER_FLOW : decodes the data unit
+        DECODER_FLOW -> MB : publishes processed data\nunit @ Data Topic
+
+        autonumber inc A
+        MB ->? :  sends the message\n@ Data Topic
+
+    end
+    autonumber 2.6
+    DECODER_FLOW -> MB : publishes a "ping data decoder"\n message of the device type\n@ Internal Topic
+    
+    autonumber inc A
+    autonumber inc A
+    MB ->? : sends the message\n@ Internal Topic
+
+end
+
+@enduml

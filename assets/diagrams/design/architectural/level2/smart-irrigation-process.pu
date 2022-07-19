@@ -1,0 +1,46 @@
+@startuml smart-irrigation-process
+
+autonumber 1.1
+
+skinparam style strictuml
+
+box "Sensae Console"
+participant "Smart Irrigation\nBackend" as BACK
+participant "Smart Irrigation\nBusiness Database" as DB
+participant "Message\nBroker" as MB
+participant "Device Commander\nBackend" as COMM
+end box 
+
+participant "Heilum\nConsole" as HC
+
+activate MB
+
+?-> MB : publish\nalert
+
+MB -> BACK ++ : send alert
+
+BACK -> BACK : extract related\ndevice from alert
+
+BACK -> DB ++ : query device\ninformation
+
+DB --> BACK -- : device information
+
+alt device is not a valve
+    BACK -> BACK : extract location\nfrom device
+    BACK -> DB ++ : fetch device's\nirrigation zone
+    return irrigation zone
+    BACK -> DB ++ : fetch irrigation zone devices
+    return devices information
+    BACK -> BACK : search for irrigation\nzone's valve
+end
+
+BACK -> BACK : create command\nfor device
+BACK -> MB -- : publish command
+
+autonumber inc A
+MB -> COMM ++ : send command
+COMM -> COMM : search for device\ncommand details
+COMM -> HC ++--: send http downlink
+deactivate HC
+
+@enduml

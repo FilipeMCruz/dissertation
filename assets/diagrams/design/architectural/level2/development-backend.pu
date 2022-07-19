@@ -1,0 +1,49 @@
+@startuml development-backend
+
+folder "sensae-console" {
+    folder "project" {
+        folder "backend-services" {
+            folder "alert-dispatcher-backend" as a1
+            folder "data-decoder-backend" as b1
+            folder "data-decoder-flow-backend" as c1
+            folder "data-gateway" as a2
+            folder "data-processor-backend" as b2
+            folder "data-processor-flow-backend" as c2
+            folder "data-relayer" as a3
+            folder "data-store" as b3
+            folder "data-validator-backend" as c3
+            folder "device-commander-backend" as a4
+            folder "device-management-backend" as b4
+            folder "device-management-flow-backend" as c4
+            folder "device-ownership-backend" as a5
+            folder "fleet-management-backend" as b5
+            folder "identity-management-backend" as c5
+            folder "notification-dispatcher-backend" as a6
+            folder "notification-management-backend" as b6
+            folder "rule-management-backend" as c6
+            folder "smart-irrigation-backend" as a7
+
+            a1 -[hidden]- a2
+            a2 -[hidden]- a3
+            a3 -[hidden]- a4
+            a4 -[hidden]- a5
+            a5 -[hidden]- a6
+            b2 -[hidden]- a7
+
+            b1 -[hidden]- b2
+            b2 -[hidden]- b3
+            b3 -[hidden]- b4
+            b4 -[hidden]- b5
+            b5 -[hidden]- b6
+
+            c1 -[hidden]- c2
+            c2 -[hidden]- c3
+            c3 -[hidden]- c4
+            c4 -[hidden]- c5
+            c5 -[hidden]- c6
+
+        }
+    }
+}
+
+@enduml

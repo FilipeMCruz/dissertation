@@ -1,0 +1,66 @@
+@startuml logical-view-level2-service
+
+skinparam sequenceMessageAlign center
+skinparam Shadowing false
+skinparam componentStyle uml2
+skinparam packageStyle rectangle
+
+interface "UI" as UI
+
+interface "Twilio SMS\nDisptacher API" as SMS_ENDPOINT
+interface "SMTP Server" as SMTP_ENDPOINT
+
+component "Sensae Console" <<System>> {
+    component "UI Aggregator" as UIAG <<Container>>  {
+        component "Fleet Management Frontend" as LTF <<Container>> 
+        component "Smart Irrigation Frontend" as SIF <<Container>> 
+        component "Notification Management Frontend" as NOTIF_MAN_FRONT <<Container>> 
+    }
+    component "Message Broker" as MB <<Container>> 
+
+    component "Fleet Management Backend" as LTB <<Container>> 
+    component "Smart Irrigation Backend" as SIB <<Container>> 
+    component "Fleet Management\nDatabase" as QUESTDB <<Container>> 
+    component "Smart Irrigation\nData Database" as SIDDB <<Container>> 
+    component "Smart Irrigation\nBusiness Database" as SIBDB <<Container>> 
+
+    component "Notification Management Backend" as NOTIF_MAN_BACK <<Container>> 
+    component "Notification Management\nDatabase" as NOTIF_MAN_DB <<Container>> 
+    component "Notification Dispatcher Backend" as NOTIF_BACK <<Container>>  
+
+    interface "Message Broker\nAPI" as MB_API
+    interface "Fleet Management\nBackend API" as LTB_API
+    interface "Smart Irrigation\nBackend API" as SIB_API
+    interface "Fleet Management\nDatabase API" as QUESTDB_API
+    interface "Smart Irrigation Readings\nDatabase API" as SIDDB_API
+    interface "Smart Irrigation Business\nDatabase API" as SIBDB_API
+    interface "Notification Management\nBackend API" as NOTIF_MAN_BACK_API
+    interface "Notification Management\nDatabase API" as NOTIF_MAN_DB_API
+
+    LTB --( QUESTDB_API
+    NOTIF_MAN_BACK --( NOTIF_MAN_DB_API
+    SIB --( SIDDB_API
+    SIB --( SIBDB_API
+    MB_API --- MB
+    NOTIF_MAN_BACK_API -- NOTIF_MAN_BACK
+    LTB_API -- LTB
+    SIB_API -- SIB
+    UI -- UIAG
+    QUESTDB_API -- QUESTDB
+    NOTIF_MAN_DB_API -- NOTIF_MAN_DB
+    SIDDB_API -- SIDDB
+    SIBDB_API -- SIBDB
+    LTF --( LTB_API
+    SIF --( SIB_API
+    NOTIF_MAN_FRONT --( NOTIF_MAN_BACK_API
+
+    LTB --( MB_API
+    SIB --( MB_API
+    NOTIF_MAN_BACK --( MB_API
+    MB_API )--- NOTIF_BACK
+
+    NOTIF_BACK --( SMS_ENDPOINT
+    NOTIF_BACK --( SMTP_ENDPOINT
+}
+
+@enduml

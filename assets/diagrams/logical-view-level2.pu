@@ -1,0 +1,172 @@
+@startuml logical-view-level2
+
+skinparam sequenceMessageAlign center
+skinparam Shadowing false
+skinparam componentStyle uml2
+skinparam packageStyle rectangle
+
+interface "UI" as UI
+
+interface "Sensae Console\nRest API" as IN_ENDPOINT
+interface "Helium Console\nRest API" as OUT_ENDPOINT
+
+interface "Twilio SMS Disptacher API" as SMS_ENDPOINT
+interface "SMTP Server" as SMTP_ENDPOINT
+
+interface "Azure Active Directory API" as AUTH_ENDPOINT
+interface "Google Identity Platform API" as GOOGLE_ENDPOINT
+
+component "Sensae Console" <<System>> {
+    component "UI Aggregator" as UIAG <<Container>>  {
+        component "Fleet Management Frontend" as LTF <<Container>> 
+        component "Smart Irrigation Frontend" as SIF <<Container>> 
+        component "Device Management Frontend" as DRF <<Container>> 
+        component "Data Processor Frontend" as DPF <<Container>> 
+        component "Data Decoder Frontend" as DDF <<Container>> 
+        component "Identity Management Frontend" as IAMF <<Container>> 
+        component "Rule Management Frontend" as RULE_MAN_FRONT <<Container>> 
+        component "Notification Management Frontend" as NOTIF_MAN_FRONT <<Container>> 
+    }
+    component "Message Broker" as MB <<Container>> 
+
+    component "Fleet Management Backend" as LTB <<Container>> 
+    component "Smart Irrigation Backend" as SIB <<Container>> 
+    component "Device Management Master Backend" as DRB <<Container>> 
+    component "Device Management Slave Backend" as DRSB <<Container>> 
+    component "Data Gateway" as DDG <<Container>> 
+    component "Data Relayer" as DR <<Container>> 
+    component "Data Processor Slave Backend" as DPSB <<Container>> 
+    component "Data Processor Master Backend" as DPB <<Container>> 
+    component "Data Decoder Slave Backend" as DDSB <<Container>> 
+    component "Data Decoder Master Backend" as DDB <<Container>> 
+    component "Data Validator Backend" as DVB <<Container>> 
+    component "Device Management Database" as DRDB <<Container>> 
+    component "Data Processor Database" as DPDB <<Container>> 
+    component "Data Decoder Database" as DDDB <<Container>> 
+    component "Identity Management Database" as IAMDB <<Container>> 
+    component "Data Store" as DS <<Container>> 
+    component "Fleet Management Database" as QUESTDB <<Container>> 
+    component "Data Store Database" as MONGODB <<Container>> 
+    component "Smart Irrigation Data Database" as SIDDB <<Container>> 
+    component "Smart Irrigation Business Database" as SIBDB <<Container>> 
+    component "Identity Management Backend" as IAMB <<Container>> 
+    component "Device Ownership Backend" as IAMSB <<Container>> 
+    component "Device Commander Backend" as DCB <<Container>> 
+
+    component "Rule Management Backend" as RULE_MAN_BACK <<Container>> 
+    component "Rule Management Database" as RULE_MAN_DB <<Container>> 
+    component "Alert Dispatcher Backend" as ALERT_BACK <<Container>>  
+
+    component "Notification Management Backend" as NOTIF_MAN_BACK <<Container>> 
+    component "Notification Management Database" as NOTIF_MAN_DB <<Container>> 
+    component "Notification Dispatcher Backend" as NOTIF_BACK <<Container>>  
+
+    interface "Message Broker\nAPI" as MB_API
+    interface "Fleet Management\nBackend API" as LTB_API
+    interface "Smart Irrigation\nBackend API" as SIB_API
+    interface "Device Management Master\nBackend API" as DRB_API
+    interface "Data Processor Master\nBackend API" as DPB_API
+    interface "Data Decoder Master\nBackend API" as DDMB_API
+    interface "Device Management\nDatabase API" as DRDB_API
+    interface "Data Processor\nDatabase API" as DPDB_API
+    interface "Data Decoder\nDatabase API" as DDDB_API
+    interface "Identity Management\nDatabase API" as IAMDB_API
+    interface "Fleet Management\nDatabase API" as QUESTDB_API
+    interface "Data Store\nDatabase API" as MONGODB_API
+    interface "Smart Irrigation Data\nDatabase API" as SIDDB_API
+    interface "Smart Irrigation Business\nDatabase API" as SIBDB_API
+    interface "Data Gateway\nAPI" as DDG_API
+    interface "Identity Management\nBackend API" as IAMB_API
+    interface "Rule Management\nBackend API" as RULE_MAN_BACK_API
+    interface "Rule Management\nDatabase API" as RULE_MAN_DB_API
+    interface "Notification Management\nBackend API" as NOTIF_MAN_BACK_API
+    interface "Notification Management\nDatabase API" as NOTIF_MAN_DB_API
+
+    LTB --( QUESTDB_API
+    RULE_MAN_BACK --( RULE_MAN_DB_API
+    NOTIF_MAN_BACK --( NOTIF_MAN_DB_API
+    SIB --( SIDDB_API
+    SIBDB_API )- SIB
+    DS --( MONGODB_API
+    DDG -- DDG_API
+    DPB_API -- DPB
+    DDMB_API -- DDB
+    DRB_API -- DRB
+    MB -- MB_API
+    DRDB_API - DRDB
+    DPDB_API - DPDB
+    DDDB_API - DDDB
+    IAMDB_API - IAMDB
+    RULE_MAN_BACK_API -- RULE_MAN_BACK
+    NOTIF_MAN_BACK_API -- NOTIF_MAN_BACK
+    LTB_API -- LTB
+    SIB_API -- SIB
+    IAMB_API -- IAMB
+    UI -- UIAG
+    MONGODB_API - MONGODB
+    QUESTDB_API - QUESTDB
+    RULE_MAN_DB_API - RULE_MAN_DB
+    NOTIF_MAN_DB_API - NOTIF_MAN_DB
+    SIDDB_API - SIDDB
+    SIBDB_API -- SIBDB
+    DRB --( DRDB_API
+    DRDB_API )-[hidden]- DRSB
+    DPB --( DPDB_API
+    DDB --( DDDB_API
+    DPDB_API )-[hidden]- DPSB
+    DDDB_API )-[hidden]- DDSB
+    IAMB --( IAMDB_API
+    IAMDB_API )-[hidden]- IAMSB
+    LTF --( LTB_API
+    SIF --( SIB_API
+    DPF --( DPB_API
+    DDF --( DDMB_API
+    DRF --( DRB_API
+    IAMF --( IAMB_API
+    RULE_MAN_FRONT --( RULE_MAN_BACK_API
+    NOTIF_MAN_FRONT --( NOTIF_MAN_BACK_API
+
+    LTB ---( MB_API
+    SIB ---( MB_API
+    DRB ---( MB_API
+    DPB ---( MB_API
+    DDB ---( MB_API
+    IAMB ---( MB_API
+    RULE_MAN_BACK ---( MB_API
+    NOTIF_MAN_BACK ---( MB_API
+    MB_API )--- DS
+    MB_API )--- DDG
+    MB_API )--- DVB
+    MB_API )--- DRSB
+    MB_API )--- DPSB
+    MB_API )--- DDSB
+    MB_API )--- IAMSB
+    MB_API )--- DCB
+    MB_API )--- ALERT_BACK
+    MB_API )--- NOTIF_BACK
+
+    DR -- IN_ENDPOINT
+    DDG_API )-- DR
+    DCB ----( OUT_ENDPOINT
+    IAMF --( AUTH_ENDPOINT
+    AUTH_ENDPOINT )-- IAMB
+    IAMF --( GOOGLE_ENDPOINT
+    GOOGLE_ENDPOINT )-- IAMB
+
+    NOTIF_BACK ----( SMS_ENDPOINT
+    NOTIF_BACK ----( SMTP_ENDPOINT
+
+    IAMB --[hidden]- IAMSB
+    DRB --[hidden]- DRSB
+    DDB --[hidden]- DDSB
+    DPB --[hidden]- DPSB
+
+    LTF -[hidden] DRF
+    SIF -[hidden] LTF
+    LTB -[hidden] DRB
+    SIB -[hidden] LTB
+
+    DRDB -[hidden] MB
+}
+
+@enduml

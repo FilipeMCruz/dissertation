@@ -1,0 +1,35 @@
+@startuml user-authorization-process
+
+skinparam sequenceMessageAlign center
+skinparam style strictuml
+autonumber 1.1
+
+actor User
+
+participant "Ui Aggregator" as AGGRE
+participant "X Context\nFrontend" as XFRONT
+participant "X Context\nBackend" as XBACK
+
+activate AGGRE
+activate User
+
+... user authentication process ...
+AGGRE --> User: authentication successful
+AGGRE -> AGGRE: checks what frontends\nthe access token\ngives access to
+AGGRE --> User: presents X frontend
+User -> XFRONT: accessses the X frontend window
+activate XFRONT
+XFRONT --> User: presents X interaction with the service
+User -> XFRONT: picks X interaction
+XFRONT -> AGGRE: requests the\naccess token
+AGGRE -> AGGRE: verifies if the\naccess token\nis still valid
+AGGRE --> XFRONT: provides the\naccess token
+XFRONT -> XFRONT: verifies if the user has\nthe needed permissions
+XFRONT -> XBACK: requests infromation\nwith access token
+activate XBACK
+XBACK -> XBACK: verifies if the\ntoken is valid
+XBACK -> XBACK: verifies if the\nuser has the\nneeded permissions
+XBACK --> XFRONT: provides the\ninformation
+deactivate XBACK
+XFRONT --> User: provides the information
+@enduml

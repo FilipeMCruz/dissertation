@@ -1,0 +1,86 @@
+@startuml data-flow-full
+
+skinparam Monochrome true
+
+'note "After going though Data Gateway a Data Unit is wrapped\n inside a message envelop, this envelop is\n'open' in each container so that data can be accessed.\n Then, once the operation is done the envelop is 'sealed' again,\n routing keys change and the message is sent." as N1
+
+state "Data Relayer" as DataRelayer
+state "Data Gateway" as DataGateway
+state decoded_or_encoded <<choice>>
+state "Data Processor Flow" as Processor
+state "Data Store" as DataStore
+state "Data Decoder Flow" as Decoder
+state "Device Ownership" as Identity
+state "Data Validator" as Validator
+state "Device Management Flow" as Device
+state data_type <<choice>>
+state "Fleet Management" as Fleet
+state "Smart Irrigation" as Irrigation
+state "Alert Dispatcher" as Alert
+
+DataStore: Data Unit is stored
+
+DataRelayer : Any data received as the body
+DataRelayer : of an HTTP POST is proxied
+
+DataGateway : Data is wraped in a
+DataGateway : Message Envelop with
+DataGateway : specific routing keys
+
+Processor : Data Unit is transformed according
+Processor : to the defined mapper for the
+Processor : type of device that sent the data
+
+Decoder : Data Unit is transformed according
+Decoder : to the defined script for the
+Decoder : type of device that sent the data
+
+Identity : Device ownership details are
+Identity : added to the Data Unit
+
+Device : Device information details
+Device : are added to the Data Unit
+Device : and sub device measures are 
+Device : extracted to be reprocessed
+
+Validator : Data Unit is examined 
+Validator : to determine if
+Validator : it is valid or not
+
+Fleet : Data is stored
+Fleet : and sent to Frontend
+
+Irrigation: Data is stored
+Irrigation: and sent to Frontend
+
+Alert: Data is analised and
+Alert: alerts are produced
+Alert: based on rules
+
+[*] --> DataRelayer
+DataRelayer -> DataGateway
+DataGateway -> decoded_or_encoded
+decoded_or_encoded --> Processor : decoded
+decoded_or_encoded --> Decoder : encoded
+Decoder --> Identity
+Processor --> Identity
+
+decoded_or_encoded -> DataStore : any 
+
+Identity -> Device
+
+Device --> Validator
+
+Device ---> Identity : each sub device\ndata is processed
+
+Validator --> data_type
+
+data_type --> Fleet : data is valid, has\ngps details
+
+data_type --> Irrigation : data is valid, has gps, air humidity and\ntemperature details
+data_type --> Irrigation : data is valid, has gps, illuminance and\nsoil moisture details
+data_type --> Irrigation : data is valid, has gps and\ntrigger details
+
+data_type -> Alert : data is valid
+
+@enduml

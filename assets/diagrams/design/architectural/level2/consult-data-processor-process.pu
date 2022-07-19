@@ -1,0 +1,18 @@
+@startuml consult-data-processor-process
+
+autonumber 1.1
+
+skinparam style strictuml
+
+participant "Data Processor Frontend" as FRONT
+participant "Data Processor Backend" as BACK
+participant "Data Processor Database" as DB
+
+FRONT -> BACK ++ : request data mappers
+BACK -> BACK: verifies if the\ntoken is valid
+BACK -> BACK: verifies if the\nuser has the\nneeded permissions
+BACK -> DB ++: query data mappers
+return data mappers
+return data mappers
+
+@enduml

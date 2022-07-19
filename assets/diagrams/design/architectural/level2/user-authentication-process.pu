@@ -1,0 +1,60 @@
+@startuml user-authentication-process
+
+skinparam sequenceMessageAlign center
+skinparam style strictuml
+autonumber 1.1
+
+actor User
+
+box "Sensae Console"
+participant "Ui Aggregator" as AGGRE
+participant "Identity Management\nBackend" as AUTHBACK
+participant "Identity Management\nDatabase" as DB
+end box
+
+participant "Identity Platform" as AUTHSERVER
+
+activate AGGRE
+activate User
+
+User -> AGGRE: accesses the website
+AGGRE --> User: presents a login section
+User -> AGGRE: picks the login option
+AGGRE --> User: redirects to\nexternal auth service
+autonumber inc A
+User -> AUTHSERVER: accesses external auth service
+activate AUTHSERVER
+AUTHSERVER --> User: presents sign in/sign up page
+deactivate AUTHSERVER
+User -> AUTHSERVER: performs sign in/sign up
+activate AUTHSERVER
+AUTHSERVER -> AUTHSERVER: authenticates\nuser via OIDC
+AUTHSERVER --> User: redirect to registered callback in Sensae Console with id token
+deactivate AUTHSERVER
+User -> AGGRE: accesses\nregistered callback
+autonumber inc A
+AGGRE -> AGGRE: stores the id token
+AGGRE -> AUTHBACK: requests an access token\nfor the id token
+activate AUTHBACK
+AUTHBACK -> AUTHSERVER : requests public keys used to sign JWT tokens
+activate AUTHSERVER
+AUTHSERVER --> AUTHBACK : returns public keys
+deactivate AUTHSERVER
+AUTHBACK -> AUTHBACK: verifies id token authenticity\nagainst the public keys
+AUTHBACK -> DB: queries user details
+activate DB
+DB --> AUTHBACK: returns user details
+deactivate DB
+AUTHBACK -> DB: queries user domains details
+activate DB
+DB --> AUTHBACK: returns domain details
+deactivate DB
+AUTHBACK -> AUTHBACK: computes user permissions
+AUTHBACK -> AUTHBACK: generates an\naccess token
+AUTHBACK --> AGGRE: provides the access token
+deactivate AUTHBACK
+AGGRE -> AGGRE: stores the\naccess token
+AGGRE -> AGGRE: notifies that\na new access\ntoken is present
+AGGRE --> User: authentication successful
+
+@enduml

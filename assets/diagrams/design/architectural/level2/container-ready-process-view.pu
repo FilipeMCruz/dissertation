@@ -1,0 +1,34 @@
+@startuml container-ready-process-view
+
+autonumber 1.1
+
+skinparam style strictuml
+
+participant "Alert Dispatcher\nBakend" as ALERT
+participant "Message\nBroker" as MB
+participant "Rule Management\nBakend" as RULE
+participant "Rule Management\nDatabase" as RULE_DB
+
+activate MB
+
+activate ALERT
+ALERT -> MB : publishes a "initialized rule\nmanagement context" message 
+deactivate ALERT
+autonumber inc A
+MB -> RULE : sends the message
+activate RULE
+RULE -> RULE_DB : requests all active rules
+activate RULE_DB
+RULE_DB --> RULE : sends all rules
+deactivate RULE_DB
+RULE -> RULE : computes the current\nrule management state
+RULE -> MB : publishes a "sync rule\nmanagement context" message
+deactivate RULE
+autonumber inc A
+MB -> ALERT : sends the message
+activate ALERT
+ALERT -> ALERT : stores the\nrule management\nstate internally
+ALERT -> MB : unsubscribes from\n"sync rule management context"
+deactivate ALERT
+
+@enduml

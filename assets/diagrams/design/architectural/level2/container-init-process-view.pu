@@ -1,0 +1,32 @@
+@startuml container-init-process-view
+
+skinparam sequenceMessageAlign center
+skinparam style strictuml
+
+participant "Smart Irrigation\nBackend" as SIB
+participant "Device Commander\nBackend" as DCB
+participant "Device Management\nFlow Backend" as DRSB
+participant "Device Management\nBackend" as DRB
+participant "Data Decoder\nFlow Backend" as SDD
+participant "Data\nStore" as DS
+participant "Message\nBroker" as MB
+
+activate MB
+
+DS -> MB :  subscribe to new\ndata unit @ DATA topic
+SDD -> MB : subscribe to new\n encoded data unit @ DATA topic
+SDD -> MB : subscribe to new informations\n in decoders @ INTERNAL topic
+DRB -> MB : subscribe to unknown devices\n found in device management @ INTERNAL topic
+DRB -> MB : subscribe to known devices\n found in device management @ INTERNAL topic
+DRSB -> MB : subscribe to new\n processed and owned data unit @ DATA topic
+DRSB -> MB : subscribe to new informations\n in device management @ INTERNAL topic
+
+... other containers subscribe to the information they need ...
+DCB -> MB : subscribe to any command @ COMMAND topic
+DCB -> MB : subscribe to new informations\n in device management @ INTERNAL topic
+SIB -> MB : subscribe to new validated, processed and owned\ngps+trigger data unit with device info @ DATA topic
+SIB -> MB : subscribe to new validated, processed and owned\ngps+temperature+air humidity data unit with device info @ DATA topic
+SIB -> MB : subscribe to new validated, processed and owned\ngps+soil moisture+illuminance data unit with device info @ DATA topic
+SIB -> MB : subscribe to new owned alerts of the smart irrigation category @ ALERT topic
+
+@enduml

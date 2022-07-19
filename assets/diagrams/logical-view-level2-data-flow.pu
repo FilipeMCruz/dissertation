@@ -1,0 +1,66 @@
+@startuml logical-view-level2-data-flow
+
+left to right direction
+
+skinparam sequenceMessageAlign center
+skinparam Shadowing false
+skinparam componentStyle uml2
+skinparam packageStyle rectangle
+
+interface "Sensae Console\nRest API" as IN_ENDPOINT
+interface "Helium Console\nRest API" as OUT_ENDPOINT
+
+component "Sensae Console" <<System>> {
+    component "Message Broker" as MB <<Container>> 
+
+    component "Data Gateway" as DDG <<Container>> 
+    component "Data Relayer" as DR <<Container>> 
+    component "Data Processor Flow Backend" as DPSB <<Container>> 
+    component "Data Decoder Flow Backend" as DDSB <<Container>> 
+    component "Data Validator Backend" as DVB <<Container>> 
+    component "Device Management Flow Backend" as DRSB <<Container>> 
+    component "Data Store" as DS <<Container>> 
+    component "Data Store Database" as MONGODB <<Container>> 
+    component "Device Ownership Backend" as IAMSB <<Container>> 
+    component "Device Commander Backend" as DCB <<Container>> 
+
+    component "Alert Dispatcher Backend" as ALERT_BACK <<Container>>  
+
+    interface "Message Broker\nAPI" as MB_API
+    interface "Data Store\nDatabase API" as MONGODB_API
+    interface "Data Gateway\nAPI" as DDG_API
+
+    DS --( MONGODB_API
+    DDG -- DDG_API
+    MB -- MB_API
+    MONGODB - MONGODB_API
+
+    MB_API )--- DS
+    MB_API )--- DDG
+    MB_API )--- DVB
+    MB_API )--- DRSB
+    MB_API )--- DPSB
+    MB_API )--- DDSB
+    MB_API )--- IAMSB
+    MB_API )--- DCB
+    MB_API )--- ALERT_BACK
+
+    DR -- IN_ENDPOINT
+    ' DDG_API )- DR
+    DR -( DDG_API
+    DCB ---( OUT_ENDPOINT
+
+    DPSB -[hidden]- DR
+
+    DCB -[hidden] ALERT_BACK
+    ALERT_BACK -[hidden] DS
+    DS -[hidden] DVB
+    DVB -[hidden] DRSB
+    DRSB -[hidden] IAMSB
+    IAMSB -[hidden] DDSB
+    DDSB -[hidden] DPSB
+    DPSB -[hidden] DDG
+
+}
+
+@enduml

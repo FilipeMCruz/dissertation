@@ -1,0 +1,67 @@
+@startuml notification-dispatch-process
+
+skinparam sequenceMessageAlign center
+skinparam style strictuml
+autonumber 1.1
+actor User
+
+box "Sensae Console"
+participant "Notification Management\nFrontend" as FRONT
+participant "Notification Management\nBackend" as BACK
+participant "Notification Dispatcher\nBackend" as DISP
+participant "Notification Management\nDatabase" as DB
+participant "Message\nBroker" as MB
+end box
+
+participant "Twilio\nPlatform" as SMS
+participant "Google Email\nPlatform" as EMAIL
+
+activate MB 
+
+User -> FRONT ++ : access page
+
+... after some time ...
+autonumber inc A
+
+?-> MB : alert
+
+autonumber inc A
+MB -> BACK ++ : send alert
+
+BACK -> BACK : transform alert\ninto notification
+
+BACK -> DB ++ : store notification
+return success
+
+BACK -> BACK : search for active\nsubscriptions to the\ncontent type of the alert
+BACK -> FRONT -- : notification
+FRONT -> User : present notification
+
+autonumber inc A
+MB -> DISP ++ : send alert
+
+DISP -> DISP : search for addresses\nsubscribed to the content\n type of the alert via email
+
+loop for each addressee
+
+DISP -> DISP : collect addresse\n emails
+
+DISP -> EMAIL ++ : request notification delivery via email
+
+deactivate EMAIL 
+
+end
+
+DISP -> DISP : search for addresses\nsubscribed to the content\n type of the alert via sms
+
+loop for each addressee
+
+DISP -> DISP : collect addresse\nphone number
+
+DISP -> SMS ++ : request notification delivery via sms
+
+deactivate SMS
+
+end
+
+@enduml

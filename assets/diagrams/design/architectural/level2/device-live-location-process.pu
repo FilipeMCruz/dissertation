@@ -1,0 +1,45 @@
+@startuml device-live-location-process
+
+skinparam sequenceMessageAlign center
+skinparam style strictuml
+autonumber 1.1
+actor User
+
+participant "Fleet Management\nFrontend" as FRONT
+participant "Fleet Management\nBackend" as BACK
+participant "Fleet Management\nDatabase" as DB
+participant "Message\nBroker" as MB
+
+activate MB 
+
+User -> FRONT ++ : accesses page
+FRONT -> BACK ++ : susbcribe to new\ndevice readings
+BACK -> BACK : extracts user\ndomains from token
+BACK -> BACK : open subscription for\nnew device readings
+return subscription
+FRONT -> FRONT : stores subscription
+FRONT -> BACK ++ : fetch latest device readings
+BACK -> BACK : extracts user\ndomains from token
+BACK -> DB ++ : fetch latest device readings\nrelated to user domains
+return latest devices readings
+return latest devices readings
+FRONT --> User: presents latest\ndevices readings
+... after some time ...
+autonumber inc A
+MB <-? : device\nreadings
+MB -> BACK ++ : send device readings
+BACK -> DB ++ : store device readings
+return success
+BACK -> BACK : search for active\nsubscriptions that can see\nthe new device readings
+BACK -> FRONT : new device readings
+FRONT -> FRONT : replace latest device\nreadings with new one
+FRONT --> User : show new\ndevice readings
+... after some time ...
+autonumber inc A
+User -> FRONT : leaves the page
+FRONT -> BACK : unsubscribe from\nsubscription
+BACK -> BACK : close subscription
+BACK --> FRONT : subscription closed
+FRONT -> FRONT : remove subscription
+
+@enduml

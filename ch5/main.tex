@@ -20,13 +20,13 @@ The system designed can be divided is three main scopes as disclosed in the Figu
     \centering
    \resizebox{\columnwidth}{!}
    {
-      \input{assets/diagrams/scopes.latex}
+      \input{assets/diagrams/design/scopes.latex}
    }
    \caption[System Scopes]{System Scopes}
    \label{fig:design:system_scopes:scopes}
 \end{figure}
 
-The \textbf{Configuration Scope} adheres to the configuration and visualization of internal processes/contexts. This processes, such as: (i) data decoders, (ii) device inventory, (iii) warning rules definition and (iv) device ownership, are related to the \textbf{Data Flow Scope}. It is also possible to manage tenants' access and permissions in the system in this scope.
+The \textbf{Configuration Scope} adheres to the configuration and visualization of internal processes/contexts. This processes, such as: (i) data decoders, (ii) data mappers (iii) device inventory, (iv) warning rules definition and (v) device ownership, are related to the \textbf{Data Flow Scope}. It is also possible to manage users' access and permissions in this scope.
 
 The \textbf{Data Flow Scope} behaves according to what is defined in the \textbf{Configuration Scope} and acts as a pipeline where raw device data goes though various stages till it is sanitized and ready to be supplied to the \textbf{Services Scope}. The \textbf{Data Flow Scope} is where internal processes occur, such as: (i) data transformation, (ii) data enrichment, (iii) data validation, (iv) data ownership clarification and (v) warnings dispatching.
 
@@ -154,7 +154,7 @@ The data model represents the \textbf{Data Unit} that \textbf{Sensae Console} is
    \centering
   \resizebox{\columnwidth}{!}
   {
-     \input{assets/diagrams/shared-model.latex}
+     \input{assets/diagrams/design/domain/shared-model.latex}
   }
   \caption[Shared Model]{Shared Model}
   \label{fig:design:domain:shared_model:data:diagram}
@@ -269,7 +269,7 @@ The diagram present in Figure~\ref{fig:design:domain:shared_model:messsage:diagr
    \centering
   \resizebox{\columnwidth}{!}
   {
-     \input{assets/diagrams/message-envelop-model.latex}
+     \input{assets/diagrams/design/domain/message-envelop-model.latex}
   }
   \caption[Message Envelop Model]{Message Envelop Model}
   \label{fig:design:domain:shared_model:messsage:diagram}
@@ -297,7 +297,7 @@ The diagram present in Figure~\ref{fig:design:domain:shared_model:routing:diagra
    \centering
   \resizebox{\columnwidth}{!}
   {
-     \input{assets/diagrams/routing-model.latex}
+     \input{assets/diagrams/design/domain/routing-model.latex}
   }
   \caption[Routing Model]{Routing Model}
   \label{fig:design:domain:shared_model:routing:diagram}
@@ -459,7 +459,7 @@ The diagram in Figure~\ref{fig:design:domain:bounded_contexts:processor:diagram}
    \centering
   \resizebox{\columnwidth}{!}
   {
-     \input{assets/diagrams/data-processor-model.latex}
+     \input{assets/diagrams/design/domain/data-processor-model.latex}
   }
   \caption[Data Processor Context Model]{Data Processor Context Model}
   \label{fig:design:domain:bounded_contexts:processor:diagram}
@@ -510,7 +510,7 @@ The diagram in Figure~\ref{fig:design:domain:bounded_contexts:decoder:diagram} d
    \centering
   \resizebox{\columnwidth}{!}
   {
-     \input{assets/diagrams/data-decoder-model.latex}
+     \input{assets/diagrams/design/domain/data-decoder-model.latex}
   }
   \caption[Data Decoder Context Model]{Data Decoder Context Model}
   \label{fig:design:domain:bounded_contexts:decoder:diagram}
@@ -537,7 +537,7 @@ The diagram in Figure~\ref{fig:design:domain:bounded_contexts:device:diagram} di
    \centering
   \resizebox{\columnwidth}{!}
   {
-     \input{assets/diagrams/device-management-model.latex}
+     \input{assets/diagrams/design/domain/device-management-model.latex}
   }
   \caption[Device Management Context Model]{Device Management Context Model}
   \label{fig:design:domain:bounded_contexts:device:diagram}
@@ -565,7 +565,7 @@ The diagram in Figure~\ref{fig:design:domain:bounded_contexts:identity:diagram} 
    \centering
   \resizebox{\columnwidth}{!}
   {
-     \input{assets/diagrams/identity-management-model.latex}
+     \input{assets/diagrams/design/domain/identity-management-model.latex}
   }
   \caption[Identity Management Context Model]{Identity Management Context Model}
   \label{fig:design:domain:bounded_contexts:identity:diagram}
@@ -587,7 +587,7 @@ A \textbf{Domain} represents a department in a hierarchical organization. An org
    \centering
   \resizebox{\columnwidth}{!}
   {
-     \input{assets/diagrams/organization.latex}
+     \input{assets/diagrams/design/domain/organization.latex}
   }
   \caption[Domain Structure]{Domain Structure}
   \label{fig:design:domain:bounded_contexts:identity:organization}
@@ -615,7 +615,7 @@ The diagram in Figure~\ref{fig:design:domain:bounded_contexts:rule:diagram} disp
    \centering
   \resizebox{\columnwidth}{!}
   {
-     \input{assets/diagrams/rule-management-model.latex}
+     \input{assets/diagrams/design/domain/rule-management-model.latex}
   }
   \caption[Rule Management Context Model]{Rule Management Context Model}
   \label{fig:design:domain:bounded_contexts:rule:diagram}
@@ -632,7 +632,7 @@ The diagram in Figure~\ref{fig:design:domain:bounded_contexts:notification:diagr
    \centering
   \resizebox{\columnwidth}{!}
   {
-     \input{assets/diagrams/notification-management-model.latex}
+     \input{assets/diagrams/design/domain/notification-management-model.latex}
   }
   \caption[Notification Management Context Model]{Notification Management Context Model}
   \label{fig:design:domain:bounded_contexts:notification:diagram}
@@ -663,7 +663,7 @@ An irrigation zone is an area intended to function as an isolated environment th
    \centering
   \resizebox{\columnwidth}{!}
   {
-     \input{assets/diagrams/smart-irrigation-model-2.latex}
+     \input{assets/diagrams/design/domain/smart-irrigation-model-2.latex}
   }
   \caption[Smart Irrigation Context Model - Irrigation Zone]{Smart Irrigation Context Model - Irrigation Zone}
   \label{fig:design:domain:bounded_contexts:irrigation:diagram:garden}
@@ -677,7 +677,7 @@ As presented in the following diagram, Figure~\ref{fig:design:domain:bounded_con
    \centering
   \resizebox{\columnwidth}{!}
   {
-     \input{assets/diagrams/smart-irrigation-model-3.latex}
+     \input{assets/diagrams/design/domain/smart-irrigation-model-3.latex}
   }
   \caption[Smart Irrigation Context Model - Device]{Smart Irrigation Context Model - Device}
   \label{fig:design:domain:bounded_contexts:irrigation:diagram:device}
@@ -698,7 +698,7 @@ As mentioned above each type of device collects different readings. The followin
    \centering
   \resizebox{\columnwidth}{!}
   {
-     \input{assets/diagrams/smart-irrigation-model-4.latex}
+     \input{assets/diagrams/design/domain/smart-irrigation-model-4.latex}
   }
   \caption[Smart Irrigation Context Model - Reading]{Smart Irrigation Context Model - Reading}
   \label{fig:design:domain:bounded_contexts:irrigation:diagram:reading}
@@ -726,7 +726,7 @@ The diagram in Figure~\ref{fig:design:domain:bounded_contexts:fleet:diagram} dis
    \centering
   \resizebox{\columnwidth}{!}
   {
-     \input{assets/diagrams/fleet-management-model.latex}
+     \input{assets/diagrams/design/domain/fleet-management-model.latex}
   }
   \caption[Fleet Management Context Model]{Fleet Management Context Model}
   \label{fig:design:domain:bounded_contexts:fleet:diagram}
@@ -792,7 +792,7 @@ The logical view of the system is introduced here, complete but not detailed, in
    \centering
    \resizebox{\columnwidth}{!}
    {
-      \input{assets/diagrams/logical-view-level1.latex}
+      \input{assets/diagrams/design/architectural/level1/logical-view.latex}
    }
    \caption[Context Level - Logical View Diagram]{Context Level - Logical View Diagram}
    \label{fig:design:architecture:context:logical:diagram}
@@ -816,7 +816,7 @@ Next is the development view (Figure~\ref{fig:design:architecture:context:develo
 
 \begin{figure}[H]
    \centering
-      \input{assets/diagrams/development-view-level1.latex}
+      \input{assets/diagrams/design/architectural/level1/development-view.latex}
    \caption[Context Level - Development View Diagram]{Context Level - Development View Diagram}
    \label{fig:design:architecture:context:development:diagram}
 \end{figure}
@@ -828,19 +828,17 @@ The package \textit{sensae-console} contains software of the various containers 
 \subsubsection*{Context Level - Physical View}
 \label{subsubsec:design:architecture:context:physical}
 
-Next is the physical view (Figure~\ref{fig:design:architecture:context:physical:diagram}), intended to familiarize the reader with the idealized production environment. Each service that composes the system is containerized via \textit{Docker} so that orchestration software like \textit{Docker Compose}, \textit{Docker Swarm}, \textit{Kubernetes} and \textit{OpenShift} can be used to ease the operation phase.
+Next is the physical view (Figure~\ref{fig:design:architecture:context:physical:diagram}), intended to familiarize the reader with the environment where the solution runs.
 
 \begin{figure}[H]
    \centering
    \resizebox{\columnwidth}{!}
    {
-      \input{assets/diagrams/physical-view-level1.latex}
+      \input{assets/diagrams/design/architectural/level1/physical-view.latex}
    }
    \caption[Context Level - Physical View Diagram]{Context Level - Physical View Diagram}
    \label{fig:design:architecture:context:physical:diagram}
 \end{figure}
-
-Due to time constrains the environment was not deployed to \textit{Kubernetes} and the solution is instead orchestrated using \textit{Docker Compose} in a single node/server.
 
 \subsubsection*{Context Level - Synopsis}
 \label{subsubsec:design:architecture:context:synopsis}
@@ -884,7 +882,7 @@ This scope was also divided into micro services - \cite{newman2021building} - \t
       \centering
    \resizebox{\columnwidth}{!}
    {      
-      \input{assets/diagrams/logical-view-level2-configuration.latex}
+      \input{assets/diagrams/design/architectural/level2/logical/configuration.latex}
    }
    \caption[Container Level - Configuration Scope - Logical View Diagram]{Container Level - Configuration Scope - Logical View Diagram}
       \label{fig:design:architecture:container:logical:diagram:configuration}
@@ -905,7 +903,7 @@ Next, the logical view of the \textbf{Data Flow} is represented in Figure~\ref{f
    \centering
    \resizebox{\columnwidth}{!}
    {      
-      \input{assets/diagrams/logical-view-level2-data-flow.latex}
+      \input{assets/diagrams/design/architectural/level2/logical/data-flow.latex}
    }
    \caption[Container Level - Data Flow Scope - Logical View Diagram]{Container Level - Data Flow Scope - Logical View Diagram}
    \label{fig:design:architecture:container:logical:diagram:data_flow}
@@ -929,7 +927,7 @@ Finally the \textbf{Service Scope} is represented in Figure~\ref{fig:design:arch
    \centering
    \resizebox{\columnwidth}{!}
    {      
-      \input{assets/diagrams/logical-view-level2-service.latex}
+      \input{assets/diagrams/design/architectural/level2/logical/service.latex}
    }
    \caption[Container Level - Service Scope - Logical View Diagram]{Container Level - Service Scope - Logical View Diagram}
    \label{fig:design:architecture:container:logical:diagram:service}
@@ -966,7 +964,7 @@ The system/container initialization, presented in Figure~\ref{fig:design:archite
    \centering
    \resizebox{\columnwidth}{!}
    {      
-      \input{assets/diagrams/design/architectural/level2/container-init-process-view.latex}
+      \input{assets/diagrams/design/architectural/level2/process/container-init.latex}
    }
    \caption[Container Level - System/Container Initialization - Process View Diagram]{Container Level - System/Container Initialization - Process View Diagram}
    \label{fig:design:architecture:container:process:diagram:init}
@@ -981,7 +979,7 @@ Certain containers need the entire state related to their \textit{ContextType} t
    \centering
    \resizebox{\columnwidth}{!}
    {      
-      \input{assets/diagrams/design/architectural/level2/container-ready-process-view.latex}
+      \input{assets/diagrams/design/architectural/level2/process/container-ready.latex}
    }
    \caption[Container Level - System/Container Initialization - Part 2 - Process View Diagram]{Container Level - System/Container Initialization - Part 2 - Process View Diagram}
    \label{fig:design:architecture:container:process:diagram:ready}
@@ -997,7 +995,7 @@ The following diagram in Figure~\ref{fig:design:architecture:container:process:d
    \centering
    \resizebox{\columnwidth}{!}
    {      
-      \input{assets/diagrams/design/architectural/level2/data-flow-scope.latex}
+      \input{assets/diagrams/design/architectural/level2/process/data-flow-scope.latex}
    }
    \caption[Container Level - Data Flow - Diagram]{Container Level - Data Flow - Diagram}
    \label{fig:design:architecture:container:process:diagram:flow}
@@ -1009,7 +1007,7 @@ Most of this containers have just a portion of their context state and may be un
    \centering
    \resizebox{\columnwidth}{!}
    {      
-      \input{assets/diagrams/design/architectural/level2/data-decoder-flow-process-1.latex}
+      \input{assets/diagrams/design/architectural/level2/process/data-decoder-flow-1.latex}
    }
    \caption[Container Level - Data Decoder Operation part 1 - Process View Diagram]{Container Level - Data Decoder Operation Part 1 - Process View Diagram}
    \label{fig:design:architecture:container:process:diagram:decoder:1}
@@ -1023,7 +1021,7 @@ The next diagram demonstrates what happens when a decoder is published via the \
    \centering
    \resizebox{\columnwidth}{!}
    {      
-      \input{assets/diagrams/design/architectural/level2/data-decoder-flow-process-2.latex}
+      \input{assets/diagrams/design/architectural/level2/process/data-decoder-flow-2.latex}
    }
    \caption[Container Level - Data Decoder Operation Part 2 - Process View Diagram]{Container Level - Data Decoder Operation Part 2 - Process View Diagram}
    \label{fig:design:architecture:container:process:diagram:decoder:2}
@@ -1046,7 +1044,7 @@ As described before containers that belong to the \textbf{Data Flow Scope} are c
    \centering
    \resizebox{\columnwidth}{!}
    {      
-      \input{assets/diagrams/design/architectural/level2/consult-data-processor-process.latex}
+      \input{assets/diagrams/design/architectural/level2/process/consult-data-processor.latex}
    }
    \caption[Container Level - Consult Data Processors - Process View Diagram]{Container Level - Consult Data Processors - Process View Diagram}
    \label{fig:design:architecture:container:process:diagram:processor}
@@ -1058,7 +1056,7 @@ The diagram presented above represents a single consult of data mappers, as we c
    \centering
    \resizebox{\columnwidth}{!}
    {      
-      \input{assets/diagrams/design/architectural/level2/edit-device-management-process.latex}
+      \input{assets/diagrams/design/architectural/level2/process/edit-device-management.latex}
    }
    \caption[Container Level - Edit Device Information - Process View Diagram]{Container Level - Edit Device Information - Process View Diagram}
    \label{fig:design:architecture:container:process:diagram:device}
@@ -1092,7 +1090,7 @@ The system verifies the identity of a user based on the authentication performed
    \centering
    \resizebox{\columnwidth}{!}
    {      
-      \input{assets/diagrams/design/architectural/level2/user-authentication-process.latex}
+      \input{assets/diagrams/design/architectural/level2/process/user-authentication.latex}
    }
    \caption[Container Level - User Authentication - Process View Diagram]{Container Level - User Authentication - Process View Diagram}
    \label{fig:design:architecture:container:process:diagram:authentication}
@@ -1105,7 +1103,7 @@ The user identity and credentials validation are assured by an external identity
    \centering
    \resizebox{\columnwidth}{!}
    {
-      \input{assets/diagrams/design/architectural/level2/user-authorization-process.latex}
+      \input{assets/diagrams/design/architectural/level2/process/user-authorization.latex}
    }
    \caption[Container Level - User Authorization - Process View Diagram]{Container Level - User Authorization - Process View Diagram}
    \label{fig:design:architecture:container:process:diagram:authorization}
@@ -1119,7 +1117,7 @@ Finally some operations performed in the \textbf{Service Scope} are presented st
    \centering
    \resizebox{\columnwidth}{!}
    {
-      \input{assets/diagrams/design/architectural/level2/device-live-location-process.latex}
+      \input{assets/diagrams/design/architectural/level2/process/device-live-location.latex}
    }
    \caption[Container Level - Consult Device Live Location via Fleet Management - Process View Diagram]{Container Level - Consult Device Live Location via Fleet Management - Process View Diagram}
    \label{fig:design:architecture:container:process:diagram:fleet}
@@ -1133,7 +1131,7 @@ The next diagram in Figure~\ref{fig:design:architecture:container:process:diagra
    \centering
    \resizebox{\columnwidth}{!}
    {
-      \input{assets/diagrams/design/architectural/level2/notification-dispatch-process.latex}
+      \input{assets/diagrams/design/architectural/level2/process/notification-dispatch.latex}
    }
    \caption[Container Level - Receive notification via Notification Management - Process View Diagram]{Container Level - Receive notification via Notification Management - Process View Diagram}
    \label{fig:design:architecture:container:process:diagram:notification}
@@ -1147,7 +1145,7 @@ Certain types of alerts are also collected by Smart Irrigation Backend to automa
    \centering
    \resizebox{\columnwidth}{!}
    {
-      \input{assets/diagrams/design/architectural/level2/smart-irrigation-process.latex}
+      \input{assets/diagrams/design/architectural/level2/process/smart-irrigation.latex}
    }
    \caption[Container Level - Valve Activation Process via Smart Irrigation - Process View Diagram]{Container Level - Valve Activation Process via Smart Irrigation - Process View Diagram}
    \label{fig:design:architecture:container:process:diagram:irrigation}
@@ -1174,7 +1172,7 @@ Frontend services are organized according to the diagram in Figure~\ref{fig:desi
    \centering
    \resizebox{\columnwidth}{!}
    {
-      \input{assets/diagrams/design/architectural/level2/development-frontend.latex}
+      \input{assets/diagrams/design/architectural/level2/development/frontend.latex}
    }
    \caption[Container Level - Frontend Services - Development View Diagram]{Container Level - Frontend Services - Development View Diagram}
    \label{fig:design:architecture:container:process:diagram:development:frontend}
@@ -1188,7 +1186,7 @@ Backend services are organized according to the diagram in Figure~\ref{fig:desig
    \centering
    \resizebox{\columnwidth}{!}
    {
-      \input{assets/diagrams/design/architectural/level2/development-backend.latex}
+      \input{assets/diagrams/design/architectural/level2/development/backend.latex}
    }
    \caption[Container Level - Backend Services - Development View Diagram]{Container Level - Backend Services - Development View Diagram}
    \label{fig:design:architecture:container:process:diagram:development:backend}
@@ -1202,7 +1200,7 @@ Database services are organized according to the diagram in Figure~\ref{fig:desi
    \centering
    \resizebox{\columnwidth}{!}
    {
-      \input{assets/diagrams/design/architectural/level2/development-database.latex}
+      \input{assets/diagrams/design/architectural/level2/development/database.latex}
    }
    \caption[Container Level - Database Services - Development View Diagram]{Container Level - Database Services - Development View Diagram}
    \label{fig:design:architecture:container:process:diagram:development:database}
@@ -1210,14 +1208,49 @@ Database services are organized according to the diagram in Figure~\ref{fig:desi
 
 No database service has been developed, only configured. The Fleet Management Database and Smart Irrigation Data Database needed no configuration and as such aren't associated with any package. The Message Broker also has no package in the project since it didn't need any configuration and wasn't developed.
 
+\subsubsection*{Container Level - Physical View}
+\label{subsubsec:design:architecture:container:physical}
+
+Next is the physical view (Figure~\ref{fig:design:architecture:container:physical:diagram}), intended to familiarize the reader with the idealized production environment. Each container that composes the system is containerized via \textit{Docker} so that orchestration software like \textit{Docker Compose}, \textit{Docker Swarm}, \textit{Kubernetes} and \textit{OpenShift} can be used to ease the operation phase.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/architectural/level2/physical/complete.latex}
+   }
+   \caption[Container Level - Physical View Diagram]{Container Level - Physical View Diagram}
+   \label{fig:design:architecture:container:physical:diagram}
+\end{figure}
+
+Due to time constrains the environment was not deployed to \textit{Kubernetes} and the solution is instead orchestrated using \textit{Docker Compose} in a single node/server.
+
 \subsubsection*{Container Level - Synopsis}
 \label{subsubsec:design:architecture:container:synopsis}
 
 The container level introduces the reader to the internals of \textbf{Sensae Console}. Each container is introduced and the interactions between them are explored.
-In the following section the internals of some containers, the C4 level 3,  will be presented.
+In the following section, Section~\ref{subsec:design:architecture:components}, the developed containers are presented with a granularity of level 3 (in the C4 model).
 
 \subsection{C4 Level 3 - Components}
 \label{subsec:design:architecture:components}
+
+The component view describes a specific container. A container is made up of a number of components, each with well-defined responsibilities. In the following diagrams the dependencies between the various components will also be presented.
+
+Most developed containers share the same architecture and will therefore be addressed as groups of containers.
+
+The physical view will not be presented since all relevant details have been addressed above.
+
+\subsubsection*{Components Level - Logical View}
+\label{subsubsec:design:architecture:components:logical}
+
+\subsubsection*{Components Level - Process View}
+\label{subsubsec:design:architecture:components:process}
+
+\subsubsection*{Components Level - Development View}
+\label{subsubsec:design:architecture:components:development}
+
+\subsubsection*{Components Level - Synopsis}
+\label{subsubsec:design:architecture:components:synopsis}
 
 \section{Architectural Alternatives Discussed}
 \label{sec:design:alternatives}

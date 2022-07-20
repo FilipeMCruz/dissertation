@@ -1,4 +1,4 @@
-@startuml development-database
+@startuml database
 
 folder "sensae-console" {
     folder "project" {

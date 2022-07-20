@@ -1,4 +1,4 @@
-@startuml logical-view-level2
+@startuml complete
 
 skinparam sequenceMessageAlign center
 skinparam Shadowing false

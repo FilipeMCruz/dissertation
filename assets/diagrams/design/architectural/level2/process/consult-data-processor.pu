@@ -1,4 +1,4 @@
-@startuml consult-data-processor-process
+@startuml consult-data-processor
 
 autonumber 1.1
 

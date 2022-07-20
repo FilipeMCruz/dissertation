@@ -17,12 +17,12 @@ component "System" {
     component "Services Scope" as Service
 }
 
-ExternalSystem -> DataFlow : feeds unsanitized data to
+ExternalSystem -> DataFlow : feeds unsanitized\ndata to
 
 Configuration --> DataFlow : defines the behaviour of
 
-DataFlow -> Service : feeds sanitized data to
-Service -> DataFlow : feeds specific data to
+DataFlow -> Service : feeds sanitized data\nand alert to
+Service -> DataFlow : sends commands to
 
 Manager --> Configuration : configures\nthe ETL
 

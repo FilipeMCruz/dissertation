@@ -1,4 +1,4 @@
-@startuml user-authentication-process
+@startuml user-authentication
 
 skinparam sequenceMessageAlign center
 skinparam style strictuml

@@ -1,4 +1,4 @@
-@startuml development-view-level1
+@startuml development-view
 
 folder "iot-core"
 

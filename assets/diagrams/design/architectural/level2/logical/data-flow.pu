@@ -1,4 +1,4 @@
-@startuml logical-view-level2-data-flow
+@startuml data-flow
 
 left to right direction
 

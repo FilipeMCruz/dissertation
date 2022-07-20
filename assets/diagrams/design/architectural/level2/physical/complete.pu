@@ -1,4 +1,4 @@
-@startuml physical-view-level1
+@startuml complete
 
 skinparam defaultFontSize 20
 skinparam Monochrome true

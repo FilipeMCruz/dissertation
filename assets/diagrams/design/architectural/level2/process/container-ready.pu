@@ -1,4 +1,4 @@
-@startuml container-ready-process-view
+@startuml container-ready
 
 autonumber 1.1
 

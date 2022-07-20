@@ -1,4 +1,4 @@
-@startuml container-init-process-view
+@startuml container-init
 
 skinparam sequenceMessageAlign center
 skinparam style strictuml

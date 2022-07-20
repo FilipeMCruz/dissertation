@@ -1,4 +1,4 @@
-@startuml device-live-location-process
+@startuml device-live-location
 
 skinparam sequenceMessageAlign center
 skinparam style strictuml

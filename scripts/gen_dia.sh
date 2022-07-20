@@ -6,56 +6,58 @@ cd "$ROOT_DIR"/assets/diagrams || exit
 
 plantuml ./**.pu ./**/**.pu ./**/**/**.pu -tlatex:nopreamble
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Huge," physical-view-level1.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/scopes.latex
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," scopes.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/domain/message-envelop-model.latex
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," logical-view-level1.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/domain/routing-model.latex
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," message-envelop-model.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/domain/data-processor-model.latex
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," routing-model.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/domain/device-management-model.latex
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," data-processor-model.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/domain/identity-management-model.latex
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," device-management-model.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/domain/notification-management-model.latex
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," identity-management-model.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/domain/smart-irrigation-model-4.latex
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," notification-management-model.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Huge," design/architectural/level1/physical-view.latex
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," smart-irrigation-model-4.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level1/logical-view.latex
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," logical-view-level2-configuration.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/logical/configuration.latex
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," logical-view-level2-data-flow.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/logical/data-flow.latex
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," logical-view-level2-service.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/logical/service.latex
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/container-init-process-view.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/process/container-init.latex
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/container-ready-process-view.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/process/container-ready.latex
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/data-flow-scope.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/process/data-flow-scope.latex
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/data-decoder-flow-process-1.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/process/data-decoder-flow-1.latex
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/consult-data-processor-process.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/process/consult-data-processor.latex
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/edit-device-management-process.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/process/edit-device-management.latex
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/user-authentication-process.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/process/user-authentication.latex
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/user-authorization-process.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/process/user-authorization.latex
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/device-live-location-process.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/process/device-live-location.latex
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/notification-dispatch-process.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/process/notification-dispatch.latex
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/smart-irrigation-process.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/process/smart-irrigation.latex
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/development-database.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/development/database.latex
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/development-frontend.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/development/frontend.latex
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/development-backend.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/development/backend.latex
+
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/physical/complete.latex

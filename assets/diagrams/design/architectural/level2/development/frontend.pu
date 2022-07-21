@@ -2,32 +2,61 @@
 
 left to right direction
 
+skinparam groupInheritance 2
+
 folder "sensae-console" {
     folder "project" {
         folder "frontend-services" {
             folder "apps" as a {
-                folder "data-decoder-frontend"
-                folder "data-processor-frontend"
-                folder "device-management-frontend"
-                folder "fleet-management-frontend"
-                folder "identity-management-frontend"
-                folder "notification-management-frontend"
-                folder "rule-management-frontend"
-                folder "smart-irrigation-frontend"
-                folder "ui-aggregator"
+                folder "data-decoder-frontend" as a1
+                folder "data-processor-frontend" as a2
+                folder "device-management-frontend" as a3
+                folder "fleet-management-frontend" as a4
+                folder "identity-management-frontend" as a5
+                folder "notification-management-frontend" as a6
+                folder "rule-management-frontend" as a7
+                folder "smart-irrigation-frontend" as a8
+                folder "ui-aggregator" as a9
             }
-            folder "libs" as b {
-                folder "data-decoder"
-                folder "data-processor"
-                folder "device-management"
-                folder "fleet-management"
-                folder "identity-management"
-                folder "notification-management"
-                folder "auth"
-                folder "core"
-                folder "rule-management"
-                folder "smart-irrigation"
-            }            
+            folder "libs" as b{
+                folder "data-decoder" as b1
+                folder "data-processor" as b2
+                folder "device-management" as b3
+                folder "fleet-management" as b4
+                folder "identity-management" as b5
+                folder "notification-management" as b6
+                folder "rule-management" as b9
+                folder "smart-irrigation" as b10
+                folder "auth" as b7
+                folder "core" as b8
+            }   
+            a1 ..> b1
+            a2 ..> b2
+            a3 ..> b3
+            a4 ..> b4
+            a5 ..> b5
+            a6 ..> b6
+            a7 ..> b9
+            a8 ..> b10
+
+            a9 ..> b7
+
+            b1 ..> b7
+            b1 ..> b8
+            b2 ..> b7
+            b2 ..> b8
+            b3 ..> b7
+            b3 ..> b8
+            b4 ..> b7
+            b4 ..> b8
+            b5 ..> b7
+            b5 ..> b8
+            b6 ..> b7
+            b6 ..> b8
+            b9 ..> b7
+            b9 ..> b8
+            b10 ..> b7
+            b10 ..> b8
         }
     }
 }

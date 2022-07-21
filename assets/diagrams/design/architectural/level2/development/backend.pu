@@ -6,11 +6,11 @@ folder "sensae-console" {
             folder "alert-dispatcher-backend" as a1
             folder "data-decoder-backend" as b1
             folder "data-decoder-flow-backend" as c1
-            folder "data-gateway" as a2
+            folder "data-gateway-backend" as a2
             folder "data-processor-backend" as b2
             folder "data-processor-flow-backend" as c2
             folder "data-relayer" as a3
-            folder "data-store" as b3
+            folder "data-store-backend" as b3
             folder "data-validator-backend" as c3
             folder "device-commander-backend" as a4
             folder "device-management-backend" as b4

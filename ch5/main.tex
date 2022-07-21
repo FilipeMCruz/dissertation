@@ -10,6 +10,10 @@ After this the system's architectural design will be presented and major decisio
 
 TODO
 - 3 tier architecture
+- onion architecture pattern %  This pattern relies heavily on \gls{DIP} as it defends the isolation of business rules from infrastructure code, such as database access or rest endpoints.
+- reactive architecture
+- microservice architecture
+- data pipeline
 
 \section{System Scopes}
 \label{sec:design:system_scopes}
@@ -396,7 +400,7 @@ The routing key \textit{OperationType} from the \textbf{Internal} topic can have
    \item \textbf{Ping}: message to notify that an entry of the related \textit{ContextType} was used, e.g. entry X in context Y was just used.
 \end{itemize}
 
-The \textit{ContextType}, used to identity what piece of the state is referenced can have the following values: (i) \textit{Data processor}, (ii) \textit{Data Decoder}, (iii) \textit{Device Information}, (iv) \textit{Device Identity}, (v) \textit{Tenant Identity}, (vi) \textit{Addressee Configuration} and (vii) \textit{Rule Management}.
+The \textit{ContextType}, used to identity what piece of the state is referenced can have the following values: (i) \textit{Data Processor}, (ii) \textit{Data Decoder}, (iii) \textit{Device Information}, (iv) \textit{Device Identity}, (v) \textit{Tenant Identity}, (vi) \textit{Addressee Configuration} and (vii) \textit{Rule Management}.
 
 Routing keys help to strengthen the boundaries that a container is expected to have. As an example, a Service in the \textbf{Service Scope} related to Waste Management would subscribe to the \textit{Data Topic} with the following \textit{Routing Keys}: 
 
@@ -1178,7 +1182,7 @@ Frontend services are organized according to the diagram in Figure~\ref{fig:desi
    \label{fig:design:architecture:container:process:diagram:development:frontend}
 \end{figure}
 
-Each frontend service is divided between the \textit{apps} package and \textit{libs} package. Each \textit{app} depends on the corresponding \textit{lib} and the \textit{core} and \textit{auth} packages.
+Each frontend service is divided between the \textit{apps} package and \textit{libs} package. Each \textit{app} depends on the corresponding \textit{lib}. Every \textit{lib} depend on the \textit{core} and \textit{auth} packages. The UI Aggregator depends only on the textit{auth} package.
 
 Backend services are organized according to the diagram in Figure~\ref{fig:design:architecture:container:process:diagram:development:backend}.
 
@@ -1234,7 +1238,7 @@ In the following section, Section~\ref{subsec:design:architecture:components}, t
 \subsection{C4 Level 3 - Components}
 \label{subsec:design:architecture:components}
 
-The component view describes a specific container. A container is made up of a number of components, each with well-defined responsibilities. In the following diagrams the dependencies between the various components will also be presented.
+The component level describes the internals of a specific container. A container is made up of a number of components, each with well-defined responsibilities. In the following diagrams the dependencies between the various components will also be presented.
 
 Most developed containers share the same architecture and will therefore be addressed as groups of containers.
 
@@ -1243,14 +1247,174 @@ The physical view will not be presented since all relevant details have been add
 \subsubsection*{Components Level - Logical View}
 \label{subsubsec:design:architecture:components:logical}
 
+The architectures used in the various developed containers can be condensate into 3 types with minor variations:
+
+\begin{itemize}
+   \item \textbf{Frontend Architecture}: used on all frontend containers;
+   \item \textbf{Management Backend Architecture}: used on most service scope backend containers and all configuration scope backends; 
+   \item \textbf{Data Flow Architecture}: used on most containers related to the Data Flow scope.
+\end{itemize}
+
+Starting with the Frontend Architecture used, it was decided to maintain two distinct domains, Model and DTOS, in order to meet the \gls{SRP} (high cohesion) and to lower the coupling between the information displayed in the UI and the data sent/received by the container. This segmentation led to the addition of the Mapper component, which has the responsibility of converting the data (DTOS component) into information (Model component) and vice-versa. The Auth component indicates what backend resources the user has access to and the Utils component has several methods commonly used to process backend requests, this two components are reused in all frontend containers.
+
+As an example the logical view of the Data Decoder Frontend is presented in Figure~\ref{fig:design:architecture:component:logical:diagram:decoder}.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/architectural/level3/logical/data-decoder-frontend.latex}
+   }
+   \caption[Component Level - Data Decoder Frontend - Logical View Diagram]{Component Level - Data Decoder Frontend - Logical View Diagram}
+   \label{fig:design:architecture:component:logical:diagram:decoder}
+\end{figure}
+
+This architecture is used on the containers: (i) Device Management Frontend, (ii) Data Decoder Frontend, (iii) Data Processor Frontend, (iv) Notification Management Frontend, (v) Identity Management Frontend, (vi) Rule Management Frontend, (vii) Fleet Management Frontend and (viii) Smart Irrigation Frontend. The UI Aggregator has a simpler architecture them the other frontend containers, it is comprised by a Presentation component that depends on the Auth component to handle user authentication and authorization.
+
+Next, the Management Backend Architecture is discussed. It is based on the Onion Architecture, an architecture pattern that "emphasizes separation of concerns throughout the system" and "leads to more maintainable applications" (\cite{onion}).
+
+As an example the logical view of the Device Management Backend is presented in Figure~\ref{fig:design:architecture:component:logical:diagram:device}.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/architectural/level3/logical/device-management-backend.latex}
+   }
+   \caption[Component Level - Device Management Backend - Logical View Diagram]{Component Level - Device Management Backend - Logical View Diagram}
+   \label{fig:design:architecture:component:logical:diagram:device}
+\end{figure}
+
+This architecture is used on the containers: (i) Device Management Backend, (ii) Data Decoder Backend, (iii) Data Processor Backend, (iv) Notification Management Backend, (v) Identity Management Backend, (vi) Rule Management Backend and (vii) Fleet Management Backend. The Smart Irrigation Backend has an additional component - QuestDB - inside the Persistence component with the same dependencies as the Postgres component.
+
+The following table, Table~\ref{tab:design:architecture:components:logical:backend}, discusses each component responsibilities.
+
+\begin{table}[H]
+   \begin{tabular}{@{}cl@{}}
+   \toprule
+   \textbf{Component}               & \textbf{Responsibilities}                                            \\ \midrule
+   Infrastructure &
+     \begin{tabular}[c]{@{}l@{}}- Enclose components that manage the Input/Output\\ operations required by the container;\end{tabular} \\ \midrule
+   \multirow{3}{*}{Boot}            & - Manage the start up of the container;                              \\
+    &
+     \begin{tabular}[c]{@{}l@{}}- Construct the components' pieces according\\ to the defined dependencies;\end{tabular} \\
+                                    & - Manage the configuration of the container;                         \\ \midrule
+   Endpoint &
+     \begin{tabular}[c]{@{}l@{}}- Enclose components that are used by external\\ containers to interact with the container;\end{tabular} \\ \midrule
+   \multirow{2}{*}{AMQP} &
+     - Define how to consume and publish events in the Message Broker; \\
+    &
+     \begin{tabular}[c]{@{}l@{}}- Delegate the handling of events received to \\ specific Application processes;\end{tabular} \\ \midrule
+   \multirow{2}{*}{GraphQl}         & - Define the interface to be consumed by the frontend;               \\
+                                    & - Delegate external requests made to specific Application processes; \\ \midrule
+   Persistence &
+     \begin{tabular}[c]{@{}l@{}}- Enclose components that interface with \\ containers responsible for persisting data;\end{tabular} \\ \midrule
+   Postgres                         & - Interact with a database to persist and query data;                \\ \midrule
+   \multirow{4}{*}{Application}     & - Represent the application processes;                               \\
+    &
+     \begin{tabular}[c]{@{}l@{}}- Ensure the propagation of events related to the\\ process in question, requiring this responsibility to AMQP;\end{tabular} \\
+    &
+     \begin{tabular}[c]{@{}l@{}}- Ensure the execution of the process in question,\\ requiring this responsibility to Domain Services;\end{tabular} \\
+                                    & - Enforce user authorization;                                        \\ \midrule
+   \multirow{3}{*}{Domain Services} & - Represent business processes;                                      \\
+                                    & - Interact with the Domain;                                          \\
+    &
+     \begin{tabular}[c]{@{}l@{}}- Ensure the persistence of the data in question,\\ requiring this responsibility to the Persistence;\end{tabular} \\ \midrule
+   \multirow{2}{*}{Domain}          & - Represent de business rules and concepts;                          \\
+                                    & - Manage the system information;                                     \\ \bottomrule
+   \end{tabular}
+   \caption{Components responsibilities}
+   \label{tab:design:architecture:components:logical:backend}
+\end{table}
+
+Finally the architecture used in containers related to the Data Flow Scope is presented. It is based on a simplified version of the Onion Architecture since the intrinsic processes of this containers are much simpler.
+
+As an example the logical view of the Device Ownership Backend is presented in Figure~\ref{fig:design:architecture:component:logical:diagram:ownership}.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/architectural/level3/logical/device-ownership-backend.latex}
+   }
+   \caption[Component Level - Device Ownership Backend - Logical View Diagram]{Component Level - Device Ownership Backend - Logical View Diagram}
+   \label{fig:design:architecture:component:logical:diagram:ownership}
+\end{figure}
+
+This architecture is used on the containers: (i) Device Management Flow Backend, (ii) Data Decoder Flow Backend, (iii) Data Processor Flow Backend, (iv) Alert Dispatcher Backend, (v) Device Ownership Backend, and (vi) Data Validator Backend. The responsibilities of the components inside AMQP are:
+
+\begin{itemize}
+   \item Internal: responsible for communicating with the system via internal topic; 
+   \item Ingress: responsible for consuming events/messages coming from data, alert or command topics;
+   \item Egress: responsible for publishing events/messages to the data or alert topics.
+\end{itemize}
+
+The Data Gateway, Device Commander and Data Store backend containers have architectures that derive from this one and can be consulted in Appendix \textbf{***TODO***}.
+
 \subsubsection*{Components Level - Process View}
 \label{subsubsec:design:architecture:components:process}
+
+In this section some internal process deemed relevant are presented through sequence diagrams in order to familiarize the reader with the interactions that occur between components inside a container.
+
+\textbf{***TODO***}
 
 \subsubsection*{Components Level - Development View}
 \label{subsubsec:design:architecture:components:development}
 
+The development view of each container can also be condensate in the same 3 distinct types presented in the Section \nameref{subsubsec:design:architecture:components:logical}.
+
+The next diagrams, Figure~\ref{fig:design:architecture:component:development:diagram:decoder}, Figure~\ref{fig:design:architecture:component:development:diagram:device} and Figure~\ref{fig:design:architecture:component:development:diagram:ownership} describe this view at the components level.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/architectural/level3/development/data-decoder-frontend.latex}
+   }
+   \caption[Component Level - Data Decoder Frontend - Development View Diagram]{Component Level - Data Decoder Frontend - Development View Diagram}
+   \label{fig:design:architecture:component:development:diagram:decoder}
+\end{figure}
+
+The packages presented correspond to the components described in the logical view (Figure~\ref{fig:design:architecture:component:logical:diagram:decoder}). Since the names given in both views are different, the following list maps the logical view into the implementation view:
+
+\begin{itemize}
+   \item \textit{components} package corresponds to the \textit{Presentation} component;
+   \item \textit{auth} package corresponds to the \textit{Auth} component;
+   \item \textit{core} package corresponds to the \textit{Utils} component;
+   \item \textit{dtos} package corresponds to the \textit{DTOS} component;
+   \item \textit{mappers} package corresponds to the \textit{Mappers} component;
+   \item \textit{model} package corresponds to the \textit{Model} component;
+   \item \textit{services} package corresponds to the \textit{Services} component.
+\end{itemize}
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/architectural/level3/development/device-management-backend.latex}
+   }
+   \caption[Component Level - Device Management Backend - Development View Diagram]{Component Level - Device Management Backend - Development View Diagram}
+   \label{fig:design:architecture:component:development:diagram:device}
+\end{figure}
+
+The packages presented correspond to the components described in the logical view (Figure~\ref{fig:design:architecture:component:logical:diagram:device}). The names given in both views differ only on the case used.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/architectural/level3/development/device-ownership-backend.latex}
+   }
+   \caption[Component Level - Device Ownership Backend - Development View Diagram]{Component Level - Device Ownership Backend - Development View Diagram}
+   \label{fig:design:architecture:component:development:diagram:ownership}
+\end{figure}
+
+The packages presented correspond to the components described in the logical view (Figure~\ref{fig:design:architecture:component:logical:diagram:ownership}). The names given in both views differ only on the case used.
+
 \subsubsection*{Components Level - Synopsis}
 \label{subsubsec:design:architecture:components:synopsis}
+
+This section presented the architecture used in the developed containers, how software is organized and how internal process are executed inside this containers. In the following section some alternatives to what was designed and developed are discussed.  
 
 \section{Architectural Alternatives Discussed}
 \label{sec:design:alternatives}
@@ -1261,11 +1425,11 @@ The physical view will not be presented since all relevant details have been add
 \subsection{Frontend Segregation}
 \label{subsec:design:alternatives:frontend}
 
-\subsection{Data Streaming/Pipeline}
-\label{subsec:design:alternatives:streaming}
-
 \subsection{User Authorization/Authentication}
 \label{subsec:design:alternatives:auth}
+
+\subsection{Data Streaming/Pipeline}
+\label{subsec:design:alternatives:streaming}
 
 \subsection{Internal Communication}
 \label{subsec:design:alternatives:communication}

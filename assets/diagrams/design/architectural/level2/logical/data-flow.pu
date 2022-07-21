@@ -13,13 +13,13 @@ interface "Helium Console\nRest API" as OUT_ENDPOINT
 component "Sensae Console" <<System>> {
     component "Message Broker" as MB <<Container>> 
 
-    component "Data Gateway" as DDG <<Container>> 
+    component "Data Gateway Backend" as DDG <<Container>> 
     component "Data Relayer" as DR <<Container>> 
     component "Data Processor Flow Backend" as DPSB <<Container>> 
     component "Data Decoder Flow Backend" as DDSB <<Container>> 
     component "Data Validator Backend" as DVB <<Container>> 
     component "Device Management Flow Backend" as DRSB <<Container>> 
-    component "Data Store" as DS <<Container>> 
+    component "Data Store Backend" as DS <<Container>> 
     component "Data Store Database" as MONGODB <<Container>> 
     component "Device Ownership Backend" as IAMSB <<Container>> 
     component "Device Commander Backend" as DCB <<Container>> 
@@ -28,7 +28,7 @@ component "Sensae Console" <<System>> {
 
     interface "Message Broker\nAPI" as MB_API
     interface "Data Store\nDatabase API" as MONGODB_API
-    interface "Data Gateway\nAPI" as DDG_API
+    interface "Data Gateway Backend\nAPI" as DDG_API
 
     DS --( MONGODB_API
     DDG -- DDG_API

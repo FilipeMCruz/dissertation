@@ -60,4 +60,6 @@ sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architect
 
 sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/development/backend.latex
 
-sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/physical/complete.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Huge," design/architectural/level2/physical/complete.latex
+
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level3/development/data-decoder-frontend.latex

@@ -1,0 +1,28 @@
+@startuml device-management-backend
+
+folder "device-management-backend" {
+    folder "application" as APP
+    folder "domain" as DOM
+    folder "domain-services" as DOM_SERV
+    folder "infrastructure" as INFRA {
+        folder "boot" as BOOT
+        folder "presistence" as PERSIST {
+            folder "postgres" as POSTG
+        }
+        folder "endpoint" as ENDPOINT {
+            folder "graphql" as GRAPH
+            folder "amqp" as AMQP
+        }
+    }
+
+    AMQP ..> APP
+    POSTG ..> DOM
+    GRAPH ..> APP
+    APP .> DOM_SERV
+    DOM_SERV .> DOM
+    BOOT ..> GRAPH
+    BOOT ..> POSTG
+    BOOT ..> AMQP
+}
+
+@enduml

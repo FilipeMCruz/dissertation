@@ -1,0 +1,33 @@
+@startuml data-decoder-frontend
+
+folder "frontend-services" {
+
+    folder "apps" {
+        folder "data-decoder-frontend" {
+            folder components
+        }
+    }
+
+    folder "libs" {
+        folder "data-decoder" {
+            folder dtos
+            folder mappers
+            folder model
+            folder services
+        }
+        folder auth
+        folder core
+    }
+
+    components  .> model
+    components  .> services
+    services ..> model
+    services ..> mappers
+    services ..> dtos
+    services .> auth
+    services ..> core
+    dtos <. mappers
+    mappers .> model
+}
+
+@enduml

@@ -1,0 +1,46 @@
+@startuml data-decoder-frontend
+
+component "Data Decoder Frontend" {
+
+    component "App" {
+        component "Presentation" as COMP
+        interface "UI" as COMP_API
+    }
+    
+    component "Library" {
+        component "DTOS" as DTO
+        component "Mappers" as MAP
+        component "Model" as MOD
+        component "Services" as SERV
+        component "Auth" as AUTH
+        component "Utils" as UTIL
+
+        interface "DTOs API" as DTO_API
+        interface "Mappers API" as MAP_API
+        interface "Model API" as MOD_API
+        interface "Services API" as SERV_API
+        interface "Auth API" as AUTH_API
+        interface "Utils API" as UTIL_API
+    }
+    COMP --( SERV_API
+
+    COMP - COMP_API
+    DTO_API -- DTO
+    MAP_API -- MAP
+    MOD_API -- MOD
+    SERV_API - SERV
+    AUTH_API -- AUTH
+    UTIL_API -- UTIL
+
+    SERV --( DTO_API
+    SERV --( AUTH_API
+    SERV --( UTIL_API
+    COMP --( MOD_API
+    SERV --( MOD_API
+    SERV --( MAP_API
+
+    DTO_API )- MAP
+    MOD_API )- MAP
+}
+
+@enduml

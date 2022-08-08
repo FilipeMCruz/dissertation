@@ -1042,7 +1042,9 @@ The operations described here for the Data Decoder Flow Backend are replicated i
    \item \textbf{Identity Management Context}: Device Ownership.
 \end{itemize}
 
-As described before containers that belong to the \textbf{Data Flow Scope} are configured according to what is defined in the \textbf{Configuration Scope}. The next diagrams, in Figure~\ref{fig:design:architecture:container:process:diagram:processor} and Figure~\ref{fig:design:architecture:container:process:diagram:device} present some of the common operations that happen in that scope.
+As described before, containers that belong to the \textbf{Data Flow Scope} are configured according to what is defined in the \textbf{Configuration Scope}.
+
+The next diagrams, in Figure~\ref{fig:design:architecture:container:process:diagram:processor} and Figure~\ref{fig:design:architecture:container:process:diagram:device} present some of the common operations that happen in that scope.
 
 \begin{figure}[H]
    \centering
@@ -1054,7 +1056,7 @@ As described before containers that belong to the \textbf{Data Flow Scope} are c
    \label{fig:design:architecture:container:process:diagram:processor}
 \end{figure}
 
-The diagram presented above represents a single consult of data mappers, as we can see, only the Data Processor Context in the Configuration Scope is invoked. When a change to the state is made in any Context of the Configuration Scope events are published. The next diagram, Figure~\ref{fig:design:architecture:container:process:diagram:device} displays an example of this occurrence.
+The diagram presented above represents a simple consult of data mappers, as we can see, only the Data Processor Context in the Configuration Scope is invoked. When a change to the state is made in any Context of the Configuration Scope events are published. The next diagram, Figure~\ref{fig:design:architecture:container:process:diagram:device} displays an example of this occurrence.
 
 \begin{figure}[H]
    \centering
@@ -1078,7 +1080,7 @@ As an example this specific event, according to the Section~\ref{subsubsec:desig
    \item \textbf{Context Type}: Device Management;
 \end{itemize}
 
-There are three containers that subscribe to this type of event:
+There are three containers that subscribe to this specific type of event:
 
 \begin{itemize}
    \item \textbf{Device Management Flow Backend}: so that the Data Units of the device changed are enriched with the latest information;
@@ -1086,9 +1088,9 @@ There are three containers that subscribe to this type of event:
    \item \textbf{Identity Management Backend}: so that information related to the device changed is presented according to the latest update. This container maintains local copies of all devices names to present to the user without needing to request Device Management for that information every time.
 \end{itemize}
 
-The step \textbf{1.3} in the last two diagrams references user permissions but there is no mention of how this permissions are associated to the user. In the next diagrams - Figure~\ref{fig:design:architecture:container:process:diagram:authentication} and Figure~\ref{fig:design:architecture:container:process:diagram:authorization} - authentication and authorization in the \textbf{Sensae Console} are addressed.
+The step \textbf{1.3} in the last two diagrams references user permissions but there is no mention of how this permissions are associated to the user. In the next diagrams - Figure~\ref{fig:design:architecture:container:process:diagram:authentication} and Figure~\ref{fig:design:architecture:container:process:diagram:authorization} - authentication and authorization in the \textbf{Sensae Console} are addressed, other approaches are discussed in the \nameref{subsec:design:alternatives:auth} Section.
 
-The system verifies the identity of a user based on the authentication performed by an External Authorization Server or Identity Platform using OpenID Connect 1.0, \cite{openid}, an identity layer on top of the OAuth 2.0 protocol. According to \cite{oauth} OAuth2.0 \textit{"enables a third-party application to obtain limited access to an HTTP service"}. In this situation the Frontend of \textbf{Sensae Console} is the third-party application and the HTTP service is any of the \textbf{Sensae Console} backend services.
+The system verifies the identity of a user based on the authentication performed by an external \gls{CIAM} solution using OpenID Connect 1.0, \cite{openid}, an identity layer on top of the OAuth 2.0 protocol. According to \cite{oauth} OAuth2.0 \textit{"enables a third-party application to obtain limited access to an HTTP service"}. In this situation the Frontend of \textbf{Sensae Console} is the third-party application and the HTTP service is any of the \textbf{Sensae Console} backend services.
 
 \begin{figure}[H]
    \centering
@@ -1356,7 +1358,43 @@ The Data Gateway, Device Commander and Data Store backend containers have archit
 
 In this section some internal process deemed relevant are presented through sequence diagrams in order to familiarize the reader with the interactions that occur between components inside a container.
 
-\textbf{***TODO***}
+The internal processes that will be evaluated are:
+
+\begin{itemize}
+   \item Process Data Unit in Device Management Flow Backend;
+   \item Deploy Draft Rule Scenarios in Rule Management Backend;
+\end{itemize}
+
+This processes have been chosen in order to introduce the reader to specific operations not yet explored in this chapter.
+
+The first process to explore is meant to clarify how a Data Unit sent by a Controller is processed inside the Device Management Flow Backend. As explained in the \nameref{subsubsec:design:domain:bounded_contexts:device} Section, Data Units sent by a Controller are partitioned into various Data Units. The following diagram, Figure~\ref{fig:design:architecture:component:process:diagram:device}, details this process.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/architectural/level3/process/device-management-flow-backend.latex}
+   }
+   \caption[Component Level - Process Data Unit in Device Management Flow Backend - Process View Diagram]{Component Level - Process Data Unit in Device Management Flow Backend - Process View Diagram}
+   \label{fig:design:architecture:component:process:diagram:device}
+\end{figure}
+
+As presented in the diagram, for each sub device of the controller a new data unit with that device measures is published in the system.
+
+Next, the process of deploying draft rule scenarios is clarified.
+Draft scenarios exist since adding, removing or changing a rule scenario in Alert Dispatcher Backend requires the entire data set to be removed. This procedure can lead to alerts not being dispatched. The next diagram, Figure~\ref{fig:design:architecture:component:process:diagram:rule}, tackles this concern. 
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/architectural/level3/process/rule-management-backend.latex}
+   }
+   \caption[Component Level - Deploy Draft Rule Scenarios in Rule Management Backend - Process View Diagram]{Component Level - Deploy Draft Rule Scenarios in Rule Management Backend - Process View Diagram}
+   \label{fig:design:architecture:component:process:diagram:rule}
+\end{figure}
+
+To mitigate the number of lost alarms, new rule scenarios are published at best every 30 minutes - step \textbf{1} - and only if any change was made - step \textbf{17} and \textbf{18}.  
 
 \subsubsection*{Components Level - Development View}
 \label{subsubsec:design:architecture:components:development}
@@ -1414,19 +1452,169 @@ The packages presented correspond to the components described in the logical vie
 \subsubsection*{Components Level - Synopsis}
 \label{subsubsec:design:architecture:components:synopsis}
 
-This section presented the architecture used in the developed containers, how software is organized and how internal process are executed inside this containers. In the following section some alternatives to what was designed and developed are discussed.  
+This section presented the architecture used in the developed containers, how software is organized and how some internal process are executed inside this containers. In the following section alternatives to what was designed and developed are discussed.  
 
 \section{Architectural Alternatives Discussed}
 \label{sec:design:alternatives}
 
+This section tackles important alternatives that were proposed and discussed during the design and development of the solution but were discarded in detriment for the approaches presented in the \nameref{sec:design:architecture}. 
+
 \subsection{Backend Segregation}
 \label{subsec:design:alternatives:backend}
+
+There are three main architectural approaches to this topic: Monolithic Backend - \cite{micromono} -, \gls{SOA} - \cite{ibmsoa} - or Microservices - \cite{martinmicro}. The first question regarding what to choose is whether to split or not split the system in multiple units of work: Monolith vs the other two approaches.
+
+If the decision is to split the system then an important question must be asked: how should one split the system? The system architecture depends on the answer given: a \gls{SOA} emphasizes the reuse of the system functionalities, \cite{ibmsoa}, while Micro Services emphasis the decoupling of the various system components - \cite{micromicro} - and can therefore introduce some functionality duplication as opposed to \gls{SOA} - \cite{soavsmicro}.
+
+But to pick one of this architectures the most important question to ask is: Why do i need architecture \textit{X}? To answer this a set of the concerns deemed more important, with regards to this solution requirements, are discussed:
+
+\begin{itemize}
+   \item Time To Market: a \gls{MVP} should be available and ready to use as soon as possible;
+   \item Extensibility of the solution: it should be easy to extend the solution with new \gls{IoT} Services;
+   \item Operation Cost: the solution has to be efficient to lower the infrastructure costs, tied to the system performance;
+   \item System performance: the solution has to be capable of processing a high volumes of data efficiently, tied to the system performance;
+\end{itemize}
+
+The first concern, Time to Market, weights heavily in favor of the Monolith approach when developing a \gls{MVP}, \cite{atlassianmono}. This approach is simpler to develop, deploy and has less cognitive overhead when compared to the other two approaches.
+
+Regarding the extensibility of the solution, a Monolith is inherently rigid and hard to extend as the business evolves. This problem is inflated by the fact that the business model envisioned relies heavily on the creation of several distinct \gls{IoT} services. On the order hand the \gls{SOA} and Microservices architecture are preferred since they are open for extension - \cite{microsoftmicro}. 
+
+The last two concerns are related to the scalability of the solution. A Monolithic Backend can be scaled up by increasing the resources - RAM, CPU, GPU and Dick Capacity - of the physical server where the solution is deployed, this is commonly referred as Vertical Scaling. A \gls{SOA} or Micro Service Backend Architecture can be scaled up by increasing the number of physical servers where the solution is deployed, this is commonly referred as Horizontal Scaling.
+One can also deploy various independent instances of the same solution and each instance would be assign to a set of costumers. This option is crucial and always possible once the business grows and starts to assist various customers.
+
+The following picture, Figure~\ref{fig:design:alternatives:auth:backend:scale}, summarizes how each architect scales, the \gls{SOA} behaves similarly to the microservices architecture presented.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \includegraphics{assets/figures/microservices.png}
+   }
+   \caption[Monoliths and Microservices]{Monoliths and Microservices by \cite{martinmicro}}
+   \label{fig:design:alternatives:auth:backend:scale}
+\end{figure}
+
+The final decision was to follow an architecture based on Microservices even tho this decision comes with several oversights:
+
+\begin{itemize}
+   \item Development Team size: microservices are commonly adopted by big companies where each team of developers is responsible for a subset of microservices. This lowers the friction between teams when developing and deploying the solution and is seen as a big reason to move to a microservice architecture. For this solution, a single developer is responsible for everything;
+   \item Time to Market: microservices need to interact with each other though the network, this added demand takes time to design and develop when compared to a monolith solution where communication is done via code;
+   \item A solution shouldn't start with a microservice architecture: a solution should migrate to microservices when it becomes too complex and hard to maintain, \cite{ibmmicro}. 
+\end{itemize}
+
+The decision made was based on the following assumptions:
+
+\begin{itemize}
+   \item Well defined boundaries between the various business processes;
+   \item Need to scale the solution early on the road due to high volumes of gls{IoT} data to process and store;
+   \item High number of independent \gls{IoT} services to develop;
+   \item High number of costumers with different requirements regarding the deployment and development of the solution;
+\end{itemize}
+
+\gls{SOA} was discarded since it focus on business functionality reuse instead of functional requirements segregation. With \gls{SOA} each service is responsible only for auditing, security, logging, data storage, data presentation, or business processes. All these services usually communicate via \gls{ESB}. A new requirement or business process requires every service to be modified. Microservices on the other hand are separated by functional requirements and each service is responsible for storing data, presenting data, logging and everything else. Microservices are more easily extended when/if needed compared with \gls{SOA}.
 
 \subsection{Frontend Segregation}
 \label{subsec:design:alternatives:frontend}
 
 \subsection{User Authorization/Authentication}
 \label{subsec:design:alternatives:auth}
+
+User Authorization and Authentication is an important aspect of the solution. During the requirements elicitation, mentioned in \textbf{***TODO***}, it was clear that several different levels of access had to be given to Tenants, this levels of access also had to be managed by someone. As such, users had to be authenticated in the system and all accesses had to be authorized.
+
+Four approaches were considered:
+
+\begin{itemize}
+   \item Internal Authorization Server;
+   \item External Authorization Server;
+   \item External Authorization Server with Internal Permissions Server;
+   \item External Authorization Server with Internal Oauth2 Server;
+\end{itemize}
+
+The fourth option was the approach taken.
+
+\subsubsection*{Internal Authorization Server}
+\label{subsubsec:design:alternatives:auth:internalauth}
+
+By creating an Internal Authorization Server we could have a normal, private and controlled user authentication/authorization flow in the environment. Both user credentials and permissions would be managed internally.
+
+The following diagram, Figure~\ref{fig:design:alternatives:auth:internalauth:diagram},presents the normal environment flow for this alternative.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/alternatives/auth/alternative1.latex}
+   }
+   \caption[User Authorization/Authentication - Internal Authorization Server Alternative - Sequence Diagram]{User Authorization/Authentication - Internal Authorization Server Alternative - Sequence Diagram}
+   \label{fig:design:alternatives:auth:internalauth:diagram}
+\end{figure}
+
+This alternative introduces the need to internally secure user credentials and other sensitive information from data breaches. It would also require each user to register in sensae with a new account credentials. For this reasons this alternative was discarded.
+
+\subsubsection*{External Authorization Server}
+\label{subsubsec:design:alternatives:auth:externalauth}
+
+By using an external Authorization Server there would be no need to store user credentials or permissions. This services are commonly identified as \gls{CIAM} solutions.
+
+The following diagram, Figure~\ref{fig:design:alternatives:auth:externalauth:diagram}, presents the normal environment flow for this alternative.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/alternatives/auth/alternative2.latex}
+   }
+   \caption[User Authorization/Authentication - External Authorization Server Alternative - Sequence Diagram]{User Authorization/Authentication - External Authorization Server Alternative - Sequence Diagram}
+   \label{fig:design:alternatives:auth:externalauth:diagram}
+\end{figure}
+
+This approach would create a strong dependency to the \gls{CIAM} solution used since all user permissions and credentials would have to be managed by the \gls{CIAM} solution.
+Some of this services are: (i) Auth0 \cite{auth0id}, (ii) Google \cite{googleid}, (iii) Okta \cite{oktaid}, (iv) Amazon Cognito \cite{amazonid} and (v) Azure Active Directory B2C \cite{azureid}.
+
+The platform Auth0 was tested and it is capable of registering user roles and permissions according to the requirements.
+
+As stated before, the dependency created would force the environment to always be coupled to the chosen \gls{CIAM} solution. For this reason this alternative was discarded.
+
+\subsubsection*{External Authorization Server with Internal Permissions Server}
+\label{subsubsec:design:alternatives:auth:externalauthinternalpermission}
+
+By using an external Authorization Server there would be no need to store user credentials, the user permissions would then be managed internally via a \textit{Permissions Server}.
+
+The following diagram, Figure~\ref{fig:design:alternatives:auth:externalauthinternalpermission:diagram}, presents the normal environment flow for this alternative.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/alternatives/auth/alternative3.latex}
+   }
+   \caption[User Authorization/Authentication - External Authorization Server with Internal Permissions Server Alternative - Sequence Diagram]{User Authorization/Authentication - External Authorization Server with Internal Permissions Server Alternative - Sequence Diagram}
+   \label{fig:design:alternatives:auth:externalauthinternalpermission:diagram}
+\end{figure}
+
+This approach would create a dependency to the \gls{CIAM} solution used and presented in the second alternative.
+
+This dependency is less severe compared with the second alternative since all permissions would be managed internally.
+This approach would require any backend to query the \textit{Permissions Server} for user permissions so that it could verify if the user was authorized to preform the requested action or not. This would therefore linger down the performance of the system since each action would have to be verified according to the \textit{Permissions Server} information.
+
+\subsubsection*{External Authorization Server with Internal Oauth2 Server}
+\label{subsubsec:design:alternatives:auth:externalauthinternaloauth}
+
+By using an external Authorization Server there would be no need to store user credentials. An internal Oauth2 Server would remove the direct dependency to the \textit{Permissions Server} presented in the third alternative.
+
+This alternative is introduced in Figure~\ref{fig:design:architecture:container:process:diagram:authentication} and Figure~\ref{fig:design:architecture:container:process:diagram:authorization} where the Internal Oauth2 Server is the Identity Management Backend.
+
+This approach would create a dependency to the \gls{CIAM} solution used and presented in the second alternative. This dependency is less severe compared with the second alternative since all user permissions would be managed internally.
+This approach would require the system to create and refresh \textit{access tokens} based on the \textit{id token} received by the external \gls{CIAM} solution. Contrary to the third alternative it would not create excessive pressure in a specific container.
+
+This approach also allows the system to easily integrate with more than one \gls{CIAM} solution while managing user permissions in a single place. The \gls{CIAM} solutions that \textbf{Sensae Console} is integrated with are:
+
+\begin{itemize}
+   \item Google Identity Platform: for common individuals that want to use the system, since almost everyone has a google account; 
+   \item Azure Active Directory: for companies and organizations since most use Office 365 services internally.
+\end{itemize}
+
+Due to the reasons presented above, this was the adopted approach.
 
 \subsection{Data Streaming/Pipeline}
 \label{subsec:design:alternatives:streaming}

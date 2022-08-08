@@ -63,3 +63,13 @@ sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architect
 sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Huge," design/architectural/level2/physical/complete.latex
 
 sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level3/development/data-decoder-frontend.latex
+
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level3/process/device-management-flow-backend.latex
+
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level3/process/rule-management-backend.latex
+
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/alternatives/auth/alternative1.latex
+
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/alternatives/auth/alternative2.latex
+
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/alternatives/auth/alternative3.latex

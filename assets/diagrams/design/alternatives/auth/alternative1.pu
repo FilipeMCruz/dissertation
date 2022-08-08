@@ -1,0 +1,59 @@
+@startuml alternative1
+
+skinparam sequenceMessageAlign center
+skinparam style strictuml
+autonumber 1
+!pragma teoz true
+
+actor User
+
+box "Ui Aggregator"
+participant "Ui Aggregator Shell" as AGGRE
+participant "X Content\nFrontend" as XFRONT
+participant "Auth Lib" as AUTHLIB
+end box
+
+participant "X Content\nBackend" as XBACK
+
+participant "Internal\nAuthorization Server" as AUTHSERVER
+
+activate AGGRE
+activate User
+
+User -> AGGRE: Accesses the website
+AGGRE --> User: Presents a\nSign In/Sign Up section
+User -> AGGRE: Picks the Sign Up option
+AGGRE --> User: Requests user infromation
+User -> AGGRE: Provides information
+AGGRE -> AUTHLIB: Provides information\nabout new User
+activate AUTHLIB
+AUTHLIB -> AUTHSERVER: Provides information\nabout new User
+activate AUTHSERVER
+AUTHSERVER -> AUTHSERVER: Verifies Information
+AUTHSERVER -> AUTHSERVER: Checks if user is\nalready registered
+AUTHSERVER -> AUTHSERVER: Hashes password
+AUTHSERVER -> AUTHSERVER: Stores information\n
+AUTHSERVER -> AUTHSERVER: Generates\naccess token
+AUTHSERVER --> AUTHLIB: Provides the access token
+deactivate AUTHSERVER
+AUTHLIB -> AGGRE: Notifies that a new\naccess token is present
+deactivate AUTHLIB
+AGGRE -> AGGRE: Checks what Frontends\nthe access token\ngives access to
+AGGRE --> User: Presents\nX Content Frontend
+User -> XFRONT: Accessses the service window
+activate XFRONT
+XFRONT --> User: Presents X interaction with the service
+User -> XFRONT: Picks X interaction
+XFRONT -> AUTHLIB: Requests the\naccess token
+activate AUTHLIB
+AUTHLIB -> AUTHLIB: Verifies if the\naccess token\nis still valid
+AUTHLIB --> XFRONT: Provides the\naccess token
+deactivate AUTHLIB
+XFRONT -> XBACK: Requests infromation\nwith access token
+activate XBACK
+XBACK -> XBACK: Verifies if the\ntoken is valid
+XBACK -> XBACK: Verifies if the\ntoken has the\nneeded permissions
+XBACK --> XFRONT: Provides the information
+deactivate XBACK
+XFRONT --> User: Provides the information
+@enduml

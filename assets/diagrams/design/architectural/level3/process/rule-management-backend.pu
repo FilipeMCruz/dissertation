@@ -1,0 +1,39 @@
+@startuml rule-management-backend
+
+autonumber 1
+
+box "Rule Management Backend"
+participant "Application" as app
+participant "Domain Services" as serv
+participant "Postgres" as postgres
+participant "AMQP" as amqp
+participant "Domain" as dom
+end box
+
+participant "Rule Management\nDatabase" as db
+participant "Message\nBroker" as MB
+
+note over app : every 30 minutes
+
+activate app
+app -> serv ++ : activate all\n draft scenarios
+serv -> postgres ++ : fetch draft\ncenarios
+postgres -> db ++ : query draft scenarios
+return scenarios
+postgres -> dom ++ : map database model\nto domain model
+return domain model
+return scenarios
+serv -> dom ++ : mark scenarios\nas active
+return active scenarios
+serv -> postgres ++ : update\n scenarios
+postgres -> db ++ : update scenarios
+return scenarios
+postgres -> dom ++ : map database model\nto domain model
+return domain model
+return activated\nscenarios
+return scenarios
+alt list of scenarios isn't empty
+app -> amqp ++-- : publish new active scenarios
+amqp -> MB -- :publish scenarios
+end
+@enduml

@@ -1,0 +1,37 @@
+@startuml device-management-flow-backend
+
+autonumber 1
+
+box "Device Management Flow Backend"
+participant Ingress
+participant Application
+participant Domain
+participant Egress
+end box
+
+?-> Ingress ++ : dto of\nmessage consumed
+Ingress -> Ingress : convert to consumed\nmessage with data unit
+Ingress -> Application ++-- : consumed message\nwith data unit
+Application -> Application : search for data unit's device information
+Application -> Domain ++ : merge data unit\nand device information\ninto "device with measures"
+return device measures
+
+Application -> Application : update routing keys\nof message consumed
+Application -> Domain ++ : extract controller data unit\nfrom "device with measures"
+return controller data unit
+Application -> Application : transform consumed message\nto supplied message with updated\nrouting keys and  controller data unit
+Application -> Egress ++ : publish message
+Egress -> Egress : convert to\nmessage dto
+Egress ->? -- : publish\nmessage dto
+Application -> Domain ++ : extract sub devices data units\nfrom "device with measures"
+return sub devices' data unit
+loop for each sub device data unit
+    Application -> Application : create new routing keys
+    Application -> Application : create new message with\nrouting keys and data unit
+    Application -> Egress ++ : publish message
+    Egress -> Egress : convert to\nmessage dto
+    Egress ->? -- : publish\nmessage dto
+end
+
+
+@enduml

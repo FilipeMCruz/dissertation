@@ -1,0 +1,33 @@
+@startuml alternative4
+
+skinparam sequenceMessageAlign center
+skinparam Shadowing false
+skinparam componentStyle uml2
+skinparam packageStyle rectangle
+
+component "X Context Frontend" as FRONT
+component "X Context Backend" as BACK
+component "X Context Database" as DB
+component "Message Broker" as MB
+component "X Context Flow" as FLOW
+component "Internal State\nDatabase" as SHAR
+
+interface "Message\nBroker API" as MB_API
+interface "X Context\nDatabase API" as DB_API
+interface "X Context\nBackend API" as BACK_API
+interface "X Context UI" as FRONT_API
+interface "Internal State\nDatabase API" as SHAR_API
+
+SHAR -- SHAR_API
+MB -- MB_API
+DB_API - DB
+BACK_API -- BACK
+FRONT - FRONT_API
+
+BACK_API )- FRONT
+BACK --( DB_API
+SHAR_API )- BACK
+FLOW -( SHAR_API
+MB_API )- FLOW
+
+@enduml

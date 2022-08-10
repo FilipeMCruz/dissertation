@@ -2,23 +2,24 @@
 \label{chap:design}
 
 This section goal is to describe the overall system design to the reader.
-First the reference architectures used for this project will be presented. Then the various system scopes will be introduced, followed by section regarding the domain model.
+%First the reference architectures used for this project will be presented.
+First the various system scopes will be introduced, followed by a section regarding the domain model.
 After this the system's architectural design will be presented and major decisions/alternatives discussed. At last, a synopsis of this chapter can be read.
 
-\section{Reference Architecture}
-\label{sec:design:ref_architecture}
+% \section{Reference Architecture}
+% \label{sec:design:ref_architecture}
 
-TODO
-- 3 tier architecture
-- onion architecture pattern %  This pattern relies heavily on \gls{DIP} as it defends the isolation of business rules from infrastructure code, such as database access or rest endpoints.
-- reactive architecture
-- microservice architecture
-- data pipeline
+% TODO
+% - 3 tier architecture
+% - onion architecture pattern %  This pattern relies heavily on \gls{DIP} as it defends the isolation of business rules from infrastructure code, such as database access or rest endpoints.
+% - reactive architecture
+% - microservice architecture
+% - data pipeline
 
 \section{System Scopes}
 \label{sec:design:system_scopes}
 
-The system designed can be divided is three main scopes as disclosed in the Figure~\ref{fig:design:system_scopes:scopes}.
+The system designed can be divided in three main scopes as disclosed in the Figure~\ref{fig:design:system_scopes:scopes}.
 
 \begin{figure}[H]
     \centering
@@ -95,7 +96,7 @@ The \textbf{Service Scope} is responsible for presenting \gls{IoT} business case
    \item \textbf{Notification Management}: service to view and manage the delivery of triggered alerts.
 \end{itemize}
 
-Each service is bounded to what type of data receives and sends back to the \textbf{Data Flow Scope} as detailed in Sections~\ref{subsec:design:domain:concepts} and \ref{subsec:design:domain:shared_model}.
+Each service is bounded to what type of data receives and sends back to the \textbf{Data Flow Scope} as detailed in Sections~\ref{subsec:design:domain:taxonomy} and \ref{subsec:design:domain:shared_model}.
 
 \subsection{Synopsis}
 \label{subsec:design:system_scopes:synopsis}
@@ -109,10 +110,10 @@ This system's domain model will be discussed here. The idea behind this section 
 
 This section is split into four pieces: (i) concepts, (ii) shared model, (iii) bounded contexts and (iv) synopsis.
 
-\subsection{Concepts}
-\label{subsec:design:domain:concepts}
+\subsection{Taxonomy}
+\label{subsec:design:domain:taxonomy}
 
-In order for the reader to better understand how the system functions some concepts need to be better explained:
+In order for the reader to better understand how the system functions some concepts need to be better classified and explained:
 
 \begin{itemize}
    \item \textbf{Device}: A device is a "Thing" that can collect data and submit it to \textbf{Sensae Console} via an external system though \textbf{Uplink}s. A device can, optionally, receive \textbf{Downlink}s;
@@ -825,7 +826,7 @@ Next is the development view (Figure~\ref{fig:design:architecture:context:develo
    \label{fig:design:architecture:context:development:diagram}
 \end{figure}
 
-The package \textit{iot-core} contains the shared model discussed in the Section~\ref{subsec:design:domain:shared_model}, and functions to define what type of information a backend containers wants to subscribe or publish (discussed in Section~\ref{subsec:design:domain:concepts}).
+The package \textit{iot-core} contains the shared model discussed in the Section~\ref{subsec:design:domain:shared_model}, and functions to define what type of information a backend containers wants to subscribe or publish (discussed in Section~\ref{subsec:design:domain:taxonomy}).
 
 The package \textit{sensae-console} contains software of the various containers needed to run the \textbf{Sensae Console}. As expected \textit{iot-core} is a core dependency for the \textit{sensae-console} backend containers.
 
@@ -1229,7 +1230,7 @@ Next is the physical view (Figure~\ref{fig:design:architecture:container:physica
    \label{fig:design:architecture:container:physical:diagram}
 \end{figure}
 
-Due to time constrains the environment was not deployed to \textit{Kubernetes} and the solution is instead orchestrated using \textit{Docker Compose} in a single node/server.
+Even though the diagram above represents a \textit{Kubernetes} cluster, the production environment is orchestrated using \textit{Docker Compose} running in a single node/server. This decision was taken after acknowledging that currently there is no need to scale the solution, a single node has been capable of handling all throughput.
 
 \subsubsection*{Container Level - Synopsis}
 \label{subsubsec:design:architecture:container:synopsis}
@@ -1494,7 +1495,7 @@ The following picture, Figure~\ref{fig:design:alternatives:auth:backend:scale}, 
    \label{fig:design:alternatives:auth:backend:scale}
 \end{figure}
 
-The final decision was to follow an architecture based on Microservices even tho this decision comes with several oversights:
+The final decision was to follow an architecture based on Microservices even tho this decision had several oversights:
 
 \begin{itemize}
    \item Development Team size: microservices are commonly adopted by big companies where each team of developers is responsible for a subset of microservices. This lowers the friction between teams when developing and deploying the solution and is seen as a big reason to move to a microservice architecture. For this solution, a single developer is responsible for everything;
@@ -1502,19 +1503,27 @@ The final decision was to follow an architecture based on Microservices even tho
    \item A solution shouldn't start with a microservice architecture: a solution should migrate to microservices when it becomes too complex and hard to maintain, \cite{ibmmicro}. 
 \end{itemize}
 
-The decision made was based on the following assumptions:
+The decision made was based on the following assumptions and perceptions:
 
 \begin{itemize}
-   \item Well defined boundaries between the various business processes;
-   \item Need to scale the solution early on the road due to high volumes of gls{IoT} data to process and store;
-   \item High number of independent \gls{IoT} services to develop;
-   \item High number of costumers with different requirements regarding the deployment and development of the solution;
+   \item There are well defined boundaries between the various business processes that the project needs to support;
+   \item There is a need to scale the solution early on the road due to high volumes of \gls{IoT} data to process and store;
+   \item There are a high number of completely independent \gls{IoT} services to develop;
+   \item There are different types of costumers with diverse requirements regarding the deployment and development of the solution.
 \end{itemize}
 
-\gls{SOA} was discarded since it focus on business functionality reuse instead of functional requirements segregation. With \gls{SOA} each service is responsible only for auditing, security, logging, data storage, data presentation, or business processes. All these services usually communicate via \gls{ESB}. A new requirement or business process requires every service to be modified. Microservices on the other hand are separated by functional requirements and each service is responsible for storing data, presenting data, logging and everything else. Microservices are more easily extended when/if needed compared with \gls{SOA}.
+\gls{SOA} was discarded since it focus on business functionality reuse instead of functional requirements segregation. With \gls{SOA} each service is responsible only for one non functional requirement such as: auditing, security, logging, data storage, data presentation, business process logic and others. All these services usually communicate via \gls{ESB}. A new functional requirement or business process requires every type of service to be modified. Microservices on the other hand are separated by functional requirements and each service is responsible for storing data, presenting data, logging and everything else deemed necessary. Microservices are more easily extended when/if needed compared with \gls{SOA} since the focus is on loose coupling services and not highly reusable services.
 
 \subsection{Frontend Segregation}
 \label{subsec:design:alternatives:frontend}
+
+This section tackles the need for segregating the frontend into various independent frontends - Microfrontends, \cite{microfrontends} - or to develop a single Frontend to answer the identified requirements.
+
+The requirements discussed in \textbf{***TODO***} enhance the need to develop a product that can be fully extensible and yet close for modifications, strictly following the \gls{OCP}. This need arises so that costumer entities can easily create new \gls{IoT} services without the need to alter any close source code that is produced internally.
+
+The Microfrontends Architecture when applied to this project has the same oversights, assumptions and perceptions that inadvertently lead to the decision taken in the \nameref{subsec:design:alternatives:backend} Section. As such the decision was to drop the design and development of a single frontend in favor of a Microfrontends Architecture.
+
+Ultimately this decision, coupled with the Backend Segregation decision made, enforces a business model that follows \gls{OCP} and simplifies the adoption of this solution by third parties.
 
 \subsection{User Authorization/Authentication}
 \label{subsec:design:alternatives:auth}
@@ -1616,11 +1625,151 @@ This approach also allows the system to easily integrate with more than one \gls
 
 Due to the reasons presented above, this was the adopted approach.
 
-\subsection{Data Streaming/Pipeline}
-\label{subsec:design:alternatives:streaming}
+\subsection{Data Flow Pipeline}
+\label{subsec:design:alternatives:flow}
+
+This section debates how the various Data Flow Containers should communicate with each other. 
+
+Synchronous communication, such as HTTP requests, was promptly discarded since there is no need for each Container to acknowledge the outcome of the Data Unit that it sent and this type of communication would linger the performance of the Data Flow Scope by creating chained requests, an anti pattern when using a Microservice Architecture, \cite{microsoftmicroanti}.
+
+According to \cite{microsoftasync}, there are two kinds of asynchronous messaging communication: single receiver message-based communication, and multiple receivers message-based communication. It is common to use both of this types in the same solution depending on the requirements. This type of communication is usually composed by the following participants:
+
+\begin{itemize}
+   \item Broker: responsible for establishing a communication channel between Receivers and Publishers;
+   \item Publishers: responsible for sending messages;
+   \item Receivers: responsible for consuming messages;
+\end{itemize}
+
+Looking at the Figure~\ref{fig:design:architecture:container:process:diagram:flow} it appears that a simple \textit{single receiver message-based communication} would be sufficient but this approach isn't as flexible as other options. By following a \textit{multiple receivers message-based communication} additional receivers can be added in the future without the need to modify the sender service. As an example, the Data Store container can be modified to consume any type of Data Unit without changing the containers that produce them.
+
+The final issue to discuss is whether Receivers should pull messages from the Broker (via pulling) or the Broker should push messages to Receivers, this topic is discussed in \citetitle{pubsubpushpull}, mentioned as Push vs Pull. Pushing messages to Receivers can overwhelm a receiver when its rate of consumption falls below the rate of production. The Pull approach offers Receivers the option to consume messages at the rate that they are capable of but can be wasteful in systems where messages are not abundant, \cite{pubsubpushpullrab}. The operations preformed in each Data Flow container are meant to be fast and simply, and as such overwhelming a receiver was not taken into consideration. The Push approach was preferred since it theoretically enables faster reactions to new message compared to the Push approach.
+
+As such, it was decided that the Data Flow Pipeline would work based on the publish/subscribe pattern on top of asynchronous messaging communication. Messages would be published to a broker and then routed to consumers.
 
 \subsection{Internal Communication}
-\label{subsec:design:alternatives:communication}
+\label{subsec:design:alternatives:internal}
+
+This section tackles how the Data Flow Scope should be kept up to date on the configurations made in the Configuration Scope. Five alternatives have been discussed:
+
+\begin{itemize}
+   \item \textbf{First option}: Data Flow Containers directly access the Database related to their Context;
+   \item \textbf{Second option}: Data Flow Containers request information to their context's Configuration Scope Container via synchronous calls;
+   \item \textbf{Third option}: Data Flow Containers are feed updates to their context configurations via asynchronous calls and store this information;
+   \item \textbf{Fourth option}: A shared, in memory, database is kept, Configuration Scope writes to it and Data Flow Scope queries information from it;
+   \item \textbf{Fifth option}: An append-only log is used to store configuration logs, the Configuration Scope writes to it and the Data Flow Scope can always read from it.  
+\end{itemize}
+
+The third option was the approach taken.
+
+\subsubsection*{First Option}
+\label{subsubsec:design:alternatives:internal:first}
+
+This option ensures that the Data Flow Containers are kept updated by giving them direct access to the source of truth, the database. The logical view diagram in Figure~\ref{fig:design:alternatives:internal:first:diagram} describes how this option functions.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/alternatives/internal/alternative1.latex}
+   }
+   \caption[Internal Communication - First Option - Logical View Diagram]{Internal Communication - First Option - Logical View Diagram}
+   \label{fig:design:alternatives:internal:first:diagram}
+\end{figure}
+
+This approach ensures that the Message Broker is only used to transport Data Units, Alerts and Commands, alleviating it from an heavy responsibility.
+That responsibility is assigned to the \textit{X Context Flow} Container and the \textit{X Context Database} Container.
+This approach has several drawbacks such as:
+
+\begin{itemize}
+   \item The \textit{X Context Flow} Container has full access to superfluous configuration details related to that context configuration;
+   \item The same database access has to be developed and maintained in two separated containers;
+   \item All database accesses are blocking calls by nature that would slow down the process;
+   \item Data Flow containers can't reliably cache information collected since there is no way to know when the corresponding information was updated. Meaning that every time a new message arrives the database has to be queried.
+\end{itemize}
+
+Due to this drawbacks this option was eventually dropped.
+
+\subsubsection*{Second Option}
+\label{subsubsec:design:alternatives:internal:second}
+
+This option ensures that the Data Flow Containers are kept updated querying information from a \gls{REST} \gls{API} provided by the Configuration Containers. The logical view diagram in Figure~\ref{fig:design:alternatives:internal:second:diagram} describes how this option functions.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/alternatives/internal/alternative2.latex}
+   }
+   \caption[Internal Communication - Second Option - Logical View Diagram]{Internal Communication - Second Option - Logical View Diagram}
+   \label{fig:design:alternatives:internal:second:diagram}
+\end{figure}
+
+This approach doesn't suffer from all drawbacks stated for the first option but still requires a blocking call to the \textit{X Context Backend} Container every time a new message arrives to the \textit{X Context Flow} Container.
+
+It's an improvement of the first option but still has some serious drawbacks and therefore it was also abandoned. 
+
+\subsubsection*{Third Option}
+\label{subsubsec:design:alternatives:internal:third}
+
+This option ensures that the Data Flow Containers are kept updated by allowing them to subscribe to changes made in their context's configuration. The logical view diagram in Figure~\ref{fig:design:alternatives:internal:third:diagram} describes how this option functions.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/alternatives/internal/alternative3.latex}
+   }
+   \caption[Internal Communication - Third Option - Logical View Diagram]{Internal Communication - Third Option - Logical View Diagram}
+   \label{fig:design:alternatives:internal:third:diagram}
+\end{figure}
+
+The major improvement of this approach when compared with the options above is that, since \textit{X Context Flow} Container subscribes to configuration updates, it can reliably keep a cache with just the needed information (and not the entire context configuration). This works since \textit{X Context Flow} Containers can discard updates related to information that they currently don't use. Once the container needs that information, it can send an event requesting what it needs and that information arrives later as a normal update to the configuration. 
+All \textit{X Context Flow} external interactions also rely on asynchronous communication, ensuring a more robust performance.
+
+The main drawback to this option is that the \textit{Message Broker} becomes responsible for yet another communication topic inside the environment.
+
+Despite this drawback this is the option currently in use. The following options purpose alternatives to tackle this drawbacks.
+
+\subsubsection*{Fourth Option}
+\label{subsubsec:design:alternatives:internal:fourth}
+
+This option ensures that the Data Flow Containers are kept updated by allowing them to query information from an \textit{Internal State Database}. This approach differs from the first option since the \textit{Internal State Database} is supposed to be a fast in memory database with only the needed information for Data Flow Containers to process Data Units, Alerts and Commands. The logical view diagram in Figure~\ref{fig:design:alternatives:internal:fourth:diagram} describes how this option functions.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/alternatives/internal/alternative4.latex}
+   }
+   \caption[Internal Communication - Fourth Option - Logical View Diagram]{Internal Communication - Fourth Option - Logical View Diagram}
+   \label{fig:design:alternatives:internal:fourth:diagram}
+\end{figure}
+
+This approach would remove the responsibly from the \textit{Message Broker} to maintaining the internal state updated in the Data Flow Scope.
+The \textit{Internal State Database} would in turn store information that \textit{X Content Flow} could query.
+
+The main drawbacks of this approach are the same stated in the second option, even tho they can be mitigated by leveraging technologies that tackle distributed caching problems.
+
+\subsubsection*{Fifth Option}
+\label{subsubsec:design:alternatives:internal:fifth}
+
+This option ensures that the Data Flow Containers are kept updated by allowing them to subscribe to changes made in their context's configuration. This option diverges from the third option since the event store would persist all updates to contexts configurations. The logical view diagram in Figure~\ref{fig:design:alternatives:internal:fifth:diagram} describes how this option functions.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/alternatives/internal/alternative5.latex}
+   }
+   \caption[Internal Communication - Fifth Option - Logical View Diagram]{Internal Communication - Fifth Option - Logical View Diagram}
+   \label{fig:design:alternatives:internal:fifth:diagram}
+\end{figure}
+
+The \textit{X Context Flow} Container would use event sourcing to reach the current state of its context configuration on start up and then cache this state internally. New events would then be sent automatically via subscription to keep the state up-to-date.
+
+The main drawback of this approach is that the container can't keep just the needed portion of configurations without recreating the entire state though event sourcing.
 
 \section{Synopsis}
 \label{sec:design:synopsis}
+
+This chapter presented to the reader the design of \textbf{Sensae Console}, topics such as the domain, the architectural design and alternatives have been discussed here. To complement the description of the system, the next chapter introduces how, following the design proposed, this solution was implemented.

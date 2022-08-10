@@ -73,3 +73,13 @@ sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/alternati
 sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/alternatives/auth/alternative2.latex
 
 sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/alternatives/auth/alternative3.latex
+
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/alternatives/internal/alternative1.latex
+
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/alternatives/internal/alternative2.latex
+
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/alternatives/internal/alternative3.latex
+
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/alternatives/internal/alternative4.latex
+
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/alternatives/internal/alternative5.latex

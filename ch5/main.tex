@@ -483,7 +483,6 @@ As an example, one could define an inbound information as a JSON document with t
 
 To map the \textit{temperature} value to the \textbf{TEMPERATURE\_CELSIUS} property of a \textbf{Data Unit} the \textbf{EncodedDataPropertyPath} would be \textit{decoded.data[0].temperature}.
 
-
 \begin{lstlisting}[caption=Inbound Information Example, label={code:design:domain:bounded_contexts:processor:json}]
 {
    "uuid": "de1a9d15-c018-4547-8453-87111cb4f81b",
@@ -612,9 +611,23 @@ Coupled with the figure above, there are other constrains:
 \subsubsection*{Rule Management}
 \label{subsubsec:design:domain:bounded_contexts:rule}
 
-The \textbf{Rule Management} context refers to rule scenarios that produce \textbf{Alert}s based on incoming \textbf{Data Unit}s. 
+The \textbf{Rule Management} context refers to rule scenarios.
 
-The diagram in Figure~\ref{fig:design:domain:bounded_contexts:rule:diagram} displays the noteworthy concepts in this context.
+The purpose of this context is to provide a high-level language that can analyze a stream of \textbf{Data Unit}s and output \textbf{Alert}s base on them. This systems are usually categorized as \gls{IFP} Systems, according to \cite{cugola2012processing}.
+
+The following diagram, Figure~\ref{fig:design:domain:bounded_contexts:rule:ifp}, represents this systems.
+
+\begin{figure}[H]
+   \centering
+  \resizebox{\columnwidth}{!}
+  {
+     \input{assets/diagrams/design/domain/ifp-system.latex}
+  }
+  \caption[High-Level View of a \gls{IFP} System]{High-Level View of a \gls{IFP} System}
+  \label{fig:design:domain:bounded_contexts:rule:ifp}
+\end{figure}
+
+In this specific solution, the input data are \textbf{Data Unit}s and the output data are the \textbf{Alert}s. This context is concerned about how \textit{rules} are defined, the diagram in Figure~\ref{fig:design:domain:bounded_contexts:rule:diagram} displays the noteworthy concepts.
 
 \begin{figure}[H]
    \centering
@@ -826,7 +839,7 @@ Next is the development view (Figure~\ref{fig:design:architecture:context:develo
    \label{fig:design:architecture:context:development:diagram}
 \end{figure}
 
-The package \textit{iot-core} contains the shared model discussed in the Section~\ref{subsec:design:domain:shared_model}, and functions to define what type of information a backend containers wants to subscribe or publish (discussed in Section~\ref{subsec:design:domain:taxonomy}).
+The package \textit{iot-core} contains the shared model discussed in the Section~\ref{subsec:design:domain:shared_model}, and defines what type of information backend containers can subscribe to or publish (discussed in Section~\ref{subsec:design:domain:taxonomy}).
 
 The package \textit{sensae-console} contains software of the various containers needed to run the \textbf{Sensae Console}. As expected \textit{iot-core} is a core dependency for the \textit{sensae-console} backend containers.
 
@@ -1344,13 +1357,15 @@ As an example the logical view of the Device Ownership Backend is presented in F
    \label{fig:design:architecture:component:logical:diagram:ownership}
 \end{figure}
 
-This architecture is used on the containers: (i) Device Management Flow Backend, (ii) Data Decoder Flow Backend, (iii) Data Processor Flow Backend, (iv) Alert Dispatcher Backend, (v) Device Ownership Backend, and (vi) Data Validator Backend. The responsibilities of the components inside AMQP are:
+This architecture is used on the containers: (i) Device Management Flow Backend, (ii) Data Decoder Flow Backend, (iii) Data Processor Flow Backend, (iv) Device Ownership Backend. The responsibilities of the components inside AMQP are:
 
 \begin{itemize}
    \item Internal: responsible for communicating with the system via internal topic; 
    \item Ingress: responsible for consuming events/messages coming from data, alert or command topics;
    \item Egress: responsible for publishing events/messages to the data or alert topics.
 \end{itemize}
+
+The Memory component is responsible for caching unhandled data units and other information relevant for each context. This component is not present in Data Validator Backend and Alert Dispatcher Backend since they don't need to store context information to function.
 
 The Data Gateway, Device Commander and Data Store backend containers have architectures that derive from this one and can be consulted in Appendix \textbf{***TODO***}.
 
@@ -1380,7 +1395,13 @@ The first process to explore is meant to clarify how a Data Unit sent by a Contr
    \label{fig:design:architecture:component:process:diagram:device}
 \end{figure}
 
-As presented in the diagram, for each sub device of the controller a new data unit with that device measures is published in the system.
+As presented in the diagram:
+
+\begin{itemize}
+   \item As soon as the message dto arrives it is mapped to the \textit{iot-core} data unit model - step \textbf{2} - this model is used inside every Data Flow container. Before publishing the data unit it is mapped to the dto once again - step \textbf{16} and \textbf{23}. This conversion happens with any other event published and consumed in the system;
+   \item If the device information is found a \textit{ping} notification for that device is sent - steps \textbf{6} to \textbf{8}, otherwise an \textit{unknown} notification would be sent and the container would store the data unit;
+   \item Each sub device of the controller a new data unit with that device measures is published in the system - steps \textbf{20} to \textbf{24};
+\end{itemize}
 
 Next, the process of deploying draft rule scenarios is clarified.
 Draft scenarios exist since adding, removing or changing a rule scenario in Alert Dispatcher Backend requires the entire data set to be removed. This procedure can lead to alerts not being dispatched. The next diagram, Figure~\ref{fig:design:architecture:component:process:diagram:rule}, tackles this concern. 
@@ -1395,7 +1416,7 @@ Draft scenarios exist since adding, removing or changing a rule scenario in Aler
    \label{fig:design:architecture:component:process:diagram:rule}
 \end{figure}
 
-To mitigate the number of lost alarms, new rule scenarios are published at best every 30 minutes - step \textbf{1} - and only if any change was made - step \textbf{17} and \textbf{18}.  
+As seen in the diagram, to mitigate the number of lost alarms, new rule scenarios are published at best every 30 minutes - step \textbf{1} - and only if any change was made - step \textbf{17} and \textbf{18}.  
 
 \subsubsection*{Components Level - Development View}
 \label{subsubsec:design:architecture:components:development}

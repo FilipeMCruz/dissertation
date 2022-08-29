@@ -1,0 +1,27 @@
+@startuml ifp-system
+
+left to right direction
+
+actor "Data Source 1" as SO1
+actor "Data Source 2" as SO2
+actor "Data Source ..n" as SO3
+
+node "Information Flow\nProcessing (IFP) System" as IFP
+
+actor "Rule Manager" as RM1
+
+actor "Data Sink 1" as SI1
+actor "Data Sink 2" as SI2
+actor "Data Sink ..n" as SI3
+
+SO1 --> IFP
+SO2 --> IFP : publish input\ndata >
+SO3 --> IFP
+
+IFP --> SI1
+IFP --> SI2 : collects output\ndata >
+IFP --> SI3
+
+IFP <- RM1 : submits\nrules <
+
+@enduml

@@ -25,6 +25,6 @@ class ScriptContext {
 RuleScenario "1" -- "1" Script : has >
 RuleScenario "1" - "1" RuleScenarioId : identified by >
 RuleScenario "1" -- "1" RuleScenarioName : for >
-Script "1" -- "1" ScriptContext : defined >
+Script "1" - "1" ScriptContext : defined >
 
 @enduml

@@ -15,6 +15,10 @@ component "Device Ownership Backend" {
                 interface "Internal API" as INTERNAL_API
             }
         }
+        component "Persistence" as PRESIST {
+            component "Memory" as MEM
+            interface "Memory API" as MEM_API
+        }
         interface "Boot API" as BOOT_API
     }
 
@@ -22,6 +26,8 @@ component "Device Ownership Backend" {
     interface "Domain API" as DOM_API
 
     DOM_API - DOM
+
+    MEM_API -- MEM
 
     EGRESS_API -- EGRESS
     INGRESS_API -- INGRESS
@@ -33,10 +39,12 @@ component "Device Ownership Backend" {
     EGRESS --( APP_API
     INGRESS --( APP_API
     INTERNAL --( APP_API
-    APP --( DOM_API
+    APP -( DOM_API
+    MEM -( DOM_API
     BOOT --( INTERNAL_API
     BOOT --( EGRESS_API
     BOOT --( INGRESS_API
+    BOOT --( MEM_API
 }
 
 @enduml

@@ -755,7 +755,7 @@ This was the first \textit{Service} built as an \gls{MVP}, it was intended to be
 \subsection{Synopsis}
 \label{subsec:design:domain:synopsis}
 
-In this section the various domains that \textbf{Sensae Console} incorporates are described. This domains share some concepts such as \textbf{Device} but it isn't clear how they interact with each other. In the next section - \nameref{sec:design:architecture} - it will be addressed how this domains are connected and cooperate.   
+In this section the various domains that \textbf{Sensae Console} incorporates are described. This domains share some concepts such as \textbf{Device} but it isn't clear how they interact with each other. In the next section - \nameref{sec:design:architecture} - it will be addressed how this domains are connected and cooperate.
 
 \section{Architectural Design}
 \label{sec:design:architecture}
@@ -1599,9 +1599,9 @@ The following diagram, Figure~\ref{fig:design:alternatives:auth:externalauth:dia
 \end{figure}
 
 This approach would create a strong dependency to the \gls{CIAM} solution used since all user permissions and credentials would have to be managed by the \gls{CIAM} solution.
-Some of this services are: (i) Auth0 \cite{auth0id}, (ii) Google \cite{googleid}, (iii) Okta \cite{oktaid}, (iv) Amazon Cognito \cite{amazonid} and (v) Azure Active Directory B2C \cite{azureid}.
+Some of this services are: (i) \citetitle{auth0id}, (ii) \citetitle{googleid}, (iii) \citetitle{oktaid}, (iv) \citetitle{amazonid} and (v) \citetitle{azureid}.
 
-The platform Auth0 was tested and it is capable of registering user roles and permissions according to the requirements.
+The platform Auth0 was tested and is capable of registering user roles and permissions according to the requirements.
 
 As stated before, the dependency created would force the environment to always be coupled to the chosen \gls{CIAM} solution. For this reason this alternative was discarded.
 

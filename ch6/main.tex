@@ -528,17 +528,17 @@ ROOT_DIR=$(git rev-parse --show-toplevel)
 
 cd "$ROOT_DIR"/project/backend-services || exit
 
-rm --f -- ../test-examples/backend-test-pass.log
-rm --f -- ../test-examples/backend-test-fail.log
+rm --f -- ../reports/backend-test-pass.log
+rm --f -- ../reports/backend-test-fail.log
 
 ls -I data-relayer | xargs -I % sh -c 'cd % && mvn test && \
-    echo % >> ../../test-examples/backend-test-pass.log || \
-    echo % >> ../../test-examples/backend-test-fail.log'
+    echo % >> ../../reports/backend-test-pass.log || \
+    echo % >> ../../reports/backend-test-fail.log'
 
-test ! -f ./../test-examples/backend-test-fail.log    
+test ! -f ../reports/backend-test-fail.log      
 \end{lstlisting}
 
-This script runs the command \textit{mvn test} for all backend containers and stores the results of each container in a file - lines \textbf{13} to \textbf{15}. In the end, the script checks if any container didn't pass the tests - line \textbf{15} - and exists correspondingly.
+This script runs the command \textit{mvn test} for all backend containers and stores the results of each container in a file - lines \textbf{13} to \textbf{15}. In the end, the script checks if any container didn't pass the tests - line \textbf{15} - and exits correspondingly allowing the action to be successful or unsuccessful .
 
 \subsection{Usage of Maven Repository to host Open-Source Code}
 \label{subsec:implementation:decisions:maven}
@@ -554,23 +554,473 @@ In the \refname{***TODO***} Appendix the full \textit{pom.xml} is presented.
 \section{Technical Description}
 \label{sec:implementation:description}
 
+This section guides the reader though \textbf{Sensae Console} with a technical description of the various elements that are exposed to the final costumers and platform managers.
+
+It describes the following topics:
+
+\begin{itemize}
+    \item \nameref{subsec:implementation:description:ui};
+    \item \nameref{subsec:implementation:description:api};
+    \item \nameref{subsec:implementation:description:ingestion};
+    \item \nameref{subsec:implementation:description:rule};
+    \item \nameref{subsec:implementation:description:decoder};
+    \item \nameref{subsec:implementation:description:config};
+    \item \nameref{subsec:implementation:description:services};
+\end{itemize}
+
 \subsection{Description of Sensae Console UI}
 \label{subsec:implementation:description:ui}
+
+In this subsection the \gls{UI} is presented.
+
+The Figure~\ref{fig:implementation:description:ui:home} represents the main layout for any user. It is comprised of a toolbar with a section for \textbf{Service Pages}, another for \textbf{Configuration Pages} and a final one for authentication purposes.
+
+\begin{figure}[H]
+    \centering
+    \resizebox{\columnwidth}{!}
+    {
+       \includegraphics{assets/figures/ui/home.png}
+    }
+    \caption[Sensae Console Home Page]{Sensae Console Home Page}
+    \label{fig:implementation:description:ui:home}
+\end{figure}
+
+From this page, if the user has sufficient permissions, one can access services pages, as an example the \textbf{Smart Irrigation Page} is displayed in Figure~\ref{fig:implementation:description:ui:smartirrigation}.
+This page presents a map where the user can see, search and create irrigation zones. Device measures are updated in real time via \textit{Websocket}s. The user can also see the irrigation zone details after clicking on it. From there it's possible to open/close valves an see the history of measures of each device. 
+
+\begin{figure}[H]
+    \centering
+    \resizebox{\columnwidth}{!}
+    {
+       \includegraphics{assets/figures/ui/smart-irrigation.png}
+    }
+    \caption[Sensae Console Smart Irrigation Page]{Sensae Console Smart Irrigation Page}
+    \label{fig:implementation:description:ui:smartirrigation}
+\end{figure}
+
+From the home page the user can also access configuration pages, as an example the \textbf{Device Management Page} is displayed in Figure~\ref{fig:implementation:description:ui:device}.
+
+\begin{figure}[H]
+    \centering
+    \resizebox{\columnwidth}{!}
+    {
+       \includegraphics{assets/figures/ui/device-management.png}
+    }
+    \caption[Sensae Console Device Management Page]{Sensae Console Device Management Page}
+    \label{fig:implementation:description:ui:device}
+\end{figure}
+
+In this page the user can see when was the last time the device interacted with the platform, create and delete devices and edit the details of each device according to the model presented in Section\nameref{subsubsec:design:domain:bounded_contexts:device} of the \textit{Bounded Contexts}.
+
+Other relevant pages are presented in the Appendix \textbf{***TODO***}.
 
 \subsection{Description of Sensae Console API}
 \label{subsec:implementation:description:api}
 
+The \textbf{Sensae Console} \gls{API} is served as a \citetitle{graphql} \gls{API}, one for each service/configuration context. This \gls{API} is described with a schema.
+
+As an example the Smart Irrigation API is presented in the Code Sample~\ref{code:implementation:description:api:irrigation}. 
+
+\begin{lstlisting}[caption=Smart Irrigation API Schema, label={code:implementation:description:api:irrigation}]
+type Subscription {
+    data(filters: LiveDataFilter, Authorization: String) : SensorData
+}
+
+type Query {
+    history(filters: HistoryQueryFilters) : [SensorDataHistory]
+    fetchIrrigationZones : [IrrigationZone]
+    fetchLatestData(filters: LatestDataQueryFilters): [SensorData]
+}
+
+type Mutation {
+    createIrrigationZone(instructions: CreateIrrigationZoneCommand) : IrrigationZone
+    updateIrrigationZone(instructions: UpdateIrrigationZoneCommand) : IrrigationZone
+    deleteIrrigationZone(instructions: DeleteIrrigationZoneCommand) : IrrigationZone
+    switchValve(instructions: ValvesToSwitch): Boolean
+}        
+\end{lstlisting}
+
+From the observation of the code sample one can see that:
+
+\begin{itemize}
+    \item The \textit{data} function serves new \textit{SensorData} in realtime according to the filters provided in the \textit{filters} parameter;
+    \item The textit{data} function uses \textit{Websocket} to operate as a full duplex communication channel. This spec, contrary to the HTTP spec does not account for HTTP Headers, as such the \gls{JWT} that provides the user authentication details has to be sent as a normal parameter and not as an Authorization HTTP Header.
+    \item  There are three Query type functions. One to fetch the history regarding Irrigation Zones or Devices over a time span. One to fetch the Irrigation Zones. And the last one to fetch the latest data of each device;
+    \item There are four mutations, each corresponding to the use cases referenced in \textbf{***TODO***}.
+\end{itemize}
+
+This functions use various types, described in Appendix \textbf{***TODO***}.
+
 \subsection{Description of Sensae Console Data Ingestion Endpoint}
 \label{subsec:implementation:description:ingestion}
+
+The Data Ingestion Endpoint refers to how device data is sent to \textbf{Sensae Console}.
+
+The endpoint corresponds to an HTTP POST verb with the following \gls{URL} schema:
+
+\begin{verbatim}
+    https://<ip>:<port>/sensor-data/{channel}/{infoType}/{deviceType}
+\end{verbatim}
+
+The endpoint collects the request body and then forwards it with the appropriate routing keys.
+
+The routing keys are created according to the Table~\ref{tab:design:domain:shared_model:routing}. The \textit{infoType} can have two values: ENCODED or DECODED. Depending on this value the message is routed to \textit{Data Decoder Flow} or \textit{Data Processor Flow} as described in Figure~\ref{fig:design:architecture:container:logical:diagram:data_flow}.
+
+The \textit{channel} parameter indicates the final service that it is destine to: \textit{fleet} for Fleet Management Service or \textit{irrigation} for Smart Irrigation Service. If another value is given the message is not routed to any service.
+
+Finally, to ensure that the requests to this endpoint are trustworthy, a secret has to be sent in the Authorization HTTP Header. This secret is defined as a configuration of the \textbf{Sensae Console}, discussed in Section~\ref{subsec:implementation:description:config}.
 
 \subsection{Description of Sensae Console Rule Engine}
 \label{subsec:implementation:description:rule}
 
+The rule engine can be access from the \textbf{Rule Management Page} of the UI and, as stated in \nameref{subsubsec:design:domain:bounded_contexts:rule} Bounded Context, it provides a high-level language that can be used to detect anomalies in \textbf{Data Unit}s and turn them into \textbf{Alert}s.
+
+Valid \textbf{Data Unit}s are captured by \textbf{Alert dispatcher Backend} and the inserted in the Rule Engine.
+
+As stated in \nameref{subsec:implementation:decisions:drools}, the rule engine used was \citetitle{drools}. To write rules for \textbf{Sensae Console} one must follow several guidelines.
+
+A \citetitle{drools} rule is composed by conditions, actions and facts.
+
+Facts are inserted in the rule engine. If a fact or group of facts match a condition (\textit{when} section), an action is triggered (\textit{then} section).
+
+The rule engine, is tailored to managers or developers and not for final clients since it can be hard to create meaningfully rules without side effects.
+
+To clarify the guidelines the following Code Samples~\ref{code:implementation:description:rule:sample1}, ~\ref{code:implementation:description:rule:sample2} and \ref{code:implementation:description:rule:sample3} are presented.
+
+The first Code Sample presents the beginning of the rule scenario, where imports and new Facts are created.
+
+\begin{lstlisting}[caption=Rule Scenario Example - Part 1, label={code:implementation:description:rule:sample1}]
+package rules.project.two;
+
+import pt.sharespot.iot.core.data.model.data.DataUnitReadingsDTO;
+import pt.sharespot.iot.core.data.model.DataUnitDTO;
+import pt.sharespot.iot.core.data.model.device.records.DeviceRecordEntryDTO;
+import pt.sharespot.iot.core.data.model.properties.PropertyName;
+import pt.sharespot.iot.core.alert.model.AlertBuilder;
+import pt.sharespot.iot.core.alert.model.CorrelationDataBuilder;
+import pt.sharespot.iot.core.alert.model.AlertLevel;
+import java.util.List;
+import java.util.UUID;
+
+global pt.sharespot.iot.core.alert.model.AlertDispatcherService dispatcher;
+
+dialect "mvel"
+
+declare StoveSensor
+    @role( event )
+    deviceId : UUID
+end
+
+declare StoveSensorData
+    @role( event )
+    deviceId : UUID
+    dataId : UUID
+    temperature : Float
+    humidity : Float
+end
+\end{lstlisting}
+
+As we can see, from line \textbf{3} to \textbf{9}, classes from \textit{iot-core} are imported into the scenario.
+At line \textbf{13} the interface that defines how an alert can be sent is imported for later use.
+From line \textbf{17} to \textbf{28} two facts are declared, this can later be used as simple \textit{Java} POJOs. A fact defined with the \textit{event} role means that it occurred at a specific time (upon creation) and can be used for \gls{CEP}. 
+
+The following code sample presents a simple rule to store \textit{StoveSensorData} facts in the working memory of \citetitle{drools}. 
+
+\begin{lstlisting}[caption=Rule Scenario Example - Part 2, label={code:implementation:description:rule:sample2}] 
+rule "Collect stove sensor data that belongs to Project #002"
+    when
+        $d : DataUnitDTO(
+            getSensorData()
+            .hasProperty(PropertyName.AIR_HUMIDITY_RELATIVE_PERCENTAGE),
+            getSensorData()
+            .hasProperty(PropertyName.TEMPERATURE)
+        )
+        exists DeviceRecordEntryDTO(
+            label == "Project" && content == "#002"
+        ) from $d.device.records
+        not(StoveSensorData(dataId == $d.dataId))
+    then
+        StoveSensorData reading = new StoveSensorData();
+        reading.setDeviceId($d.device.id);
+        reading.setDataId($d.dataId);
+        reading.setTemperature($d.getSensorData().temperature.celsius);
+        reading.setHumidity($d.getSensorData().airHumidity.relativePercentage);
+        insert(reading)
+end
+\end{lstlisting}
+
+As we can see this rule is compossed by two sections, the \textit{when} and \textit{then} sections. In the \textit{when} the following conditions are defined:
+
+\begin{itemize}
+    \item The captured DataUnitDTO has AIR HUMIDIDTY RELATIVE PERCENTAGE and TEMPERATURE measures - lines \textbf{3} to \textbf{8};
+    \item The capture DataUnitDTO has a record with a "Project" label and "\#002" content - lines \textbf{9} to \textbf{11};
+    \item The DataUnitDTO is not a duplicate fact in the working memory - line \textbf{12}.
+\end{itemize}
+
+Once this conditions are meet a \textit{StoveSensorData} is created with all the needed information and then inserted into the working memory - lines \textbf{14} to \textbf{19}.
+
+The following code sample presents a simple rule to dispatch an \textbf{Alert} after some conditions are meet. 
+
+\begin{lstlisting}[caption=Rule Scenario Example - Part 3, label={code:implementation:description:rule:sample3}]
+rule "Dispatch Stove Alarm - Dry Soil Scenario - Project #002"
+    when
+        $s : StoveSensorData(temperature > 26, humidity < 50)
+        not(StoveSensorData(this != $s,
+                temperature < 26,
+                humidity > 50,
+                this after[0s,11m] $s)
+        )
+    then 
+        dispatcher.publish(AlertBuilder.create()
+                            .setCategory("irrigation")
+                            .setSubCategory("drySoilDetected")
+                            .setDescription("Project #002 - Device "+ $s.deviceId +" detected low humidity/high temperature")
+                            .setLevel(AlertLevel.ADVISORY)
+                            .setContext(CorrelationDataBuilder.create()
+                                .setDeviceIds($s.deviceId)
+                                .setOther("Project #002")
+                                .build())
+                            .build());
+end
+\end{lstlisting}
+
+As we can see this rule matches when the same device reports measures of air humidity higher than 50\% and temperature lower then 26 ºC for more than 11 minutes.
+
+Once it matches an Alert is dispatched using the referenced dispatcher in Code Sample~\ref{code:implementation:description:rule:sample1}. The Alert can be created using the builder pattern.
+
+An Alert closely resembles a Notification from the \nameref{subsubsec:design:domain:bounded_contexts:notification} Bounded Context. It also has a category (line \textbf{13}), a sub category (line \textbf{14}), a severity level (line \textbf{16}), a description (line \textbf{15}) and a notification context (lines \textbf{17} to \textbf{20}).
+
+For an \textbf{Alert} to be sent at least the category and sub category parameters have to be set. By default the \textbf{INFORMATION} severity level is used.
+
+In order for services to act upon a received \textbf{Alert}, it has to be associated with a \textit{DeviceId} (this association helps services like \textbf{Smart Irrigation} to know what Valve must be turned on or off), a \textit{DataId} or \textit{Other}.
+
+An \textbf{Alert} is later transformed and store as a Notification, the \textit{DeviceId}s associated to it are used to determine what domains will have access to the Notification. If no \textit{DeviceId}s are associated only the root domain will have access to it.
+
 \subsection{Description of Sensae Console Data Decoders}
 \label{subsec:implementation:description:decoder}
 
+As mentioned in the \nameref{subsubsec:design:domain:bounded_contexts:decoder} Bounded Context Section, \textbf{Data decoder}'s purpose is to provide a flexible option to transform inbound data units into something that the system understands.
+
+This happens when a \textbf{Data Unit} has a routing key with the ENCODED info type.
+
+There are certain guidelines to follow in order to create a decoder:
+
+\begin{itemize}
+    \item Has to be written in vanilla \textit{javascript};
+    \item Has to have an \textit{entry} function with the following signature \textit{function convert(dataUnit)};
+    \item Can't import any node function, npm package or reference other scripts.
+\end{itemize}
+
+As an example, the Code Sample~\ref{code:implementation:description:decoder:em300th} presents the decoder for the device type EM500-TH\footnote{https://www.milesight-iot.com/lorawan/sensor/em300-th}.
+
+\begin{lstlisting}[caption=EM300-TH Data Decoder Example, label={code:implementation:description:decoder:em300th}] 
+const decodePayload = (payload, port) =>
+    ({"0": decoder(base64ToHex(payload), port)});
+
+const base64ToHex = (() => {
+    const values = [],
+    output = [];
+
+    return function base64ToHex(txt) {
+        if (output.length <= 0) populateLookups();
+        const result = [];
+        let v1, v2, v3, v4;
+        for (let i = 0, len = txt.length; i < len; i += 4) {
+            v1 = values[txt.charCodeAt(i)];
+            v2 = values[txt.charCodeAt(i + 1)];
+            v3 = values[txt.charCodeAt(i + 2)];
+            v4 = values[txt.charCodeAt(i + 3)];
+            result.push(
+                parseInt(output[(v1 << 2) | (v2 >> 4)], 16),
+                parseInt(output[((v2 & 15) << 4) | (v3 >> 2)], 16),
+                parseInt(output[((v3 & 3) << 6) | v4], 16)
+            );
+        }
+        if (v4 === 64) result.splice(v3 === 64 ? -2 : -1);
+        return result;
+    };
+    function populateLookups() {
+        const keys =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+        for (let i = 0; i < 256; i++) {
+            output.push(("0" + i.toString(16)).slice(-2));
+            values.push(0);
+        }
+        for (let i = 0; i < 65; i++) values[keys.charCodeAt(i)] = i;
+    }
+})();
+
+function decoder(bytes, port) {
+    let decoded = {}, temperature = {}, airHumidity = {}, battery = {};
+    for (let i = 0; i < bytes.length;) {
+        let channel_id = bytes[i++];
+        let channel_type = bytes[i++];
+        if (channel_id === 0x01 && channel_type === 0x75) {
+            decoded.battery = battery;
+            battery.percentage = bytes[i];
+            i += 1;
+        } else if (channel_id === 0x03 && channel_type === 0x67) {
+            decoded.temperature = temperature;
+            temperature.celsius = readInt16LE(bytes.slice(i,i+2))/10;
+            i += 2;
+        } else if (channel_id === 0x04 && channel_type === 0x68) {
+            decoded.airHumidity = airHumidity;
+            airHumidity.relativePercentage = bytes[i] / 2;
+            i += 1;
+        } else {
+            break;
+        }
+    }
+    return decoded;
+}
+const readUInt16LE = bytes => (bytes[1] << 8) + bytes[0] & 0xffff;
+
+function readInt16LE(bytes) {
+    let ref = readUInt16LE(bytes);
+    return ref > 0x7fff ? ref - 0x10000 : ref;
+}
+const convert = dataUnit => ({
+    dataId: dataUnit.uuid,
+    reportedAt: dataUnit.reported_at,
+    device: {
+        id: dataUnit.id,
+        name: dataUnit.name,
+        downlink: dataUnit.downlink_url,
+    },
+    measures: decodePayload(dataUnit.payload, dataUnit.port),
+});
+\end{lstlisting}
+
+As we can see, this code sample decodes an EM300-TH \textbf{Data Unit}. The function \textit{convert} is the one mentioned in the guidelines, it assigns values such as \textit{id}, \textit{name}, \textit{reported\_at}, \textit{downlink\_url}, \textit{uuid} to its correct place and calls the function \textit{decodePayload} to gather the device measures. The \textit{decodePayload} stores every measure in the \textit{controller} key - value \textit{0}. The function \textit{base64ToHex} is the function that reads a Base 64 string and transforms it into a Hex Array - to reduce bandwidth th device normally encodes and sends data as a base 64 string. The function \textit{decoder}, \textit{readInt16LE} and \textit{readUInt16LE} were adapted from the TTN decoder\footnote{https://github.com/Milesight-IoT/SensorDecoders/blob/master/EM300\_Series/EM300-TH} of this device.
+
 \subsection{Description of Configuration Files}
 \label{subsec:implementation:description:config}
+
+This section describes how a \textbf{Sensae Console} is configured. One of the problems that arise from a microservice architecture is how to maintain all configurations for each container developed and configured. following the \citetitle{confcentral}, all configurations are defined via configuration files that support three environments: \textit{dev}, \textit{test} and \textit{prod}.
+
+This configurations are defined, for each environment, in a single file. This file, Listing~\ref{code:implementation:description:config:file}, has the following structure:
+
+\begin{lstlisting}[caption=Configuration File for Production Environment, label={code:implementation:description:config:file}]
+export SENSAE_MAPBOX_ACCESS_TOKEN=
+export SENSAE_MAPBOX_SIMPLE_STYLE=
+export SENSAE_MAPBOX_SATELLITE_STYLE=
+export SENSAE_BROKER_USERNAME=
+export SENSAE_BROKER_PASSWORD=
+export SENSAE_COMMON_DATABASE_PASSWORD=
+export SENSAE_DATA_STORE_USER_PASSWORD=
+export SENSAE_DATA_STORE_ROOT_PASSWORD=
+export SENSAE_AUTH_PATH_PUB_KEY=
+export SENSAE_AUTH_PATH_PRIV_KEY=
+export SENSAE_AUTH_ISSUER=
+export SENSAE_AUTH_AUDIENCE=
+export SENSAE_DATA_AUTH_KEY=
+export SENSAE_AUTH_EXTERNAL_MICROSOFT_AUDIENCE=
+export SENSAE_AUTH_EXTERNAL_GOOGLE_AUDIENCE=
+export SENSAE_SMS_TWILIO_ACCOUNT_SID=
+export SENSAE_SMS_TWILIO_AUTH_TOKEN=
+export SENSAE_SMS_SENDER_NUMBER=
+export SENSAE_SMS_ACTIVATE=
+export SENSAE_EMAIL_SENDER_ACCOUNT=
+export SENSAE_EMAIL_SUBJECT=
+export SENSAE_EMAIL_SENDER_PASSWORD=
+export SENSAE_EMAIL_SMTP_HOST=
+export SENSAE_EMAIL_SMTP_PORT=
+export SENSAE_EMAIL_ACTIVATE=
+export SENSAE_PROD_PUBLIC_DOMAIN=
+export SENSAE_ADMIN_EMAIL=
+\end{lstlisting}
+
+This file variables are then passed on to each container's environment configuration file with the help of a script. The Code Sample~\ref{code:implementation:description:config:script} sheds a light on how the script propagates the configurations.
+
+\begin{lstlisting}[caption=Configuration Propagation Script, label={code:implementation:description:config:script}]
+#!/usr/bin/sh
+
+ROOT_DIR=$(git rev-parse --show-toplevel)
+
+cd "$ROOT_DIR"/project || exit
+
+. ./secrets/prod.conf
+
+SECRET_BACK=secrets/templates/prod/backend-services
+SECRET_FRONT=secrets/templates/prod/frontend-services
+SECRET_DB=secrets/templates/prod/databases
+
+BACK_PREFFIX=secrets/prod
+FRONT_PREFFIX=frontend-services/apps
+FRONT_SUFFIX=src/environments/environment.prod.ts
+
+envsubst < $SECRET_BACK/alert-dispatcher-backend.env > \
+     $BACK_PREFFIX/alert-dispatcher-backend.env
+# and all other backend services
+envsubst < $SECRET_BACK/data-validator.env >
+     $BACK_PREFFIX/data-validator.env
+
+envsubst < $SECRET_FRONT/device-management-frontend.ts > \
+ $FRONT_PREFFIX/device-management-frontend/$FRONT_SUFFIX
+# and all other frontend services
+envsubst < $SECRET_FRONT/ui-aggregator.ts > \
+ $FRONT_PREFFIX/ui-aggregator/$FRONT_SUFFIX
+
+envsubst < secrets/templates/prod/message-broker/message-broker.env > \
+ $BACK_PREFFIX/message-broker.env
+
+envsubst < $SECRET_DB/data-decoder-database.env > \
+ $BACK_PREFFIX/data-decoder-database.env
+# and all other databases
+envsubst < $SECRET_DB/rule-management-database.env > \
+ $BACK_PREFFIX/rule-management-database.env
+\end{lstlisting}
+
+In the future, as more isolated deployments are made, a tool such as \citetitle{vault} should be integrated in the solution.
+
+\subsection{Description of Sensae Console Services}
+\label{subsec:implementation:description:services}
+
+This section refers how services interact with the \textbf{Data Flow Scope}, this was briefly mentioned in Section~\ref{subsubsec:design:domain:shared_model:routing}.
+
+In order to provide an easy to understand integration with the \textbf{Data Flow Scope}, the routing keys concept was introduced. The idea, from the point of view of someone developing a service, is to start by defining what type of information that service should capture.
+
+The two types of information a service can capture are: (i) \textbf{Data Unit}s and (ii) \textbf{Alert}s. Each of this information are defined by their routing keys as described in Table~\ref{tab:design:domain:shared_model:routing}.
+
+A service can also publish \textbf{Command}s.
+
+The following sub sections will detail each service information needs.
+
+\subsubsection*{Smart Irrigation Service}
+\label{subsubsec:implementation:description:services:irrigation}
+
+This service captures information of the given types:
+
+\begin{itemize}
+    \item \textbf{Data Topic}: \textit{'processed'}, \textit{'correct'}, with \textit{'defined ownership'} and \textit{'device information'} data unit with \textit{'gps'} and \textit{'trigger'} readings in the channel \textit{'irrigation'} (for valves);
+    \item \textbf{Data Topic}: \textit{'processed'}, \textit{'correct'}, with \textit{'defined ownership'} and \textit{'device information'} data unit with \textit{'gps'}, \textit{'temperature'} and \textit{'air humidity'} readings in the channel \textit{'irrigation'} (for green house sensors);
+    \item \textbf{Data Topic}: \textit{'processed'}, \textit{'correct'}, with \textit{'defined ownership'} and \textit{'device information'} data unit with \textit{'gps'}, \textit{'illuminance'} and \textit{'soil moisture'} readings in the channel \textit{'irrigation'} (for park sensors);
+    \item \textbf{Alert Topic}: alerts with the category \textit{'smartIrrigation'} and sub category \textit{'drySoil'} (to open all valves in a garden);
+    \item \textbf{Alert Topic}: alerts with \textit{'defined ownership'}, the category \textit{'smartIrrigation'} and sub category \textit{'moistSoil'} (to close all valves in a garden);
+    \item \textbf{Alert Topic}: alerts with \textit{'defined ownership'}, the category \textit{'smartIrrigation'} and sub category \textit{'valveOpenForLengthyPeriod'} (to close that specific valve).
+\end{itemize}
+
+It then publishes Commands to close or open valves. The service can only issue a command if the Data Unit sent by the valve refers two commands, one to open and another to close the valve. This commands, usually defined in the \textbf{Device Management Page}, and mentioned in the \nameref{subsubsec:design:domain:bounded_contexts:device} Bounded Context, need to have the \textit{CommandId} value as \textit{'openValve'} or \textit{'closeValve'}.
+
+At a high-level view, this service requires data from \textit{Park} sensors, \textit{Green Houses} and \textit{Valves} that flow in the \textit{'irrigation'} channel. It captures Alerts to decide when to open or close Valves by sending specific Commands.
+
+\subsubsection*{Fleet Management Service}
+\label{subsubsec:implementation:description:services:fleet}
+
+This service captures information of a single type (and doesn't publish any Command):
+
+\textbf{Data Topic}: \textit{'processed'}, \textit{'correct'}, with \textit{'defined ownership'} and \textit{'device information'} data unit with \textit{'gps'} readings in the channel \textit{'fleet'}.
+
+At a high-level view, this service only requires \gls{GPS} data sent to the \textit{'fleet'} channel.
+
+\subsubsection*{Notification Management Service}
+\label{subsubsec:implementation:description:services:notification}
+
+This service captures information of a single type (and doesn't publish any Command):
+
+\textbf{Alert Topic}: alerts with \textit{'defined ownership'}.
+
+At a high-level view, this service requires all alerts that already have a \textit{'defined ownership'}.
 
 \section{Testing}
 \label{sec:implementation:testing}

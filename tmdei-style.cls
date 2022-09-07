@@ -522,13 +522,60 @@ breaklinks=true,
 \newcommand{\option}[1]{\texttt{\itshape#1}}
 
 %----------------------------------------------------------------------------------------
-\lstdefinestyle{yaml}{
-     basicstyle=\color{blue}\footnotesize,
-     rulecolor=\color{black},
-     string=[s]{'}{'},
-     stringstyle=\color{blue},
-     comment=[l]{:},
-     commentstyle=\color{black}
- }
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+\definecolor{jskeywords}{HTML}{E4D00A}% JavaScript keywords
+\definecolor{jsextkeywords}{HTML}{FF6700}% JavaScript extended keywords
 
-\endinput
+\definecolor{identifiers}{HTML}{645452} % identfiers
+\definecolor{string}{HTML}{B57281} % string literals
+\definecolor{allcomment}{HTML}{808080} % comment
+
+\definecolor{nodejs}{HTML}{629755} % Nodejs keywords
+\definecolor{testing}{HTML}{4169E1} % Node.js assert, jasmine
+\definecolor{express}{HTML}{FF8C69} % Express.js
+\definecolor{linenumber}{HTML}{996515} % line number
+\definecolor{apricot}{HTML}{98777B} % numbers
+\definecolor{linenofill}{HTML}{BEBEBE} % line number fill color
+\definecolor{antiquefuchsia}{HTML}{915C83} % braces
+\definecolor{ballblue}{HTML}{21ABCD} % braces
+
+\definecolor{captioncolor}{rgb}{0.39, 0.33, 0.32} % caption color
+
+\lstdefinestyle{yaml}{
+	basicstyle=\color{blue}\footnotesize,
+	rulecolor=\color{black},
+	string=[s]{'}{'},
+	stringstyle=\color{red},
+	comment=[l]{:},
+	commentstyle=\color{black}
+}
+
+\lstdefinestyle{Java}{
+	showspaces=false,
+	showtabs=false,
+	breaklines=true,
+	showstringspaces=false,
+	breakatwhitespace=true,
+	commentstyle=\color{ballblue},
+	keywords={var, void, public, static, new, throws, for, if, null, extends, class, private, protected, return, super, implements, abstract},
+	keywordstyle=\color{blue},
+	stringstyle=\color{red},
+	basicstyle=\color{black}\footnotesize,
+	moredelim=[il][\textcolor{antiquefuchsia}]{$$},
+	moredelim=[is][\textcolor{antiquefuchsia}]{\%\%}{\%\%}
+}
+
+\lstdefinestyle{javascript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break, const, let, declare, namespace, interface, void},
+  keywordstyle=\color{blue},
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{ballblue}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}

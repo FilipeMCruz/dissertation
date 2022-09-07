@@ -119,6 +119,25 @@ Both tools have a wide support from the community and excellent documentation. F
 
 \citetitle{modulefederation} was the tool used to seemly connect the various Frontend. No other tool was considered or researched since \textit{Angular} already relies on \textit{Webpack 5} to bundle the application and therefore it's effortless to use this tool. \citetitle{modulefederation} allows programs to reference other programs parts that are not known at compile time. In addition, the micro frontends can share libraries with each other, so that the individual bundles do not contain any duplicates.
 
+\subsubsection*{Technologies used to build and manage the Frontend Services}
+\label{subsubsec:implementation:decisions:frontend:nx}
+
+This section describes how the various frontends are built and share common pieces of code. Angular comes with a tool to build and manage project but it was deemed too minimal for this project. Instead, the tool used was \citetitle{nx}. \citetitle{nx} describes it self as a ``Smart, Fast and Extensible Build System'', the
+``Next generation build system with first class monorepo support and powerful integrations.''
+
+This tool provides features needed to manage multiple frontends in a single repository, without dealing with libraries versions mismatch.
+
+\subsubsection*{Technologies used to provide map/location base services}
+\label{subsubsec:implementation:decisions:frontend:maps}
+
+This section briefly describes the library used to render and work with maps.
+
+The two options in regards to this requirement were: (i) \citetitle{googlemaps} and (ii) \citetitle{mapbox}.
+
+The author picked \citetitle{mapbox} due to better documentation, a more stable api, and a much suitable pricing plan for small businesses, when compared with \citetitle{googlemaps}.
+
+This library can render custom maps and is bundled with powerful data visualization tools with a simple to use api. Two features deemed important for the solution.
+
 \subsection{Expose a GraphQL API On Backend Services}
 \label{subsec:implementation:decisions:graphql}
 
@@ -328,6 +347,8 @@ The system is thus represented as a collection of containers that communicate wi
 
 The production environment can thus be quickly replicated on another machine in case of a failure disaster or a overwhelming number of interaction with the server.
 
+Details about service containerization can be found in Section~\ref{subsec:implementation:description:docker}.
+
 \subsection{Orchestration of services via Docker Compose}
 \label{subsec:implementation:decisions:compose}
 
@@ -338,6 +359,8 @@ As stated in the article \citetitle{dockercompose}, ``Compose is a tool for defi
 Since there is no need to automatically scale the solution it was decided to use a docker compose in production inserted of tools like Kubernetes.
 
 The solution's orchestration is defined in a \textit{YAML} file and then started with a single command. To improve security, only the needed container ports are exposed. To ensure data integrity throughout service disruptions, persistence data is mapped to folder in the \gls{OS}. To ensure an easy management of the environment, configurations are kept in the \gls{OS} and fetched by each container once they start. 
+
+The details about the solution orchestration can be found in Section~\ref{subsec:implementation:description:compose}.
 
 \subsection{Usage of Nginx as a web server and reverse proxy}
 \label{subsec:implementation:decisions:nginx}
@@ -365,6 +388,8 @@ All of them support the necessary requirements, but some factors lead the author
     \label{tab:implementation:decisions:nginx:compare}
 \end{table}
 
+The details about \citetitle{nginx} configuration can be found in Section~\ref{subsec:implementation:description:nginx}.
+
 \subsection{Usage of Git as a version control system of the project}
 \label{subsec:implementation:decisions:git}
 
@@ -377,7 +402,7 @@ A \gls{VCS} is indispensable in software development, this system allows develop
 
 The development of the entire solution was made in two separated repositories, one for \textit{iot-core} and another for \textbf{Sensae Console}.
 
-The \textit{iot-core} repository had a simple branching model consisting only of a master branch. 
+The \textit{iot-core} repository had a simple branching model consisting only of a master branch.
 
 There was an extensive use of the branching feature in the repository of \textbf{Sensae Console}, following the model shown in Figure~\ref{fig:implementation:decisions:git:branch}. The author settled for the following: a master branch that matches the deployed version, a development branch where the various features are introduced until a new version is published on the master branch, several branches dedicated to fixing bugs (hotfix) and another several branches that introduce new features and improvements (feature \textit{x}).
 
@@ -404,6 +429,8 @@ This model was adopted since the project was in an initial phase of development,
 \end{figure}
 
 This is useful when using CI/CD pipelines to compile, package and deploy the various containers of the solution. If no changes have been made to \textit{X} Container there is no need to redo all the work previously done with it.
+
+The reason behind the monorepo approach for \textbf{Sensae Console} is that it allows frontend libraries to be shared without publishing somewhere. It is also much easier to keep track of the code in a monorepo since the solution is developed by a single developer.
 
 \subsection{Usage of Github Issues to track issues, bugs and new features}
 \label{subsec:implementation:decisions:issues}
@@ -496,14 +523,14 @@ This action then procedes to download and setup java and maven - lines \textbf{1
 The \textbf{Sensae Console} has an action to deal with Continuous Integration - Code Sample~\ref{code:implementation:decisions:actions:cisensae}, where changes made to the software are tested.
 
 \begin{lstlisting}[style=yaml, caption=Configuration File for \textbf{Sensae Console} Continuous Integration, label={code:implementation:decisions:actions:cisensae}]
-name: Sensae Console - Continuous Integration - Test changes 
+name: Sensae Console - Continuous Integration - Test changes
 on:
   push:
-  branches:
-    - master
-    - dev
+    branches:
+      - master
+      - dev
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -512,33 +539,74 @@ jobs:
         with:
           java-version: "17"
           distribution: "adopt"
-      - name: Test with Maven
-          run: ./project/script/run-backend-tests.sh
+      - name: Set up Node 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Test Suite
+        run: |
+          ./project/scripts/run-tests.sh "${{ secrets.mapbox_token }}" "${{ secrets.microsoft_audience }}" "${{ secrets.google_audience }}" "${{ secrets.admin_email }}"
+
 \end{lstlisting}
 
 As we can see in lines \textbf{2} to \textbf{6}, this action is triggered every time a new commit is push to the \textit{dev} and \textit{master} branches.
-This action then procedes to download and setup java and maven - lines \textbf{10} to \textbf{16}. Finally it runs a script that tests the backend services - line \textbf{18}.
+This action then procedes to download and setup java and maven - lines \textbf{10} to \textbf{16}, and then node and npm - lines \textbf{17} to \textbf{20}. Finally it runs a script that tests the solution - line \textbf{23}. The script requires the displayed secrets to run some tests, this tests will be discussed in the \nameref{sec:implementation:testing} Section.
 
 The mentioned script has the following structure - Code Sample~\ref{code:implementation:decisions:actions:testscript}.
 
-\begin{lstlisting}[caption=Backend services test script, label={code:implementation:decisions:actions:testscript}]
-#!/usr/bin/sh
+\begin{lstlisting}[caption=Sensae Console Test Suite Script, label={code:implementation:decisions:actions:testscript}]
+#!/bin/bash
+set -eo pipefail
 
 ROOT_DIR=$(git rev-parse --show-toplevel)
 
-cd "$ROOT_DIR"/project/backend-services || exit
+cd "$ROOT_DIR"/project || exit
 
-rm --f -- ../reports/backend-test-pass.log
-rm --f -- ../reports/backend-test-fail.log
+./scripts/generate-test-config.sh "$@"
+
+docker-compose -f docker-compose.build.yml build
+
+rm --f -- reports/backend-test-pass.log
+rm --f -- reports/backend-test-fail.log
+
+cd backend-services || exit
 
 ls -I data-relayer | xargs -I % sh -c 'cd % && mvn test && \
     echo % >> ../../reports/backend-test-pass.log || \
     echo % >> ../../reports/backend-test-fail.log'
 
-test ! -f ../reports/backend-test-fail.log      
+test ! -f ../reports/backend-test-fail.log
+
+cd ../frontend-services || exit
+
+npm install
+npm run test-all
+
+./../scripts/build-images.sh
+
+docker-compose -f ../docker-compose.test.yml up -d --build
+
+sleep 60
+
+npm run e2e-all
+
+docker-compose -f ../docker-compose.test.yml down    
 \end{lstlisting}
 
-This script runs the command \textit{mvn test} for all backend containers and stores the results of each container in a file - lines \textbf{13} to \textbf{15}. In the end, the script checks if any container didn't pass the tests - line \textbf{15} - and exits correspondingly allowing the action to be successful or unsuccessful .
+This script first intent is to defined a basic environment where tests can be run.
+The flag \textit{set -eo pipefail} ensures that if any command fails the script will terminate and exit with an error.
+It runs the following steps:
+
+\begin{itemize}
+    \item Generate configurations - line \textbf{8} - to run every test according to the secrets provided by the github action presented at Listing~\ref{code:implementation:decisions:actions:cisensae},
+    \item Build the database containers - line \textbf{10}. The file \textit{docker-compose.build.yml} references all the solution's databases that need a custom build due to their predefined schema;
+    \item Run the command \textit{mvn test} for all backend containers and store the results of each container's test in a file - lines \textbf{17} to \textbf{19};
+    \item Checks if any container didn't pass the tests - line \textbf{15};
+    \item Run tests related to the frontend at lines \textbf{23} to \textbf{26}. The script mentioned as \textit{test-all} is: \textit{nx run-many --all --target=test}. This script runs all unit tests of both frontend libraries and apps using \citetitle{nx}, as mentioned in \ref{subsubsec:implementation:decisions:frontend:nx} Section;
+    \item Build and start an evironment similar to the production one - lines \textbf{28} to \textbf{32};
+    \item Preform end to end tests against the test environment - \textbf{34}. THe script mentioned as \textit{e2e-all} is: \textit{nx run-many --all --target=e2e --parallel=1}. This script runs all end-toend tests of the frontend apps using \citetitle{nx}, as mentioned in \ref{subsubsec:implementation:decisions:frontend:nx} Section;
+    \item Shutdown the test environment.
+\end{itemize}
 
 \subsection{Usage of Maven Repository to host Open-Source Code}
 \label{subsec:implementation:decisions:maven}
@@ -560,15 +628,21 @@ It describes the following topics:
 
 \begin{itemize}
     \item \nameref{subsec:implementation:description:ui};
+    \item \nameref{subsec:implementation:description:maps};
     \item \nameref{subsec:implementation:description:api};
     \item \nameref{subsec:implementation:description:ingestion};
     \item \nameref{subsec:implementation:description:rule};
     \item \nameref{subsec:implementation:description:decoder};
+    \item \nameref{subsec:implementation:description:database};
+    \item \nameref{subsec:implementation:description:docker};
+    \item \nameref{subsec:implementation:description:compose};
+    \item \nameref{subsec:implementation:description:nginx};
     \item \nameref{subsec:implementation:description:config};
     \item \nameref{subsec:implementation:description:services};
+    \item \nameref{subsec:implementation:description:sensor};
 \end{itemize}
 
-\subsection{Description of Sensae Console UI}
+\subsection{Sensae Console UI}
 \label{subsec:implementation:description:ui}
 
 In this subsection the \gls{UI} is presented.
@@ -614,7 +688,26 @@ In this page the user can see when was the last time the device interacted with 
 
 Other relevant pages are presented in the Appendix \textbf{***TODO***}.
 
-\subsection{Description of Sensae Console API}
+\subsection{Sensae Console Custom Maps}
+\label{subsec:implementation:description:maps}
+
+This section describes how custom maps where built to fit the solution needs. Some costumers facilities were not present in the satellite view of \citetitle{googlemaps} or \citetitle{mapbox}. A custom map, with the missing facilities, was built using satellite images taken with a drone. The images where processed with \citetitle{arcgis} and transformed in \textit{.tiff} files that could be incorporated in the basic satellite layer of \citetitle{mapbox}.
+
+The following image, Figure~\ref{fig:implementation:description:maps:irrig} presents the new map with the costumer facilities in a greener tone than the rest of the map. This map was used to display three greenhouses and a chicken farm that belong to a costumer. This map is currently in use by the Smart Irrigation Service.
+
+\begin{figure}[H]
+    \centering
+    \resizebox{\columnwidth}{!}
+    {
+       \includegraphics{assets/figures/maps/custom-map.png}
+    }
+    \caption[Costum Map - Smart Irrigation]{Custom Map - Smart Irrigation}
+    \label{fig:implementation:description:maps:irrig}
+\end{figure}
+
+The road trajectory mismatch present in the map could be reduced by taking pictures from more angles. \citetitle{arcgis} would create better model with a wider pool of information.
+
+\subsection{Sensae Console Backend API}
 \label{subsec:implementation:description:api}
 
 The \textbf{Sensae Console} \gls{API} is served as a \citetitle{graphql} \gls{API}, one for each service/configuration context. This \gls{API} is described with a schema.
@@ -651,7 +744,7 @@ From the observation of the code sample one can see that:
 
 This functions use various types, described in Appendix \textbf{***TODO***}.
 
-\subsection{Description of Sensae Console Data Ingestion Endpoint}
+\subsection{Sensae Console Data Ingestion Endpoint}
 \label{subsec:implementation:description:ingestion}
 
 The Data Ingestion Endpoint refers to how device data is sent to \textbf{Sensae Console}.
@@ -670,7 +763,7 @@ The \textit{channel} parameter indicates the final service that it is destine to
 
 Finally, to ensure that the requests to this endpoint are trustworthy, a secret has to be sent in the Authorization HTTP Header. This secret is defined as a configuration of the \textbf{Sensae Console}, discussed in Section~\ref{subsec:implementation:description:config}.
 
-\subsection{Description of Sensae Console Rule Engine}
+\subsection{Sensae Console Rule Engine}
 \label{subsec:implementation:description:rule}
 
 The rule engine can be access from the \textbf{Rule Management Page} of the UI and, as stated in \nameref{subsubsec:design:domain:bounded_contexts:rule} Bounded Context, it provides a high-level language that can be used to detect anomalies in \textbf{Data Unit}s and turn them into \textbf{Alert}s.
@@ -749,10 +842,10 @@ rule "Collect stove sensor data that belongs to Project #002"
 end
 \end{lstlisting}
 
-As we can see this rule is compossed by two sections, the \textit{when} and \textit{then} sections. In the \textit{when} the following conditions are defined:
+As we can see this rule is composed by two sections, the \textit{when} and \textit{then} sections. In the \textit{when} the following conditions are defined:
 
 \begin{itemize}
-    \item The captured DataUnitDTO has AIR HUMIDIDTY RELATIVE PERCENTAGE and TEMPERATURE measures - lines \textbf{3} to \textbf{8};
+    \item The captured DataUnitDTO has AIR HUMIDITY RELATIVE PERCENTAGE and TEMPERATURE measures - lines \textbf{3} to \textbf{8};
     \item The capture DataUnitDTO has a record with a "Project" label and "\#002" content - lines \textbf{9} to \textbf{11};
     \item The DataUnitDTO is not a duplicate fact in the working memory - line \textbf{12}.
 \end{itemize}
@@ -796,7 +889,7 @@ In order for services to act upon a received \textbf{Alert}, it has to be associ
 
 An \textbf{Alert} is later transformed and store as a Notification, the \textit{DeviceId}s associated to it are used to determine what domains will have access to the Notification. If no \textit{DeviceId}s are associated only the root domain will have access to it.
 
-\subsection{Description of Sensae Console Data Decoders}
+\subsection{Sensae Console Data Decoders}
 \label{subsec:implementation:description:decoder}
 
 As mentioned in the \nameref{subsubsec:design:domain:bounded_contexts:decoder} Bounded Context Section, \textbf{Data decoder}'s purpose is to provide a flexible option to transform inbound data units into something that the system understands.
@@ -893,7 +986,312 @@ const convert = dataUnit => ({
 
 As we can see, this code sample decodes an EM300-TH \textbf{Data Unit}. The function \textit{convert} is the one mentioned in the guidelines, it assigns values such as \textit{id}, \textit{name}, \textit{reported\_at}, \textit{downlink\_url}, \textit{uuid} to its correct place and calls the function \textit{decodePayload} to gather the device measures. The \textit{decodePayload} stores every measure in the \textit{controller} key - value \textit{0}. The function \textit{base64ToHex} is the function that reads a Base 64 string and transforms it into a Hex Array - to reduce bandwidth th device normally encodes and sends data as a base 64 string. The function \textit{decoder}, \textit{readInt16LE} and \textit{readUInt16LE} were adapted from the TTN decoder\footnote{https://github.com/Milesight-IoT/SensorDecoders/blob/master/EM300\_Series/EM300-TH} of this device.
 
-\subsection{Description of Configuration Files}
+\subsection{Sensae Console Database Configuration}
+\label{subsec:implementation:description:database}
+
+The solution designed relies on various databases, and as discussed in Section~\ref{subsubsec:implementation:decisions:database:relational} some are relational databases. \citetitle{postgressql} and most databases of this data-model type require a database schema. For this solution the schema of each database is defined in a \textit{sql} file that is executed at the start of the database, only if no data is found. 
+
+Further database schema migrations are preformed using custom sql scripts when needed. In the future, once more instance of \textbf{Sensae Console} are deployed, the use of liquidbase or flyway is prefered.
+
+The following Code Sample~\ref{code:implementation:description:database:file} exemplifies the content of this scripts.
+
+\begin{lstlisting}[caption=Initialization Script Segment for Data Processor Database, label={code:implementation:description:database:file}]
+create table if not exists public.transformation
+(
+    persistence_id bigint generated by default as identity
+        primary key,
+    device_type    varchar(255)
+        constraint unique_type_constrain
+            unique
+);
+
+create table if not exists public.property_transformation
+(
+    persistence_id                bigint generated by default as identity (maxvalue 2147483647)
+        primary key,
+    value                         integer           not null,
+    old_path                      varchar(255),
+    transformation_persistence_id bigint
+        constraint ref_transformation_constrain
+            references public.transformation,
+    sub_sensor_id                 integer default 0 not null
+);
+\end{lstlisting}
+
+This script defines two simple tables, \textit{transformation} and \textit{property\_transformation}, following the concepts defined in Section~\ref{subsubsec:design:domain:bounded_contexts:processor}.
+
+Apart from the schema, the \textbf{Identity Mamagement Database} also requires the following bootstrap data, as implied in \nameref{subsubsec:design:domain:bounded_contexts:identity} Bounded Context Section:
+
+\begin{itemize}
+    \item Root domain;
+    \item Public domain;
+    \item Unallocated Root domain;
+    \item Anonymous Tenant account;
+    \item Admin Tenant account;
+\end{itemize}
+
+This data is inserted using the following function, Code Sample~\ref{code:implementation:description:database:function}:
+
+\begin{lstlisting}[caption=Bootstrap function for Identity Management Database, label={code:implementation:description:database:function}]
+CREATE FUNCTION public.init_domains () 
+RETURNS varchar(255) AS $root_oid$
+    DECLARE
+        root_oid varchar(255) := gen_random_uuid();
+        public_oid varchar(255) := gen_random_uuid();
+        unallocated_oid varchar(255) := gen_random_uuid();
+    BEGIN
+        INSERT INTO public.domain (name, oid, path) 
+        VALUES ('root', root_oid, ARRAY[root_oid]);
+        INSERT INTO public.domain (name, oid, path) 
+        VALUES ('public', public_oid, ARRAY[root_oid, public_oid]);
+        INSERT INTO public.domain (name, oid, path) 
+        VALUES ('unallocated', unallocated_oid, ARRAY[root_oid, unallocated_oid]);
+        INSERT INTO public.tenant (name, oid, phone_number, email, domains) 
+        VALUES ('Anonymous', gen_random_uuid(), '', '', ARRAY[public_oid]);
+        INSERT INTO public.tenant (name, oid, phone_number, email, domains) 
+        VALUES ('Admin', gen_random_uuid(), '', '$SENSAE_ADMIN_EMAIL', ARRAY[root_oid]);
+        RETURN root_oid;
+    END;
+$root_oid$ LANGUAGE plpgsql;
+
+select public.init_domains();
+
+DROP FUNCTION public.init_domains;
+\end{lstlisting}
+
+This function starts by declaring three \gls{UUID} - lines \textbf{4} to \textbf{6} - that will later be used to populate the domain's \textit{path} and the tenant's \textit{domains} - lines \textbf{7} to \textbf{17}. In the end the function is executed and then removed to ensure that it isn't executed again.
+
+In line \textbf{17}, the variable \textbf{\$SENSAE\_ADMIN\_EMAIL} is replace by a valid email before building the database container with the full script. This variable configuration is discussed in the Section~\ref{subsec:implementation:description:config}.
+
+\subsection{Sensae Console Containerization}
+\label{subsec:implementation:description:docker}
+
+The section describes how \textbf{Sensae Console} is containerized with docker.
+As explained in Section~\ref{subsec:implementation:decisions:docker}, the author choose to containerize the solution.
+
+The following Code Samples describe how each container mentioned in Section~\ref{subsubsec:design:architecture:container:logical} are packaged. To simplify, only three distinct samples will be presented.
+
+The first sample, Listing~\ref{code:implementation:description:docker:frotend}, refers to UI Aggregator and is similar to all other frontend containers.
+
+\begin{lstlisting}[caption=Dockerfile for UI Aggregator Frontend, label={code:implementation:description:docker:frotend}]
+FROM node:18-alpine AS build
+WORKDIR /workspace
+COPY package.json ./
+COPY . .
+RUN npm install
+RUN npm run nx build ui-aggregator --omit=dev
+
+FROM nginx:1.23.1
+COPY apps/ui-aggregator/nginx/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /workspace/dist/apps/ui-aggregator /usr/share/nginx/html    
+\end{lstlisting}
+
+This Dockerfile contains two stages to reduce the size of the final image. The first stage, lines \textbf{1} to \textbf{6}, builds the project. The second one, containing only nginx and the code that was previously built, is used to serve the UI Aggregator Frontend and route requests. The nginx configuration file at line \textbf{9} is discussed in the \ref{subsec:implementation:description:nginx} Section.
+
+The second sample, Listing~\ref{code:implementation:description:docker:spring}, refers to \textbf{Fleet Management Backend} and is similar to all backend containers in the Configuration or Services Scope.
+
+\begin{lstlisting}[caption=Dockerfile for Fleet Management Backend, label={code:implementation:description:docker:spring}]
+FROM maven:3.8.5-openjdk-18 AS build
+WORKDIR /app
+# copy all pom.xml to pull only external dependencies
+COPY application/pom.xml application/pom.xml
+COPY domain/pom.xml domain/pom.xml
+COPY infrastructure/boot/pom.xml infrastructure/boot/pom.xml
+COPY infrastructure/endpoint/pom.xml infrastructure/endpoint/pom.xml
+COPY infrastructure/persistence/pom.xml infrastructure/persistence/pom.xml
+COPY infrastructure/persistence/questdb/pom.xml infrastructure/persistence/questdb/pom.xml
+COPY infrastructure/endpoint/graphql/pom.xml infrastructure/endpoint/graphql/pom.xml
+COPY infrastructure/endpoint/amqp/pom.xml infrastructure/endpoint/amqp/pom.xml
+COPY infrastructure/pom.xml infrastructure/pom.xml
+COPY pom.xml pom.xml
+# build all external dependencies
+RUN mvn -B -e -C org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -DexcludeArtifactIds=fleet-management-backend,application,domain,infrastructure,endpoint,graphql,boot,amqp,questdb
+
+COPY . .
+RUN mvn clean package
+
+FROM openjdk:17
+WORKDIR /app
+COPY --from=build /app/infrastructure/boot/target/fleet-management-backend.war /app
+CMD ["java", "-jar", "fleet-management-backend.war"]
+\end{lstlisting}
+
+This sample also presents a multi-stage Dockerfile. The first stage, line \textbf{1} to \textbf{18} builds the project with Maven. All \textit{pom.xml} files and dependencies are added first to reduce build time during development, since these change less that the code written. The second stage is the one that runs the  service. It only contains the \gls{JDK} and the compiled application.
+
+The third sample, Listing~\ref{code:implementation:description:docker:quarkus}, refers to \textbf{Device Commander} and is similar to all backend containers in the Data Flow Scope.
+
+\begin{lstlisting}[caption=Dockerfile for Device Commander, label={code:implementation:description:docker:quarkus}]
+FROM quay.io/quarkus/ubi-quarkus-native-image:22.1-java17 AS build
+COPY --chown=quarkus:quarkus mvnw /code/mvnw
+COPY --chown=quarkus:quarkus .mvn /code/.mvn
+COPY --chown=quarkus:quarkus pom.xml /code/
+USER quarkus
+WORKDIR /code
+RUN ./mvnw -B org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline
+COPY src /code/src
+RUN ./mvnw package -Pnative
+
+FROM quay.io/quarkus/quarkus-micro-image:1.0
+WORKDIR /work/
+COPY --from=build /code/target/runner /work/application
+
+# set up permissions for user `1001`
+RUN chmod 775 /work /work/application \
+    && chown -R 1001 /work \
+    && chmod -R "g+rwX" /work \
+    && chown -R 1001:root /work
+
+EXPOSE 8080
+USER 1001
+
+CMD ["./application", "-Dquarkus.http.host=0.0.0.0"]
+\end{lstlisting}
+
+This sample, once again, is also a multi-stage Dockerfile. It was adapted from the one generated by \citetitle{quarkus} when setting up the application. In the first stage the application is built with a \citetitle{graalvm} native-image - lines \textbf{1} to \textbf{9}. This allows the image to run without \gls{JVM}. The second stage runs the service after setting user permissions, so that the process doesn't run as root, at lines \textbf{17} to \textbf{20}.
+
+\subsection{Sensae Console Orchestration}
+\label{subsec:implementation:description:compose}
+
+As described in Section~\ref{subsubsec:design:architecture:container:physical}, \citetitle{dockercompose} was the tool used to orchestrate the solution. This tool consumes a configuration file to know what containers, and their configurations, are needed. The complete configuration file for production is vast, a summarized version will be presented containing only the \textbf{Data Processor} Context' related containers.
+
+\begin{lstlisting}[caption=Docker Compose Configuration File for Production, label={code:implementation:description:compose:file}]
+services:
+  data-processor-frontend:
+    build:
+      dockerfile: docker/data-processor-frontend/Dockerfile
+      context: frontend-services
+    image: data-processor-frontend
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt/
+      - /etc/nginx/ssl:/etc/nginx/ssl/
+    networks:
+      - sensae-network
+    ports:
+      - 443
+    depends_on:
+      - data-processor-master-backend
+  data-processor-master-backend:
+    build: backend-services/data-processor-master-backend
+    image: data-processor-master-backend
+    volumes:
+      - ./secrets/keys:/etc/ssh/app
+    environment:
+      spring_profiles_active: prod
+    env_file:
+      - ./secrets/prod/data-processor-master-backend.env
+    networks:
+      - sensae-network
+    ports:
+      - 8080
+  data-processor-database:
+    build: databases/data-processor-database
+    container_name: data-processor-database
+    env_file:
+      - ./secrets/prod/data-processor-database.env
+    networks:
+      - sensae-network
+    ports:
+      - 5482:5432
+    volumes:
+      - ./databases-data/prod/data-processor-database:/var/lib/postgresql/data/
+  data-processor-flow:
+    build: backend-services/data-processor-flow
+    image: sensae/data-processor-flow
+    env_file:
+        - ./secrets/prod/data-processor-flow.env
+    networks:
+        - sensae-network
+networks:
+  sensae-network:
+\end{lstlisting}
+
+The following conclusions can be observed:
+
+\begin{itemize}
+    \item This context, similar to other contexts, is composed by four containers, a Frontend - \textit{data-processor-frontend}, a Configuration Backend - \textit{data-processor-master-backend}, a Database - \textit{data-processor-database}, and a Data Flow Backend - \textit{data-processor-flow};
+    \item All services communicate in the same network - \textit{sensae-network};
+    \item All services have instructions on how to build them;
+    \item Various configuration files are loaded, e.g. in lines \textbf{19} to \textbf{20} and \textbf{28} to \textbf{31}, this files content will be discussed in the \nameref{subsec:implementation:description:config} Section;
+    \item The Frontend has two volumes mapped, one loads the \textit{letsencrypt} configuration file for \citetitle{nginx} and the other loads the ssl certificate - lines \textbf{7} to \textbf{9}.
+    \item The Configuration Backend needs to validate the authentication tokens received, for that, it has access to the public key that pairs the private key used to created then in \textbf{Identity Management Backend} - line \textbf{19} - \textbf{20};
+    \item The database exposes a port to the host so that it can be managed remotely - lines \textbf{36} to \textbf{37};
+    \item The database maps its data to a directory in the host, so that data is persisted between server restarts - lines \textbf{38} to \textbf{39};
+    \item The Data Flow container doesn't need to expose any port since it only exchanges information with the message broker;
+\end{itemize}
+
+\subsection{Sensae Console Reverse Proxy Configuration}
+\label{subsec:implementation:description:nginx}
+
+This section reveals how \citetitle{nginx} is configured. As an example, the Listing~\ref{code:implementation:description:nginx:irrig}, describes the \textbf{Smart Irrigation Frontend}.
+
+\begin{lstlisting}[caption=Configuration File for Production Environment, label={code:implementation:description:nginx:irrig}]
+server {
+
+    server_name localhost;
+
+    listen 443 ssl;
+
+    ssl_certificate /etc/nginx/ssl/nginx.crt;
+    ssl_certificate_key /etc/nginx/ssl/nginx.key;
+
+    root        /usr/share/nginx/html;
+
+    index       index.html index.htm;
+
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+
+    location ~ .*remoteEntry.js$ {
+        expires -1;
+        add_header 'Cache-Control' 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0';
+    }
+
+    location /smart-irrigation/graphql {
+        proxy_pass http://smart-irrigation-backend:8080/graphql;
+        proxy_set_header x-forwarded-prefix /smart-irrigation/graphql;
+        proxy_set_header Host $host;
+        proxy_set_header x-forwarded-host $host;
+        proxy_redirect off;
+        proxy_set_header x-forwarded-port 443;
+        proxy_set_header x-forwarded-proto https;
+    }
+
+    location /smart-irrigation/subscriptions {
+        proxy_pass http://smart-irrigation-backend:8080/subscriptions;
+        proxy_set_header x-forwarded-prefix /smart-irrigation/subscriptions;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "Upgrade";
+        proxy_set_header Host $host;
+        proxy_read_timeout 6000;
+        proxy_send_timeout 6000;
+        proxy_redirect off;
+        proxy_set_header x-forwarded-port 443;
+        proxy_set_header x-forwarded-proto https;
+    }
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    if ($scheme != "https") {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+}
+\end{lstlisting}
+
+The following conclusions can be observed:
+
+\begin{itemize}
+    \item It only exposes the HTTPS port - line \textbf{4} and lines \textbf{49} to \textbf{51};
+    \item It loads the ssl certificates mapped in the \citetitle{dockercompose} file - lines \textbf{7} and \textbf{8};
+    \item It uses the \textit{letsencrypt} configuration - line \textbf{14};
+    \item The \textit{remoteEntry} file, responsible for providing the entry point to the service in a Micro Frontend environment, is never cached in the client browser since it points to the current compiled version of the service. If this file is cached, the updated version of a micro frontend, can only be accessed by the client browser once the local cache is cleaned up - lines \textbf{16} to \textbf{19};
+    \item The \citetitle{graphql} endpoint is defined as a reverse proxy endpoint. Requests made to \textit{/smart-irrigation/graphql} are routed to \textit{http://smart-irrigation-backend:8080/graphql}. It doesn't use a secure connection, HTTPS, since this communication already happens inside the docker network where man in the middle attacks are unregarded - lines \textbf{21} to \textbf{29};
+    \item The \citetitle{graphql} subscription endpoint is also defined, this type of connection, Websocket, requires the use of HTTP version 1.1 and the two Headers presented at lines \textbf{34} to \textbf{36};
+    \item All other requests are handled in lines \textbf{45} to \textbf{47}.
+\end{itemize}
+
+\subsection{Sensae Console Configuration Files}
 \label{subsec:implementation:description:config}
 
 This section describes how a \textbf{Sensae Console} is configured. One of the problems that arise from a microservice architecture is how to maintain all configurations for each container developed and configured. following the \citetitle{confcentral}, all configurations are defined via configuration files that support three environments: \textit{dev}, \textit{test} and \textit{prod}.
@@ -945,35 +1343,35 @@ SECRET_BACK=secrets/templates/prod/backend-services
 SECRET_FRONT=secrets/templates/prod/frontend-services
 SECRET_DB=secrets/templates/prod/databases
 
-BACK_PREFFIX=secrets/prod
-FRONT_PREFFIX=frontend-services/apps
+BACK_PREFIX=secrets/prod
+FRONT_PREFIX=frontend-services/apps
 FRONT_SUFFIX=src/environments/environment.prod.ts
 
 envsubst < $SECRET_BACK/alert-dispatcher-backend.env > \
-     $BACK_PREFFIX/alert-dispatcher-backend.env
+     $BACK_PREFIX/alert-dispatcher-backend.env
 # and all other backend services
 envsubst < $SECRET_BACK/data-validator.env >
-     $BACK_PREFFIX/data-validator.env
+     $BACK_PREFIX/data-validator.env
 
 envsubst < $SECRET_FRONT/device-management-frontend.ts > \
- $FRONT_PREFFIX/device-management-frontend/$FRONT_SUFFIX
+ $FRONT_PREFIX/device-management-frontend/$FRONT_SUFFIX
 # and all other frontend services
 envsubst < $SECRET_FRONT/ui-aggregator.ts > \
- $FRONT_PREFFIX/ui-aggregator/$FRONT_SUFFIX
+ $FRONT_PREFIX/ui-aggregator/$FRONT_SUFFIX
 
 envsubst < secrets/templates/prod/message-broker/message-broker.env > \
- $BACK_PREFFIX/message-broker.env
+ $BACK_PREFIX/message-broker.env
 
 envsubst < $SECRET_DB/data-decoder-database.env > \
- $BACK_PREFFIX/data-decoder-database.env
+ $BACK_PREFIX/data-decoder-database.env
 # and all other databases
 envsubst < $SECRET_DB/rule-management-database.env > \
- $BACK_PREFFIX/rule-management-database.env
+ $BACK_PREFIX/rule-management-database.env
 \end{lstlisting}
 
 In the future, as more isolated deployments are made, a tool such as \citetitle{vault} should be integrated in the solution.
 
-\subsection{Description of Sensae Console Services}
+\subsection{Sensae Console Services}
 \label{subsec:implementation:description:services}
 
 This section refers how services interact with the \textbf{Data Flow Scope}, this was briefly mentioned in Section~\ref{subsubsec:design:domain:shared_model:routing}.
@@ -1022,26 +1420,573 @@ This service captures information of a single type (and doesn't publish any Comm
 
 At a high-level view, this service requires all alerts that already have a \textit{'defined ownership'}.
 
+\subsection{Sensae Console Sensor/Device Integration}
+\label{subsec:implementation:description:sensor}
+
+This section describes how devices can be connected to \textbf{Sensae Console}. As stated in Section~\ref{***TODO***}, currently the service used to communicate with devices is \citetitle{helium}. This solution works with other platforms, such as Azure IoT Hub, since it provides an agnostic data ingestion endpoint as stated in Section~\ref{subsec:implementation:description:ingestion}.
+
+Virtually any device can be integrated, via \citetitle{helium}, with \textbf{Sensae Console}. To do so, one needs to register new devices in \citetitle{helium}, for eaxmple via \gls{OTAA}. Then create a Custom HTTP Integration, following the Section~\ref{subsec:implementation:description:ingestion} instructions.
+
+The Figure~\ref{fig:implementation:description:sensor:integration} presents an example of the custom integration for the EM300-TH Device.
+
+\begin{figure}[H]
+    \centering
+    \resizebox{\columnwidth}{!}
+    {
+       \includegraphics{assets/figures/sensor/integration.png}
+    }
+    \caption[Helium Custom Integration Page]{Helium Custom Integration Page}
+    \label{fig:implementation:description:sensor:integration}
+\end{figure}
+
+Finally, in the \citetitle{helium} flows page, connect the registered device to the custom integration.
+
+This method will require the user to register the endpoint with the \textit{encoded} type and write a \textbf{Data Decoder} in \textbf{Sensae Console} to translate the payload sent by the device though \citetitle{helium}.
+
+If the user intends to use the \textbf{Data Processor}, he/she needs to:
+
+\begin{itemize}
+    \item Register the endpoint with the \textit{decoded} type;
+    \item Define a \textbf{Data Processor} in \textbf{Sensae Console} to map the payload sent by \citetitle{helium};
+    \item Write the decoder in \citetitle{helium} - in the \textit{Function} page;
+    \item Link the device to the \textit{Function} in \citetitle{helium};
+    \item Link the \textit{Function} to the custom integration;
+\end{itemize}
+
 \section{Testing}
 \label{sec:implementation:testing}
+
+According to \cite{booktest}: ``Software testing is the activity of running a series of dynamic executions of software programs after the software source code has been developed.''
+Tests have a fundamental role in the development of software, they validate the the work done, prevent production bugs, regressions and improve code quality, according to \cite{linuxtest} and \cite{imbtest}.
+
+According to \cite{typetest} there are seven categories of tests:
+
+\begin{itemize}
+    \item \textbf{Unit Testing}: Capture the need to verify and validate the individual behavior of small pieces of the solution.
+    \item \textbf{Integration Testing}: Capture the need to verify that different modules/components of the system work collectively as expected;
+    \item \textbf{Functional Testing}: Capture the need to verify that business requirements are meet by the system;
+    \item \textbf{End-to-End Testing}: Capture the need to verify that user interaction against common workflows works as expected in the system;
+    \item \textbf{Acceptance Testing}: Capture the need to ensure that functional and non-functional requirements are accomplished;
+    \item \textbf{Performance Testing}: Capture the need to verify how the environment behaves under heavy load. Their objective is to evaluate the stability, availability and reliability of the system;   
+    \item \textbf{Smoke Testing}: Capture the need to verify the overall state of the system before running heavier and extensive tests.
+\end{itemize}
+
+These categories complement each other to ensure the correct behavior of the system. Nevertheless, the Smoke and Acceptance Testing categories were not pursuit.
+
+The smoke tests were replaced by common unit tests. The acceptance tests weren't required since, at the time of writing, the project had no clear and concise functional requirements that the platform could be tested against.
+
+Architectural tests were added to the test suite to ensure that the Design discussed in the \nameref{subsubsec:design:architecture:components:logical} Section would always be respected.
+
+The performance tests will be discussed in depth in the \nameref{chap:evaluation} Chapter.
+
+In the following sections examples for each test category will be presented.
 
 \subsection{Unit Tests}
 \label{subsec:implementation:tests:unit}
 
+This section focus on unit tests preformed in various containers.
+
+The test presented in Listing~\ref{code:implementation:tests:unit1} verifies that a value referenced via the path \textit{'path[0].prop'} can be found and transferred to the path defined in the mentioned Property: \textit{DEVICE\_ID}. 
+It uses the \citetitle{junit5}.
+
+\begin{lstlisting}[style=Java, caption=Unit Test Example in \textit{iot-core} package, label={code:implementation:tests:unit1}]
+$$@Test
+void ensureTransferWorksWithValidArrayPath() throws JsonProcessingException {
+    var jsonNode = mapper.readTree("""
+            {
+                "path": [
+                    {
+                        "prop": "viva"
+                    }
+                ]
+            }
+            """);
+    var objectNode = mapper.createObjectNode();
+
+    new KnownPropertyTransformation(
+        "path[0].prop", PropertyName.DEVICE_ID, 2)
+            .transfer(jsonNode, objectNode);
+
+    Assertions.assertEquals("viva",
+     objectNode.get("device").get("id").asText());
+}
+\end{lstlisting}
+
+The test presented in Listing~\ref{code:implementation:tests:unit2} verifies that a user with the appropriate permissions can fetch a decoder and the last time it was used. This test relies on database access to fetch decoders and access to an RSA file to verify the authenticity of the user's access token. Since this is a unit test and its responsibility is not to verify the solution integration, it mocks the classes that access the mentioned resources using the \citetitle{mockito}.
+
+This test only verifies the isolated behavior of the service \textit{DataDecoderCollectorService} - line \textbf{14} - other classes that the service needs are mocked and then injected in it with the annotation \textit{@InjectMocks}.
+
+\begin{lstlisting}[style=Java, caption=Unit Test - Data Decoder Backend Container, label={code:implementation:tests:unit2}]
+$$@Mock
+DataDecoderCollector collector;
+
+$$@Mock
+DataDecoderMapper mapper;
+
+$$@Mock
+TokenExtractor tokenExt;
+
+$$@Mock
+LastTimeSeenDecoderRepository repository;
+
+$$@InjectMocks
+DataDecoderCollectorService service;
+
+$$@Test
+void ensureServiceWorksWhenUserHasPermissionsAndDecoderWasNeverUsed() {
+    var decoder = CommonObjectsFactory.dataDecoder();
+
+    Mockito.when(tokenExt.extract(Mockito.any(AccessTokenDTO.class)))
+            .thenReturn(CommonObjectsFactory.validTenantInfo());
+    Mockito.when(collector.collect()).thenReturn(Stream.of(decoder));
+
+    var list = service.collectAll(new FakeAccessTokenDTO()).toList();
+
+    Mockito.verify(tokenExt, Mockito.times(1))
+        .extract(Mockito.any(AccessTokenDTO.class));
+    Mockito.verify(collector, Mockito.times(1)).collect();
+    Mockito.verify(mapper, Mockito.times(1)).domainToDto(decoder, 0L);
+
+    Assertions.assertEquals(list.size(), 1);
+}
+\end{lstlisting}
+
+The Listing~\ref{code:implementation:tests:unit3} presents some tests that verify the behavior of \textit{DeviceCommand}. This test relies in the \citetitle{jest}.
+
+\begin{lstlisting}[style=javascript, caption=Unit Test - Device Management Frontend Model Library, label={code:implementation:tests:unit3}]
+describe('Device Command Unit Test', () => {
+    it('should deep clone every single parameter', () => {
+        const deviceCommand = 
+            new DeviceCommand('openValve', 'openValve', 'ldcn', 0, 70);
+        const clone = deviceCommand.clone();
+        expect(clone.id).toBe(deviceCommand.id);
+        expect(clone.name).toBe(deviceCommand.name);
+        expect(clone.ref).toBe(deviceCommand.ref);
+        expect(clone.payload).toBe(deviceCommand.payload);
+        expect(clone.port).toBe(deviceCommand.port);
+    });
+    it('should be invalid when it has no id', () => {
+        const deviceCommand =
+            new DeviceCommand('', 'openValve', 'ldcn', 0, 70);
+        expect(deviceCommand.isValid()).toBeFalsy();
+    });
+});
+\end{lstlisting}
+
 \subsection{Integration Tests}
 \label{subsec:implementation:tests:integration}
+
+This section, as an example, starts to focus on integration tests preformed in the \textbf{Device Ownership Flow} Container and then moves on to \textbf{Notification Management Backend}.
+
+The tool used to ease the formulation of integration tests was \citetitle{testcontainers}. This tool uses docker to fabricate the needed environment where integration tests can run.
+
+The code in Listing~\ref{code:implementation:tests:inte1} verifies that the message broker can be reached by \textbf{Device Ownership Flow}.
+
+\begin{lstlisting}[style=Java, caption=Integration Test - Message Broker - \textbf{Device Ownership Flow}, label={code:implementation:tests:inte1}]
+$$@QuarkusTest
+class DeviceInformationEmitterTest {
+
+    $$@Inject
+    DeviceInformationEmitter emitter;
+
+    $$@Inject
+    RoutingKeysProvider provider;
+
+    $$@Inject
+    $$@Any
+    InMemoryConnector connector;
+
+    $$@Test
+    void testEmitterCanReachRabbitMQ() {
+        var unknown = provider
+            .getInternalTopicBuilder(RoutingKeysBuilderOptions.SUPPLIER)
+            .withContainerType(ContainerTypeOptions.IDENTITY_MANAGEMENT)
+            .withContextType(ContextTypeOptions.DEVICE_IDENTITY)
+            .withOperationType(OperationTypeOptions.UNKNOWN)
+            .build().orElseThrow();
+
+        var deviceId = DeviceId.of(UUID.randomUUID());
+        
+        emitter.next(new DeviceTopicMessage(deviceId, unknown));
+
+        var payload = connector.sink("egress-device-ownership")
+                .received().get(0).getPayload();
+        
+        Assertions.assertNotNull(payload);
+    }
+}
+\end{lstlisting}
+
+The class tested is \textit{DeviceInformationEmitter}, line \textbf{5}, as we can see, a message is sent in line \textbf{25} and, as expected it is recieved in line \textbf{27}.
+
+The code in Listing~\ref{code:implementation:tests:inte2} verifies that the database can be reached by the \textbf{Notification Management Backend}.
+
+\begin{lstlisting}[style=Java, caption=Integration Test - Database - \textbf{Notification Management Backend}, label={code:implementation:tests:inte2}]
+public class NotificationRepositoryImplTest extends IntegrationTest {
+
+    @Autowired
+    NotificationRepositoryImpl repository;
+
+    @Test
+    public void ensureDatabaseCanBeReached() {
+        var single = Domains.single(DomainId.of(UUID.randomUUID()));
+        var type = ContentType.of("a", "a", NotificationLevel.CRITICAL);
+        var query = NotificationBasicQuery.of(single, List.of(type));
+        
+        Assertions.assertDoesNotThrow(() -> repository.find(query));
+    }
+}    
+\end{lstlisting}
+
+This test verifies that the \textit{NotificationRepositoryImpl} can reach the database by ensuring that no exception is thrown when executing a query to it. This class extends \textit{IntegrationTest}, the behavior of it is similar to the \textit{IntegrationTest} class discussed in the next section. 
 
 \subsection{Functional Tests}
 \label{subsec:implementation:tests:functional}
 
+This section, as an example, starts to focus on functional tests performed in the \textbf{Data Decoder Master Backend}. Other service and configuration scope backend containers rely on similar tests.
+
+The tool used to ease the formulation of functional tests was, once again, \citetitle{testcontainers}. Contrary to \citetitle{quarkus}, \citetitle{springboot} doesn't provide a ready to use environment according to the application needs, for that reason, the following Listings~\ref{code:implementation:tests:func1} and \ref{code:implementation:tests:func2} present the needed setup to run functional tests using \citetitle{testcontainers} and \citetitle{springboot}.
+
+\begin{lstlisting}[style=Java, caption=Functional Test - Message Broker - \textbf{Data Decoder Master Backend} Setup, label={code:implementation:tests:func1}]
+public class DatabaseContainerTest extends PostgreSQLContainer<DatabaseContainerTest> {
+
+    private static final String IMAGE_VERSION = "data-decoder-database";
+    private static DatabaseContainerTest container;
+
+    private DatabaseContainerTest() {
+        super(DockerImageName.parse(IMAGE_VERSION)
+            .asCompatibleSubstituteFor("postgres:14.5"));
+    }
+
+    public static DatabaseContainerTest getInstance() {
+        if (container == null) {
+            container = new DatabaseContainerTest()
+                .withUsername("user")
+                .withPassword("sa")
+                .withEnv("POSTGRESQL_USER", "user")
+                .withEnv("POSTGRESQL_PASSWORD", "sa")
+                .withExposedPorts(PostgreSQLContainer.POSTGRESQL_PORT);
+        }
+        return container;
+    }
+
+    $$@Override
+    public void stop() {
+        //do nothing, JVM handles shut down
+    }
+}    
+\end{lstlisting}
+
+The \textit{DatabaseContainerTest} follows the Singleton Pattern to ensure that all tests use the same instance. In line \textbf{8} we can see that the base image is \citetitle{postgressql}, but the image actually used is \textit{data-decoder-database}. This image is \citetitle{postgressql} with the data decoder schema and built in line \textbf{11} of the script referenced in Listing~\ref{code:implementation:decisions:actions:testscript}. The same notion is applied for the Message Broker Container. Theses two containers are the ones that \textbf{Data Decoder Master Backend} dependes on.
+
+The Listing~\ref{code:implementation:tests:func2} presents the fountation of functional and integration tests.
+
+\begin{lstlisting}[style=Java, caption=Functional Test - Foundation - \textbf{Data Decoder Master Backend} Setup, label={code:implementation:tests:func2}]
+$$@SpringBootTest
+$$@Testcontainers
+$$@ContextConfiguration(initializers = {IntegrationTest.Initializer.class})
+$$@ActiveProfiles(profiles = "test")
+public abstract class IntegrationTest {
+    static class Initializer implements 
+        ApplicationContextInitializer<ConfigurableApplicationContext> {
+        public void initialize(ConfigurableApplicationContext context) {
+            db.withDatabaseName("decoder");
+            TestPropertyValues.of(
+                "spring.datasource.url=" + db.getJdbcUrl(),
+                "spring.datasource.username=" + db.getUsername(),
+                "spring.datasource.password=" + db.getPassword(),
+                "spring.rabbitmq.host=" + mb.getHost(),
+                "spring.rabbitmq.port=" + mb.getAmqpPort(),
+                "spring.rabbitmq.username=" + mb.getAdminUsername(),
+                "spring.rabbitmq.password=" + mb.getAdminPassword()
+            ).applyTo(context.getEnvironment());
+        }
+    }
+
+    $$@Container
+    public static PostgreSQLContainer<?> db = 
+        DatabaseContainerTest.getInstance();
+
+    $$@Container
+    public static RabbitMQContainer mb =
+        MessageBrokerContainerTest.getInstance();
+
+    protected ResultSet performQuery(String sql) throws SQLException {
+        DataSource ds = getDataSource(postgresSQLContainer);
+        Statement statement = ds.getConnection().createStatement();
+        statement.execute(sql);
+        ResultSet resultSet = statement.getResultSet();
+
+        if (resultSet != null) resultSet.next();
+
+        return resultSet;
+    }
+}
+\end{lstlisting}
+
+The application environment properties are loaded in line \textbf{10} to \textbf{18} according to the containers used. The \textit{@SpringBootTest} annotation indicates that the full application has to be started, the \textit{@TestContainers} and \textit{@Container} annotations indicate that docker containers are to be used, and the \textit{@ActiveProfiles} annotation changes the profile in use so that specific beans are not loaded.
+
+The following sample, Listing~\ref{code:implementation:tests:func3}, presents a functional test related to the database.
+
+\begin{lstlisting}[style=Java, caption=Functional Test - Database Interaction - \textbf{Data Decoder Master Backend}, label={code:implementation:tests:func3}]
+public class DataDecodersRepositoryImplTest extends IntegrationTest {
+
+    $$@Autowired
+    DataDecodersRepositoryImpl repository;
+    
+    $$@AfterEach
+    public void cleanUp() throws SQLException {
+        performQuery("TRUNCATE decoder");
+    }
+
+    $$@Test
+    public void ensureSavedDecoderCanBeFound() throws SQLException {
+        var query = "INSERT INTO decoder(device_type, script) "
+            + "VALUES ('lgt92', 'ascma')";
+        performQuery(query).close();
+
+        var found = repository.findById(SensorTypeId.of("lgt92"))
+            .orElseThrow();
+
+        Assertions.assertEquals("lgt92", found.id().value());
+        Assertions.assertEquals("ascma", found.script().value());
+    }
+}
+\end{lstlisting}
+
+As we can see this test extends the foundation described before. In line \textbf{4} the service to be tested, \textit{DataDecodersRepositoryImpl}, is loaded. In the test presented a new Data Decoder is stored directly in the database and then the repository service attempts to fetch it. A database clean up is preformed after each test as described in lines \textbf{6} to \textbf{9}.
+
+The test presented in Listing~\ref{code:implementation:tests:func4}, verifies the correct interaction with the message broker container.
+
+\begin{lstlisting}[style=Java, caption=Functional Test - Message Broker Interaction - \textbf{Data Decoder Master Backend}, label={code:implementation:tests:func4}]
+public class DataDecoderInfoEmitterTest extends IntegrationTest {
+
+    $$@Autowired
+    DataDecoderHandlerService publisher;
+
+    $$@Autowired
+    RabbitAdmin rabbitAdmin;
+
+    $$@Autowired
+    RabbitTemplate amqpTemplate;
+
+    $$@Autowired
+    RoutingKeysProvider provider;
+
+    $$@BeforeEach
+    public void init() {
+        if (rabbitAdmin.getQueueInfo("info") == null) {
+            var supplierBuilder = RoutingKeysBuilderOptions.SUPPLIER;
+            var keys = provider
+                .getInternalTopicBuilder(supplierBuilder)
+                .withContextType(ContextTypeOptions.DATA_DECODER)
+                .withContainerType(ContainerTypeOptions.DATA_DECODER)
+                .withOperationType(OperationTypeOptions.INFO)
+                .build().orElseThrow();
+            var queue = QueueBuilder.durable("info").build();
+            rabbitAdmin.declareQueue(queue);
+            rabbitAdmin.declareBinding(BindingBuilder.bind(queue)
+                .to(new TopicExchange(IoTCoreTopic.INTERNAL_EXCHANGE))
+                .with(keys.toString()));
+        }
+    }
+
+    $$@Test
+    public void ensureNewDecoderIsSentAsExpected() {
+        publisher.publishUpdate(new DataDecoder(
+            SensorTypeId.of("lgt92"), SensorTypeScript.of("asmc")));
+
+        var dto = (DataDecoderNotificationDTOImpl) 
+            amqpTemplate.receiveAndConvert("info");
+        
+        var type = DataDecoderNotificationTypeDTOImpl.UPDATE;
+
+        Assertions.assertEquals(type, dto.type);
+        Assertions.assertEquals("lgt92", dto.sensorType);
+        Assertions.assertEquals("asmc", dto.information.script);
+    }
+}
+\end{lstlisting}
+
+In this test the class to verify is the \textit{DataDecoderHandlerService}. Once again this test extends the \textit{IntegrationTest} class. Using \textit{RabbitAdmin}, its created a queue that subscribes to the expected type of routing keys in lines \textbf{18} to \textbf{29} and then bind to the expected topic - \textit{INTERNAL\_TOPIC}.
+An update is published in line \textbf{35} using the \textit{DataDecoderHandlerService} and then captured with \textit{RabbitTemplate} in line \textbf{38}.
+
+The \textbf{Data Gateway} Container was tested against different post requests to its data retention endpoint, an example of this tests is described in Listing~\ref{code:implementation:tests:func5}.
+
+\begin{lstlisting}[style=Java, caption=Functional Test - Rest Client Interaction - \textbf{Data Gateway}, label={code:implementation:tests:func5}]
+$$@QuarkusTest
+class DataControllerTest {
+
+    $$@Test
+    public void testInfoTypeDetection() {
+        var errorType = "Info Type must be of value encoded or decoded";
+        given().when()
+            .accept(ContentType.JSON)
+            .contentType(ContentType.JSON)
+            .header("Authorization", "pass")
+            .post("/sensor-data/fleet/wrong/lgt92")
+            .then()
+            .statusCode(400)
+            .body("error", containsString(errorType));
+    }
+}
+\end{lstlisting}
+
+This test simply attempts to send an HTTP POST request to an invalid resource - line \textbf{11}.
+
 \subsection{End-to-End Tests}
 \label{subsec:implementation:tests:endtoend}
+
+This section presents some of the end-to-end tests of \textbf{Sensae Console}.
+This tests evaluate how the system responds to various user actions.
+
+All end-to-end tests rely on \citetitle{cypress}, an end-to-end testing framework.
+To improve tests redability new cypress commands were created.
+The methods \textit{anonymous}, \textit{logout} and \textit{goToIdentityPage} are some examples of this commands - Listing~\ref{code:implementation:tests:e2e2}.
+
+\begin{lstlisting}[style=javascript, caption=End-to-End Test - Custom Commands - \textbf{UI Aggregator}, label={code:implementation:tests:e2e2}]
+declare namespace Cypress {
+    interface Chainable<Subject> {
+        anonymous(): void;
+        logout(): void;
+        goToIdentityPage(): void;
+    }
+}
+    
+Cypress.Commands.add('anonymous', () => {
+    console.log('Custom command: Anonymous Login');
+    cy.contains('Login').click();
+    cy.contains('Anonymous').click();
+});
+    
+Cypress.Commands.add('logout', () => {
+    console.log('Custom command: Logout');
+    cy.get('#account').click();
+    cy.contains('Logout').click();
+});
+    
+Cypress.Commands.add('goToIdentityPage', () => {
+    console.log('Custom command: go to Identity Page');
+    cy.get('#tools').click();
+    cy.contains('Identity Managment').click();
+});
+\end{lstlisting}
+
+As an example, the \textit{anonymous} command searches for something with the text \textit{Login}, and clicks on it.
+
+The Listing~\ref{code:implementation:tests:e2e1} presents a test that ensures anyone can enter the system as an anonymous user.
+
+\begin{lstlisting}[style=javascript, caption=End-to-End Test - Anonymous Authentication - \textbf{UI Aggregator}, label={code:implementation:tests:e2e1}]
+describe('ui-aggregator', () => {
+    beforeEach(() => cy.visit('/'));
+    it('should display welcome message for anonymous user', () => {
+        cy.anonymous();
+        cy.contains("Valid Credentials");
+        cy.logout();
+    });
+});
+\end{lstlisting}
+
+The test verifies that a successfull login notification is recieved in line \textbf{5}. Both of the commands previously decribed are used in this test.
+
+The Listing~\ref{code:implementation:tests:e2e3} presents a test that walks though the \textbf{Identity Management Page} verifing that an authenticated manager can see every available domain.
+
+\begin{lstlisting}[style=javascript, caption=End-to-End Test - Discover Available Domains - \textbf{Identity Management}, label={code:implementation:tests:e2e3}]
+describe('ui-aggregator', () => {
+    beforeEach(() => cy.visit('/'));
+    it('should present various default domains', () => {
+        cy.managerLogin();
+        cy.goToIdentityPage();
+        cy.contains("root");
+        cy.get(".toggle").click();
+        cy.contains("public");
+        cy.contains("unallocated");
+    });
+});
+\end{lstlisting}
+
+This test verifies that a user in the root domain can see all default domains in the \textbf{Identity Management Page}, as described in \nameref{subsubsec:design:domain:bounded_contexts:identity} Bounded Context Section.
 
 \subsection{Architectural Tests}
 \label{subsec:implementation:tests:arch}
 
-\subsection{Performance Tests}
-\label{subsec:implementation:tests:performance}
+This section presents some of the architectural tests of \textbf{Sensae Console}'s Containers. This tests are only performed in the backend containers.
+As an example it will be displayed one test for the \textbf{Configuration / Service Scope} and another for the \textbf{Data Flow Scope}.
+
+The Listing~\ref{code:implementation:tests:arch1} presents an example of the tests made for \textbf{Configuration / Service Scope} backend containers.
+
+\begin{lstlisting}[style=Java, caption=Architectural Test - Onion Architecture - \textbf{Device Management Master Backend}, label={code:implementation:tests:arch1}]
+$$@AnalyzeClasses(packages = "pt.sensae.services")
+public class ApplicationArchitectureTest {
+
+    $$@ArchTest
+    static final ArchRule architecture = Architectures
+        .onionArchitecture()
+        .domainModels("..domain..")
+        .domainServices("..domainservices..")
+        .applicationServices("..application..")
+        .adapter("amqp connector", "..amqp..")
+        .adapter("in memory persistence", "..memory..")
+        .adapter("postgres persistence", "..postgres..")
+        .adapter("graphql endpoint", "..graphql..")
+        .ignoreDependency(resideInAPackage("..boot.."), alwaysTrue());
+
+    $$@ArchTest
+    static final ArchRule domainMustNotDependOnFrameworks = 
+        ArchRuleDefinition.noClasses().that()
+            .resideInAnyPackage("..domain..")
+            .should()
+            .dependOnClassesThat()
+            .haveNameMatching("org.springframework.")
+            .orShould()
+            .dependOnClassesThat()
+            .haveNameMatching("javax.persistence.")
+            .because("Domain should be free from dependencies");
+}
+\end{lstlisting}
+
+The test \textit{architecture} at lines \textbf{4} to \textbf{14} ensures that the onion architecture is followed. The test \textit{domainMustNotDependOnFrameworks} at lines \textbf{16} to \textbf{26} ensures that the domain and domain services components are free of dependencies.
+
+The Listing~\ref{code:implementation:tests:arch2} presents an example of the tests made for \textbf{Data Flow Scope}.
+
+\begin{lstlisting}[style=Java, caption=Architectural Test - Simplified Onion Architecture - \textbf{Data Processor Flow}, label={code:implementation:tests:arch2}]
+@AnalyzeClasses(packages = "pt.sensae.services")
+public class ArchitecturalTest {
+
+    @ArchTest
+    static final ArchRule architecture = Architectures
+        .onionArchitecture()
+        .domainModels("..domain..")
+        .applicationServices("..application..")
+        .adapter("amqp internal topic connector", "..internal..")
+        .adapter("amqp ingress data topic connector", "..ingress..")
+        .adapter("amqp egress data topic connector", "..egress..")
+        .adapter("in memory persistence", "..memory..")
+        .ignoreDependency(resideInAPackage("..boot.."), alwaysTrue())
+        .allowEmptyShould(true);
+
+    @ArchTest
+    static final ArchRule domainMustNotDependOnFrameworks = 
+        ArchRuleDefinition.noClasses().that()
+            .resideInAnyPackage("..domain..")
+            .should().dependOnClassesThat()
+            .haveNameMatching("org.eclipse.")
+            .orShould().dependOnClassesThat()
+            .haveNameMatching("com.fasterxml.")
+            .orShould().dependOnClassesThat()
+            .haveNameMatching("com.google.")
+            .orShould().dependOnClassesThat()
+            .haveNameMatching("javax.")
+            .because("Domain should be free from Frameworks");
+}
+\end{lstlisting}
+
+The test \textit{architecture} at lines \textbf{4} to \textbf{12} ensures that, such as the previous test, the onion architecture is followed. The difference between the two is that this one allows empty components - line \textbf{12}, since the \textbf{Data Flow Scope} containers have no domain services. The test \textit{domainMustNotDependOnFrameworks} at lines \textbf{14} to \textbf{26} ensures that the domain component are free of dependencies.
 
 \section{Synopsis}
 \label{sec:implementation:synopsis}
+
+This chapter introduced the most important technical decisions taken during the solution's implementation. This decisions were followed with a technical description of \textbf{Sensae Console} tailored for those who manage the platform.
+Lastly some of the tests that ensure the proper operation of the solution were presented.
+
+In the next chapter, \nameref{chap:evaluation}, the performance of the platform will be extensively discussed.

@@ -579,8 +579,9 @@ As a brief description:
 
 \begin{itemize}
    \item A \textbf{Domain} is uniquely identified by a \textbf{DomainId} and can have a parent \textbf{Domain};
-   \item There's a root \textbf{Domain}, the only one doesn't have a parent and has all available permissions;
+   \item There's a root \textbf{Domain}, the only one that doesn't have a parent and has all the available permissions;
    \item A \textbf{Tenant} has a \textbf{TenantName} and \textbf{TenantEmail}, unique \textbf{TenantId} and can have a \textbf{TenantPhoneNumber};
+   \item A special \textbf{Tenant}, Anonymous, exists by default to give access to users without an account in the platform;
    \item A \textbf{Device} is uniquely identified by a \textbf{DeviceId};
    \item The \textbf{PermissionType} has much more types that haven't been presented for brevity.
 \end{itemize}
@@ -605,8 +606,11 @@ Coupled with the figure above, there are other constrains:
    \item A tenant has all the domain permissions that he is registered in;
    \item A tenant can only see the devices that the domains he is registered in has access to;
    \item All \textit{Unallocated} domains have no permissions or devices and contain only tenants that are waiting to be assigned to a department or organization;
-   \item The \textit{Public} domain can be accessed by any tenant, including those who are not authenticated in the system;
+   \item The creation of an \textit{Organization} (level 2 domain), triggers the creation of its \textit{Unallocated} domain;
+   \item The \textit{Public} domain can be accessed by any tenant, including those who are not authenticated in the system - with the Anonymous tenant account;
 \end{itemize}
+
+By default this context contains the \textit{Root} domain, the \textit{Root}'s  \textit{Unallocated} domain and the \textit{Public} domain.
 
 \subsubsection*{Rule Management}
 \label{subsubsec:design:domain:bounded_contexts:rule}

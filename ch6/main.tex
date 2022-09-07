@@ -127,6 +127,8 @@ This section describes how the various frontends are built and share common piec
 
 This tool provides features needed to manage multiple frontends in a single repository, without dealing with libraries versions mismatch.
 
+This tool has two main concepts that are widely used in the solution's frontend: apps and libraries. Apps focus on the \gls{UI} and libraries on everything else, such as the domain or the interactions with backend services. The diagram presented before at Figure~\ref{fig:design:architecture:component:development:diagram:decoder} resembles this two concepts.
+
 \subsubsection*{Technologies used to provide map/location base services}
 \label{subsubsec:implementation:decisions:frontend:maps}
 
@@ -686,7 +688,7 @@ From the home page the user can also access configuration pages, as an example t
 
 In this page the user can see when was the last time the device interacted with the platform, create and delete devices and edit the details of each device according to the model presented in Section\nameref{subsubsec:design:domain:bounded_contexts:device} of the \textit{Bounded Contexts}.
 
-Other relevant pages are presented in the Appendix \textbf{***TODO***}.
+Other relevant pages are presented in the Appendix~\ref{AppendixD}.
 
 \subsection{Sensae Console Custom Maps}
 \label{subsec:implementation:description:maps}
@@ -738,11 +740,9 @@ From the observation of the code sample one can see that:
 \begin{itemize}
     \item The \textit{data} function serves new \textit{SensorData} in real-time according to the filters provided in the \textit{filters} parameter;
     \item The textit{data} function uses \textit{Websocket} to operate as a full duplex communication channel. This spec, contrary to the HTTP spec does not account for HTTP Headers, as such the \gls{JWT} that provides the user authentication details has to be sent as a normal parameter and not as an Authorization HTTP Header.
-    \item  There are three Query type functions. One to fetch the history regarding Irrigation Zones or Devices over a time span. One to fetch the Irrigation Zones. And the last one to fetch the latest data of each device;
+    \item  There are three query type functions. One to fetch the history regarding Irrigation Zones or Devices over a time span. One to fetch the Irrigation Zones. And the last one to fetch the latest data of each device;
     \item There are four mutations, each corresponding to the use cases referenced in \textbf{***TODO***}.
 \end{itemize}
-
-This functions use various types, described in Appendix \textbf{***TODO***}.
 
 \subsection{Sensae Console Data Ingestion Endpoint}
 \label{subsec:implementation:description:ingestion}
@@ -1912,6 +1912,8 @@ This test verifies that a user in the root domain can see all default domains in
 
 This section presents some of the architectural tests of \textbf{Sensae Console}'s Containers. This tests are only performed in the backend containers.
 As an example it will be displayed one test for the \textbf{Configuration / Service Scope} and another for the \textbf{Data Flow Scope}.
+
+The tool used was ArchUnit, according to \cite{archunit}, it ``provides a variety of predefined governance rules codified as unit tests and allows architects to write specific tests that address modularity"".
 
 The Listing~\ref{code:implementation:tests:arch1} presents an example of the tests made for \textbf{Configuration / Service Scope} backend containers.
 

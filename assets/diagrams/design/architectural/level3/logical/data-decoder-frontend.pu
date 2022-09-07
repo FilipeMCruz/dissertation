@@ -22,6 +22,7 @@ component "Data Decoder Frontend" {
         interface "Auth API" as AUTH_API
         interface "Utils API" as UTIL_API
     }
+    
     COMP --( SERV_API
 
     COMP - COMP_API

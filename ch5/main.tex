@@ -146,7 +146,7 @@ This concepts are referenced across the document.
 
 The shared model is comprised of concepts that transverse the entire \textbf{Sensae Console} business model. Therefore, it is built as a separated project, \textit{iot-core}, that can be imported in each micro service.
 
-The intent behind this Shared Model is to alleviate one of the issues related to distributed systems - heterogeneity in data formats (\cite{nadiminti2006distributed}) - and to provide a simple \gls{SDK} for third-parties to develop new services that interact with the \textbf{Sensae Console}.
+The intent behind this Shared Model is to alleviate one of the issues related to distributed systems - heterogeneity in data formats (\cite{nadiminti2006distributed}) - and to provide a simple \gls{SDK} for third-parties to develop new services that interact with the \textbf{Sensae Console}. It can be seen as an explicit schema. According to \ref{explicitsharedmodel}, ``any implementation of event-based communication between a producer and consumer that lacks an explicit predefined schema will inevitably end up relying on an implicit schema. Implicit data contracts are brittle and susceptible to uncontrolled change, which can cause much undue hardship to downstream consumers.''
 
 It is comprised of three big components: (i) data model, (ii) message envelop model, and (iii) routing model.
 
@@ -260,7 +260,7 @@ As explained, \textit{Measures} contains various data types. Currently the suppo
    \end{longtable}
 \end{landscape}
 
-The current shared model schema can be found in \textbf{***TODO***}.
+The current shared model schema can be found in Appendix~\ref{AppendixA}.
 
 \subsubsection*{Message Envelop Model}
 \label{subsubsec:design:domain:shared_model:message}
@@ -294,7 +294,7 @@ This concept is mainly used to ensure that information flowing in the system is 
 \subsubsection*{Routing Model}
 \label{subsubsec:design:domain:shared_model:routing}
 
-The routing model refers to how information can be routed through the system based on various parameters. The initial and current idea is based on the \textit{pub/sub} pattern (\textbf{**TODO**}), containers subscribe to information in a \textbf{Topic} with specific \textit{RoutingKey}s and publish information with \textit{RoutingKey}s.
+The routing model refers to how information can be routed through the system based on various parameters. The initial and current idea is based on the \textit{pub/sub} pattern, as discussed by \cite{urquhart2021flow}. Containers subscribe to information in a \textbf{Topic} with specific \textit{RoutingKey}s and publish information with \textit{RoutingKey}s.
 
 The diagram present in Figure~\ref{fig:design:domain:shared_model:routing:diagram} details this model.
 
@@ -887,7 +887,7 @@ Considering the need to persist and provide the information collected, the syste
 
 The system also uses one (or more) message brokers, \cite{broker}, that will be configured but not developed.
 
-In order to ease the analysis of the system the following diagrams will be divided by scopes, mentioned in \ref{sec:design:system_scopes}. In the Appendix~TODO a complete logical view is provided.
+In order to ease the analysis of the system the following diagrams will be divided by scopes, mentioned in \ref{sec:design:system_scopes}. In the Appendix~\ref{AppendixB} a complete logical view is provided.
 
 The logical view of the \textbf{Configuration Scope} is represented in Figure~\ref{fig:design:architecture:container:logical:diagram:configuration}. This scope is composed by the processes discussed in \ref{subsec:design:system_scopes:configuration_scope}. Each process is composed by a three tier architecture, as per \cite{3tier}:
 
@@ -1305,7 +1305,7 @@ As an example the logical view of the Device Management Backend is presented in 
    \label{fig:design:architecture:component:logical:diagram:device}
 \end{figure}
 
-This architecture is used on the containers: (i) Device Management Backend, (ii) Data Decoder Backend, (iii) Data Processor Backend, (iv) Notification Management Backend, (v) Identity Management Backend, (vi) Rule Management Backend and (vii) Fleet Management Backend. The Smart Irrigation Backend has an additional component - QuestDB - inside the Persistence component with the same dependencies as the Postgres component.
+This architecture is used on the containers: (i) Device Management Backend, (ii) Data Decoder Backend, (iii) Data Processor Backend, (iv) Notification Management Backend, (v) Identity Management Backend, (vi) Rule Management Backend and (vii) Fleet Management Backend. The Smart Irrigation Backend has an additional component - QuestDB - inside the Persistence component with the same dependencies as the Postgres component. The Notification Dispatcher's architecture also differs from the architecture here presented. Further details of these differences can be consulted in Appendix ~\ref{AppendixC}.
 
 The following table, Table~\ref{tab:design:architecture:components:logical:backend}, discusses each component responsibilities.
 
@@ -1371,7 +1371,7 @@ This architecture is used on the containers: (i) Device Management Flow Backend,
 
 The Memory component is responsible for caching unhandled data units and other information relevant for each context. This component is not present in Data Validator Backend and Alert Dispatcher Backend since they don't need to store context information to function.
 
-The Data Gateway, Device Commander and Data Store backend containers have architectures that derive from this one and can be consulted in Appendix \textbf{***TODO***}.
+The Data Gateway, Device Commander and Data Store backend containers have architectures that derive from this one and can be consulted in Appendix ~\ref{AppendixC}.
 
 \subsubsection*{Components Level - Process View}
 \label{subsubsec:design:architecture:components:process}

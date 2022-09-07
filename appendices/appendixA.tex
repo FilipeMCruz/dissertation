@@ -1,7 +1,75 @@
-% Appendix A
+\chapter{Data Unit - Shared Model Schema}
+\label{AppendixA}
 
-\chapter{Appendix Title Here} % Main appendix title
+This schema represents the Shared Model Schema of a processed Data Unit as of \textit{iot-core} package version \textit{0.1.20}.
 
-\label{AppendixA} % For referencing this appendix elsewhere, use \ref{AppendixA}
-
-Write your Appendix content here.
+\begin{lstlisting}[style=json, caption=Data Unit - Shared Model Schema, label={code:AppendixA:schema}]
+{
+  "dataId": "[uuid]",
+  "reportedAt": "[long]",
+  "device": {
+    "id": "[uuid]",
+    "name": "[string]",
+    "downlink": "[string]",
+    "records": [{
+      "label": "[string]",
+      "content": "[string]"
+    }],
+    "domains":  ["[uuid]"],
+    "commands": {
+      "[int]": [{
+        "id": "[uuid]",
+        "name": "[string]",
+        "payload": "[base64 string]",
+        "port": "[int]"
+      }]
+    }
+  },
+  "measures": {
+    "[int]": {
+      "airHumidity": {
+        "gramsPerCubicMeter": "[float]",
+        "relativePercentage": "[float]"
+      },
+      "airPressure": {  "hectoPascal": "[float]"  },
+      "aqi": {  "value": "[float]"  },
+      "battery": {
+        "percentage": "[float]",
+        "volts": "[float]",
+        "maxVolts": "[float]",
+        "minVolts": "[float]"
+      },
+      "co2": {  "ppm": "[float]"  },
+      "co": {  "ppm": "[float]"  },
+      "distance": {
+        "millimeters": "[float]",
+        "maxMillimeters": "[float]",
+        "minMillimeters": "[float]"
+      },
+      "gps": {
+        "latitude": "[double]",
+        "longitude": "[double]",
+        "altitude": "[float]"
+      },
+      "illuminance": {  "lux": "[float]"  },
+      "motion": {  "value": "[ACTIVE, INACTIVE or UNKNOWN]"  },
+      "nh3": {  "ppm": "[float]"  },
+      "no2": {  "ppm": "[float]"  },
+      "o3": {  "ppm": "[float]"  },
+      "occupation": {  "percentage": "[float]"  },
+      "ph": {  "value": "[float]"  },
+      "pm2_5": {  "microGramsPerCubicMeter": "[float]"  },
+      "pm10": {  "microGramsPerCubicMeter": "[float]"  },
+      "soilConductivity": {  
+        "microSiemensPerCentimeter": "[float]"
+      },
+      "soilMoisture": {  "relativePercentage": "[float]"  },
+      "temperature": {  "celsius": "[float]"  },
+      "trigger": {  "value": "[boolean]"  },
+      "velocity": {  "kilometerPerHour": "[float]"  },
+      "voc": {  "ppm": "[float]"  },
+      "waterPressure": {  "bar": "[float]"  }
+    }
+  }
+}
+\end{lstlisting}

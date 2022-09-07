@@ -1420,10 +1420,10 @@ This service captures information of a single type (and doesn't publish any Comm
 
 At a high-level view, this service requires all alerts that already have a \textit{'defined ownership'}.
 
-\subsection{Sensae Console Sensor/Device Integration}
+\subsection{Sensae Console Device Integration}
 \label{subsec:implementation:description:sensor}
 
-This section describes how devices can be connected to \textbf{Sensae Console}. As stated in Section~\ref{***TODO***}, currently the service used to communicate with devices is \citetitle{helium}. This solution works with other platforms, such as Azure IoT Hub, since it provides an agnostic data ingestion endpoint as stated in Section~\ref{subsec:implementation:description:ingestion}.
+This section describes how devices can be connected to \textbf{Sensae Console}. As stated in Section~\textbf{***TODO***}, currently the service used to communicate with devices is \citetitle{helium}. This solution works with other platforms, such as Azure IoT Hub, since it provides an agnostic data ingestion endpoint as stated in Section~\ref{subsec:implementation:description:ingestion}.
 
 Virtually any device can be integrated, via \citetitle{helium}, with \textbf{Sensae Console}. To do so, one needs to register new devices in \citetitle{helium}, for example via \gls{OTAA}. Then create a Custom HTTP Integration, following the Section~\ref{subsec:implementation:description:ingestion} instructions.
 

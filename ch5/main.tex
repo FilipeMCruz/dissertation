@@ -52,7 +52,7 @@ The \textbf{Configuration Scope} is responsible for managing the following conte
 
 Each context allows an authorized user to manage its resources, e.g. the data processor context manages the creation, deletion and renovation of data mappers.
 
-This operations require various verifications, alter the system internal state and are therefore prolonged operations.
+This operations require various verification's, alter the system internal state and are therefore prolonged operations.
 
 \subsection{Data Flow Scope}
 \label{subsec:design:system_scopes:data_flow_scope}
@@ -528,7 +528,7 @@ As a brief description:
    \item The \textbf{ScriptContent} contains the code that will run for each inbound information that matches the \textbf{DeviceTypeId}.
 \end{itemize}
 
-This process requires some programing language knowledge but is much more flexible than the \textbf{Data Processor} operation.
+This process requires some programming language knowledge but is much more flexible than the \textbf{Data Processor} operation.
 
 \subsubsection*{Device Management}
 \label{subsubsec:design:domain:bounded_contexts:device}
@@ -550,7 +550,7 @@ The diagram in Figure~\ref{fig:design:domain:bounded_contexts:device:diagram} di
 As a brief description:
 
 \begin{itemize}
-   \item A \textbf{Device} is uniquely identified by a \textbf{DeviceId}, has a \textbf{DeviceName} and may have a \textbf{DeviceDownlink};% Apart from this it can also have other details regarding: (i) \textbf{DeviceCommand}s, (ii) \textbf{DeviceRecord}s, (iii) \textbf{DeviceStaticData} and (iv) \textbf{SubDevice};
+   \item A \textbf{Device} is uniquely identified by a \textbf{DeviceId}, has a \textbf{DeviceName} and may have a \textbf{DeviceDownlink};
    \item A \textbf{DeviceCommand} defines how to send a \textbf{Downlink} with a specific action;
    \item A \textbf{DeviceStaticData} helps to define data such as the device location;
    \item A \textbf{DeviceRecord} enriches the device information with anything deemed important. This can also help to group devices by projects, type of utility and others;
@@ -993,7 +993,7 @@ The system/container initialization, presented in Figure~\ref{fig:design:archite
 \end{figure}
 
 Not all containers are displayed in this diagram for brevity reasons.
-The system relies heavily in the Pub/Sub (\cite{pubsub}) pattern to communicate internally via a message broker. In this scenarios the first step in a container lifecycle is to subscribe to the information that it needs as presented in the diagram above.
+The system relies heavily in the Pub/Sub (\cite{pubsub}) pattern to communicate internally via a message broker. In this scenarios the first step in a container life cycle is to subscribe to the information that it needs as presented in the diagram above.
 
 Certain containers need the entire state related to their \textit{ContextType} to function. So, after subscribing to the needed information, they notify the system that they have entered an \textit{init state} for a specific context. This triggers the creation of new events to help that container to reach a \textit{ready state}. An example of this interaction is presented in the following diagram, Figure~\ref{fig:design:architecture:container:process:diagram:ready},note that this only occurs in the Internal Topic.
 
@@ -1120,7 +1120,7 @@ The system verifies the identity of a user based on the authentication performed
    \label{fig:design:architecture:container:process:diagram:authentication}
 \end{figure}
 
-This diagram ilustrastes how a user can authenticate against \textbf{Sensae Console}.
+This diagram illustrates how a user can authenticate against \textbf{Sensae Console}.
 The user identity and credentials validation are assured by an external identity platform such as \citetitle{googleid} or \citetitle{azureid}. Once an \textit{id token} is provided to \textbf{Sensae Console} it can use it to verify the user identity against the local registry. To ensure that the \textit{id token} is valid, Identity Management Backend checks if it was signed by the platform that supposedly issued it (step \textbf{3.3} and \textbf{3.5}). After validating the \textit{id token} it searches for the needed information to create an \textit{access token} and then provides it. The \textit{access token} can then be used for a limited time to access any protected HTTP resource of \textbf{Sensae Console} as demonstrated in Figure~\ref{fig:design:architecture:container:process:diagram:authorization}.
 
 \begin{figure}[H]
@@ -1202,7 +1202,7 @@ Frontend services are organized according to the diagram in Figure~\ref{fig:desi
    \label{fig:design:architecture:container:process:diagram:development:frontend}
 \end{figure}
 
-Each frontend service is divided between the \textit{apps} package and \textit{libs} package. Each \textit{app} depends on the corresponding \textit{lib}. Every \textit{lib} depend on the \textit{core} and \textit{auth} packages. The UI Aggregator depends only on the textit{auth} package.
+Each frontend service is divided between the \textit{apps} package and \textit{libs} package. Each \textit{app} depends on the corresponding \textit{lib}. Every \textit{lib} depend on the \textit{core} and \textit{auth} packages. The UI Aggregator depends only on the \textit{auth} package.
 
 Backend services are organized according to the diagram in Figure~\ref{fig:design:architecture:container:process:diagram:development:backend}.
 

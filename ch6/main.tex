@@ -42,18 +42,18 @@ The backend development is divided into three main areas:
 
 In the following sub sections a brief description and justification of the technologies used is presented.
 
-\subsubsection*{Programing Language Used}
+\subsubsection*{Programming Language Used}
 \label{subsubsec:implementation:decisions:backend:prog}
 
 As described in the development view of Section~\ref{subsubsec:design:architecture:context:development}, a package named \textit{iot-core}, an idealized \gls{SDK} for \textbf{Sensae Console}, was developed to define the information that flows inside the system. 
 Since this project is still in the early stages, the \textit{iot-core} package was only developed in \textit{Java}.
 
-In the future more programing languages may be supported though new \gls{SDK}s. The \textit{Rust} programing language is the next candidate due to its low memory footprint, fast startup times and expressive syntax.
+In the future more programming languages may be supported though new \gls{SDK}s. The \textit{Rust} programming language is the next candidate due to its low memory footprint, fast startup times and expressive syntax.
 
 The reasons that lead to the development of the first \gls{SDK} in \textit{Java} are:
 
 \begin{itemize}
-    \item It's the Programing language that the author is most familiarized with;
+    \item It's the programming language that the author is most familiarized with;
     \item Is widely used in industry for backend service development;
     \item Vast and robust support for virtually any technology used for backend development: database access, synchronous and asynchronous communication protocols, streaming platforms, embedded caches, rule engines and script engines.
 \end{itemize}
@@ -87,7 +87,7 @@ This features, coupled with the fact that the \textit{Quarkus} architecture foll
 
 Even though a micro frontend architecture empowers the selection of different technologies depending on the requirements of the solution and team affinity with the stack, the Frontend Containers were developed using the same technological stack. At the time of writing there was only one developer involved, this diminished the cognitive load needed to work on the solution while still allowing future collaborators to use different frontend frameworks.
 
-\subsubsection*{Programing Language and Framework Used}
+\subsubsection*{Programming Language and Framework Used}
 \label{subsubsec:implementation:decisions:frontend:prog}
 
 The author had previous contact with the following frameworks: (i) \citetitle{angular}, (ii) \citetitle{react}, and therefore no other tool was discussed when choosing the one to use in the solution.
@@ -134,14 +134,14 @@ This section briefly describes the library used to render and work with maps.
 
 The two options in regards to this requirement were: (i) \citetitle{googlemaps} and (ii) \citetitle{mapbox}.
 
-The author picked \citetitle{mapbox} due to better documentation, a more stable api, and a much suitable pricing plan for small businesses, when compared with \citetitle{googlemaps}.
+The author picked \citetitle{mapbox} due to better documentation, a more stable \gls{API}, and a much suitable pricing plan for small businesses, when compared with \citetitle{googlemaps}.
 
-This library can render custom maps and is bundled with powerful data visualization tools with a simple to use api. Two features deemed important for the solution.
+This library can render custom maps and is bundled with powerful data visualization tools with a simple to use \gls{API}. Two features deemed important for the solution.
 
 \subsection{Expose a GraphQL API On Backend Services}
 \label{subsec:implementation:decisions:graphql}
 
-The \gls{API} discussed in this section refers to the interfaces exposed to the outside world by backend containers of the Configuration and Service Scopes and isn't related to the internal communication or device data ingestion interface exposed by the Data Relayer Container.
+The \gls{API} discussed in this section refers to the interfaces exposed to the outside world by backend containers of the Configuration and Service Scopes and isn't related to the internal communication or device data ingestion interface exposed by the \textbf{Data Relayer} Container.
 
 The two approaches considered were: (i) \citetitle{rest} and (ii) \citetitle{graphql}.
 
@@ -209,7 +209,7 @@ As mentioned before, \textbf{Sensae Console} aims to provide a good developer ex
 
 This two technologies, \citetitle{proto} and \citetitle{thrift}, have similar goals and approaches to the problem they try to solve. They both rely on code generation based on a schema of the data structure. The tools related to this formats officially support various languages such as \textit{Java}, \textit{C++}, \textit{C\#}, \textit{Python}, \textit{Go} and others. 
 
-By leveraging this features, creating a basic \gls{SDK} in a new programing language is trivial since serialization, deserialization and data structure is already taken care by the code generation tool.
+By leveraging this features, creating a basic \gls{SDK} in a new programming language is trivial since serialization, deserialization and data structure is already taken care by the code generation tool.
 
 \citetitle{proto} are a ``language-neutral, platform-neutral, extensible mechanism for serializing structured data''.
 
@@ -358,7 +358,7 @@ As stated in the article \citetitle{dockercompose}, ``Compose is a tool for defi
 
 Since there is no need to automatically scale the solution it was decided to use a docker compose in production inserted of tools like Kubernetes.
 
-The solution's orchestration is defined in a \textit{YAML} file and then started with a single command. To improve security, only the needed container ports are exposed. To ensure data integrity throughout service disruptions, persistence data is mapped to folder in the \gls{OS}. To ensure an easy management of the environment, configurations are kept in the \gls{OS} and fetched by each container once they start. 
+The solution's orchestration is defined in a \textit{YAML} file and then started with a single command. To improve security, only the needed container ports are exposed. To ensure data integrity throughout service disruptions, persistence data is mapped to folder in the \gls{OS}. To ensure an easy management of the environment, configurations are kept in the \gls{OS} and fetched by each container once they start.
 
 The details about the solution orchestration can be found in Section~\ref{subsec:implementation:description:compose}.
 
@@ -518,7 +518,7 @@ jobs:
 \end{lstlisting}
 
 As we can see in lines \textbf{2} to \textbf{6}, this action is triggered every time a new git tag is pushed to the repository.
-This action then procedes to download and setup java and maven - lines \textbf{12} to \textbf{20}. Finally it runs a maven command to deploy the new version to the artifact repository - lines \textbf{21} to \textbf{26}. 
+This action then proceeds to download and setup java and maven - lines \textbf{12} to \textbf{20}. Finally it runs a maven command to deploy the new version to the artifact repository - lines \textbf{21} to \textbf{26}. 
 
 The \textbf{Sensae Console} has an action to deal with Continuous Integration - Code Sample~\ref{code:implementation:decisions:actions:cisensae}, where changes made to the software are tested.
 
@@ -550,7 +550,7 @@ jobs:
 \end{lstlisting}
 
 As we can see in lines \textbf{2} to \textbf{6}, this action is triggered every time a new commit is push to the \textit{dev} and \textit{master} branches.
-This action then procedes to download and setup java and maven - lines \textbf{10} to \textbf{16}, and then node and npm - lines \textbf{17} to \textbf{20}. Finally it runs a script that tests the solution - line \textbf{23}. The script requires the displayed secrets to run some tests, this tests will be discussed in the \nameref{sec:implementation:testing} Section.
+This action then proceeds to download and setup java and maven - lines \textbf{10} to \textbf{16}, and then node and npm - lines \textbf{17} to \textbf{20}. Finally it runs a script that tests the solution - line \textbf{23}. The script requires the displayed secrets to run some tests, this tests will be discussed in the \nameref{sec:implementation:testing} Section.
 
 The mentioned script has the following structure - Code Sample~\ref{code:implementation:decisions:actions:testscript}.
 
@@ -603,8 +603,8 @@ It runs the following steps:
     \item Run the command \textit{mvn test} for all backend containers and store the results of each container's test in a file - lines \textbf{17} to \textbf{19};
     \item Checks if any container didn't pass the tests - line \textbf{15};
     \item Run tests related to the frontend at lines \textbf{23} to \textbf{26}. The script mentioned as \textit{test-all} is: \textit{nx run-many --all --target=test}. This script runs all unit tests of both frontend libraries and apps using \citetitle{nx}, as mentioned in \ref{subsubsec:implementation:decisions:frontend:nx} Section;
-    \item Build and start an evironment similar to the production one - lines \textbf{28} to \textbf{32};
-    \item Preform end to end tests against the test environment - \textbf{34}. THe script mentioned as \textit{e2e-all} is: \textit{nx run-many --all --target=e2e --parallel=1}. This script runs all end-toend tests of the frontend apps using \citetitle{nx}, as mentioned in \ref{subsubsec:implementation:decisions:frontend:nx} Section;
+    \item Build and start an environment similar to the production one - lines \textbf{28} to \textbf{32};
+    \item Preform end to end tests against the test environment - \textbf{34}. The script mentioned as \textit{e2e-all} is: \textit{nx run-many --all --target=e2e --parallel=1}. This script runs all end-to-end tests of the frontend apps using \citetitle{nx}, as mentioned in \ref{subsubsec:implementation:decisions:frontend:nx} Section;
     \item Shutdown the test environment.
 \end{itemize}
 
@@ -701,7 +701,7 @@ The following image, Figure~\ref{fig:implementation:description:maps:irrig} pres
     {
        \includegraphics{assets/figures/maps/custom-map.png}
     }
-    \caption[Costum Map - Smart Irrigation]{Custom Map - Smart Irrigation}
+    \caption[Custom Map - Smart Irrigation]{Custom Map - Smart Irrigation}
     \label{fig:implementation:description:maps:irrig}
 \end{figure}
 
@@ -736,7 +736,7 @@ type Mutation {
 From the observation of the code sample one can see that:
 
 \begin{itemize}
-    \item The \textit{data} function serves new \textit{SensorData} in realtime according to the filters provided in the \textit{filters} parameter;
+    \item The \textit{data} function serves new \textit{SensorData} in real-time according to the filters provided in the \textit{filters} parameter;
     \item The textit{data} function uses \textit{Websocket} to operate as a full duplex communication channel. This spec, contrary to the HTTP spec does not account for HTTP Headers, as such the \gls{JWT} that provides the user authentication details has to be sent as a normal parameter and not as an Authorization HTTP Header.
     \item  There are three Query type functions. One to fetch the history regarding Irrigation Zones or Devices over a time span. One to fetch the Irrigation Zones. And the last one to fetch the latest data of each device;
     \item There are four mutations, each corresponding to the use cases referenced in \textbf{***TODO***}.
@@ -906,7 +906,7 @@ There are certain guidelines to follow in order to create a decoder:
 
 As an example, the Code Sample~\ref{code:implementation:description:decoder:em300th} presents the decoder for the device type EM500-TH\footnote{https://www.milesight-iot.com/lorawan/sensor/em300-th}.
 
-\begin{lstlisting}[caption=EM300-TH Data Decoder Example, label={code:implementation:description:decoder:em300th}] 
+\begin{lstlisting}[style=javascript, caption=EM300-TH Data Decoder Example, label={code:implementation:description:decoder:em300th}] 
 const decodePayload = (payload, port) =>
     ({"0": decoder(base64ToHex(payload), port)});
 
@@ -984,14 +984,14 @@ const convert = dataUnit => ({
 });
 \end{lstlisting}
 
-As we can see, this code sample decodes an EM300-TH \textbf{Data Unit}. The function \textit{convert} is the one mentioned in the guidelines, it assigns values such as \textit{id}, \textit{name}, \textit{reported\_at}, \textit{downlink\_url}, \textit{uuid} to its correct place and calls the function \textit{decodePayload} to gather the device measures. The \textit{decodePayload} stores every measure in the \textit{controller} key - value \textit{0}. The function \textit{base64ToHex} is the function that reads a Base 64 string and transforms it into a Hex Array - to reduce bandwidth th device normally encodes and sends data as a base 64 string. The function \textit{decoder}, \textit{readInt16LE} and \textit{readUInt16LE} were adapted from the TTN decoder\footnote{https://github.com/Milesight-IoT/SensorDecoders/blob/master/EM300\_Series/EM300-TH} of this device.
+As we can see, this code sample decodes an EM300-TH \textbf{Data Unit}. The function \textit{convert} is the one mentioned in the guidelines, it assigns values such as \textit{id}, \textit{name}, \textit{reported\_at}, \textit{downlink\_url}, \textit{uuid} to its correct place and calls the function \textit{decodePayload} to gather the device measures. The \textit{decodePayload} stores every measure in the \textit{controller} key - value \textit{0}. The function \textit{base64ToHex} is the function that reads a Base 64 string and transforms it into a Hex Array - to reduce bandwidth the device normally encodes and sends data as a base 64 string. The function \textit{decoder}, \textit{readInt16LE} and \textit{readUInt16LE} were adapted from the TTN decoder\footnote{https://github.com/Milesight-IoT/SensorDecoders/blob/master/EM300\_Series/EM300-TH} of this device.
 
 \subsection{Sensae Console Database Configuration}
 \label{subsec:implementation:description:database}
 
 The solution designed relies on various databases, and as discussed in Section~\ref{subsubsec:implementation:decisions:database:relational} some are relational databases. \citetitle{postgressql} and most databases of this data-model type require a database schema. For this solution the schema of each database is defined in a \textit{sql} file that is executed at the start of the database, only if no data is found. 
 
-Further database schema migrations are preformed using custom sql scripts when needed. In the future, once more instance of \textbf{Sensae Console} are deployed, the use of liquidbase or flyway is prefered.
+Further database schema migrations are preformed using custom \gls{SQL} scripts when needed. In the future, once more instance of \textbf{Sensae Console} are deployed, the use of liquidbase or flyway is preferred.
 
 The following Code Sample~\ref{code:implementation:description:database:file} exemplifies the content of this scripts.
 
@@ -1020,7 +1020,7 @@ create table if not exists public.property_transformation
 
 This script defines two simple tables, \textit{transformation} and \textit{property\_transformation}, following the concepts defined in Section~\ref{subsubsec:design:domain:bounded_contexts:processor}.
 
-Apart from the schema, the \textbf{Identity Mamagement Database} also requires the following bootstrap data, as implied in \nameref{subsubsec:design:domain:bounded_contexts:identity} Bounded Context Section:
+Apart from the schema, the \textbf{Identity Management Database} also requires the following bootstrap data, as implied in \nameref{subsubsec:design:domain:bounded_contexts:identity} Bounded Context Section:
 
 \begin{itemize}
     \item Root domain;
@@ -1071,9 +1071,9 @@ As explained in Section~\ref{subsec:implementation:decisions:docker}, the author
 
 The following Code Samples describe how each container mentioned in Section~\ref{subsubsec:design:architecture:container:logical} are packaged. To simplify, only three distinct samples will be presented.
 
-The first sample, Listing~\ref{code:implementation:description:docker:frotend}, refers to UI Aggregator and is similar to all other frontend containers.
+The first sample, Listing~\ref{code:implementation:description:docker:frontend}, refers to UI Aggregator and is similar to all other frontend containers.
 
-\begin{lstlisting}[caption=Dockerfile for UI Aggregator Frontend, label={code:implementation:description:docker:frotend}]
+\begin{lstlisting}[caption=Dockerfile for UI Aggregator Frontend, label={code:implementation:description:docker:frontend}]
 FROM node:18-alpine AS build
 WORKDIR /workspace
 COPY package.json ./
@@ -1086,7 +1086,7 @@ COPY apps/ui-aggregator/nginx/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /workspace/dist/apps/ui-aggregator /usr/share/nginx/html    
 \end{lstlisting}
 
-This Dockerfile contains two stages to reduce the size of the final image. The first stage, lines \textbf{1} to \textbf{6}, builds the project. The second one, containing only nginx and the code that was previously built, is used to serve the UI Aggregator Frontend and route requests. The nginx configuration file at line \textbf{9} is discussed in the \ref{subsec:implementation:description:nginx} Section.
+This Dockerfile contains two stages to reduce the size of the final image. The first stage, lines \textbf{1} to \textbf{6}, builds the project. The second one, containing only \citetitle{nginx} and the code that was previously built, is used to serve the UI Aggregator Frontend and route requests. The \citetitle{nginx} configuration file at line \textbf{9} is discussed in the \ref{subsec:implementation:description:nginx} Section.
 
 The second sample, Listing~\ref{code:implementation:description:docker:spring}, refers to \textbf{Fleet Management Backend} and is similar to all backend containers in the Configuration or Services Scope.
 
@@ -1154,7 +1154,7 @@ This sample, once again, is also a multi-stage Dockerfile. It was adapted from t
 
 As described in Section~\ref{subsubsec:design:architecture:container:physical}, \citetitle{dockercompose} was the tool used to orchestrate the solution. This tool consumes a configuration file to know what containers, and their configurations, are needed. The complete configuration file for production is vast, a summarized version will be presented containing only the \textbf{Data Processor} Context' related containers.
 
-\begin{lstlisting}[caption=Docker Compose Configuration File for Production, label={code:implementation:description:compose:file}]
+\begin{lstlisting}[style=yaml, caption=Docker Compose Configuration File for Production, label={code:implementation:description:compose:file}]
 services:
   data-processor-frontend:
     build:
@@ -1212,7 +1212,7 @@ The following conclusions can be observed:
     \item All services communicate in the same network - \textit{sensae-network};
     \item All services have instructions on how to build them;
     \item Various configuration files are loaded, e.g. in lines \textbf{19} to \textbf{20} and \textbf{28} to \textbf{31}, this files content will be discussed in the \nameref{subsec:implementation:description:config} Section;
-    \item The Frontend has two volumes mapped, one loads the \textit{letsencrypt} configuration file for \citetitle{nginx} and the other loads the ssl certificate - lines \textbf{7} to \textbf{9}.
+    \item The Frontend has two volumes mapped, one loads the \textit{letsencrypt} configuration file for \citetitle{nginx} and the other loads the SSL certificate - lines \textbf{7} to \textbf{9}.
     \item The Configuration Backend needs to validate the authentication tokens received, for that, it has access to the public key that pairs the private key used to created then in \textbf{Identity Management Backend} - line \textbf{19} - \textbf{20};
     \item The database exposes a port to the host so that it can be managed remotely - lines \textbf{36} to \textbf{37};
     \item The database maps its data to a directory in the host, so that data is persisted between server restarts - lines \textbf{38} to \textbf{39};
@@ -1283,11 +1283,11 @@ The following conclusions can be observed:
 
 \begin{itemize}
     \item It only exposes the HTTPS port - line \textbf{4} and lines \textbf{49} to \textbf{51};
-    \item It loads the ssl certificates mapped in the \citetitle{dockercompose} file - lines \textbf{7} and \textbf{8};
+    \item It loads the SSL certificates mapped in the \citetitle{dockercompose} file - lines \textbf{7} and \textbf{8};
     \item It uses the \textit{letsencrypt} configuration - line \textbf{14};
     \item The \textit{remoteEntry} file, responsible for providing the entry point to the service in a Micro Frontend environment, is never cached in the client browser since it points to the current compiled version of the service. If this file is cached, the updated version of a micro frontend, can only be accessed by the client browser once the local cache is cleaned up - lines \textbf{16} to \textbf{19};
-    \item The \citetitle{graphql} endpoint is defined as a reverse proxy endpoint. Requests made to \textit{/smart-irrigation/graphql} are routed to \textit{http://smart-irrigation-backend:8080/graphql}. It doesn't use a secure connection, HTTPS, since this communication already happens inside the docker network where man in the middle attacks are unregarded - lines \textbf{21} to \textbf{29};
-    \item The \citetitle{graphql} subscription endpoint is also defined, this type of connection, Websocket, requires the use of HTTP version 1.1 and the two Headers presented at lines \textbf{34} to \textbf{36};
+    \item The \citetitle{graphql} endpoint is defined as a reverse proxy endpoint. Requests made to \textit{/smart-irrigation/graphql} are routed to \textit{http://smart-irrigation-backend:8080/graphql}. It doesn't use a secure connection, HTTPS, since this communication already happens inside the docker network where man in the middle attacks are disregarded - lines \textbf{21} to \textbf{29};
+    \item The \citetitle{graphql} subscription endpoint is also defined, this type of connection, \textit{Websocket}, requires the use of HTTP version 1.1 and the two Headers presented at lines \textbf{34} to \textbf{36};
     \item All other requests are handled in lines \textbf{45} to \textbf{47}.
 \end{itemize}
 
@@ -1425,7 +1425,7 @@ At a high-level view, this service requires all alerts that already have a \text
 
 This section describes how devices can be connected to \textbf{Sensae Console}. As stated in Section~\ref{***TODO***}, currently the service used to communicate with devices is \citetitle{helium}. This solution works with other platforms, such as Azure IoT Hub, since it provides an agnostic data ingestion endpoint as stated in Section~\ref{subsec:implementation:description:ingestion}.
 
-Virtually any device can be integrated, via \citetitle{helium}, with \textbf{Sensae Console}. To do so, one needs to register new devices in \citetitle{helium}, for eaxmple via \gls{OTAA}. Then create a Custom HTTP Integration, following the Section~\ref{subsec:implementation:description:ingestion} instructions.
+Virtually any device can be integrated, via \citetitle{helium}, with \textbf{Sensae Console}. To do so, one needs to register new devices in \citetitle{helium}, for example via \gls{OTAA}. Then create a Custom HTTP Integration, following the Section~\ref{subsec:implementation:description:ingestion} instructions.
 
 The Figure~\ref{fig:implementation:description:sensor:integration} presents an example of the custom integration for the EM300-TH Device.
 
@@ -1624,10 +1624,10 @@ The code in Listing~\ref{code:implementation:tests:inte2} verifies that the data
 \begin{lstlisting}[style=Java, caption=Integration Test - Database - \textbf{Notification Management Backend}, label={code:implementation:tests:inte2}]
 public class NotificationRepositoryImplTest extends IntegrationTest {
 
-    @Autowired
+    $$@Autowired
     NotificationRepositoryImpl repository;
 
-    @Test
+    $$@Test
     public void ensureDatabaseCanBeReached() {
         var single = Domains.single(DomainId.of(UUID.randomUUID()));
         var type = ContentType.of("a", "a", NotificationLevel.CRITICAL);
@@ -1677,9 +1677,9 @@ public class DatabaseContainerTest extends PostgreSQLContainer<DatabaseContainer
 }    
 \end{lstlisting}
 
-The \textit{DatabaseContainerTest} follows the Singleton Pattern to ensure that all tests use the same instance. In line \textbf{8} we can see that the base image is \citetitle{postgressql}, but the image actually used is \textit{data-decoder-database}. This image is \citetitle{postgressql} with the data decoder schema and built in line \textbf{11} of the script referenced in Listing~\ref{code:implementation:decisions:actions:testscript}. The same notion is applied for the Message Broker Container. Theses two containers are the ones that \textbf{Data Decoder Master Backend} dependes on.
+The \textit{DatabaseContainerTest} follows the Singleton Pattern to ensure that all tests use the same instance. In line \textbf{8} we can see that the base image is \citetitle{postgressql}, but the image actually used is \textit{data-decoder-database}. This image is \citetitle{postgressql} with the data decoder schema and built in line \textbf{11} of the script referenced in Listing~\ref{code:implementation:decisions:actions:testscript}. The same notion is applied for the Message Broker Container. Theses two containers are the ones that \textbf{Data Decoder Master Backend} depends on.
 
-The Listing~\ref{code:implementation:tests:func2} presents the fountation of functional and integration tests.
+The Listing~\ref{code:implementation:tests:func2} presents the foundation of functional and integration tests.
 
 \begin{lstlisting}[style=Java, caption=Functional Test - Foundation - \textbf{Data Decoder Master Backend} Setup, label={code:implementation:tests:func2}]
 $$@SpringBootTest
@@ -1841,7 +1841,7 @@ This section presents some of the end-to-end tests of \textbf{Sensae Console}.
 This tests evaluate how the system responds to various user actions.
 
 All end-to-end tests rely on \citetitle{cypress}, an end-to-end testing framework.
-To improve tests redability new cypress commands were created.
+To improve tests readability new cypress commands were created.
 The methods \textit{anonymous}, \textit{logout} and \textit{goToIdentityPage} are some examples of this commands - Listing~\ref{code:implementation:tests:e2e2}.
 
 \begin{lstlisting}[style=javascript, caption=End-to-End Test - Custom Commands - \textbf{UI Aggregator}, label={code:implementation:tests:e2e2}]
@@ -1868,7 +1868,7 @@ Cypress.Commands.add('logout', () => {
 Cypress.Commands.add('goToIdentityPage', () => {
     console.log('Custom command: go to Identity Page');
     cy.get('#tools').click();
-    cy.contains('Identity Managment').click();
+    cy.contains('Identity Management').click();
 });
 \end{lstlisting}
 
@@ -1887,9 +1887,9 @@ describe('ui-aggregator', () => {
 });
 \end{lstlisting}
 
-The test verifies that a successfull login notification is recieved in line \textbf{5}. Both of the commands previously decribed are used in this test.
+The test verifies that a successful login notification is received in line \textbf{5}. Both of the commands previously described are used in this test.
 
-The Listing~\ref{code:implementation:tests:e2e3} presents a test that walks though the \textbf{Identity Management Page} verifing that an authenticated manager can see every available domain.
+The Listing~\ref{code:implementation:tests:e2e3} presents a test that walks though the \textbf{Identity Management Page} verifying that an authenticated manager can see every available domain.
 
 \begin{lstlisting}[style=javascript, caption=End-to-End Test - Discover Available Domains - \textbf{Identity Management}, label={code:implementation:tests:e2e3}]
 describe('ui-aggregator', () => {
@@ -1950,10 +1950,10 @@ The test \textit{architecture} at lines \textbf{4} to \textbf{14} ensures that t
 The Listing~\ref{code:implementation:tests:arch2} presents an example of the tests made for \textbf{Data Flow Scope}.
 
 \begin{lstlisting}[style=Java, caption=Architectural Test - Simplified Onion Architecture - \textbf{Data Processor Flow}, label={code:implementation:tests:arch2}]
-@AnalyzeClasses(packages = "pt.sensae.services")
+$$@AnalyzeClasses(packages = "pt.sensae.services")
 public class ArchitecturalTest {
 
-    @ArchTest
+    $$@ArchTest
     static final ArchRule architecture = Architectures
         .onionArchitecture()
         .domainModels("..domain..")
@@ -1965,7 +1965,7 @@ public class ArchitecturalTest {
         .ignoreDependency(resideInAPackage("..boot.."), alwaysTrue())
         .allowEmptyShould(true);
 
-    @ArchTest
+    $$@ArchTest
     static final ArchRule domainMustNotDependOnFrameworks = 
         ArchRuleDefinition.noClasses().that()
             .resideInAnyPackage("..domain..")
@@ -1986,7 +1986,7 @@ The test \textit{architecture} at lines \textbf{4} to \textbf{12} ensures that, 
 \section{Synopsis}
 \label{sec:implementation:synopsis}
 
-This chapter introduced the most important technical decisions taken during the solution's implementation. This decisions were followed with a technical description of \textbf{Sensae Console} tailored for those who manage the platform.
+This chapter introduced the most important technical decisions taken during the solution's implementation. This decisions were followed with a technical description of \textbf{Sensae Console} tailored for those who manage and develop the platform.
 Lastly some of the tests that ensure the proper operation of the solution were presented.
 
 In the next chapter, \nameref{chap:evaluation}, the performance of the platform will be extensively discussed.

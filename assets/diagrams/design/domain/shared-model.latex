@@ -11,9 +11,9 @@
 ,pstyle4/.style={color=black,fill=black,line width=1.0pt}
 ]
 \draw[pstyle0] (74pt,21.5pt) arc (180:270:5pt) -- (79pt,16.5pt) -- (215.5448pt,16.5pt) arc (270:360:5pt) -- (220.5448pt,21.5pt) -- (220.5448pt,89.6358pt) arc (0:90:5pt) -- (215.5448pt,94.6358pt) -- (79pt,94.6358pt) arc (90:180:5pt) -- (74pt,89.6358pt) -- cycle;
-\draw[pstyle1] (125.1966pt,32.5pt) ellipse (11pt and 11pt);
-\node at (125.1966pt,32.5pt)[]{\textbf{\Large C}};
-\node at (145.6966pt,22.966pt)[below right,color=black]{Data};
+\draw[pstyle1] (110.0581pt,32.5pt) ellipse (11pt and 11pt);
+\node at (110.0581pt,32.5pt)[]{\textbf{\Large C}};
+\node at (128.7376pt,22.966pt)[below right,color=black]{DataUnit};
 \draw[pstyle2] (75pt,48.5pt) -- (219.5448pt,48.5pt);
 \node at (80pt,52.5pt)[below right,color=black]{dataId: UUID};
 \node at (80pt,71.5679pt)[below right,color=black]{reportedAt: Long};

@@ -556,7 +556,7 @@ This action then proceeds to download and setup java and maven - lines \textbf{1
 
 The mentioned script has the following structure - Code Sample~\ref{code:implementation:decisions:actions:testscript}.
 
-\begin{lstlisting}[caption=Sensae Console Test Suite Script, label={code:implementation:decisions:actions:testscript}]
+\begin{lstlisting}[language=bash, style=bash, caption=Sensae Console Test Suite Script, label={code:implementation:decisions:actions:testscript}]
 #!/bin/bash
 set -eo pipefail
 
@@ -619,7 +619,7 @@ The Maven Central repository was the chosen one, since the \textit{maven} and \t
 
 According to the article \citetitle{centralreq} by \cite{centralreq}, to publish an artifact to maven central, a couple of additions have to be made in the \textit{pom.xml} of the project namely: (i) Supply Javadoc and Sources, (ii) Provide Files Checksums, (iii) Sign Files with GPG/PGP, (iv) Sufficient Metadata, (v) Correct Coordinates, (vi) Project Name, Description and URL, (vii) License Information, (vii) Developer Information, (viii) SCM Information.
 
-In the \refname{***TODO***} Appendix the full \textit{pom.xml} is presented.
+In the Appendix~\ref{AppendixE} Appendix the full \textit{pom.xml} is presented.
 
 \section{Technical Description}
 \label{sec:implementation:description}
@@ -782,12 +782,12 @@ To clarify the guidelines the following Code Samples~\ref{code:implementation:de
 
 The first Code Sample presents the beginning of the rule scenario, where imports and new Facts are created.
 
-\begin{lstlisting}[caption=Rule Scenario Example - Part 1, label={code:implementation:description:rule:sample1}]
+\begin{lstlisting}[style=drools, caption=Rule Scenario Example - Part 1, label={code:implementation:description:rule:sample1}]
 package rules.project.two;
 
 import pt.sharespot.iot.core.data.model.data.DataUnitReadingsDTO;
 import pt.sharespot.iot.core.data.model.DataUnitDTO;
-import pt.sharespot.iot.core.data.model.device.records.DeviceRecordEntryDTO;
+import pt.sharespot.iot.core.data.model.device.records. DeviceRecordEntryDTO;
 import pt.sharespot.iot.core.data.model.properties.PropertyName;
 import pt.sharespot.iot.core.alert.model.AlertBuilder;
 import pt.sharespot.iot.core.alert.model.CorrelationDataBuilder;
@@ -819,7 +819,7 @@ From line \textbf{17} to \textbf{28} two facts are declared, this can later be u
 
 The following code sample presents a simple rule to store \textit{StoveSensorData} facts in the working memory of \citetitle{drools}. 
 
-\begin{lstlisting}[caption=Rule Scenario Example - Part 2, label={code:implementation:description:rule:sample2}] 
+\begin{lstlisting}[style=drools, caption=Rule Scenario Example - Part 2, label={code:implementation:description:rule:sample2}] 
 rule "Collect stove sensor data that belongs to Project #002"
     when
         $d : DataUnitDTO(
@@ -837,7 +837,7 @@ rule "Collect stove sensor data that belongs to Project #002"
         reading.setDeviceId($d.device.id);
         reading.setDataId($d.dataId);
         reading.setTemperature($d.getSensorData().temperature.celsius);
-        reading.setHumidity($d.getSensorData().airHumidity.relativePercentage);
+        reading.setHumidity($d.getSensorData().airHumidity .relativePercentage);
         insert(reading)
 end
 \end{lstlisting}
@@ -854,7 +854,7 @@ Once this conditions are meet a \textit{StoveSensorData} is created with all the
 
 The following code sample presents a simple rule to dispatch an \textbf{Alert} after some conditions are meet. 
 
-\begin{lstlisting}[caption=Rule Scenario Example - Part 3, label={code:implementation:description:rule:sample3}]
+\begin{lstlisting}[style=drools, caption=Rule Scenario Example - Part 3, label={code:implementation:description:rule:sample3}]
 rule "Dispatch Stove Alarm - Dry Soil Scenario - Project #002"
     when
         $s : StoveSensorData(temperature > 26, humidity < 50)
@@ -911,8 +911,7 @@ const decodePayload = (payload, port) =>
     ({"0": decoder(base64ToHex(payload), port)});
 
 const base64ToHex = (() => {
-    const values = [],
-    output = [];
+    const values = [], output = [];
 
     return function base64ToHex(txt) {
         if (output.length <= 0) populateLookups();
@@ -934,7 +933,7 @@ const base64ToHex = (() => {
     };
     function populateLookups() {
         const keys =
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijkl mnopqrstuvwxyz0123456789+/=";
         for (let i = 0; i < 256; i++) {
             output.push(("0" + i.toString(16)).slice(-2));
             values.push(0);
@@ -995,7 +994,7 @@ Further database schema migrations are preformed using custom \gls{SQL} scripts 
 
 The following Code Sample~\ref{code:implementation:description:database:file} exemplifies the content of this scripts.
 
-\begin{lstlisting}[caption=Initialization Script Segment for Data Processor Database, label={code:implementation:description:database:file}]
+\begin{lstlisting}[language=SQL, caption=Initialization Script Segment for Data Processor Database, label={code:implementation:description:database:file}]
 create table if not exists public.transformation
 (
     persistence_id bigint generated by default as identity
@@ -1032,7 +1031,7 @@ Apart from the schema, the \textbf{Identity Management Database} also requires t
 
 This data is inserted using the following function, Code Sample~\ref{code:implementation:description:database:function}:
 
-\begin{lstlisting}[caption=Bootstrap function for Identity Management Database, label={code:implementation:description:database:function}]
+\begin{lstlisting}[language=SQL, caption=Bootstrap function for Identity Management Database, label={code:implementation:description:database:function}]
 CREATE FUNCTION public.init_domains () 
 RETURNS varchar(255) AS $root_oid$
     DECLARE
@@ -1298,7 +1297,7 @@ This section describes how a \textbf{Sensae Console} is configured. One of the p
 
 This configurations are defined, for each environment, in a single file. This file, Listing~\ref{code:implementation:description:config:file}, has the following structure:
 
-\begin{lstlisting}[caption=Configuration File for Production Environment, label={code:implementation:description:config:file}]
+\begin{lstlisting}[language=bash, style=bash, caption=Configuration File for Production Environment, label={code:implementation:description:config:file}]
 export SENSAE_MAPBOX_ACCESS_TOKEN=
 export SENSAE_MAPBOX_SIMPLE_STYLE=
 export SENSAE_MAPBOX_SATELLITE_STYLE=
@@ -1330,7 +1329,7 @@ export SENSAE_ADMIN_EMAIL=
 
 This file variables are then passed on to each container's environment configuration file with the help of a script. The Code Sample~\ref{code:implementation:description:config:script} sheds a light on how the script propagates the configurations.
 
-\begin{lstlisting}[caption=Configuration Propagation Script, label={code:implementation:description:config:script}]
+\begin{lstlisting}[language=bash, style=bash, caption=Configuration Propagation Script, label={code:implementation:description:config:script}]
 #!/usr/bin/sh
 
 ROOT_DIR=$(git rev-parse --show-toplevel)

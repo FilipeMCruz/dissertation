@@ -558,7 +558,23 @@ breaklinks=true,
 	showstringspaces=false,
 	breakatwhitespace=true,
 	commentstyle=\color{ballblue},
-	keywords={var, void, public, static, new, throws, for, if, null, extends, class, private, protected, return, super, implements, abstract},
+	keywords={var, void, public, static, new, throws, for, if, null, extends, class, private, protected, return, super, implements, abstract, import, package, final, this},
+	keywordstyle=\color{blue},
+	stringstyle=\color{red},
+	basicstyle=\color{black}\footnotesize,
+	moredelim=[il][\textcolor{antiquefuchsia}]{$$},
+	moredelim=[is][\textcolor{antiquefuchsia}]{\%\%}{\%\%},
+	postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{gray}\hookrightarrow\space}},
+}
+
+\lstdefinestyle{drools}{
+	showspaces=false,
+	showtabs=false,
+	breaklines=true,
+	showstringspaces=false,
+	breakatwhitespace=true,
+	commentstyle=\color{ballblue},
+	keywords={var, void, public, static, new, throws, for, if, null, extends, class, private, protected, return, super, implements, abstract, import, dialect, global, declare, end, package, when, then, from, exists, not, insert, after, final, this},
 	keywordstyle=\color{blue},
 	stringstyle=\color{red},
 	basicstyle=\color{black}\footnotesize,
@@ -568,7 +584,7 @@ breaklinks=true,
 }
 
 \lstdefinestyle{javascript}{
-  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break, const, let, declare, namespace, interface, void},
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break, const, let, declare, namespace, interface, void, final},
   keywordstyle=\color{blue},
   ndkeywords={class, export, boolean, throw, implements, import, this},
   ndkeywordstyle=\color{darkgray}\bfseries,
@@ -584,6 +600,7 @@ breaklinks=true,
 }
 
 
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
 \definecolor{delim}{RGB}{20,105,176}
 \definecolor{numb}{RGB}{106, 109, 32}
 \definecolor{string}{rgb}{0.64,0.08,0.08}
@@ -617,4 +634,29 @@ breaklinks=true,
       {\}}{{{\color{delim}{\}}}}}{1}
       {[}{{{\color{delim}{[}}}}{1}
       {]}{{{\color{delim}{]}}}}{1},
+}
+
+
+\lstdefinestyle{xml}{
+	basicstyle=\ttfamily,
+	morestring=[s]{"}{"},
+	morecomment=[s]{?}{?},
+	morecomment=[s]{!--}{--},
+	commentstyle=\color{gray},
+	moredelim=[s][\color{black}]{>}{<},
+	moredelim=[s][\color{red}]{\ }{=},
+  	stringstyle=\color{black},
+  	identifierstyle=\color{blue},
+  	keywordstyle=\color{blue},
+	postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{gray}\hookrightarrow\space}},
+}
+
+\lstdefinestyle{bash}{
+	commentstyle=\color{gray},
+	postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{gray}\hookrightarrow\space}},
+}
+
+\lstdefinestyle{SQL}{
+	commentstyle=\color{gray},
+	postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{gray}\hookrightarrow\space}},
 }

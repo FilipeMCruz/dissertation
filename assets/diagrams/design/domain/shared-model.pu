@@ -2,7 +2,7 @@
 
 hide empty members
 
-class Data {
+class "DataUnit" as Data {
     dataId: UUID
     reportedAt: Long
 }

@@ -68,15 +68,17 @@ sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architect
 
 sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level3/process/rule-management-backend.latex
 
-# sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level3/process/smart-irrigation-backend.latex
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/logical/complete.latex
 
-# sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level3/process/data-gateway.latex
+# sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level3/logical/smart-irrigation-backend.latex
 
-# sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level3/process/data-store.latex
+# sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level3/logical/data-gateway.latex
 
-# sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level3/process/notification-dispatcher-backend.latex
+# sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level3/logical/data-store.latex
 
-# sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level3/process/device-commander.latex
+# sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level3/logical/notification-dispatcher-backend.latex
+
+# sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level3/logical/device-commander.latex
 
 sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/alternatives/auth/alternative1.latex
 

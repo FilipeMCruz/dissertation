@@ -10,11 +10,11 @@ interface "UI" as UI
 interface "Sensae Console\nRest API" as IN_ENDPOINT
 interface "Helium Console\nRest API" as OUT_ENDPOINT
 
-interface "Twilio SMS Disptacher API" as SMS_ENDPOINT
+interface "Twilio SMS\nDisptacher API" as SMS_ENDPOINT
 interface "SMTP Server" as SMTP_ENDPOINT
 
-interface "Azure Active Directory API" as AUTH_ENDPOINT
-interface "Google Identity Platform API" as GOOGLE_ENDPOINT
+interface "Azure Active\nDirectory API" as AUTH_ENDPOINT
+interface "Google Identity\nPlatform API" as GOOGLE_ENDPOINT
 
 component "Sensae Console" <<System>> {
     component "UI Aggregator" as UIAG <<Container>>  {
@@ -27,39 +27,39 @@ component "Sensae Console" <<System>> {
         component "Rule Management Frontend" as RULE_MAN_FRONT <<Container>> 
         component "Notification Management Frontend" as NOTIF_MAN_FRONT <<Container>> 
     }
-    component "Message Broker" as MB <<Container>> 
+    component "Message\nBroker" as MB <<Container>> 
 
-    component "Fleet Management Backend" as LTB <<Container>> 
-    component "Smart Irrigation Backend" as SIB <<Container>> 
-    component "Device Management Backend" as DRB <<Container>> 
-    component "Device Management Flow Backend" as DRSB <<Container>> 
-    component "Data Gateway Backend" as DDG <<Container>> 
+    component "Fleet Management\nBackend" as LTB <<Container>> 
+    component "Smart Irrigation\nBackend" as SIB <<Container>> 
+    component "Device Management\nBackend" as DRB <<Container>> 
+    component "Device Management\nFlow Backend" as DRSB <<Container>> 
+    component "Data Gateway\nBackend" as DDG <<Container>> 
     component "Data Relayer" as DR <<Container>> 
-    component "Data Processor Flow Backend" as DPSB <<Container>> 
-    component "Data Processor Backend" as DPB <<Container>> 
-    component "Data Decoder Flow Backend" as DDSB <<Container>> 
-    component "Data Decoder Backend" as DDB <<Container>> 
-    component "Data Validator Backend" as DVB <<Container>> 
-    component "Device Management Database" as DRDB <<Container>> 
-    component "Data Processor Database" as DPDB <<Container>> 
-    component "Data Decoder Database" as DDDB <<Container>> 
-    component "Identity Management Database" as IAMDB <<Container>> 
-    component "Data Store Backend" as DS <<Container>> 
-    component "Fleet Management Database" as QUESTDB <<Container>> 
-    component "Data Store Database" as MONGODB <<Container>> 
-    component "Smart Irrigation Data Database" as SIDDB <<Container>> 
-    component "Smart Irrigation Business Database" as SIBDB <<Container>> 
-    component "Identity Management Backend" as IAMB <<Container>> 
-    component "Device Ownership Backend" as IAMSB <<Container>> 
-    component "Device Commander Backend" as DCB <<Container>> 
+    component "Data Processor\nFlow Backend" as DPSB <<Container>> 
+    component "Data Processor\nBackend" as DPB <<Container>> 
+    component "Data Decoder\nFlow Backend" as DDSB <<Container>> 
+    component "Data Decoder\nBackend" as DDB <<Container>> 
+    component "Data Validator\nBackend" as DVB <<Container>> 
+    component "Device Management\nDatabase" as DRDB <<Container>> 
+    component "Data Processor\nDatabase" as DPDB <<Container>> 
+    component "Data Decoder\nDatabase" as DDDB <<Container>> 
+    component "Identity Management\nDatabase" as IAMDB <<Container>> 
+    component "Data Store\nBackend" as DS <<Container>> 
+    component "Fleet Management\nDatabase" as QUESTDB <<Container>> 
+    component "Data Store\nDatabase" as MONGODB <<Container>> 
+    component "Smart Irrigation\nData Database" as SIDDB <<Container>> 
+    component "Smart Irrigation\nBusiness Database" as SIBDB <<Container>> 
+    component "Identity Management\nBackend" as IAMB <<Container>> 
+    component "Device Ownership\nBackend" as IAMSB <<Container>> 
+    component "Device Commander\nBackend" as DCB <<Container>> 
 
-    component "Rule Management Backend" as RULE_MAN_BACK <<Container>> 
-    component "Rule Management Database" as RULE_MAN_DB <<Container>> 
-    component "Alert Dispatcher Backend" as ALERT_BACK <<Container>>  
+    component "Rule Management\nBackend" as RULE_MAN_BACK <<Container>> 
+    component "Rule Management\nDatabase" as RULE_MAN_DB <<Container>> 
+    component "Alert Dispatcher\nBackend" as ALERT_BACK <<Container>>  
 
-    component "Notification Management Backend" as NOTIF_MAN_BACK <<Container>> 
-    component "Notification Management Database" as NOTIF_MAN_DB <<Container>> 
-    component "Notification Dispatcher Backend" as NOTIF_BACK <<Container>>  
+    component "Notification Management\nBackend" as NOTIF_MAN_BACK <<Container>> 
+    component "Notification Management\nDatabase" as NOTIF_MAN_DB <<Container>> 
+    component "Notification Dispatcher\nBackend" as NOTIF_BACK <<Container>>  
 
     interface "Message Broker\nAPI" as MB_API
     interface "Fleet Management\nBackend API" as LTB_API
@@ -75,7 +75,7 @@ component "Sensae Console" <<System>> {
     interface "Data Store\nDatabase API" as MONGODB_API
     interface "Smart Irrigation Data\nDatabase API" as SIDDB_API
     interface "Smart Irrigation Business\nDatabase API" as SIBDB_API
-    interface "Data Gateway Backend\nAPI" as DDG_API
+    interface "Data Gateway\nBackend API" as DDG_API
     interface "Identity Management\nBackend API" as IAMB_API
     interface "Rule Management\nBackend API" as RULE_MAN_BACK_API
     interface "Rule Management\nDatabase API" as RULE_MAN_DB_API
@@ -86,17 +86,17 @@ component "Sensae Console" <<System>> {
     RULE_MAN_BACK --( RULE_MAN_DB_API
     NOTIF_MAN_BACK --( NOTIF_MAN_DB_API
     SIB --( SIDDB_API
-    SIBDB_API )- SIB
+    SIB --( SIBDB_API
     DS --( MONGODB_API
     DDG -- DDG_API
     DPB_API -- DPB
     DDMB_API -- DDB
     DRB_API -- DRB
-    MB -- MB_API
-    DRDB_API - DRDB
-    DPDB_API - DPDB
-    DDDB_API - DDDB
-    IAMDB_API - IAMDB
+    MB_API --- MB
+    DRDB_API -- DRDB
+    DPDB_API -- DPDB
+    DDDB_API -- DDDB
+    IAMDB_API -- IAMDB
     RULE_MAN_BACK_API -- RULE_MAN_BACK
     NOTIF_MAN_BACK_API -- NOTIF_MAN_BACK
     LTB_API -- LTB
@@ -104,10 +104,10 @@ component "Sensae Console" <<System>> {
     IAMB_API -- IAMB
     UI -- UIAG
     MONGODB_API - MONGODB
-    QUESTDB_API - QUESTDB
-    RULE_MAN_DB_API - RULE_MAN_DB
-    NOTIF_MAN_DB_API - NOTIF_MAN_DB
-    SIDDB_API - SIDDB
+    QUESTDB_API -- QUESTDB
+    RULE_MAN_DB_API -- RULE_MAN_DB
+    NOTIF_MAN_DB_API -- NOTIF_MAN_DB
+    SIDDB_API -- SIDDB
     SIBDB_API -- SIBDB
     DRB --( DRDB_API
     DRDB_API )-[hidden]- DRSB
@@ -146,27 +146,17 @@ component "Sensae Console" <<System>> {
     MB_API )--- NOTIF_BACK
 
     DR -- IN_ENDPOINT
-    DDG_API )-- DR
-    DCB ----( OUT_ENDPOINT
+    DDG_API )- DR
+    DCB ---( OUT_ENDPOINT
     IAMF --( AUTH_ENDPOINT
     AUTH_ENDPOINT )-- IAMB
     IAMF --( GOOGLE_ENDPOINT
     GOOGLE_ENDPOINT )-- IAMB
 
-    NOTIF_BACK ----( SMS_ENDPOINT
-    NOTIF_BACK ----( SMTP_ENDPOINT
+    NOTIF_BACK ---( SMS_ENDPOINT
+    NOTIF_BACK ---( SMTP_ENDPOINT
 
-    IAMB --[hidden]- IAMSB
-    DRB --[hidden]- DRSB
-    DDB --[hidden]- DDSB
-    DPB --[hidden]- DPSB
-
-    LTF -[hidden] DRF
-    SIF -[hidden] LTF
-    LTB -[hidden] DRB
-    SIB -[hidden] LTB
-
-    DRDB -[hidden] MB
+    AUTH_ENDPOINT -[hidden]- GOOGLE_ENDPOINT
 }
 
 @enduml

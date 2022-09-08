@@ -6,22 +6,23 @@ actor Manager
 
 actor "Tenant or\nAnonymous User" as User
 
-component "External System" as ExternalSystem
+collections "External\nSystems" as ExternalSystem
 
 component "System" {
 
-    component "Configuration Scope" as Configuration
+    component "Configuration\nScope" as Configuration
 
-    component "Data Flow Scope" as DataFlow
+    component "Data Flow\nScope" as DataFlow
 
-    component "Services Scope" as Service
+    component "Services\nScope" as Service
 }
 
 ExternalSystem -> DataFlow : feeds unsanitized\ndata to
 
-Configuration --> DataFlow : defines the behaviour of
+Configuration --> DataFlow : defines the\nbehaviour of
+Configuration <-- DataFlow : informs about\nnotable\noccurrences
 
-DataFlow -> Service : feeds sanitized data\nand alert to
+DataFlow -> Service : feeds sanitized data\nand alerts to
 Service -> DataFlow : sends commands to
 
 Manager --> Configuration : configures\nthe ETL

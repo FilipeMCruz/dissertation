@@ -194,67 +194,94 @@ As explained, \textit{Measures} contains various data types. Currently the suppo
    \textit{Property}                     & \textit{Sub Property}              &                                                        &                                &  \\ \cline{1-4}
    \endhead
    %
+   \\
    \cline{1-4}
+   \\
    \endfoot
    %
    \endlastfoot
    %
-   \multicolumn{2}{l}{\textbf{GPS}}                                           & \multicolumn{2}{l}{Point reference in the Geographic Coordinate System}                 &  \\
-   \multirow{3}{*}{\textit{gps}}         & \textit{latitude}                  & Value between -90 and 90 measured in                   & degrees                        &  \\
-                                         & \textit{longitude}                 & Value between -180 and 180 measured in                 & degrees                        &  \\
-                                         & \textit{altitude}                  & Value determined according to the mean sea level       & meters                         &  \\ \cline{1-4}
+   \\[-0.85em]
    \multicolumn{2}{l}{\textbf{Motion}}                                        & \multicolumn{2}{l}{Status related to the motion of a device}                            &  \\
-   \textit{motion}                       & \textit{value}                     & Value can be "ACTIVE", "INACTIVE" or "UNKNOWN"         & n.a.                           &  \\ \cline{1-4}
+   \textit{motion}                       & \textit{value}                     & Value can be "ACTIVE", "INACTIVE" or "UNKNOWN"         & n.a.                           &  \\ [0.4em] \cline{1-4}
+   \\[-0.85em]
    \multicolumn{2}{l}{\textbf{Velocity}}                                      & \multicolumn{2}{l}{How fast a device is moving}                                         &  \\
-   \textit{velocity}                     & \textit{kilometerPerHour}          & Value measured in                                      & km/h                           &  \\ \cline{1-4}
+   \textit{velocity}                     & \textit{kilometerPerHour}          & Value measured in                                      & km/h                           &  \\ [0.4em] \cline{1-4}
+   \\[-0.85em]
    \multicolumn{2}{l}{\textbf{Temperature}}                                   & \multicolumn{2}{l}{Temperature measured by a device}                                    &  \\
-   \textit{temperature}                  & \textit{celsius}                   & Value measured in                                      & celsius                        &  \\ \cline{1-4}
+   \textit{temperature}                  & \textit{celsius}                   & Value measured in                                      & celsius                        &  \\ [0.4em] \cline{1-4}
+   \\[-0.85em]
    \multicolumn{2}{l}{\textbf{AQI}}                                           & \multicolumn{2}{l}{Air Quality Index according to the U.S. AQI}                         &  \\
-   \textit{aqi}                          & \textit{value}                     & Value measured in                                      & AQI                            &  \\ \cline{1-4}
+   \textit{aqi}                          & \textit{value}                     & Value measured in                                      & AQI                            &  \\ [0.4em] \cline{1-4}
+   \\[-0.85em]
    \multicolumn{2}{l}{\textbf{Air Humidity}}                                  & \multicolumn{2}{l}{Concentration of water vapour present in the air}                    &  \\
    \multirow{2}{*}{\textit{airHumidity}} & \textit{gramsPerCubicMeter}        & Value measured in                                      & g/m3                           &  \\
-                                         & \textit{relativePercentage}        & Value measured in                                      & \%                             &  \\ \cline{1-4}
+                                         & \textit{relativePercentage}        & Value measured in                                      & \%                             &  \\ [0.4em] \cline{1-4}
+   \\[-0.85em]
    \multicolumn{2}{l}{\textbf{Air Pressure}}                                  & \multicolumn{2}{l}{Pressure within the atmosphere of Earth}                             &  \\
-   \textit{airPressure}                  & \textit{hectoPascal}               & Value measured in                                      & hPa                            &  \\ \cline{1-4}
+   \textit{airPressure}                  & \textit{hectoPascal}               & Value measured in                                      & hPa                            &  \\ [0.4em] \cline{1-4}
+   \\[-0.85em]
+   \multicolumn{2}{l}{\textbf{Distance}}                                      & \multicolumn{2}{l}{Distance measured from the device to a surface}                      &  \\
+   \multirow{3}{*}{\textit{distance}}    & \textit{millimeters}               & Value measured in                                      & mm                             &  \\
+                                         & \textit{maxMillimeters}            & Maximum distance the sensor can be to a given surface  & mm                             &  \\
+                                         & \textit{minMillimeters}            & Minimum distance the sensor can be to a given surface  & mm                             &  \\ [0.4em] \cline{1-4}
+   \\[-0.85em]
+   \multicolumn{2}{l}{\textbf{Soil Moisture}}                                 & \multicolumn{2}{l}{Amount of water, including water vapor, in an unsaturated soil}      &  \\
+   \textit{soilMoisture}                  & \textit{relativePercentage}        & Value measured in                                      & \%                             &  \\ [0.4em] \cline{1-4}
+   \\[-0.85em]
+   \multicolumn{2}{l}{\textbf{Water Pressure}}                                & \multicolumn{2}{l}{Water Pressure measured in pipes by a device}                        &  \\
+   \textit{waterPressure}                & \textit{bar}                       & Value measured in                                      & bar                            &  \\ [0.4em] \cline{1-4}
+   \\[-0.85em]
    \multicolumn{2}{l}{\textbf{Battery}}                                       & \multicolumn{2}{l}{Battery of the device}                                               &  \\
    \multirow{4}{*}{\textit{battery}}     & \textit{volts}                     & Value measured in                                      & volts                          &  \\
                                          & \textit{percentage}                & Value measured in                                      & \%                             &  \\
                                          & \textit{maxVolts}                  & Minimum volts the battery needs for the device to work & volts                          &  \\
-                                         & \textit{minVolts}                  & Maximum volts the battery can hold                     & volts                          &  \\ \cline{1-4}
-   \multicolumn{2}{l}{\textbf{Soil Moisture}}                                 & \multicolumn{2}{l}{Amount of water, including water vapor, in an unsaturated soil}      &  \\
-   \textit{soilMoisture}                  & \textit{relativePercentage}        & Value measured in                                      & \%                             &  \\ \cline{1-4}
+                                         & \textit{minVolts}                  & Maximum volts the battery can hold                     & volts                          &  \\ [0.4em] \cline{1-4}
+   %\pagebreak
+   \\[-0.85em]
    \multicolumn{2}{l}{\textbf{Illuminance}}                                   & \multicolumn{2}{l}{Illuminance level - luminous flux per unit area}                     &  \\
-   \textit{illuminance}                  & \textit{lux}                       & Value measured in                                      & lux                            &  \\ \cline{1-4}
+   \textit{illuminance}                  & \textit{lux}                       & Value measured in                                      & lux                            &  \\ [0.4em] \cline{1-4}
+   \\[-0.85em]
    \multicolumn{2}{l}{\textbf{Trigger}}                                       & \multicolumn{2}{l}{Type related to something with an on / off or open / close state}    &  \\
-   \textit{trigger}                      & \textit{value}                     & Value true or false                                    & boolean                        &  \\ \cline{1-4}
+   \textit{trigger}                      & \textit{value}                     & Value true or false                                    & boolean                        &  \\ [0.4em] \cline{1-4}
+   \\[-0.85em]
    \multicolumn{2}{l}{\textbf{CO2}}                                           & \multicolumn{2}{l}{Atmospheric Carbon Dioxide concentration}                            &  \\
-   \textit{co2}                          & \textit{ppm}                       & Value measured in                                      & ppm                            &  \\ \cline{1-4}
+   \textit{co2}                          & \textit{ppm}                       & Value measured in                                      & ppm                            &  \\ [0.4em] \cline{1-4}
+   \\[-0.85em]
    \multicolumn{2}{l}{\textbf{CO}}                                            & \multicolumn{2}{l}{Atmospheric Carbon Oxide concentration}                              &  \\
-   \textit{co}                           & \textit{ppm}                       & Value measured in                                      & ppm                            &  \\ \cline{1-4}
+   \textit{co}                           & \textit{ppm}                       & Value measured in                                      & ppm                            &  \\ [0.4em] \cline{1-4}
+   \\[-0.85em]
    \multicolumn{2}{l}{\textbf{VOC}}                                           & \multicolumn{2}{l}{Volatile Organic Compounds concentration measured by a device}       &  \\
-   \textit{voc}                          & \textit{ppm}                       & Value measured in                                      & ppm                            &  \\ \cline{1-4}
+   \textit{voc}                          & \textit{ppm}                       & Value measured in                                      & ppm                            &  \\ [0.4em] \cline{1-4}
+   \\[-0.85em]
    \multicolumn{2}{l}{\textbf{NH3}}                                           & \multicolumn{2}{l}{Atmospheric Ammonia concentration}                                   &  \\
-   \textit{nh3}                          & \textit{ppm}                       & Value measured in                                      & ppm                            &  \\ \cline{1-4}
+   \textit{nh3}                          & \textit{ppm}                       & Value measured in                                      & ppm                            &  \\ [0.4em] \cline{1-4}
+   \\[-0.85em]
    \multicolumn{2}{l}{\textbf{O3}}                                            & \multicolumn{2}{l}{Atmospheric Ozone concentration measured by a device}                &  \\
-   \textit{o3}                           & \textit{ppm}                       & Value measured in                                      & ppm                            &  \\ \cline{1-4}
+   \textit{o3}                           & \textit{ppm}                       & Value measured in                                      & ppm                            &  \\ [0.4em] \cline{1-4}
+   \\[-0.85em]
    \multicolumn{2}{l}{\textbf{NO2}}                                           & \multicolumn{2}{l}{Atmospheric Nitrogen dioxide concentration}                          &  \\
-   \textit{no2}                          & \textit{ppm}                       & Value measured in                                      & ppm                            &  \\ \cline{1-4}
+   \textit{no2}                          & \textit{ppm}                       & Value measured in                                      & ppm                            &  \\ [0.4em] \cline{1-4}
+   \\[-0.85em]
    \multicolumn{2}{l}{\textbf{PM2.5}}                                         & \multicolumn{2}{l}{Particulate Matter in the air (size up to 2.5 micrometers)}          &  \\
-   \textit{pm2\_5}                       & \textit{microGramsPerCubicMeter}   & Value measured in                                      & $\mu$g/m3                      &  \\ \cline{1-4}
+   \textit{pm2\_5}                       & \textit{microGramsPerCubicMeter}   & Value measured in                                      & $\mu$g/m3                      &  \\ [0.4em] \cline{1-4}
+   \\[-0.85em]
    \multicolumn{2}{l}{\textbf{PM10}}                                          & \multicolumn{2}{l}{Particulate Matter in the air (size up to 10 micrometers)}           &  \\
-   \textit{pm10}                         & \textit{microGramsPerCubicMeter}   & Value measured in                                      & $\mu$g/m3                      &  \\ \cline{1-4}
-   \multicolumn{2}{l}{\textbf{Water Pressure}}                                & \multicolumn{2}{l}{Water Pressure measured in pipes by a device}                        &  \\
-   \textit{waterPressure}                & \textit{bar}                       & Value measured in                                      & bar                            &  \\ \cline{1-4}
+   \textit{pm10}                         & \textit{microGramsPerCubicMeter}   & Value measured in                                      & $\mu$g/m3                      &  \\ [0.4em] \cline{1-4}
+   \\[-0.85em]
    \multicolumn{2}{l}{\textbf{pH}}                                            & \multicolumn{2}{l}{Scale used to specify how acidic or basic a water-based solution is} &  \\
-   \textit{ph}                           & \textit{value}                     & Value between 0 and 14 measured in                     & pH                             &  \\ \cline{1-4}
+   \textit{ph}                           & \textit{value}                     & Value between 0 and 14 measured in                     & pH                             &  \\ [0.4em] \cline{1-4}
+   \\[-0.85em]
    \multicolumn{2}{l}{\textbf{Occupation}}                                    & Occupation percentage measured inside a vessel         &                                &  \\
-   \textit{occupation}                   & \textit{percentage}                & Value measured in                                      & \%                             &  \\ \cline{1-4}
+   \textit{occupation}                   & \textit{percentage}                & Value measured in                                      & \%                             &  \\ [0.4em] \cline{1-4}
+   \\[-0.85em]
    \multicolumn{2}{l}{\textbf{Soil Conductivity}}                             & \multicolumn{2}{l}{Substances ability to conduct an electrical current in the soil}     &  \\
-   \textit{soilConductivity}             & \textit{microSiemensPerCentimeter} & Value measured in                                      & $\mu$S/cm                      &  \\ \cline{1-4}
-   \multicolumn{2}{l}{\textbf{Distance}}                                      & \multicolumn{2}{l}{Distance measured from the device to a surface}                      &  \\
-   \multirow{3}{*}{\textit{distance}}    & \textit{millimeters}               & Value measured in                                      & mm                             &  \\
-                                         & \textit{maxMillimeters}            & Maximum distance the sensor can be to a given surface  & mm                             &  \\
-                                         & \textit{minMillimeters}            & Minimum distance the sensor can be to a given surface  & mm                             &  \\ \cline{1-4}
+   \textit{soilConductivity}             & \textit{microSiemensPerCentimeter} & Value measured in                                      & $\mu$S/cm                      &  \\ [0.4em] \cline{1-4}
+   \\[-0.85em]
+   \multicolumn{2}{l}{\textbf{GPS}}                                           & \multicolumn{2}{l}{Point reference in the Geographic Coordinate System}                 &  \\
+   \multirow{3}{*}{\textit{gps}}         & \textit{latitude}                  & Value between -90 and 90 measured in                   & degrees                        &  \\
+                                         & \textit{longitude}                 & Value between -180 and 180 measured in                 & degrees                        &  \\
+                                         & \textit{altitude}                  & Value determined according to the mean sea level       & meters                         &  \\ [0.4em] \cline{1-4}
    \caption{Measure Data Types}
    \label{tab:design:domain:shared_model:data:data_types}\\
    \end{longtable}
@@ -266,7 +293,6 @@ The current shared model schema can be found in Appendix~\ref{AppendixA}.
 \label{subsubsec:design:domain:shared_model:message}
 
 The message envelop model refers to how, coupled with the routing model in Section~\ref{subsubsec:design:domain:shared_model:routing}, information can easily transverse the system.
-The message envelop is used when a message is expected to flow though the system and is therefore used in all \textbf{Topic}s but the \textbf{Internal} one.
 
 The diagram present in Figure~\ref{fig:design:domain:shared_model:messsage:diagram} details this model.
 
@@ -1248,6 +1274,8 @@ Next is the physical view (Figure~\ref{fig:design:architecture:container:physica
 \end{figure}
 
 Even though the diagram above represents a \textit{Kubernetes} cluster, the production environment is orchestrated using \textit{Docker Compose} running in a single node/server. This decision was taken after acknowledging that currently there is no need to scale the solution, a single node has been capable of handling all throughput.
+
+Each Container represented in Section~\ref{subsubsec:design:architecture:container:logical} is mapped to a container in this view. Following the \citetitle{dbperservice}, each logical database also corresponds to a physical database. 
 
 \subsubsection*{Container Level - Synopsis}
 \label{subsubsec:design:architecture:container:synopsis}

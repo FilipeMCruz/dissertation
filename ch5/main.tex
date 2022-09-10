@@ -144,9 +144,11 @@ This concepts are referenced across the document.
 \subsection{Shared Model}
 \label{subsec:design:domain:shared_model}
 
-The shared model is comprised of concepts that transverse the entire \textbf{Sensae Console} business model. Therefore, it is built as a separated project, \textit{iot-core}, that can be imported in each micro service.
+The shared model is comprised of concepts that transverse the entire \textbf{Sensae Console} business model. Therefore, it is built as a separated project, \textit{iot-core}, that can be imported in each micro service. It can be seen as a bounded context that focus on defining the protocol of exchange of information between the various entities of the system.
 
-The intent behind this Shared Model is to alleviate one of the issues related to distributed systems - heterogeneity in data formats (\cite{nadiminti2006distributed}) - and to provide a simple \gls{SDK} for third-parties to develop new services that interact with the \textbf{Sensae Console}. It can be seen as an explicit schema. According to \ref{explicitsharedmodel}, ``any implementation of event-based communication between a producer and consumer that lacks an explicit predefined schema will inevitably end up relying on an implicit schema. Implicit data contracts are brittle and susceptible to uncontrolled change, which can cause much undue hardship to downstream consumers.''
+The intent behind this Shared Model is to alleviate one of the issues related to distributed systems - heterogeneity in data formats (\cite{nadiminti2006distributed}) - and to provide a simple \gls{SDK} for third-parties to develop new services that interact with \textbf{Sensae Console}. It can be seen as an explicit schema. According to \cite{explicitsharedmodel}, ``any implementation of event-based communication between a producer and consumer that lacks an explicit predefined schema will inevitably end up relying on an implicit schema. Implicit data contracts are brittle and susceptible to uncontrolled change, which can cause much undue hardship to downstream consumers.''
+
+According to \cite{integration}, ``while we have historically drawn up our project plans and costs around the boxes — the digital products we are introducing — the lines are the hidden and often primary driver of organizational tech debt. They are the reason that things just take longer now than they used to.'' The \textit{'lines'} in this solution are a first class citizen and, instead of just linking the system together, they act as the pillars that shape the entire ecosystem.
 
 It is comprised of three big components: (i) data model, (ii) message envelop model, and (iii) routing model.
 
@@ -587,7 +589,7 @@ As a brief description:
 \label{subsubsec:design:domain:bounded_contexts:identity}
 
 The \textbf{Identity Management} is concerned with identifying \textbf{Tenant}s, defining their permissions and what \textbf{Device}s they own.
-To simplify this a forth concept is introduced: \textbf{Domain}.
+To simplify this, a forth concept is introduced: \textbf{Domain}.
 
 The diagram in Figure~\ref{fig:design:domain:bounded_contexts:identity:diagram} displays the noteworthy concepts in this context.
 
@@ -633,17 +635,20 @@ Coupled with the figure above, there are other constrains:
    \item A tenant can only see the devices that the domains he is registered in has access to;
    \item All \textit{Unallocated} domains have no permissions or devices and contain only tenants that are waiting to be assigned to a department or organization;
    \item The creation of an \textit{Organization} (level 2 domain), triggers the creation of its \textit{Unallocated} domain;
-   \item The \textit{Public} domain can be accessed by any tenant, including those who are not authenticated in the system - with the Anonymous tenant account;
+   \item The \textit{Public} domain can be accessed by any tenant, including those who are not authenticated in the system - with the Anonymous User account;
 \end{itemize}
 
-By default this context contains the \textit{Root} domain, the \textit{Root}'s  \textit{Unallocated} domain and the \textit{Public} domain.
+By default this context contains the \textit{Root Organization} domain, the \textit{Root Organization}'s  \textit{Unallocated} domain and the \textit{Public} domain.
+
+Referring to the roles in Section~\ref{sec:requirements:functional}, a Manager belongs to the \textit{Root Organization}, any Costumer belongs to one or various \textit{Organization}s, and the Anonymous user belongs to the \textit{Public} domain.
+Ultimately, what defines a user role is the domain he belongs to.Even if an \textit{Organization} ends up having all available permissions it will not be able to control or access other \textit{Organization}'s device data or employees information.
 
 \subsubsection*{Rule Management}
 \label{subsubsec:design:domain:bounded_contexts:rule}
 
 The \textbf{Rule Management} context refers to rule scenarios.
 
-The purpose of this context is to provide a high-level language that can analyze a stream of \textbf{Data Unit}s and output \textbf{Alert}s base on them. This systems are usually categorized as \gls{IFP} Systems, according to \cite{cugola2012processing}.
+The purpose of this context is to provide a high-level language that can analyze a stream of \textbf{Data Unit}s, identify abnormal occurrences, and output \textbf{Alert}s base on them. This systems are usually categorized as \gls{IFP} Systems, according to \cite{cugola2012processing}.
 
 The following diagram, Figure~\ref{fig:design:domain:bounded_contexts:rule:ifp}, represents this systems.
 

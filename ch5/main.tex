@@ -146,7 +146,7 @@ This concepts are referenced across the document.
 
 The shared model is comprised of concepts that transverse the entire \textbf{Sensae Console} business model. Therefore, it is built as a separated project, \textit{iot-core}, that can be imported in each micro service.
 
-The intent behind this Shared Model is to alleviate one of the issues related to distributed systems - heterogeneity in data formats (\cite{nadiminti2006distributed}) - and to provide a simple \gls{SDK} for third-parties to develop new services that interact with the \textbf{Sensae Console}. It can be seen as an explicit schema. According to \ref{explicitsharedmodel}, ``any implementation of event-based communication between a producer and consumer that lacks an explicit predefined schema will inevitably end up relying on an implicit schema. Implicit data contracts are brittle and susceptible to uncontrolled change, which can cause much undue hardship to downstream consumers.''
+The intent behind this Shared Model is to alleviate one of the issues related to distributed systems - heterogeneity in data formats (\cite{nadiminti2006distributed}) - and to provide a simple \gls{SDK} for third-parties to develop new services that interact with the \textbf{Sensae Console}. It can be seen as an explicit schema. According to \cite{explicitsharedmodel}, ``any implementation of event-based communication between a producer and consumer that lacks an explicit predefined schema will inevitably end up relying on an implicit schema. Implicit data contracts are brittle and susceptible to uncontrolled change, which can cause much undue hardship to downstream consumers.''
 
 It is comprised of three big components: (i) data model, (ii) message envelop model, and (iii) routing model.
 

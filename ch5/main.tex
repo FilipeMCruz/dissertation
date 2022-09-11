@@ -1,7 +1,7 @@
 \chapter{Design}
 \label{chap:design}
 
-This section goal is to describe the overall system design to the reader.
+This chapter goal is to describe the overall system design to the reader.
 %First the reference architectures used for this project will be presented.
 First the various system scopes will be introduced, followed by a section regarding the domain model.
 After this the system's architectural design will be presented and major decisions/alternatives discussed. At last, a synopsis of this chapter can be read.
@@ -31,11 +31,11 @@ The system designed can be divided in three main scopes as disclosed in the Figu
    \label{fig:design:system_scopes:scopes}
 \end{figure}
 
-The \textbf{Configuration Scope} adheres to the configuration and visualization of internal processes/contexts. This processes, such as: (i) data decoders, (ii) data mappers (iii) device inventory, (iv) warning rules definition and (v) device ownership, are related to the \textbf{Data Flow Scope}. It is also possible to manage users' access and permissions in this scope.
+The \textbf{Configuration Scope} adheres to the configuration and visualization of internal processes/contexts. This processes, such as: (i) data decoders, (ii) data mappers (iii) device inventory, (iv) warning rule scenarios definition and (v) device ownership, are related to the \textbf{Data Flow Scope}. It is also possible to manage users' access and permissions in this scope.
 
-The \textbf{Data Flow Scope} behaves according to what is defined in the \textbf{Configuration Scope} and acts as a pipeline where raw device data goes though various stages till it is sanitized and ready to be supplied to the \textbf{Services Scope}. The \textbf{Data Flow Scope} is where internal processes occur, such as: (i) data transformation, (ii) data enrichment, (iii) data validation, (iv) data ownership clarification and (v) warnings dispatching.
+The \textbf{Data Flow Scope} behaves according to what is defined in the \textbf{Configuration Scope} and acts as a pipeline where raw device data goes though various stages till it is sanitized and ready to be supplied to the \textbf{Services Scope}. The \textbf{Data Flow Scope} is where internal processes occur, such as: (i) data transformation, (ii) data enrichment, (iii) data validation, (iv) data ownership clarification and (v) alerts dispatching.
 
-The \textbf{Services Scope} is comprised of services that present and act according to the sanitized data that was supplied to them. This services applicability range from (i) smart irrigation, (ii) fleet management, (iii) fire detention, (iv) physical security access monitoring, (v) air quality monitoring and anything else deemed interesting.
+The \textbf{Services Scope} is comprised of services that present and act according to the sanitized data that was supplied to them. This services applicability range from (i) smart irrigation, (ii) fleet management, (iii) fire detention, (iv) physical security access monitoring, (v) air quality monitoring and anything else deemed interesting. The services currently developed are smart irrigation, fleet management and notification management, these will be addressed throughout this and the \nameref{chap:implementation} chapter.
 
 \subsection{Configuration Scope}
 \label{subsec:design:system_scopes:configuration_scope}
@@ -49,6 +49,8 @@ The \textbf{Configuration Scope} is responsible for managing the following conte
    \item \textbf{Identity Management}: manages device ownership and users permissions;
    \item \textbf{Rule Management}: manages scripts that consume device data and produce alerts.
 \end{itemize}
+
+This contexts can be directly linked to the functional requirements described in the Section related to the~\ref{subsec:requirements:functional:manager} role.
 
 Each context allows an authorized user to manage its resources, e.g. the data processor context manages the creation, deletion and renovation of data mappers.
 
@@ -96,7 +98,7 @@ The \textbf{Service Scope} is responsible for presenting \gls{IoT} business case
    \item \textbf{Notification Management}: service to view and manage the delivery of triggered alerts.
 \end{itemize}
 
-Each service is bounded to what type of data receives and sends back to the \textbf{Data Flow Scope} as detailed in Sections~\ref{subsec:design:domain:taxonomy} and \ref{subsec:design:domain:shared_model}.
+Each service is bounded to what type of data receives and sends back to the \textbf{Data Flow Scope} as later detailed in the \nameref{subsec:implementation:description:services} section. The type of data each service handles is enforces by the concepts discussed in Sections~\ref{subsec:design:domain:taxonomy} and \ref{subsec:design:domain:shared_model}.
 
 \subsection{Synopsis}
 \label{subsec:design:system_scopes:synopsis}
@@ -125,8 +127,8 @@ In order for the reader to better understand how the system functions some conce
    \item \textbf{Device Command}: A device command is an abstraction on top of a \textbf{Downlink} intended to order a \textbf{Device} to execute a specific action. As an example, one could send a command to open or close a valve that is incorporated into a \textbf{Controller};
    \item \textbf{Decoder}: A decoder is a function that translates a \textbf{Data Unit} into something that \textbf{Sensae Console} understands;
    \item \textbf{Domain}: A domain represents a department in a organization. An organization is composed of several domains structured in a tree like format;
-   \item \textbf{Tenant}: A tenant is a user that belongs to one or more \textbf{Domain}s;
-   \item \textbf{Alert/Warning}: A report about a detected condition based on the gather \textbf{Data Unit};
+   \item \textbf{Tenant}: A tenant is a user that belongs to one or more \textbf{Domain}s and represents any of the roles discussed in Section~\ref{sec:requirements:functional};
+   \item \textbf{Alert}: A report about a detected condition based on the gather \textbf{Data Unit};
    \item \textbf{Topic}: A Topic is a subcategory of the type of contents that are traded between the various containers in the system.
 \end{itemize}
 
@@ -135,7 +137,7 @@ Currently the \textbf{Topic}s that flow in the system are:
 \begin{itemize}
    \item \textbf{Data}: This topic references the \textbf{Data Unit} concept and is intended to be consumed by the \textbf{Service Scope};
    \item \textbf{Command}: This topic references the \textbf{Device Command} concept and is intended to be used mainly by the \textbf{Service Scope};
-   \item \textbf{Alert}: This topic references the \textbf{Alert/Warning} concept and is intended to be consumed mainly by the \textbf{Service Scope};
+   \item \textbf{Alert}: This topic references the \textbf{Alert} concept and is intended to be consumed mainly by the \textbf{Service Scope};
    \item \textbf{Internal}: This topic references the internal state maintained in the \textbf{Configuration Scope} and \textbf{Data Flow Scope}.
 \end{itemize}
 
@@ -458,6 +460,8 @@ As expected, the structure and semantics of the information subscribed to are kn
 
 The \textbf{Bounded Context} concept, defined by \cite{evans2014domain}, refers to an unified model - with well-defined boundaries and internally consistent - that is a single piece in a  larger system composed by various bounded contexts.
 
+In this project, each Bounded Context can be pictured as a core business process of the system or as a simple service that addresses a specific business case.
+
 The \textbf{Sensae Console} is composed by the following bounded contexts:
 
 \begin{itemize}
@@ -473,7 +477,7 @@ The \textbf{Sensae Console} is composed by the following bounded contexts:
    \begin{itemize}
       \item Smart Irrigation;
       \item Fleet Management;
-      \item Notification Management;
+      \item Notification Management.
    \end{itemize}
 \end{itemize}
 
@@ -839,7 +843,7 @@ Throughout this section the relevant C4 views of level 1 (context level) are pre
 \subsubsection*{Context Level - Logical View}
 \label{subsubsec:design:architecture:context:logical}
 
-The logical view of the system is introduced here, complete but not detailed, in order to answer the use cases and requirements discussed in \textbf{***TODO***}. This takes into account the interactions of the platform with external systems and its interaction with the various actors of the system (Figure~\ref{fig:design:architecture:context:logical:diagram}).
+The logical view of the system is introduced here, complete but not detailed, in order to answer the use cases and requirements discussed in Chapter~\ref{chap:requirements}. This takes into account the interactions of the platform with external systems and its interaction with the various actors of the system (Figure~\ref{fig:design:architecture:context:logical:diagram}).
 
 \begin{figure}[H]
    \centering
@@ -912,7 +916,7 @@ The Physical View will not be represented since the fundamental idea behind the 
 
 The description of this level of abstraction begins with a logical view of the containers that compose the system. Alternatives were also analyzed taking into account several requirements namely (i) configurability, (ii) maintainability, (iii) extensibility (iv) development cost and (v) scalability.
 
-In order to support the functional requirements identified (\textbf{***TODO***}), and knowing that \textbf{Sensae Console} will serve multiple users with different levels of access to the managed information, the various business concepts were segregated from the user interaction. The business management also had to be separated from the  data pipeline, knowing that \textbf{Sensae Console} will process a high level of device data.
+In order to support the functional requirements identified (Section~\ref{sec:requirements:functional}), and knowing that \textbf{Sensae Console} will serve multiple users with different levels of access to the managed information, the various business concepts were segregated from the user interaction. The business management also had to be separated from the  data pipeline, knowing that \textbf{Sensae Console} will process a high level of device data.
 
 Considering the need to persist and provide the information collected, the system integrates databases, which are not developed, but only configured and operated - using a \gls{DBMS}.
 
@@ -1005,7 +1009,7 @@ In the following section the internal communication of the system is clarified.
 \subsubsection*{Container Level - Process View}
 \label{subsubsec:design:architecture:container:process}
 
-In this section several use cases (according to \textbf{***TODO***}) are presented through sequence diagrams, in order to introduce the reader to the interactions that occur between the various containers of the \textbf{Sensae Console}. 
+In this section several use cases (according to some functional requirements identified in Section~\ref{sec:requirements:functional}) are presented through sequence diagrams, in order to introduce the reader to the interactions that occur between the various containers of the \textbf{Sensae Console}. 
 
 The routing keys used for communication between backend containers can be extrapolated from the model described in the Section~\ref{subsubsec:design:domain:shared_model:routing}. 
 
@@ -1206,7 +1210,7 @@ Certain types of alerts are also collected by Smart Irrigation Backend to automa
    \label{fig:design:architecture:container:process:diagram:irrigation}
 \end{figure}
 
-The alerts created in \textbf{Sensae Console} are captured by containers in the \textbf{Service Scope} so that they can act based on the alert warnings.
+The alerts created in \textbf{Sensae Console} are captured by containers in the \textbf{Service Scope} so that they can act based on the alerts.
 
 The Smart Irrigation Backend subscribes to three types of \textit{Sub Category} alerts all with the same \textit{Category} - \textit{Smart Irrigation}:
 
@@ -1453,7 +1457,7 @@ Draft scenarios exist since adding, removing or changing a rule scenario in Aler
    \label{fig:design:architecture:component:process:diagram:rule}
 \end{figure}
 
-As seen in the diagram, to mitigate the number of lost alarms, new rule scenarios are published at best every 30 minutes - step \textbf{1} - and only if any change was made - step \textbf{17} and \textbf{18}.  
+As seen in the diagram, to mitigate the number of lost alerts, new rule scenarios are published at best every 30 minutes - step \textbf{1} - and only if any change was made - step \textbf{17} and \textbf{18}.  
 
 \subsubsection*{Components Level - Development View}
 \label{subsubsec:design:architecture:components:development}
@@ -1577,7 +1581,7 @@ The decision made was based on the following assumptions and perceptions:
 
 This section tackles the need for segregating the frontend into various independent frontends - Microfrontends, \cite{microfrontends} - or to develop a single Frontend to answer the identified requirements.
 
-The requirements discussed in \textbf{***TODO***} enhance the need to develop a product that can be fully extensible and yet close for modifications, strictly following the \gls{OCP}. This need arises so that costumer entities can easily create new \gls{IoT} services without the need to alter any close source code that is produced internally.
+The non-functional requirements discussed in Section~\ref{sec:requirements:non_functional} enhance the need to develop a product that can be fully extensible and yet close for modifications, strictly following the \gls{OCP}. This need arises so that costumer entities can easily create new \gls{IoT} services without the need to alter any close source code that is produced internally.
 
 The Microfrontends Architecture when applied to this project has the same oversights, assumptions and perceptions that inadvertently lead to the decision taken in the \nameref{subsec:design:alternatives:backend} Section. As such the decision was to drop the design and development of a single frontend in favor of a Microfrontends Architecture.
 
@@ -1586,7 +1590,7 @@ Ultimately this decision, coupled with the Backend Segregation decision made, en
 \subsection{User Authorization/Authentication}
 \label{subsec:design:alternatives:auth}
 
-User Authorization and Authentication is an important aspect of the solution. During the requirements elicitation, mentioned in \textbf{***TODO***}, it was clear that several different levels of access had to be given to Tenants, this levels of access also had to be managed by someone. As such, users had to be authenticated in the system and all accesses had to be authorized.
+User Authorization and Authentication is an important aspect of the solution. During the requirements elicitation, mentioned in Section~\ref{chap:requirements}, it was clear that several different levels of access had to be given to Tenants, this levels of access also had to be managed by someone. As such, users had to be authenticated in the system and all accesses had to be authorized.
 
 Four approaches were considered:
 

@@ -122,6 +122,7 @@ Within a Smart Irrigation business case the major utilities a Costumer can benef
 The following list documents the key functional requirements related to this business case as prescribed by the third parties:
 
 \begin{itemize}
+    \item A Costumer must be able to manage his/her garden's information;
     \item A Costumer must be able to track a gardens' conditions in real-time;
     \item A Costumer must be able to see past conditions of a garden;
     \item A Costumer must be able to activate and deactivate the irrigation system remotely;
@@ -139,10 +140,83 @@ A Costumer must be able to receive alerts regarding critical conditions that may
 \subsection{Anonymous User}
 \label{subsec:requirements:functional:anonymous}
 
-This role was created to answer organization A concerns regarding the Public Health Surveillance business case. The website should be available for the public to consult the current and past \gls{AQI} levels measured in the city. 
+This role was created to answer organization A concerns regarding the Public Health Surveillance business case. The website should be available for the public to consult the current and past \gls{AQI} levels measured in the city without needing to create an account.
 
 \section{Non Functional Requirements}
 \label{sec:requirements:non_functional}
 
+Non-functional requirements define constraints on software development, maintenance, and allocation.
+According to \cite{van2009requirements}, “Non-functional requirements define constraints on the way the software-to-be
+should satisfy its functional requirements or on the way it should be developed.”
+
+This analysis used the FURPS+ model (\cite{eeles2005capturing}), which distributes the non-functional requirements into the following categories: functionality, usability, reliability, performance, supportability, design requirements, implementation requirements, interface requirements and physical requirements.
+
+Regarding the Functionality category, the following requirements were identified:
+
+\begin{itemize}
+    \item User Authentication: Apart from the Anonymous Users, everyone else must be authenticated to use the system;
+    \item User Authorization: Everyone only has access to what his/her permissions cover;
+    \item Auditing and Traceability: All actions performed against the system must be recorded;
+    \item Security in Communication: The use of secure protocols between clients and the system is mandatory, e.g.: https instead of http;
+    \item Security in User-provided code: All user-provided code must run in sandbox's to prevent permission escalation, data theft and other related concerns;
+    \item Data Filtering: The system shall be able to filter erroneous sensor data such as GPS coordinated of a vehicle appearing in the middle of the ocean;
+    \item Real-time Alerts: The system must notify the interested clients in real time of any alarm triggered by custom rules;
+    \item Real-Time Information: Any change to the system must be notified to the client in real-time without resorting to techniques like automatic/manual polling. This includes new sensor data, changes to virtual devices, alarms/rules definitions, decoders and anything else deemed important.
+\end{itemize}
+
+The Usability category is not a major concern for this work and the only requirement to follow is that all the solutions created must be targeted for screens with a size of at least 11 inches.
+
+The Reliability category has the following requirements:
+
+\begin{itemize}
+    \item The system must validate all user inputs, denying code injection according to \cite{top10};
+    \item The system must be able to recover from a failure state such as a crash in the system or any system component;
+    \item The system must identify or protect itself against compatibility errors due to versions mismatches between the system and third-party scripts or components, e.g. a valid rule in the system version 1 may not be compatible with the system version 2, if that is the case the system should inform the Costumer and not use the rule.
+\end{itemize}
+
+Even though this work is a \gls{PoC} the Performance of the system is a priority. The requirements specified for this category are:
+
+\begin{itemize}
+    \item When a new and valid device data is received, the system should make this information available to any user within 5 seconds in 90\% of the cases. The time for the information to be presented should never exceed 10 seconds unless the network connection is broken (in which case the user should be notified);
+    \item When an alarm is triggered, the system should dispatch the alarm within 5 seconds in 90\% of the cases;
+    \item Concurrent Utilization: The system must be able to be used by various users at the same time;
+    \item High Data Ingestion: The system must be able to successfully process, evaluate and store device data with a throughput of at least 5000 data units per minute.
+\end{itemize}
+
+In the Supportability category the following requirements were identified:
+
+\begin{itemize}
+    \item The system must be highly configurable so that support for any type of device, specially payload decoding, can be added without the need for restarting/rebuilding it;
+    \item The system must be agnostic to cloud computing platforms and be independent of any service provided by cloud computing platforms. This ensures that it can be deployed on-premise or on a single cloud computing platform;
+    \item The system must provide simple methods to integrate third-party services that answer new business cases without restarting/rebuilding it.
+\end{itemize}
+
+No Design Requirements were identified, every decision is up to the developer.
+
+In the Implementation category, the system's Front-Office shall provide a \gls{SPA} to end users;
+
+In the Interface category, the following requirements were identified:
+
+\begin{itemize}
+    \item The system shall support the dispatch of emails using \gls{SMTP};
+    \item The system shall support the dispatch of messages using \gls{SMS};
+    \item The system shall support the dispatch of downlinks to devices using, at least, the \citetitle{helium}.
+\end{itemize}
+
+In the Physical category, the following requirements were identified:
+
+\begin{itemize}
+    \item The system must be publicly available under a single \gls{FQDN};
+    \item The system shall be deployed in machines running a Linux kernel;
+    \item The various system components shall be containerized using docker;
+    \item The various system components shall be orchestrated using docker-compose or kubernetes.
+\end{itemize}
+
 \section{Synopsis}
 \label{sec:requirements:synopsis}
+
+This chapter mentioned the functional requirements of the project defined during its lifespan. This requirements intended to address the needs of the various shareholders, divided in three major roles: (i) manager, (ii) costumer and (iii) anonymous user. While the focus of the project lays in supporting common functionalities of \gls{IoT} related services, the chapter also mentioned various specific business cases, requested by third-parties, and their specific requirements.
+
+Altho more vague, the non-functional requirements of the project were also presented using the FURPS+ model.
+
+These requirements lead to the solution's design, presented in the next chapter.

@@ -4,7 +4,7 @@ skinparam componentStyle rectangle
 
 actor Manager
 
-actor "Tenant or\nAnonymous User" as User
+actor "Costumer or\nAnonymous User" as User
 
 collections "External\nSystems" as ExternalSystem
 

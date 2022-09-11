@@ -24,7 +24,7 @@
 \node at (341pt,75pt)[below right,color=black]{Manager};
 \draw[pstyle1] (566.2421pt,14pt) ellipse (8pt and 8pt);
 \draw[pstyle2] (566.2421pt,22pt) -- (566.2421pt,49pt)(553.2421pt,30pt) -- (579.2421pt,30pt)(566.2421pt,49pt) -- (553.2421pt,64pt)(566.2421pt,49pt) -- (579.2421pt,64pt);
-\node at (501pt,65.5pt)[below right,color=black]{Tenant or};
+\node at (501pt,65.5pt)[below right,color=black]{Costumer or};
 \node at (501pt,84.5679pt)[below right,color=black]{Anonymous User};
 \draw[pstyle1] (11pt,406.5pt) arc (180:270:5pt) -- (16pt,401.5pt) -- (88.1544pt,401.5pt) arc (270:360:5pt) -- (93.1544pt,406.5pt) -- (93.1544pt,450.6358pt) arc (0:90:5pt) -- (88.1544pt,455.6358pt) -- (16pt,455.6358pt) arc (90:180:5pt) -- (11pt,450.6358pt) -- cycle;
 \draw[pstyle1] (7pt,402.5pt) arc (180:270:5pt) -- (12pt,397.5pt) -- (84.1544pt,397.5pt) arc (270:360:5pt) -- (89.1544pt,402.5pt) -- (89.1544pt,446.6358pt) arc (0:90:5pt) -- (84.1544pt,451.6358pt) -- (12pt,451.6358pt) arc (90:180:5pt) -- (7pt,446.6358pt) -- cycle;

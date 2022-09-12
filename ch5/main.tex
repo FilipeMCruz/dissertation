@@ -431,7 +431,7 @@ The routing key \textit{OperationType} from the \textbf{Internal} topic can have
    \item \textbf{Ping}: message to notify that an entry of the related \textit{ContextType} was used, e.g. entry X in context Y was just used.
 \end{itemize}
 
-The \textit{ContextType}, used to identity what piece of the state is referenced can have the following values: (i) \textit{Data Processor}, (ii) \textit{Data Decoder}, (iii) \textit{Device Information}, (iv) \textit{Device Identity}, (v) \textit{Tenant Identity}, (vi) \textit{Addressee Configuration} and (vii) \textit{Rule Management}.
+The \textit{ContextType}, used to identity what piece of the state is referenced, can currently have the following values: (i) \textit{Data Processor}, (ii) \textit{Data Decoder}, (iii) \textit{Device Information}, (iv) \textit{Device Identity}, (v) \textit{Tenant Identity}, (vi) \textit{Addressee Configuration} and (vii) \textit{Rule Management}.
 
 Routing keys help to strengthen the boundaries that a container is expected to have. As an example, a Service in the \textbf{Service Scope} related to Waste Management would subscribe to the \textit{Data Topic} with the following \textit{Routing Keys}: 
 
@@ -453,7 +453,7 @@ And would, for example, subscribe to the \textit{Alert Topic} with the following
    \item \textit{Ownership Options}: WITH;
 \end{itemize}
 
-As expected, the structure and semantics of the information subscribed to are known upfront with the help of the package \textit{iot-core}.
+As expected, the structure and semantics of the information subscribed to are known upfront with the help of the package \textit{iot-core}. The services developed and their pre-defined boundaries regarding data types consumed are detailed in Section~\ref{subsec:implementation:description:services}.
 
 \subsection{Bounded Contexts}
 \label{subsec:design:domain:bounded_contexts}

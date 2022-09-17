@@ -33,7 +33,7 @@ The system designed can be divided in three main scopes as disclosed in the Figu
 
 The \textbf{Configuration Scope} adheres to the configuration and visualization of internal processes/contexts. This processes, such as: (i) data decoders, (ii) data mappers (iii) device inventory, (iv) warning rule scenarios definition and (v) device ownership, are related to the \textbf{Data Flow Scope}. It is also possible to manage users' access and permissions in this scope.
 
-The \textbf{Data Flow Scope} behaves according to what is defined in the \textbf{Configuration Scope} and acts as a pipeline where raw device data goes though various stages till it is sanitized and ready to be supplied to the \textbf{Services Scope}. The \textbf{Data Flow Scope} is where internal processes occur, such as: (i) data transformation, (ii) data enrichment, (iii) data validation, (iv) data ownership clarification and (v) alerts dispatching.
+The \textbf{Data Flow Scope} behaves according to what is defined in the \textbf{Configuration Scope} and acts as a pipeline where raw device data goes through various stages till it is sanitized and ready to be supplied to the \textbf{Services Scope}. The \textbf{Data Flow Scope} is where internal processes occur, such as: (i) data transformation, (ii) data enrichment, (iii) data validation, (iv) data ownership clarification and (v) alerts dispatching.
 
 The \textbf{Services Scope} is comprised of services that present and act according to the sanitized data that was supplied to them. This services applicability range from (i) smart irrigation, (ii) fleet management, (iii) fire detention, (iv) physical security access monitoring, (v) air quality monitoring and anything else deemed interesting. The services currently developed are smart irrigation, fleet management and notification management, these will be addressed throughout this and the \nameref{chap:implementation} chapter.
 
@@ -103,12 +103,12 @@ Each service is bounded to what type of data receives and sends back to the \tex
 \subsection{Synopsis}
 \label{subsec:design:system_scopes:synopsis}
 
-This section introduces the system as three separated scopes each with different needs and responsibilities. Despite this they all have a common domain model. The Section~\ref{sec:design:domain} addresses this shared domain and each context peculiarity.
+This section presented the system as three separated scopes each with different needs and responsibilities. Despite distinct, they all have a common domain model. The Section~\ref{sec:design:domain} addresses this shared domain and each context peculiarity.
 
 \section{Domain}
 \label{sec:design:domain}
 
-This system's domain model will be discussed here. The idea behind this section is to introduced core business concepts to the reader and explain how they map to the contexts present in the system. To represent this ideas the \gls{UML} notation is used.
+This system's domain model will be discussed here. The idea behind this section is to introduce core business concepts to the reader and explain how they map to the contexts present in the system. To represent this ideas the \gls{UML} notation is used.
 
 This section is split into four pieces: (i) concepts, (ii) shared model, (iii) bounded contexts and (iv) synopsis.
 
@@ -343,7 +343,7 @@ As a brief description:
 \begin{itemize}
    \item \textit{RoutingKeys} is the concept referenced in Figure~\ref{fig:design:domain:shared_model:messsage:diagram} and represents a collection of different \textit{RoutingKeyOption}s;
    \item There are currently 4 types of \textit{RoutingKeys}, one for each \textbf{Topic};
-   \item To ensure that the various containers in \textbf{Sensae Console} understand each other a \textit{ProtocolVersionOptions} is provided. This concept follows the Semantic Versioning Specification 2.0 (\cite{semver}) an is constructed according to the version of \textit{iot-core} imported by the container;
+   \item To ensure that the various containers in \textbf{Sensae Console} understand each other, a \textit{ProtocolVersionOptions} is provided. This concept follows the Semantic Versioning Specification 2.0 (\cite{semver}) an is constructed according to the version of \textit{iot-core} imported by the container;
    \item There are multiple \textit{RoutingKey} types not displayed in the diagram for brevity.
    \item The \textit{RoutingKeysBuilder} implements the \textit{Builder} pattern and its single responsibility is to validate and create \textit{RoutingKeys};
    \item A \textit{RoutingKeyOption} can have the value \textit{any}, if the \textit{RoutingKeysBuilderOptions} has the value \textit{CONSUMER}. This provides a 'relaxed' mode, for containers that consume/subscribe to messages and a 'strict' mode, where each \textit{RoutingKey} must be specified, for containers that supply/publish messages. 
@@ -949,8 +949,8 @@ This scope was also divided into micro services - \cite{newman2021building} - \t
 As a brief description:
 
 \begin{itemize}
-   \item Frontend containers correspond to the \textbf{Presentation Tier} and are provided to the user though \textbf{UI Aggregator};
-   \item Backend containers correspond to the \textbf{Application Tier} and communication with each other though \textbf{Message Broker};
+   \item Frontend containers correspond to the \textbf{Presentation Tier} and are provided to the user through \textbf{UI Aggregator};
+   \item Backend containers correspond to the \textbf{Application Tier} and communication with each other through \textbf{Message Broker};
    \item Database containers correspond to the \textbf{Data Tier}.
 \end{itemize}
 
@@ -966,15 +966,15 @@ Next, the logical view of the \textbf{Data Flow} is represented in Figure~\ref{f
    \label{fig:design:architecture:container:logical:diagram:data_flow}
 \end{figure}
 
-Most containers presented here collect specific information from a single backend in the \textbf{Configuration Scope} though the \textit{Internal} Topic:
+Most containers presented here collect specific information from a single backend in the \textbf{Configuration Scope} through the \textit{Internal} Topic:
 
 \begin{itemize}
-   \item \textbf{Data Processor Flow Backend}: Collects information related to the \textbf{Data Processor} context - published by \textbf{Data Processor Backend} - and noting else;
-   \item \textbf{Data Decoder Flow Backend}: Collects information related to the \textbf{Data Decoder} context - published by \textbf{Data Decoder Backend} - and noting else;
-   \item \textbf{Device Ownership Backend}: Collects information related to the \textbf{Identity Management} context (more specifically device ownership) - published by \textbf{Identity Management Backend} - and noting else;
-   \item \textbf{Device Management Flow Backend}: Collects information related to the \textbf{Device Management} context - published by \textbf{Device Management Backend} - and noting else;
-   \item \textbf{Alert Dispatcher Backend}: Collects information related to the \textbf{Rule Management} context - published by \textbf{Rule Management Backend} - and noting else;
-   \item \textbf{Device Command Backend}: Collects information related to the \textbf{Device Management} context - published by \textbf{Device Management Backend} - and noting else;
+   \item \textbf{Data Processor Flow Backend}: Collects information related to the \textbf{Data Processor} context - published by \textbf{Data Processor Backend} - and nothing else;
+   \item \textbf{Data Decoder Flow Backend}: Collects information related to the \textbf{Data Decoder} context - published by \textbf{Data Decoder Backend} - and nothing else;
+   \item \textbf{Device Ownership Backend}: Collects information related to the \textbf{Identity Management} context (more specifically device ownership) - published by \textbf{Identity Management Backend} - and nothing else;
+   \item \textbf{Device Management Flow Backend}: Collects information related to the \textbf{Device Management} context - published by \textbf{Device Management Backend} - and nothing else;
+   \item \textbf{Alert Dispatcher Backend}: Collects information related to the \textbf{Rule Management} context - published by \textbf{Rule Management Backend} - and nothing else;
+   \item \textbf{Device Command Backend}: Collects information related to the \textbf{Device Management} context - published by \textbf{Device Management Backend} - and nothing else;
    \item The remaining containers don't subscribe to any type of information from the \textbf{Configuration Scope}.
 \end{itemize}
 

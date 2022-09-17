@@ -3,11 +3,20 @@
 
 In this chapter the functional and non-functional requirements will be presented. ``A software requirement is a capability needed by the user to solve a problem or to achieve an objective. In other words, requirement is a software capability that must be met or possessed by a system or system component to satisfy a contract, standard, specification, or other formally imposed documentation. Ultimately, what we want to achieve is to develop quality software that meets customers' real needs on time and within budget.'' (\cite{req}).
 
-The project followed the Scrum methodology described by \cite{schwaber1997scrum}, with monthly sprints that ended in presentations of the software to the company and weekly meetings focussing on reviewing the progress, discussing issues that rose and future ideas to add to the backlog.
+The project followed the Scrum methodology described by \cite{schwaber1997scrum}, with monthly sprints that ended in presentations of the software to the company and weekly meetings focusing on reviewing the progress, discussing issues that rose and future ideas to add to the backlog.
 
-The project high-level goal was well defined since the start: develop an IoT Platform with focus on extensibility to decrease the delivery time of new business cases and alow others to implement their business on top of the platform.
+The project high-level goal was well defined since the start: develop an IoT Platform with focus on extensibility to decrease the delivery time of new business cases and allow others to implement their business on top of the platform.
 
-The definitive business cases to develop changed various times during the project lifespan due to intricate contract promises with third parties that never ended up seeing the light of day. The requested business cases, ordered by the first time they were requested, can be summarized in Table~~\ref{tab:requirements:servicerequests}.
+The definitive business cases to develop changed various times during the project lifespan due to intricate contract promises with third parties that never ended up seeing the light of day. The business cases, ordered by the first time they were requested, and grouped by organization, can be summarized in Table~\ref{tab:requirements:servicerequests}.
+
+This business cases can be vaguely categorized according to the following organization's needs:
+
+\begin{itemize}
+    \item \textbf{Deployment Type}: Whether the solution has to be deployed in the organization' server farm or in the cloud;
+    \item \textbf{Physical Resources}: Whether the organization wants to share an instance of the solution with others;
+    \item \textbf{Data Access}: Whether the organization wants to provide their data to the public;
+    \item \textbf{Information Visualization Location}: If there's a need to visualize the gathered information, where to present it? In the organization platform or directly in the solution.
+\end{itemize}
 
 \begin{table}[H]
     \centering
@@ -16,17 +25,17 @@ The definitive business cases to develop changed various times during the projec
     \textbf{Org} &
       \textbf{Business Case} &
       \textbf{\begin{tabular}[c]{@{}l@{}}Deployment\\ Type\end{tabular}} &
-      \textbf{\begin{tabular}[c]{@{}l@{}}Storage \\ Resources\end{tabular}} &
+      \textbf{\begin{tabular}[c]{@{}l@{}}Physical \\ Resources\end{tabular}} &
       \textbf{\begin{tabular}[c]{@{}l@{}}Data \\ Access\end{tabular}} &
       \textbf{\begin{tabular}[c]{@{}l@{}}Information \\ Visualization\\  Location\end{tabular}} \\ \midrule
     \multirow{5}{*}{A} & Fleet Management           & On-Premise & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6} 
                        & Smart Irrigation           & On-Premise & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6} 
                        & Smart Parking              & On-Premise & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6} 
-                       & Indoor Fire Detention      & On-Premise & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6} 
+                       & Indoor Fire Detention      & On-Premise & Dedicated & Private & None     \\ \cmidrule(l){2-6} 
                        & Public Health Surveillance & On-Premise & Dedicated & Public  & Sensae Console     \\ \midrule
     B                  & Fleet Management           & Cloud      & Dedicated & Private & Org B Platform \\ \midrule
     \multirow{3}{*}{C} & Smart Irrigation           & Cloud      & Shared    & Private & Sensae Console     \\ \cmidrule(l){2-6} 
-                       & Indoor Fire Detention      & Cloud      & Shared    & Private & Sensae Console     \\ \cmidrule(l){2-6} 
+                       & Indoor Fire Detention      & Cloud      & Shared    & Private & None     \\ \cmidrule(l){2-6} 
                        & Chicken Farm Monitoring    & Cloud      & Shared    & Private & Sensae Console     \\ \midrule
     D                  & Smart Irrigation           & Cloud      & Shared    & Private & Sensae Console     \\ \bottomrule
     \end{tabular}
@@ -180,7 +189,7 @@ Even though this work is a \gls{PoC} the Performance of the system is a priority
     \item When a new and valid device data is received, the system should make this information available to any user within 5 seconds in 90\% of the cases. The time for the information to be presented should never exceed 10 seconds unless the network connection is broken (in which case the user should be notified);
     \item When an alarm is triggered, the system should dispatch the alarm within 5 seconds in 90\% of the cases;
     \item Concurrent Utilization: The system must be able to be used by various users at the same time;
-    \item High Data Ingestion: The system must be able to successfully process, evaluate and store device data with a throughput of at least 5000 data units per minute.
+    \item High Data Ingestion: The system must be able to successfully process, evaluate and store device data with a throughput of at least 30000 data units per minute.
 \end{itemize}
 
 In the Supportability category the following requirements were identified:

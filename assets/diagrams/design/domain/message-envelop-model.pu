@@ -1,7 +1,5 @@
 @startuml message-envelop-model
 
-left to right direction
-
 hide empty members
 
 abstract MessageEnvelop {
@@ -26,10 +24,10 @@ interface Information {
 
 }
 
-MessageEnvelop "1" --> "1" RoutingKeys : routingKeys
-MessageEnvelop "1" --> "1" Information : information
+MessageEnvelop "1" -> "1" RoutingKeys : routingKeys
+Information "1" <- "1" MessageEnvelop : information
 
-MessageSupplied -|> MessageEnvelop
-MessageEnvelop <|- MessageConsumed
+MessageSupplied --|> MessageEnvelop
+MessageEnvelop <|-- MessageConsumed
 
 @enduml

@@ -2,7 +2,7 @@
 
 hide empty members
 
-interface "RoutingKey" as RoutingKey2 {
+interface RoutingKey {
     details()
     key()
 }
@@ -59,7 +59,7 @@ class ProtocolVersionOptions {
 }
 
 interface RoutingKeysBuilder {
-    build() : Optional<RoutingKeys>
+    build() : Optional<? extends RoutingKeys>
 }
 
 class AlertRoutingKeysBuilder {
@@ -88,33 +88,33 @@ RoutingKeys <|-- InternalRoutingKeys
 RoutingKeys <|-- CommandRoutingKeys
 RoutingKeys <|-- DataRoutingKeys
 
-RoutingKeysBuilder <|-- AlertRoutingKeysBuilder
+RoutingKeysBuilder <|- AlertRoutingKeysBuilder
 RoutingKeysBuilder <|-- InternalRoutingKeysBuilder
 RoutingKeysBuilder <|-- DataRoutingKeysBuilder
-RoutingKeysBuilder <|-- CommandRoutingKeysBuilder
+CommandRoutingKeysBuilder -|> RoutingKeysBuilder
 
 AlertRoutingKeys "1" --> "*" RoutingKeyOption
 
 InternalRoutingKeys "1" --> "*" RoutingKeyOption
-note on link: each one has different\ntypes of RoutingKeyOption
 
 CommandRoutingKeys "1" --> "*" RoutingKeyOption
 DataRoutingKeys "1" --> "*" RoutingKeyOption
+note on link: each one has different\ntypes of RoutingKeyOption
 
 DataRoutingKeysBuilder ..> DataRoutingKeys: creates
-AlertRoutingKeysBuilder ..> AlertRoutingKeys: creates
+AlertRoutingKeysBuilder ...> AlertRoutingKeys: creates
 InternalRoutingKeysBuilder ..> InternalRoutingKeys: creates
-CommandRoutingKeysBuilder ..> CommandRoutingKeys: creates
+CommandRoutingKeysBuilder ...> CommandRoutingKeys: creates
 
 ProtocolVersionOptions "1" <-- "1" RoutingKeysBuilder: protocolVersion
 ContainerTypeOptions "1" <-- "1" RoutingKeysBuilder: containerType
 RoutingKeysBuilderOptions "1" <-- "1" RoutingKeysBuilder: builderType
 
-RoutingKey2 <|-- RoutingKeysBuilderOptions
-RoutingKey2 <|-- ContainerTypeOptions
-RoutingKey2 <|-- ProtocolVersionOptions
-RoutingKey2 <|- ChannelOptions
-NH3DataOptions -|> RoutingKey2
+RoutingKey <|-- RoutingKeysBuilderOptions
+RoutingKey <|-- ContainerTypeOptions
+RoutingKey <|-- ProtocolVersionOptions
+RoutingKey <|- ChannelOptions
+NH3DataOptions -|> RoutingKey
 
 RoutingKeysBuilder -[hidden] RoutingKeys
 

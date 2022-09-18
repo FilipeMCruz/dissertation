@@ -6,24 +6,24 @@ skinparam sequenceMessageAlign center
 skinparam componentStyle uml2
 skinparam packageStyle rectangle
 
-cloud "Cloud" {
-    node "Sensae Console" as SYSTEM1
+node "Cloud" {
+    node "Sensae Console" <<System>> as SYSTEM1
 }
 
-cloud "Helium" {
+node "Helium" {
     node "Helium Console" <<External System>> as HC
 }
 
-cloud "Azure" {
+node "Azure" {
     node "Azure Active Directory" <<External System>> as AAD
 }
 
-cloud "Google Cloud" {
+node "Google Cloud" {
     node "Google Identity Platform" <<External System>> as GIP
     node "Google Email Platform" <<External System>> as EMAIL
 }
 
-cloud "Twilio Paltform" {
+node "Twilio Paltform" {
     node "SMS Service" <<External System>> as SMS
 }
 

@@ -8,7 +8,7 @@ actor "Costumer or\nAnonymous User" as User
 
 collections "External\nSystems" as ExternalSystem
 
-component "System" {
+component "Sensae Console"<<System>> {
 
     component "Configuration\nScope" as Configuration
 

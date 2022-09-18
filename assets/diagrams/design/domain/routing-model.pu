@@ -3,13 +3,13 @@
 hide empty members
 
 interface "RoutingKey" as RoutingKey2 {
-
+    details()
+    key()
 }
-note right: same as concept\nbelow
 
 interface RoutingKeys {
-    details() : String
-    keys() : String
+    details()
+    keys()
 }
 
 class AlertRoutingKeys {
@@ -26,6 +26,16 @@ class CommandRoutingKeys {
 
 class DataRoutingKeys {
 
+}
+
+class ChannelOptions {
+    value: String
+}
+
+enum NH3DataOptions {
+    UNIDENTIFIED_NH3_DATA
+    WITH_NH3_DATA
+    WITHOUT_NH3_DATA
 }
 
 enum ContainerTypeOptions {
@@ -48,7 +58,7 @@ class ProtocolVersionOptions {
     patchVersion: Number
 }
 
-abstract RoutingKeysBuilder<? extends RoutingKeys> {
+interface RoutingKeysBuilder {
     build() : Optional<RoutingKeys>
 }
 
@@ -64,17 +74,13 @@ class CommandRoutingKeysBuilder {
 class DataRoutingKeysBuilder {
 }
 
-class RoutingKeyOption<? extends RoutingKey> {
+class RoutingKeyOption<K extends RoutingKey> {
     isAny : Boolean
-    details() : String
-    value() : String
+    routingKey : K
+    details()
+    key()
     {static} of( routingKey ) : RoutingKeyOption
     {static} any() : RoutingKeyOption
-}
-
-interface RoutingKey {
-    details() : String
-    value() : String
 }
 
 RoutingKeys <|-- AlertRoutingKeys
@@ -84,15 +90,14 @@ RoutingKeys <|-- DataRoutingKeys
 
 RoutingKeysBuilder <|-- AlertRoutingKeysBuilder
 RoutingKeysBuilder <|-- InternalRoutingKeysBuilder
-RoutingKeysBuilder <|-- CommandRoutingKeysBuilder
 RoutingKeysBuilder <|-- DataRoutingKeysBuilder
-
-RoutingKeyOption *-- RoutingKey : key
-RoutingKeysBuilder *-- RoutingKeys : type
+RoutingKeysBuilder <|-- CommandRoutingKeysBuilder
 
 AlertRoutingKeys "1" --> "*" RoutingKeyOption
+
 InternalRoutingKeys "1" --> "*" RoutingKeyOption
-note on link: each one has different\ntypes of RoutingKey
+note on link: each one has different\ntypes of RoutingKeyOption
+
 CommandRoutingKeys "1" --> "*" RoutingKeyOption
 DataRoutingKeys "1" --> "*" RoutingKeyOption
 
@@ -102,12 +107,15 @@ InternalRoutingKeysBuilder ..> InternalRoutingKeys: creates
 CommandRoutingKeysBuilder ..> CommandRoutingKeys: creates
 
 ProtocolVersionOptions "1" <-- "1" RoutingKeysBuilder: protocolVersion
-ContainerTypeOptions "1" <-- "1" RoutingKeysBuilder: contaienrType
-RoutingKeysBuilderOptions "1" <-- "1" RoutingKeysBuilder: options
-
+ContainerTypeOptions "1" <-- "1" RoutingKeysBuilder: containerType
+RoutingKeysBuilderOptions "1" <-- "1" RoutingKeysBuilder: builderType
 
 RoutingKey2 <|-- RoutingKeysBuilderOptions
 RoutingKey2 <|-- ContainerTypeOptions
 RoutingKey2 <|-- ProtocolVersionOptions
+RoutingKey2 <|- ChannelOptions
+NH3DataOptions -|> RoutingKey2
+
+RoutingKeysBuilder -[hidden] RoutingKeys
 
 @enduml

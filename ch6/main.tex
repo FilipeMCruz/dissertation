@@ -904,7 +904,7 @@ There are certain guidelines to follow in order to create a decoder:
     \item Can't import any node function, npm package or reference other scripts.
 \end{itemize}
 
-As an example, the Code Sample~\ref{code:implementation:description:decoder:em300th} presents the decoder for the device type EM500-TH\footnote{https://www.milesight-iot.com/lorawan/sensor/em300-th}.
+As an example, the Code Sample~\ref{code:implementation:description:decoder:em300th} presents the decoder for the device type EM500-TH\footnote{\href {https://www.milesight-iot.com/lorawan/sensor/em300-th}{Milesight EM300-TH Decoder}}.
 
 \begin{lstlisting}[style=javascript, caption=EM300-TH Data Decoder Example, label={code:implementation:description:decoder:em300th}] 
 const decodePayload = (payload, port) =>
@@ -983,7 +983,7 @@ const convert = dataUnit => ({
 });
 \end{lstlisting}
 
-As we can see, this code sample decodes an EM300-TH \textbf{Data Unit}. The function \textit{convert} is the one mentioned in the guidelines, it assigns values such as \textit{id}, \textit{name}, \textit{reported\_at}, \textit{downlink\_url}, \textit{uuid} to its correct place and calls the function \textit{decodePayload} to gather the device measures. The \textit{decodePayload} stores every measure in the \textit{controller} key - value \textit{0}. The function \textit{base64ToHex} is the function that reads a Base 64 string and transforms it into a Hex Array - to reduce bandwidth the device normally encodes and sends data as a base 64 string. The function \textit{decoder}, \textit{readInt16LE} and \textit{readUInt16LE} were adapted from the TTN decoder\footnote{https://github.com/Milesight-IoT/SensorDecoders/blob/master/EM300\_Series/EM300-TH} of this device.
+As we can see, this code sample decodes an EM300-TH \textbf{Data Unit}. The function \textit{convert} is the one mentioned in the guidelines, it assigns values such as \textit{id}, \textit{name}, \textit{reported\_at}, \textit{downlink\_url}, \textit{uuid} to its correct place and calls the function \textit{decodePayload} to gather the device measures. The \textit{decodePayload} stores every measure in the \textit{controller} key - value \textit{0}. The function \textit{base64ToHex} is the function that reads a Base 64 string and transforms it into a Hex Array - to reduce bandwidth the device normally encodes and sends data as a base 64 string. The function \textit{decoder}, \textit{readInt16LE} and \textit{readUInt16LE} were adapted from the TTN decoder\footnote{\href {https://www.milesight-iot.com/lorawan/sensor/em300-th}{Milesight EM300-TH Decoder}} of this device.
 
 \subsection{Sensae Console Database Configuration}
 \label{subsec:implementation:description:database}

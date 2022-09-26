@@ -347,7 +347,7 @@ As a brief description:
    \item There are multiple \textit{RoutingKey} types not displayed in the diagram for brevity.
    \item The \textit{RoutingKeysBuilder} implements the \textit{Builder} pattern and its single responsibility is to validate and create \textit{RoutingKeys};
    \item A \textit{RoutingKeyOption} can have the value \textit{any}, if the \textit{RoutingKeysBuilderOptions} has the value \textit{CONSUMER}. This provides a 'relaxed' mode, for containers that consume/subscribe to messages and a 'strict' mode, where all \textit{RoutingKey} must be specified, for containers that supply/publish messages;
-   \item \textit{NH3DataOptions} and \textit{ChannelOptions} are two examples of \textit{RoutingKey}, both used in the Data \textbf{Topic}.
+   \item \textit{NH3DataOptions} and \textit{ChannelOptions} are two examples of \textit{RoutingKey}, both used in the Data Topic.
 \end{itemize}
 
 In the Table~\ref{tab:design:domain:shared_model:routing} all currently used \textit{RoutingKey} are presented.

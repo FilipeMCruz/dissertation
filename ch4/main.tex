@@ -173,7 +173,7 @@ Regarding the Functionality category, the following requirements were identified
     \item Real-Time Information: Any change to the system must be notified to the client in real-time without resorting to techniques like automatic/manual polling. This includes new sensor data, changes to virtual devices, alarms/rules definitions, decoders and anything else deemed important.
 \end{itemize}
 
-The Usability category is not a major concern for this work and the only requirement to follow is that all the solutions created must be targeted for screens with a size of at least 11 inches.
+Since this project is a greenfield and is still in the early stages of conception, the Usability category is not a major concern. No requirements were purposed.
 
 The Reliability category has the following requirements:
 
@@ -186,10 +186,10 @@ The Reliability category has the following requirements:
 Even though this work is a \gls{PoC} the Performance of the system is a priority. The requirements specified for this category are:
 
 \begin{itemize}
-    \item When a new and valid device data is received, the system should make this information available to any user within 5 seconds in 90\% of the cases. The time for the information to be presented should never exceed 10 seconds unless the network connection is broken (in which case the user should be notified);
-    \item When an alarm is triggered, the system should dispatch the alarm within 5 seconds in 90\% of the cases;
+    \item When a new and valid device data is received, the system should make this information available to any user within 2 seconds in 90\% of the cases. The time for the information to be presented should never exceed 5 seconds unless the network connection is broken (in which case the user should be notified);
+    \item When an alarm is triggered, the system should dispatch the alarm within 10 seconds in 90\% of the cases;
     \item Concurrent Utilization: The system must be able to be used by various users at the same time;
-    \item High Data Ingestion: The system must be able to successfully process, evaluate and store device data with a throughput of at least 30000 data units per minute.
+    \item High Data Ingestion: The system must be able to successfully process, evaluate and store device data with a throughput of at least 10000 data units per minute.
 \end{itemize}
 
 In the Supportability category the following requirements were identified:

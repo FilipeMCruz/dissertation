@@ -1,0 +1,161 @@
+\chapter{Performance Tests Specification}
+\label{AppendixF}
+
+\begin{lstlisting}[style=javascript, caption=Smart Irrigation Performance Test Scenario Description, label={code:AppendixF:scenario1}]
+//imports
+
+export const options = {
+   setupTimeout: "2m",
+   scenarios: {
+      subscribe: {
+      executor: "shared-iterations",
+      startTime: "0s",
+      vus: 1,
+      iterations: 1,
+      maxDuration: "3m",
+      exec: "subscribe",
+   },
+      ingestion: {
+      executor: "per-vu-iterations",
+      vus: 100,
+      iterations: 100,
+      startTime: "5s",
+      exec: "ingestion",
+      maxDuration: "3m",
+   },
+      consumption: {
+      executor: "shared-iterations",
+      startTime: "3m",
+      vus: 1,
+      iterations: 1,
+      maxDuration: "10s",
+      exec: "consumption",
+      },
+   },
+};
+
+const timeLapseTrend = new Trend("time_lapse");
+
+const sampleSize = new SharedArray("sampleSize", function () {
+   const sampleSize = [];
+   sampleSize.push(options.scenarios.ingestion.vus * 
+      options.scenarios.ingestion.iterations
+   );
+   return sampleSize;
+});
+
+const dataIds = new SharedArray("dataIds", function () {
+   const dataIds = [];
+   const numberOfDataUnits = options.scenarios.ingestion.vus *
+      (options.scenarios.ingestion.iterations + 2);
+   for (let index = 0; index < numberOfDataUnits; index++)
+      dataIds.push(randomId());
+   return dataIds;
+});
+
+const data = new SharedArray("data", function () {
+   const data = [];
+   const total = options.scenarios.ingestion.vus + 2;
+   for (let index = 0; index < total; index++)
+      data.push(createDevice("em300th", index, true));
+   return data;
+});
+
+export function subscribe() {
+   const res = http.post(`http://${__ENV.SENSAE_INSTANCE_IP}:8086/graphql`, anonymousLoginQuery, {
+      headers: { "Content-Type": "application/json" },
+   });
+
+   let received = [];
+   ws.connect(
+      `ws://${__ENV.SENSAE_INSTANCE_IP}:8801/subscriptions`,
+      {
+         headers: {
+            "Sec-WebSocket-Protocol": "graphql-transport-ws",
+         },
+      },
+      (socket) => {
+         socket.on("message", (msg) => {
+            const message = JSON.parse(msg);
+            if (message.type == "next") {
+               timeLapseTrend.add(new Date().getTime() -
+                  message.payload.data.data.reportedAt
+               );
+               received.push(message.payload.data.data.dataId);
+               if (received.length === sampleSize[0]) 
+                  closeSocket(socket, received);
+            }
+         });
+         socket.on("open", () => {
+            socket.send(initSubscription());
+            socket.send(
+               createSubscription(subscribeToLiveDataQuery, {
+                  filters: createLiveDataFilters(data),
+                  Authorization:
+                     "Bearer " + JSON.parse(res.body).data.anonymous.token,
+                  })
+            );
+         });
+         socket.setTimeout(() => 
+            closeSocket(socket, received), 300000);
+      }
+   );
+}
+
+export function closeSocket(socket, received) {
+   check(received, { "data units were received":
+      (rec) => rec.length === sampleSize[0],
+   });
+   received.forEach((dataId) => {
+      check(dataId, {
+         "data units was sent": (id) => dataIds.includes(id),
+      });
+   });
+   socket.close();
+}
+
+export function ingestion() {
+   const vu = exec.vu.idInTest - 1; //vus start at 1, arrays at 0;
+   const device = data[vu];
+   const id = dataIds[vu + (data.length - 2) *
+      exec.vu.iterationInScenario];
+
+   sleep(device.interval);
+   const res = http.post(
+      `https://${__ENV.SENSAE_INSTANCE_IP}:8443/sensor-data/${device.channel}/${device.data_type}/${device.device_type}`,
+      randomBody(id, device),
+      {
+         headers: {
+            Authorization: `${__ENV.SENSAE_DATA_AUTH_KEY}`,
+            "Content-Type": "application/json",
+         },
+      }
+   );
+   check(res, { "status was 202": (r) => r.status === 202 });
+}
+
+export function consumption() {
+   var numberEntries = countSmartIrrigationMeasuresEntries();
+   check(numberEntries, {
+      "data units were all stored": (res) => res === sampleSize[0],
+   });
+}
+
+export function setup() {
+   initSmartIrrigationDatabase();
+   data.forEach(insertDevice);
+   data.forEach(moveDeviceToPublicDomain);
+   givePermissionsToPublicDomain();
+   createEM300THProcessor();
+   createEM300THDecoder();
+}
+
+export function teardown() {
+   clearDevices();
+   clearProcessors();
+   clearDecoders();
+   clearDomainsDevicesTenants();
+   resetIdentity();
+   clearIrrigationData();
+}   
+\end{lstlisting}

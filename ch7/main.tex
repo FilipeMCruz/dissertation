@@ -266,6 +266,8 @@ As an example, the following chart presented in Figure~\ref{fig:evaluation:overv
     \label{fig:evaluation:overview:decoproc:chart:s3eC}
 \end{figure}
 
+The X axis represents time in seconds since the first request with a data unit was sent, the Y axis represents the time it took for the client to receive the corresponding notification. Each dot represents a data unit.
+
 The data units with the 'decoded' \textit{info type}, in red, were sent to the Data Processor Context and the ones with the 'encoded' \textit{info type}, in blue, were sent to the Data Decoder Context.
 
 In conjunction with the chart, the Table~\ref{tab:evaluation:overview:decoproc:results} presents some analysis preformed against the results of Experience C in the Notification Management Scenario.
@@ -305,7 +307,10 @@ In the following charts, Chart~\ref{fig:evaluation:overview:cache:chart:s2eB} an
     \label{fig:evaluation:overview:cache:chart:s1eD}
 \end{figure}
 
-The Chart~\ref{fig:evaluation:overview:cache:chart:s1eD} also shows that the system started to underperform around the 65 seconds mark. The \textbf{Data Flow} caches were already stable and therefore, under this experiences, this process doesn't  cause the performance degradation seen in higher throughput experiences.
+In both charts the X axis represents time in seconds since the first request with a data unit was sent, the Y axis represents the time it took for the client to receive the corresponding measure. Each dot represents a data unit.
+Each color represents the test iteration responsible for sending the data unit.
+
+The Chart~\ref{fig:evaluation:overview:cache:chart:s1eD} also that the system started to underperform around the 65 seconds mark. The \textbf{Data Flow} caches were already stable and therefore, under this experiences, it is plausible to say that this process doesn't cause the performance degradation seen in higher throughput experiences.
 
 \subsection{Service Scope Database Performance}
 \label{subsec:evaluation:overview:servicedatabase}

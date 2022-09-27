@@ -93,6 +93,8 @@ In order to focus on the raw performance of the system, the following conjecture
 The Table~\ref{tab:evaluation:experiences:summary} summarizes the experiences preformed.
 
 \begin{table}[H]
+    \caption{Details about the experiences performed}
+    \label{tab:evaluation:experiences:summary}
     \centering
     \begin{tabular}{@{}ccccc@{}}
     \toprule
@@ -109,8 +111,6 @@ The Table~\ref{tab:evaluation:experiences:summary} summarizes the experiences pr
     G & 500  & 3 seconds  & 125 & 5000 \\ \midrule
     H & 1000 & 3 seconds  & 250 & 10000 \\ \bottomrule
     \end{tabular}
-    \caption{Details about the experiences performed}
-    \label{tab:evaluation:experiences:summary}
 \end{table}
 
 The results of each scenario will be presented in the next sections. The results will be displayed in a table with the following metrics: (i) average, (ii) minimum, (iii) median, (iv) maximum, (v) 90th Percentile and (vi) 95 Percentile.
@@ -121,6 +121,8 @@ The results of each scenario will be presented in the next sections. The results
 This scenario focus on the Fleet Management Service. The Table~\ref{tab:evaluation:experiences:fleet:results} presents the results related to the time is takes for a Data Unit to be processed and supplied as a measure to the user.
 
 \begin{table}[H]
+    \caption{Results for the Fleet Management Scenario (in seconds)}
+    \label{tab:evaluation:experiences:fleet:results}
     \centering
     \begin{tabular}{@{}ccccccc@{}}
     \toprule
@@ -134,8 +136,6 @@ This scenario focus on the Fleet Management Service. The Table~\ref{tab:evaluati
     G & 0.921 & 0.183 & 0.754 & 2.992 & 2.015 & 2.326 \\ \midrule
     H & 38.43 & 0.218 & 35.39 & 83.37 & 71.52 & 77.08 \\ \bottomrule
     \end{tabular}
-    \caption{Results for the Fleet Management Scenario (in seconds)}
-    \label{tab:evaluation:experiences:fleet:results}
 \end{table}
 
 This results show that, a system focused on the Fleet Management business case, can successfully handle 125 Data Units per second while answering the defined requirements. 
@@ -150,6 +150,8 @@ Currently, the devices used in production for this business case send, at best, 
 This scenario focus on the Smart Irrigation Service. The Table~\ref{tab:evaluation:experiences:irrigation:results} presents the results related to the time is takes for a Data Unit to be processed, stored and supplied as a measure to the user.
 
 \begin{table}[H]
+    \caption{Results for the Smart Irrigation Scenario (in seconds)}
+    \label{tab:evaluation:experiences:irrigation:results}
     \centering
     \begin{tabular}{@{}ccccccc@{}}
     \toprule
@@ -163,8 +165,6 @@ This scenario focus on the Smart Irrigation Service. The Table~\ref{tab:evaluati
     G & 12.95 & 0.255 & 13.71 & 20.00 & 14.60 & 15.34 \\ \midrule
     H & 70.06 & 0.260 & 70.98 & 122.3 & 109.8 & 115.4 \\ \bottomrule
     \end{tabular}
-    \caption{Results for the Smart Irrigation Scenario (in seconds)}
-    \label{tab:evaluation:experiences:irrigation:results}
 \end{table}
 
 This results show that, a system focused on the Smart Irrigation business case, can successfully handle 45 Data Units per second while answering the defined requirements. The experiences \textbf{D}, \textbf{F}, \textbf{G}, \textbf{H} shed a light on the possible limits for this Service. 
@@ -181,6 +181,8 @@ This scenario focus on the Notification Management Service. The Table~\ref{tab:e
 In this experience it was simulated that an average of 10\% of the data units would produce an alert.
 
 \begin{table}[H]
+    \caption{Results for the Notification Management Scenario (in seconds)}
+    \label{tab:evaluation:experiences:notification:results}
     \centering
     \begin{tabular}{@{}ccccccc@{}}
     \toprule
@@ -194,8 +196,6 @@ In this experience it was simulated that an average of 10\% of the data units wo
     G & 10.02 & 1.188 & 11.09 & 19.08 & 14.01 & 15.03 \\ \midrule
     H & 27.51 & 13.48 & 27.77 & 35.50 & 29.68 & 31.14 \\ \bottomrule
     \end{tabular}
-    \caption{Results for the Notification Management Scenario (in seconds)}
-    \label{tab:evaluation:experiences:notification:results}
 \end{table}
 
 The results captured in this experiences infer that this system can comfortably withstand a throughput of around 500 devices (each sending measures every 10 seconds) without undermining its overall behavior.
@@ -236,6 +236,8 @@ In order to evaluate this piece of the system first the \textbf{H} experiences o
 This experiences yielded the following results:
 
 \begin{table}[H]
+    \caption{Data Ingestion Endpoint response time results (in milliseconds)}
+    \label{tab:evaluation:overview:endpoint:results}
     \centering
     \begin{tabular}{@{}ccccccc@{}}
     \toprule
@@ -244,8 +246,6 @@ This experiences yielded the following results:
     2 & 227.48 & 169.19 & 200.17 & 727.11 & 319.77 & 376.98 \\ \midrule
     3 & 179.83 & 167.09 & 178.99 & 2632 & 186.36 & 189.27 \\ \bottomrule
     \end{tabular}
-    \caption{Data Ingestion Endpoint response time results (in milliseconds)}
-    \label{tab:evaluation:overview:endpoint:results}
 \end{table}
 
 This results present a stable performance even under a high number of requests, apart from the maximum value obtained in scenario 2, a clear outlier, all requests were answered within a second.
@@ -273,6 +273,8 @@ The data units with the 'decoded' \textit{info type}, in red, were sent to the D
 In conjunction with the chart, the Table~\ref{tab:evaluation:overview:decoproc:results} presents some analysis preformed against the results of Experience C in the Notification Management Scenario.
 
 \begin{table}[H]
+    \caption{Metrics collected (in seconds) - Notification Management Scenario - Experience C}
+    \label{tab:evaluation:overview:decoproc:results}
     \centering
     \begin{tabular}{@{}ccccccc@{}}
     \toprule
@@ -280,8 +282,6 @@ In conjunction with the chart, the Table~\ref{tab:evaluation:overview:decoproc:r
     decoded & 0.558 & 0.209 & 0.252 & 5.863 & 0.286 & 3.923 \\ \midrule
     encoded & 0.528 & 0.212 & 0.253 & 6.519 & 0.288 & 3.479 \\ \bottomrule
     \end{tabular}
-    \caption{Metrics collected (in seconds) - Notification Management Scenario - Experience C}
-    \label{tab:evaluation:overview:decoproc:results}
 \end{table}
 
 As we can see the time taken to process or decode a data unit is very similar, this is possible due to \citetitle{graalvm}.

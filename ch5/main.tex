@@ -72,6 +72,8 @@ This scope was decoupled from the \textbf{Configuration Scope} even though they 
 The \textbf{Configuration Scope} requires scarce but heavy computations that alter the internal system state while the \textbf{Data Flow Scope} requires plentiful but light computations that don't alter the internal system state as summarized in the Table~\ref{tab:design:system_scopes:data_flow_scope:comparison}.
 
 \begin{table}[!ht]
+   \caption[Comparison of Operations in Data Flow and Configuration Scopes]{Comparison of Operations in Data Flow and Configuration Scopes}
+   \label{tab:design:system_scopes:data_flow_scope:comparison}
    \centering
    \begin{tabular}{@{}lllll@{}}
    \toprule
@@ -81,8 +83,6 @@ The \textbf{Configuration Scope} requires scarce but heavy computations that alt
        Required computation power/time & high & low \\ \hline
        Frequency of usage & low & high \\ \hline
    \end{tabular}
-   \caption[Comparison of Operations in Data Flow and Configuration Scopes]{Comparison of Operations in Data Flow and Configuration Scopes}
-   \label{tab:design:system_scopes:data_flow_scope:comparison}
 \end{table}
 
 Due to this discrepancy it's expected for each scope to have different requirements regarding horizontal scaling. With the addition of more devices to the platform, and subsequently higher ingress volume, \textbf{Data Flow Scope} will need to scale. Since the \textbf{Configuration Scope} is intended mostly for the manager of the platform, a small user pool, the need to scale is smaller.
@@ -186,6 +186,8 @@ As explained, \textit{Measures} contains various data types. Currently the suppo
 
 \begin{landscape}
    \begin{longtable}{cllll}
+   \caption{Measure Data Types}
+   \label{tab:design:domain:shared_model:data:data_types}\\
    \cline{1-4}
    \multicolumn{2}{l}{\textbf{Data Type}}                                     & \multirow{2}{*}{\textbf{Description}}                  & \multirow{2}{*}{\textbf{Unit}} &  \\
    \textit{Property}                     & \textit{Sub Property}              &                                                        &                                &  \\ \cline{1-4}
@@ -206,6 +208,9 @@ As explained, \textit{Measures} contains various data types. Currently the suppo
    \endlastfoot
    %
    \\[-0.85em]
+   \multicolumn{2}{l}{\textbf{Trigger}}                                       & \multicolumn{2}{l}{Type related to something with an on / off or open / close state}    &  \\
+   \textit{trigger}                      & \textit{value}                     & Value can be true or false                                    & boolean                        &  \\ [0.4em] \cline{1-4}
+   \\[-0.85em]
    \multicolumn{2}{l}{\textbf{Motion}}                                        & \multicolumn{2}{l}{Status related to the motion of a device}                            &  \\
    \textit{motion}                       & \textit{value}                     & Value can be "ACTIVE", "INACTIVE" or "UNKNOWN"         & n.a.                           &  \\ [0.4em] \cline{1-4}
    \\[-0.85em]
@@ -217,10 +222,6 @@ As explained, \textit{Measures} contains various data types. Currently the suppo
    \\[-0.85em]
    \multicolumn{2}{l}{\textbf{AQI}}                                           & \multicolumn{2}{l}{Air Quality Index according to the U.S. AQI}                         &  \\
    \textit{aqi}                          & \textit{value}                     & Value measured in                                      & AQI                            &  \\ [0.4em] \cline{1-4}
-   \\[-0.85em]
-   \multicolumn{2}{l}{\textbf{Air Humidity}}                                  & \multicolumn{2}{l}{Concentration of water vapour present in the air}                    &  \\
-   \multirow{2}{*}{\textit{airHumidity}} & \textit{gramsPerCubicMeter}        & Value measured in                                      & g/m3                           &  \\
-                                         & \textit{relativePercentage}        & Value measured in                                      & \%                             &  \\ [0.4em] \cline{1-4}
    \\[-0.85em]
    \multicolumn{2}{l}{\textbf{Air Pressure}}                                  & \multicolumn{2}{l}{Pressure within the atmosphere of Earth}                             &  \\
    \textit{airPressure}                  & \textit{hectoPascal}               & Value measured in                                      & hPa                            &  \\ [0.4em] \cline{1-4}
@@ -235,19 +236,10 @@ As explained, \textit{Measures} contains various data types. Currently the suppo
    \\[-0.85em]
    \multicolumn{2}{l}{\textbf{Water Pressure}}                                & \multicolumn{2}{l}{Water Pressure measured in pipes by a device}                        &  \\
    \textit{waterPressure}                & \textit{bar}                       & Value measured in                                      & bar                            &  \\ [0.4em] \cline{1-4}
-   \\[-0.85em]
-   \multicolumn{2}{l}{\textbf{Battery}}                                       & \multicolumn{2}{l}{Battery of the device}                                               &  \\
-   \multirow{4}{*}{\textit{battery}}     & \textit{volts}                     & Value measured in                                      & volts                          &  \\
-                                         & \textit{percentage}                & Value measured in                                      & \%                             &  \\
-                                         & \textit{maxVolts}                  & Minimum volts the battery needs for the device to work & volts                          &  \\
-                                         & \textit{minVolts}                  & Maximum volts the battery can hold                     & volts                          &  \\ [0.4em] \cline{1-4}
    %\pagebreak
    \\[-0.85em]
    \multicolumn{2}{l}{\textbf{Illuminance}}                                   & \multicolumn{2}{l}{Illuminance level - luminous flux per unit area}                     &  \\
    \textit{illuminance}                  & \textit{lux}                       & Value measured in                                      & lux                            &  \\ [0.4em] \cline{1-4}
-   \\[-0.85em]
-   \multicolumn{2}{l}{\textbf{Trigger}}                                       & \multicolumn{2}{l}{Type related to something with an on / off or open / close state}    &  \\
-   \textit{trigger}                      & \textit{value}                     & Value true or false                                    & boolean                        &  \\ [0.4em] \cline{1-4}
    \\[-0.85em]
    \multicolumn{2}{l}{\textbf{CO2}}                                           & \multicolumn{2}{l}{Atmospheric Carbon Dioxide concentration}                            &  \\
    \textit{co2}                          & \textit{ppm}                       & Value measured in                                      & ppm                            &  \\ [0.4em] \cline{1-4}
@@ -282,12 +274,20 @@ As explained, \textit{Measures} contains various data types. Currently the suppo
    \multicolumn{2}{l}{\textbf{Soil Conductivity}}                             & \multicolumn{2}{l}{Substances ability to conduct an electrical current in the soil}     &  \\
    \textit{soilConductivity}             & \textit{microSiemensPerCentimeter} & Value measured in                                      & $\mu$S/cm                      &  \\ [0.4em] \cline{1-4}
    \\[-0.85em]
+   \multicolumn{2}{l}{\textbf{Air Humidity}}                                  & \multicolumn{2}{l}{Concentration of water vapour present in the air}                    &  \\
+   \multirow{2}{*}{\textit{airHumidity}} & \textit{gramsPerCubicMeter}        & Value measured in                                      & g/m3                           &  \\
+                                         & \textit{relativePercentage}        & Value measured in                                      & \%                             &  \\ [0.4em] \cline{1-4}
+   \\[-0.85em]
    \multicolumn{2}{l}{\textbf{GPS}}                                           & \multicolumn{2}{l}{Point reference in the Geographic Coordinate System}                 &  \\
    \multirow{3}{*}{\textit{gps}}         & \textit{latitude}                  & Value between -90 and 90 measured in                   & degrees                        &  \\
                                          & \textit{longitude}                 & Value between -180 and 180 measured in                 & degrees                        &  \\
                                          & \textit{altitude}                  & Value determined according to the mean sea level       & meters                         &  \\ [0.4em] \cline{1-4}
-   \caption{Measure Data Types}
-   \label{tab:design:domain:shared_model:data:data_types}\\
+   \\[-0.85em]
+   \multicolumn{2}{l}{\textbf{Battery}}                                       & \multicolumn{2}{l}{Battery of the device}                                               &  \\
+   \multirow{4}{*}{\textit{battery}}     & \textit{volts}                     & Value measured in                                      & volts                          &  \\
+                                         & \textit{percentage}                & Value measured in                                      & \%                             &  \\
+                                         & \textit{maxVolts}                  & Minimum volts the battery needs for the device to work & volts                          &  \\
+                                         & \textit{minVolts}                  & Maximum volts the battery can hold                     & volts                          &  \\ [0.4em] \cline{1-4}
    \end{longtable}
 \end{landscape}
 
@@ -354,6 +354,8 @@ In the Table~\ref{tab:design:domain:shared_model:routing} all currently used \te
 
 \begin{landscape}
    \begin{longtable}{cll}
+   \caption{Routing Options}
+   \label{tab:design:domain:shared_model:routing}\\
    \cline{1-2}
    \multicolumn{1}{l}{\textbf{Topic}}      & \multirow{2}{*}{\textbf{Description}}                                                                     &  \\
    \textit{Routing Key}                    &                                                                                                           &  \\ \cline{1-2}
@@ -415,8 +417,6 @@ In the Table~\ref{tab:design:domain:shared_model:routing} all currently used \te
    \textit{Alert Category Options}         & Category of the alert published, e.g. Fire Detention                                                      &  \\
    \textit{Alert Subcategory Options}      & Category of the alert published, e.g. Humidity With High Rate Of Change                                   &  \\
    \textit{Alert Severity Options}         & Severity of the alert published, from \textit{Information} level to \textit{Critical} level               &  \\ \cline{1-2}
-   \caption{Routing Types}
-   \label{tab:design:domain:shared_model:routing}\\
    \end{longtable}
    \footnotetext[1]{has three possible values: (i) UNDETERMINED, (ii) WITH, (iii) WITHOUT}
    \footnotetext[2]{related to the explored Data Types}
@@ -1348,6 +1348,8 @@ This architecture is used on the containers: (i) Device Management Backend, (ii)
 The following table, Table~\ref{tab:design:architecture:components:logical:backend}, discusses each component responsibilities.
 
 \begin{table}[H]
+   \caption{Backend components responsibilities}
+   \label{tab:design:architecture:components:logical:backend}
    \begin{tabular}{@{}cl@{}}
    \toprule
    \textbf{Component}               & \textbf{Responsibilities}                                            \\ \midrule
@@ -1381,8 +1383,6 @@ The following table, Table~\ref{tab:design:architecture:components:logical:backe
    \multirow{2}{*}{Domain}          & - Represent de business rules and concepts;                          \\
                                     & - Manage the system information;                                     \\ \bottomrule
    \end{tabular}
-   \caption{Components responsibilities}
-   \label{tab:design:architecture:components:logical:backend}
 \end{table}
 
 Finally the architecture used in containers related to the Data Flow Scope is presented. It is based on a simplified version of the Onion Architecture since the intrinsic processes of this containers are much simpler.

@@ -97,6 +97,8 @@ The programming language used was \citetitle{typescript} since it is a strongly 
 As for the framework/library used, the following table, Table~\ref{tab:implementation:decisions:frontend:prog}, describes the reason that lead the author to choose Angular over React.
 
 \begin{table}[H]
+    \caption{Technologies Comparison - Angular vs React}
+    \label{tab:implementation:decisions:frontend:prog}
     \centering
     \begin{tabular}{@{}cll@{}}
     \toprule
@@ -108,8 +110,6 @@ As for the framework/library used, the following table, Table~\ref{tab:implement
       material &
       \begin{tabular}[c]{@{}l@{}}ant design, material ui, \\ react bootstrap, semantic ui react\end{tabular} \\ \bottomrule
     \end{tabular}
-    \caption{Comparison of Angular with React}
-    \label{tab:implementation:decisions:frontend:prog}
 \end{table}
 
 Both tools have a wide support from the community and excellent documentation. For the author, Angular outclasses React in this project since it enforces the use of good design principles via the first and second entry described in the table above. 
@@ -378,6 +378,8 @@ To serve the frontend pages and redirect requests made to backend containers, th
 All of them support the necessary requirements, but some factors lead the author to pick Nginx over the others, the following table, Table~\ref{tab:implementation:decisions:nginx:compare}, describes this criteria.
 
 \begin{table}[H]
+    \caption{Technologies Comparison - Reverse Proxy Web Server}
+    \label{tab:implementation:decisions:nginx:compare}
     \centering
     \begin{tabular}{@{}clll@{}}
     \toprule
@@ -386,8 +388,6 @@ All of them support the necessary requirements, but some factors lead the author
     Community Size            & high & very high & medium \\ \midrule
     Familiarity with the tool & high & low       & low    \\ \bottomrule
     \end{tabular}
-    \caption{Technologies Comparison - Reverse Proxy Web Server }
-    \label{tab:implementation:decisions:nginx:compare}
 \end{table}
 
 The details about \citetitle{nginx} configuration can be found in Section~\ref{subsec:implementation:description:nginx}.

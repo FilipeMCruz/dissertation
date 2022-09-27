@@ -29,7 +29,7 @@ This is often a problem. As an example, for small farmers it is economically unt
 
 A service that acts upon \gls{IoT} data is composed of many pieces and processes, such as (i) managing device network connectivity and ownership, (ii) capturing data via sensors, (iii) routing data through the network, (iv) aggregating and storing data, (v) transforming data into concise information, (vi)  analyzing the information captured, (vii) triggering alarms based on this analysis, (viii) providing the gathered information visually or programmatically. It's a complex and constantly evolving system.
 
-In order to deal with these needs there are platforms on the market that facilitate the creation of these services by taking care of device connection and management, such as \citetitle{aws-iot}, \citetitle{azure-iot}, \citetitle{google-iot} and others. Their main purpose is to act as a middleware between costumer-facing application and physical \textit{things} deployed somewhere, such as sensors, actuators or hybrid devices. Each service provides a set of adicional functionalities such as data visualization, transformation, storage and analysis. However these platforms don't provide pre-made specialized solutions to aid the decision making process of end customers and small businesses, such as fleet management, smart irrigation, tracking of deliveries and goods, indoor fire detection, and others. This is often a problem to companies that have little to no background in software development. As an example, for a small transportation company it's unthinkable to resort to this middleware services in order to create a fleet management system and perceive the benefits \gls{IoT} can provide.
+In order to deal with these needs there are platforms on the market that facilitate the creation of these services by taking care of device connection and management, such as \citetitle{aws-iot}, \citetitle{azure-iot}, \citetitle{google-iot} and others. Their main purpose is to act as a middleware between costumer-facing application and physical \textit{things} deployed somewhere, such as sensors, actuators or hybrid devices. Each service provides a set of additional functionalities such as data visualization, transformation, storage and analysis. However these platforms don't provide pre-made specialized solutions to aid the decision making process of end customers and small businesses, such as fleet management, smart irrigation, tracking of deliveries and goods, indoor fire detection, and others. This is often a problem to companies that have little to no background in software development. As an example, for a small transportation company it's unthinkable to resort to this middleware services in order to create a fleet management system and perceive the benefits \gls{IoT} can provide.
 
 Due to this obstacles the adoption of \gls{IoT} technologies by small companies and individuals is lingered. According to \cite{iot-fail}, 60\% of \gls{IoT} projects stall at the \gls{PoC} stage.
 
@@ -41,10 +41,10 @@ This work idealizes the creation of a platform responsible for further facilitat
 \begin{itemize}
     \item Agnostically interacting with different \gls{IoT} middlewares (receiving sensor measures and dispatching commands to actuators through these platforms);
     \item Homogenizing and sanitizing the device information, commands available and measures received in a single concise form with a strong semantic meaning;
-    \item Providing various means to interact with the platform and the information handled by it, depending on the costumer needs, such as: (i) full-fledged access via \gls{UI}, (ii) high-level \gls{API} focussed on its core functionalities, (iii) low-level and generic \gls{API} to consume device measures and alerts.
+    \item Providing various means to interact with the platform and the information handled by it, depending on the costumer needs, such as: (i) full-fledged access via \gls{UI}, (ii) high-level \gls{API} focused on its core functionalities, (iii) low-level and generic \gls{API} to consume device measures and alerts.
 \end{itemize}
 
-To answer these high-level objectives the platform should encompass essencial functionalities such as:
+To answer these high-level objectives the platform should encompass essential functionalities such as:
 
 \begin{itemize}
     \item Data Aggregation: responsible for providing a simple entry-point to the system for any \gls{IoT} middleware;
@@ -56,7 +56,7 @@ To answer these high-level objectives the platform should encompass essencial fu
     \item User Authentication/Authorization: responsible for allowing/denying access to the various platform' components and data depending on the user authentication and authorization level.
 \end{itemize}
 
-Finally, this project requires the creation of \gls{PoC}s that answer specific business cases and utilize the platform developed. These \gls{PoC}s can follow distinct approaches for user interactions: from a full-fledged \gls{UI}, a simple and business case focussed \gls{API}, or a basic service that dispatches emails/SMS based on alerts captured.
+Finally, this project requires the creation of \gls{PoC}s that answer specific business cases and utilize the platform developed. These \gls{PoC}s can follow distinct approaches for user interactions: from a full-fledged \gls{UI}, a simple and business case focused \gls{API}, or a basic service that dispatches emails/SMS based on alerts captured.
 
 Some of the business cases to address, and their main requirements, are:
 
@@ -68,7 +68,7 @@ Some of the business cases to address, and their main requirements, are:
 \end{itemize}
 
 As such, this project's tangible objectives can be tracked and measured according to two conceptual axis.
-An axis is related to the platform and its core functionalities (that any service, specific to a business case, relies on) and requirements (being agnostic to \gls{IoT} middlewares, defining a semantically sound and homogeneous data model, offering different user-faced means of interaction). The other axis is related to the \gls{PoC}s focussed on specific business cases.
+An axis is related to the platform and its core functionalities (that any service, specific to a business case, relies on) and requirements (being agnostic to \gls{IoT} middlewares, defining a semantically sound and homogeneous data model, offering different user-faced means of interaction). The other axis is related to the \gls{PoC}s focused on specific business cases.
 
 \section{Approach}
 \label{sec:introduction:approach}
@@ -114,7 +114,7 @@ This document is divided into 7 more chapters that explore this work.
     \item \nameref{chap:state_of_art}: where literature related to this work is explored;
     \item \nameref{chap:analysis}: where concepts related to this project are referred;
     \item \nameref{chap:requirements}: where this project's requirements are listed;
-    \item \nameref{chap:design}:; where the architecture design of the solution is presented;
+    \item \nameref{chap:design}: where the architectural design of the solution is presented;
     \item \nameref{chap:implementation}: where the implementation of the solution is addressed;
     \item \nameref{chap:evaluation}: where the evaluation of the solution is presented and results discussed;
     \item \nameref{chap:conclusion}: where a final overview of the project is presented, wrapping up the achievements and future work of this project and solution.

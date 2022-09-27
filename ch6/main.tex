@@ -42,7 +42,7 @@ The backend development is divided into three main areas:
 
 In the following sub sections a brief description and justification of the technologies used is presented.
 
-\subsubsection*{Programming Language Used}
+\subsubsection{Programming Language Used}
 \label{subsubsec:implementation:decisions:backend:prog}
 
 As described in the development view of Section~\ref{subsubsec:design:architecture:context:development}, a package named \textit{iot-core}, an idealized \gls{SDK} for \textbf{Sensae Console}, was developed to define the information that flows inside the system. 
@@ -60,7 +60,7 @@ The reasons that lead to the development of the first \gls{SDK} in \textit{Java}
 
 The development of \textit{iot-core} in \textit{Java} lead to the development of all backend services also in \textit{Java}.
 
-\subsubsection*{General Backend Services}
+\subsubsection{General Backend Services}
 \label{subsubsec:implementation:decisions:backend:geral}
 
 The services that this section encompasses can be seen as more robust and heavy due to their associated requirements.
@@ -69,7 +69,7 @@ As such, the framework used to develop them was \citetitle{springboot}, due to i
 
 The main drawbacks of this framework are the slow start up time and high memory consumption, since these are not ideal for the microservices/cloud world.
 
-\subsubsection*{Data Flow Scope Backend Services}
+\subsubsection{Data Flow Scope Backend Services}
 \label{subsubsec:implementation:decisions:backend:flow}
 
 As discussed in Section~\ref{subsec:design:system_scopes:data_flow_scope}, the services that this section encompasses can be seen as more lightweight than the ones described above due to their associated requirements.
@@ -87,7 +87,7 @@ This features, coupled with the fact that the \textit{Quarkus} architecture foll
 
 Even though a micro frontend architecture empowers the selection of different technologies depending on the requirements of the solution and team affinity with the stack, the Frontend Containers were developed using the same technological stack. At the time of writing there was only one developer involved, this diminished the cognitive load needed to work on the solution while still allowing future collaborators to use different frontend frameworks.
 
-\subsubsection*{Programming Language and Framework Used}
+\subsubsection{Programming Language and Framework Used}
 \label{subsubsec:implementation:decisions:frontend:prog}
 
 The author had previous contact with the following frameworks: (i) \citetitle{angular}, (ii) \citetitle{react}, and therefore no other tool was discussed when choosing the one to use in the solution.
@@ -114,12 +114,12 @@ As for the framework/library used, the following table, Table~\ref{tab:implement
 
 Both tools have a wide support from the community and excellent documentation. For the author, Angular outclasses React in this project since it enforces the use of good design principles via the first and second entry described in the table above. 
 
-\subsubsection*{Technologies used to create a Micro Frontend Architecture}
+\subsubsection{Technologies used to create a Micro Frontend Architecture}
 \label{subsubsec:implementation:decisions:frontend:micro}
 
 \citetitle{modulefederation} was the tool used to seemly connect the various Frontend. No other tool was considered or researched since \textit{Angular} already relies on \textit{Webpack 5} to bundle the application and therefore it's effortless to use this tool. \citetitle{modulefederation} allows programs to reference other programs parts that are not known at compile time. In addition, the micro frontends can share libraries with each other, so that the individual bundles do not contain any duplicates.
 
-\subsubsection*{Technologies used to build and manage the Frontend Services}
+\subsubsection{Technologies used to build and manage the Frontend Services}
 \label{subsubsec:implementation:decisions:frontend:nx}
 
 This section describes how the various frontends are built and share common pieces of code. Angular comes with a tool to build and manage project but it was deemed too minimal for this project. Instead, the tool used was \citetitle{nx}. \citetitle{nx} describes it self as a ``Smart, Fast and Extensible Build System'', the
@@ -129,7 +129,7 @@ This tool provides features needed to manage multiple frontends in a single repo
 
 This tool has two main concepts that are widely used in the solution's frontend: apps and libraries. Apps focus on the \gls{UI} and libraries on everything else, such as the domain or the interactions with backend services. The diagram presented before at Figure~\ref{fig:design:architecture:component:development:diagram:decoder} resembles this two concepts.
 
-\subsubsection*{Technologies used to provide map/location base services}
+\subsubsection{Technologies used to provide map/location base services}
 \label{subsubsec:implementation:decisions:frontend:maps}
 
 This section briefly describes the library used to render and work with maps.
@@ -240,7 +240,7 @@ A \gls{DBMS} is a general-purpose software system that facilitates the processes
 
 The requirements gathered unveil the need to use three different database' data models throughout the system: (i) relational, (ii) document-based and (iii) column-based data models. The following sections answer why these data models were needed and what technologies were chosen for each of them. A final section unveils an optional solution that was considered but ultimately not pursued.
 
-\subsubsection*{Relational Database Usage}
+\subsubsection{Relational Database Usage}
 \label{subsubsec:implementation:decisions:database:relational}
 
 This data model has a wide variety of usage in the industry. Some of the technologies that follow this data model are: (i) \citetitle{mysql}, (ii) \citetitle{postgressql} and (iii) \citetitle{mariadb}.
@@ -251,7 +251,7 @@ As such, this data model was adopted for the \textbf{Device Management Database}
 
 The author had previous contact with all the cited \gls{DBMS}, the decision to use \citetitle{postgressql} was taken based on the fact that, contrary to the other options, \citetitle{postgressql} supports a vast number of Data Types such as \gls{JSON}, Arrays, \gls{UUID}, and Ranges. \citetitle{postgressql}'s data model is an extension of the relation data model, named object-relational data model - \cite{elmasri2000fundamentals}. This data model supports various concepts such as objects, classes and inheritance and therefore can lead to entity models more expressive and close to the business ideas.
 
-\subsubsection*{Document-based Database Usage}
+\subsubsection{Document-based Database Usage}
 \label{subsubsec:implementation:decisions:database:nosql}
 
 This data model rose from the increasing need to store and analyze unstructured data as stated by \cite{miloslavskaya2016big}.  Citing \cite{elmasri2000fundamentals}, a ``major difference between document-based systems versus object and object-relational systems (...) is that there is no requirement to specify a schema''.
@@ -262,7 +262,7 @@ As such, this data model was adopted for the \textbf{Data Store Database} contai
 
 The only technology considered, and therefore adopted, was \citetitle{mongodb} due to its vast community, excellent documentation and large number of libraries that ease the database management operations. \citetitle{mongodb} also supports replication and sharding according to \cite{elmasri2000fundamentals}, this features is useful once a single node isn't capable of withstanding all data collected while providing fast access to it.
 
-\subsubsection*{Column-based Database Usage}
+\subsubsection{Column-based Database Usage}
 \label{subsubsec:implementation:decisions:database:time}
 
 This data model is used in applications that require large amounts of data storage, and is commonly named \textit{data warehouses}. According to \cite{dehdouh2015using}, a data warehouse  is ``designed according to a dimensional modelling which has for objective to observe facts through measures, also called indicators, according to the dimensions that represent the analysis axes''. Citing \cite{han2011survey}, this databases ``can maintain high-performance of data analysis and business intelligence processing''.
@@ -291,7 +291,7 @@ With this requirements in hand, a column-based data model isn't enough. The tech
 
 Between the two missing options, the author picked \citetitle{questdb} due to better support for \gls{SQL} though \gls{JDBC}. During the research of this two technologies no major downside was found for \citetitle{questdb} when compared to \citetitle{influxdb}.
 
-\subsubsection*{Graph-based Database Usage}
+\subsubsection{Graph-based Database Usage}
 \label{subsubsec:implementation:decisions:database:identity}
 
 Even tho this data model was ultimately not used, the author deemed relevant to mention it.
@@ -1383,7 +1383,7 @@ A service can also publish \textbf{Command}s.
 
 The following sub sections will detail each service information needs.
 
-\subsubsection*{Smart Irrigation Service}
+\subsubsection{Smart Irrigation Service}
 \label{subsubsec:implementation:description:services:irrigation}
 
 This service captures information of the given types:
@@ -1401,7 +1401,7 @@ It then publishes Commands to close or open valves. The service can only issue a
 
 At a high-level view, this service requires data from \textit{Park} sensors, \textit{Green Houses} and \textit{Valves} that flow in the \textit{'irrigation'} channel. It captures Alerts to decide when to open or close Valves by sending specific Commands.
 
-\subsubsection*{Fleet Management Service}
+\subsubsection{Fleet Management Service}
 \label{subsubsec:implementation:description:services:fleet}
 
 This service captures information of a single type (and doesn't publish any Command):
@@ -1410,7 +1410,7 @@ This service captures information of a single type (and doesn't publish any Comm
 
 At a high-level view, this service only requires \gls{GPS} data sent to the \textit{'fleet'} channel.
 
-\subsubsection*{Notification Management Service}
+\subsubsection{Notification Management Service}
 \label{subsubsec:implementation:description:services:notification}
 
 This service captures information of a single type (and doesn't publish any Command):

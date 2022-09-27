@@ -154,7 +154,7 @@ According to \cite{integration}, ``while we have historically drawn up our proje
 
 It is comprised of three big components: (i) data model, (ii) message envelop model, and (iii) routing model.
 
-\subsubsection*{Data Model}
+\subsubsection{Data Model}
 \label{subsubsec:design:domain:shared_model:data}
 
 The data model represents the \textbf{Data Unit} that \textbf{Sensae Console} is currently capable of understanding. The following diagram, Figure~\ref{fig:design:domain:shared_model:data:diagram}, introduces a high level specification of it.
@@ -293,7 +293,7 @@ As explained, \textit{Measures} contains various data types. Currently the suppo
 
 The current shared model schema can be found in Appendix~\ref{AppendixA}.
 
-\subsubsection*{Message Envelop Model}
+\subsubsection{Message Envelop Model}
 \label{subsubsec:design:domain:shared_model:message}
 
 The message envelop model refers to how, coupled with the routing model in Section~\ref{subsubsec:design:domain:shared_model:routing}, information can easily transverse the system.
@@ -321,7 +321,7 @@ As a brief description:
 
 This concept is mainly used to ensure that information flowing in the system is not reprocessed, by verifying the unique id - \textit{oid}, and is drooped if it enters a routing loop by verifying that the \textit{hops} have not reached a maximum value.  
 
-\subsubsection*{Routing Model}
+\subsubsection{Routing Model}
 \label{subsubsec:design:domain:shared_model:routing}
 
 The routing model refers to how information can be routed through the system based on various parameters. The initial and current idea is based on the \textit{pub/sub} pattern, as discussed by \cite{urquhart2021flow}. Containers subscribe to information in a \textbf{Topic} with specific \textit{RoutingKey}s and publish information with \textit{RoutingKey}s.
@@ -484,7 +484,7 @@ The \textbf{Sensae Console} is composed by the following bounded contexts:
 
 Each of this contexts will be briefly addressed in the following sections.
 
-\subsubsection*{Data Processor}
+\subsubsection{Data Processor}
 \label{subsubsec:design:domain:bounded_contexts:processor}
 
 The \textbf{Data Processor} context refers to simple data mappers that translate inbound information to \textbf{Data Unit}s, discussed in Section~\ref{subsubsec:design:domain:shared_model:data}.
@@ -533,7 +533,7 @@ To map the \textit{temperature} value to the \textbf{TEMPERATURE\_CELSIUS} prope
 
 This process is simple since it expects the inbound information to be predisposed, but when working with \gls{IoT} Devices, to optimize the bandwidth used, it is common to send information encoded. The following section presents an alternative to this process.   
 
-\subsubsection*{Data Decoder}
+\subsubsection{Data Decoder}
 \label{subsubsec:design:domain:bounded_contexts:decoder}
 
 The \textbf{Data Decoder} context refers to a more complex data mapper that translates inbound information to \textbf{Data Unit}s, discussed in Section~\ref{subsubsec:design:domain:shared_model:data}.
@@ -563,7 +563,7 @@ As a brief description:
 
 This process requires some programming language knowledge but is much more flexible than the \textbf{Data Processor} operation.
 
-\subsubsection*{Device Management}
+\subsubsection{Device Management}
 \label{subsubsec:design:domain:bounded_contexts:device}
 
 The \textbf{Device Management} context refers to the inventory of all registered \textbf{Device}s in the \textbf{Sensae Console}.
@@ -590,7 +590,7 @@ As a brief description:
    \item A \textbf{SubDevice} references another \textbf{Device} by its \textbf{DeviceId}. This, coupled with the concepts \textbf{SubDeviceMeasures} and \textbf{SubDeviceCommands} presented in Figure~\ref{fig:design:domain:shared_model:data:diagram} help to split a \textbf{Controller}'s \textbf{Data Unit} into various \textbf{Data Unit}, one for each referenced \textbf{SubDevice}.
 \end{itemize}
 
-\subsubsection*{Identity Management}
+\subsubsection{Identity Management}
 \label{subsubsec:design:domain:bounded_contexts:identity}
 
 The \textbf{Identity Management} is concerned with identifying \textbf{Tenant}s, defining their permissions and what \textbf{Device}s they own.
@@ -648,7 +648,7 @@ By default this context contains the \textit{Root Organization} domain, the \tex
 Referring to the roles in Section~\ref{sec:requirements:functional}, a Manager belongs to the \textit{Root Organization}, any Costumer belongs to one or various \textit{Organization}s, and the Anonymous user belongs to the \textit{Public} domain.
 Ultimately, what defines a user role is the domain he belongs to.Even if an \textit{Organization} ends up having all available permissions it will not be able to control or access other \textit{Organization}'s device data or employees information.
 
-\subsubsection*{Rule Management}
+\subsubsection{Rule Management}
 \label{subsubsec:design:domain:bounded_contexts:rule}
 
 The \textbf{Rule Management} context refers to rule scenarios.
@@ -679,7 +679,7 @@ In this specific solution, the input data are \textbf{Data Unit}s and the output
   \label{fig:design:domain:bounded_contexts:rule:diagram}
 \end{figure}
 
-\subsubsection*{Notification Management}
+\subsubsection{Notification Management}
 \label{subsubsec:design:domain:bounded_contexts:notification}
 
 The \textbf{Notification Management} context refers to notifications and how/what types an addressee wants to receive. There are two main concepts in this context, a notification and an addressee.
@@ -708,7 +708,7 @@ As a brief description:
    \item To enforce accountability in the system, the notion of who read a specific notification and when was added - \textbf{NotificationRead}.
 \end{itemize}
 
-\subsubsection*{Smart Irrigation}
+\subsubsection{Smart Irrigation}
 \label{subsubsec:design:domain:bounded_contexts:irrigation}
 
 The \textbf{Smart Irrigation} context refers to irrigation zones, sensors that read environmental conditions in this zones, valves and the associated readings. This concepts are divided in three diagrams presented below.
@@ -773,7 +773,7 @@ As a brief description:
 
 The concepts in this last diagram are different from the concepts in the other two diagram since readings data is suppose to be immutable and ample as opposed to devices and irrigation zones where information should be mutable but with a negligible size compared with readings.
 
-\subsubsection*{Fleet Management}
+\subsubsection{Fleet Management}
 \label{subsubsec:design:domain:bounded_contexts:fleet}
 
 The \textbf{Fleet Management} context simply refers to the past and current location of assets. 
@@ -841,7 +841,7 @@ The C4 level 4, code, will not be exhibited.
 The context level aims at introducing the system as a whole. The external systems and users that communicate/interact with the system, \textbf{Sensae Console}, are demonstrated.
 Throughout this section the relevant C4 views of level 1 (context level) are presented.
 
-\subsubsection*{Context Level - Logical View}
+\subsubsection{Context Level - Logical View}
 \label{subsubsec:design:architecture:context:logical}
 
 The logical view of the system is introduced here, complete but not detailed, in order to answer the use cases and requirements discussed in Chapter~\ref{chap:requirements}. This takes into account the interactions of the platform with external systems and its interaction with the various actors of the system (Figure~\ref{fig:design:architecture:context:logical:diagram}).
@@ -867,7 +867,7 @@ The external systems and its functions are as follows:
 
 The reason behind the use of external authentication/identity services is described in the Section~\ref{subsec:design:alternatives:auth}.
 
-\subsubsection*{Context Level - Development View}
+\subsubsection{Context Level - Development View}
 \label{subsubsec:design:architecture:context:development}
 
 Next is the development view (Figure~\ref{fig:design:architecture:context:development:diagram}), intended to familiarize the reader with how the software is organized.
@@ -883,7 +883,7 @@ The package \textit{iot-core} contains the shared model discussed in the Section
 
 The package \textit{sensae-console} contains software of the various containers needed to run the \textbf{Sensae Console}. As expected \textit{iot-core} is a core dependency for the \textit{sensae-console} backend containers.
 
-\subsubsection*{Context Level - Physical View}
+\subsubsection{Context Level - Physical View}
 \label{subsubsec:design:architecture:context:physical}
 
 Next is the physical view (Figure~\ref{fig:design:architecture:context:physical:diagram}), intended to familiarize the reader with the environment where the solution runs.
@@ -898,7 +898,7 @@ Next is the physical view (Figure~\ref{fig:design:architecture:context:physical:
    \label{fig:design:architecture:context:physical:diagram}
 \end{figure}
 
-\subsubsection*{Context Level - Synopsis}
+\subsubsection{Context Level - Synopsis}
 \label{subsubsec:design:architecture:context:synopsis}
 
 The context level introduces the reader to the bigger picture of \textbf{Sensae Console}, but it contains little to no information about how the system functions internally, the Section~\ref{subsec:design:architecture:containers} will dive into this subject.
@@ -912,7 +912,7 @@ The C4 level 2 introduces the reader to the various containers that compose the 
 
 The Physical View will not be represented since the fundamental idea behind the idealized deployment of \textbf{Sensae Console} is already described in the Section \nameref{subsubsec:design:architecture:context:physical}.
 
-\subsubsection*{Container Level - Logical View}
+\subsubsection{Container Level - Logical View}
 \label{subsubsec:design:architecture:container:logical}
 
 The description of this level of abstraction begins with a logical view of the containers that compose the system. Alternatives were also analyzed taking into account several requirements namely (i) configurability, (ii) maintainability, (iii) extensibility (iv) development cost and (v) scalability.
@@ -1007,7 +1007,7 @@ Lastly, as we can seen some containers are present in more than one scope, this 
 
 In the following section the internal communication of the system is clarified.
 
-\subsubsection*{Container Level - Process View}
+\subsubsection{Container Level - Process View}
 \label{subsubsec:design:architecture:container:process}
 
 In this section several use cases (according to some functional requirements identified in Section~\ref{sec:requirements:functional}) are presented through sequence diagrams, in order to introduce the reader to the interactions that occur between the various containers of the \textbf{Sensae Console}. 
@@ -1221,7 +1221,7 @@ The Smart Irrigation Backend subscribes to three types of \textit{Sub Category} 
    \item \textbf{Valve Open For Lengthy Period}: a valve needs to be close.
 \end{itemize}
 
-\subsubsection*{Container Level - Development View}
+\subsubsection{Container Level - Development View}
 \label{subsubsec:design:architecture:container:development}
 
 Each container mentioned in the Section~\ref{subsec:design:architecture:containers} is developed inside the same package, \textit{sensae-console}. The following diagrams presents how containers are mapped to packages.
@@ -1268,7 +1268,7 @@ Database services are organized according to the diagram in Figure~\ref{fig:desi
 
 No database service has been developed, only configured. The Fleet Management Database and Smart Irrigation Data Database needed no configuration and as such aren't associated with any package. The Message Broker also has no package in the project since it didn't need any configuration and wasn't developed.
 
-\subsubsection*{Container Level - Physical View}
+\subsubsection{Container Level - Physical View}
 \label{subsubsec:design:architecture:container:physical}
 
 Next is the physical view (Figure~\ref{fig:design:architecture:container:physical:diagram}), intended to familiarize the reader with the idealized production environment. Each container that composes the system is containerized via \textit{Docker} so that orchestration software like \textit{Docker Compose}, \textit{Docker Swarm}, \textit{Kubernetes} and \textit{OpenShift} can be used to ease the operation phase.
@@ -1287,7 +1287,7 @@ Even though the diagram above represents a \textit{Kubernetes} cluster, the prod
 
 Each Container represented in Section~\ref{subsubsec:design:architecture:container:logical} is mapped to a container in this view. Following the \citetitle{dbperservice}, each logical database also corresponds to a physical database. 
 
-\subsubsection*{Container Level - Synopsis}
+\subsubsection{Container Level - Synopsis}
 \label{subsubsec:design:architecture:container:synopsis}
 
 The container level introduces the reader to the internals of \textbf{Sensae Console}. Each container is introduced and the interactions between them are explored.
@@ -1302,7 +1302,7 @@ Most developed containers share the same architecture and will therefore be addr
 
 The physical view will not be presented since all relevant details have been addressed above.
 
-\subsubsection*{Components Level - Logical View}
+\subsubsection{Components Level - Logical View}
 \label{subsubsec:design:architecture:components:logical}
 
 The architectures used in the various developed containers can be condensate into 3 types with minor variations:
@@ -1411,7 +1411,7 @@ The Memory component is responsible for caching unhandled data units and other i
 
 The Data Gateway, Device Commander and Data Store backend containers have architectures that derive from this one and can be consulted in Appendix ~\ref{AppendixC}.
 
-\subsubsection*{Components Level - Process View}
+\subsubsection{Components Level - Process View}
 \label{subsubsec:design:architecture:components:process}
 
 In this section some internal process deemed relevant are presented through sequence diagrams in order to familiarize the reader with the interactions that occur between components inside a container.
@@ -1460,7 +1460,7 @@ Draft scenarios exist since adding, removing or changing a rule scenario in Aler
 
 As seen in the diagram, to mitigate the number of lost alerts, new rule scenarios are published at best every 30 minutes - step \textbf{1} - and only if any change was made - step \textbf{17} and \textbf{18}.  
 
-\subsubsection*{Components Level - Development View}
+\subsubsection{Components Level - Development View}
 \label{subsubsec:design:architecture:components:development}
 
 The development view of each container can also be condensate in the same 3 distinct types presented in the Section \nameref{subsubsec:design:architecture:components:logical}.
@@ -1513,7 +1513,7 @@ The packages presented correspond to the components described in the logical vie
 
 The packages presented correspond to the components described in the logical view (Figure~\ref{fig:design:architecture:component:logical:diagram:ownership}). The names given in both views differ only on the case used.
 
-\subsubsection*{Components Level - Synopsis}
+\subsubsection{Components Level - Synopsis}
 \label{subsubsec:design:architecture:components:synopsis}
 
 This section presented the architecture used in the developed containers, how software is organized and how some internal process are executed inside this containers. In the following section alternatives to what was designed and developed are discussed.  
@@ -1604,7 +1604,7 @@ Four approaches were considered:
 
 The fourth option was the approach taken.
 
-\subsubsection*{Internal Authorization Server}
+\subsubsection{Internal Authorization Server}
 \label{subsubsec:design:alternatives:auth:internalauth}
 
 By creating an Internal Authorization Server we could have a normal, private and controlled user authentication/authorization flow in the environment. Both user credentials and permissions would be managed internally.
@@ -1623,7 +1623,7 @@ The following diagram, Figure~\ref{fig:design:alternatives:auth:internalauth:dia
 
 This alternative introduces the need to internally secure user credentials and other sensitive information from data breaches. It would also require each user to register in sensae with a new account credentials. For this reasons this alternative was discarded.
 
-\subsubsection*{External Authorization Server}
+\subsubsection{External Authorization Server}
 \label{subsubsec:design:alternatives:auth:externalauth}
 
 By using an external Authorization Server there would be no need to store user credentials or permissions. This services are commonly identified as \gls{CIAM} solutions.
@@ -1647,7 +1647,7 @@ The platform Auth0 was tested and is capable of registering user roles and permi
 
 As stated before, the dependency created would force the environment to always be coupled to the chosen \gls{CIAM} solution. For this reason this alternative was discarded.
 
-\subsubsection*{External Authorization Server with Internal Permissions Server}
+\subsubsection{External Authorization Server with Internal Permissions Server}
 \label{subsubsec:design:alternatives:auth:externalauthinternalpermission}
 
 By using an external Authorization Server there would be no need to store user credentials, the user permissions would then be managed internally via a \textit{Permissions Server}.
@@ -1669,7 +1669,7 @@ This approach would create a dependency to the \gls{CIAM} solution used and pres
 This dependency is less severe compared with the second alternative since all permissions would be managed internally.
 This approach would require any backend to query the \textit{Permissions Server} for user permissions so that it could verify if the user was authorized to preform the requested action or not. This would therefore linger down the performance of the system since each action would have to be verified according to the \textit{Permissions Server} information.
 
-\subsubsection*{External Authorization Server with Internal Oauth2 Server}
+\subsubsection{External Authorization Server with Internal Oauth2 Server}
 \label{subsubsec:design:alternatives:auth:externalauthinternaloauth}
 
 By using an external Authorization Server there would be no need to store user credentials. An internal Oauth2 Server would remove the direct dependency to the \textit{Permissions Server} presented in the third alternative.
@@ -1724,7 +1724,7 @@ This section tackles how the Data Flow Scope should be kept up to date on the co
 
 The third option was the approach taken.
 
-\subsubsection*{First Option}
+\subsubsection{First Option}
 \label{subsubsec:design:alternatives:internal:first}
 
 This option ensures that the Data Flow Containers are kept updated by giving them direct access to the source of truth, the database. The logical view diagram in Figure~\ref{fig:design:alternatives:internal:first:diagram} describes how this option functions.
@@ -1752,7 +1752,7 @@ This approach has several drawbacks such as:
 
 Due to this drawbacks this option was eventually dropped.
 
-\subsubsection*{Second Option}
+\subsubsection{Second Option}
 \label{subsubsec:design:alternatives:internal:second}
 
 This option ensures that the Data Flow Containers are kept updated querying information from a \gls{REST} \gls{API} provided by the Configuration Containers. The logical view diagram in Figure~\ref{fig:design:alternatives:internal:second:diagram} describes how this option functions.
@@ -1771,7 +1771,7 @@ This approach doesn't suffer from all drawbacks stated for the first option but 
 
 It's an improvement of the first option but still has some serious drawbacks and therefore it was also abandoned. 
 
-\subsubsection*{Third Option}
+\subsubsection{Third Option}
 \label{subsubsec:design:alternatives:internal:third}
 
 This option ensures that the Data Flow Containers are kept updated by allowing them to subscribe to changes made in their context's configuration. The logical view diagram in Figure~\ref{fig:design:alternatives:internal:third:diagram} describes how this option functions.
@@ -1793,7 +1793,7 @@ The main drawback to this option is that the \textit{Message Broker} becomes res
 
 Despite this drawback this is the option currently in use. The following options purpose alternatives to tackle this drawbacks.
 
-\subsubsection*{Fourth Option}
+\subsubsection{Fourth Option}
 \label{subsubsec:design:alternatives:internal:fourth}
 
 This option ensures that the Data Flow Containers are kept updated by allowing them to query information from an \textit{Internal State Database}. This approach differs from the first option since the \textit{Internal State Database} is supposed to be a fast in memory database with only the needed information for Data Flow Containers to process Data Units, Alerts and Commands. The logical view diagram in Figure~\ref{fig:design:alternatives:internal:fourth:diagram} describes how this option functions.
@@ -1813,7 +1813,7 @@ The \textit{Internal State Database} would in turn store information that \texti
 
 The main drawbacks of this approach are the same stated in the second option, even tho they can be mitigated by leveraging technologies that tackle distributed caching problems.
 
-\subsubsection*{Fifth Option}
+\subsubsection{Fifth Option}
 \label{subsubsec:design:alternatives:internal:fifth}
 
 This option ensures that the Data Flow Containers are kept updated by allowing them to subscribe to changes made in their context's configuration. This option diverges from the third option since the event store would persist all updates to contexts configurations. The logical view diagram in Figure~\ref{fig:design:alternatives:internal:fifth:diagram} describes how this option functions.

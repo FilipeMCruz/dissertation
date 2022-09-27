@@ -1,20 +1,107 @@
 \chapter{Introduction}
-\label{chap:introduction} 
+\label{chap:introduction}
 
-\section{Problem}
-\label{sec:introduction:problem}
+This chapter provides a short introduction to this dissertation. It describes this work's context, the problem it addresses, the objectives to be fulfilled, the approach taken and finally the results achieved. The chapter closes with the document's structure. 
 
 \section{Context}
 \label{sec:introduction:context}
 
-\section{Approach}
-\label{sec:introduction:approach}
+The \gls{IoT} is a fast-growing, technological concept, which aims to integrate various physical and virtual objects into a global network to enable interaction and communication between those objects (\cite{Atzori2010TheIO}). According to \cite{NIZETIC2020122877} the main goal of \gls{IoT} technologies is to simplify processes in different fields, to ensure a better efficiency of systems (technologies or specific processes) and finally to improve life quality. 
+Currently many large-scale enterprises use custom-made \gls{IoT} technologies to aid their decision making. For example:
+\begin{itemize}
+    \item Ericsson has created a platform, Ericsson Maritime ICT, designed to collect and present data regarding cargo ships. Sensors capture information regarding the speed and location of the ship as well as the temperature and condition of the reefer containers. This information is updated in real time and presented to the various parties in the supply chain (\cite{ericson-marinetime});
+    \item John Deere has created the JDLink platform, designed to give farmers live information about their fleet's location as well as diagnostic and usage data for each machine. Sensors that measure soil and crop conditions in real time help farmers to decide the best time to start harvesting (\cite{jdlink});
+    \item Verizon has created a platform, Verizon Connect, designed to help reduce fuel consumption, monitor vehicle diagnostics \& vehicle maintenance needs, prevent unauthorised out of area use and much more. Sensors installed by Verizon in cars, trucks and machines give insights in real-time about the fleet (\cite{verizon-iot}).   
+\end{itemize}
+
+Like these, many other large companies are building platforms to aid decision making based on sensor data harvesting. 
+In a pursuit for sustainability, companies are looking to \gls{IoT} as an approach to increase efficiency and decrease waste. According to \cite{BIBRI2018230} the \gls{IoT} and related big data applications can play a key role in catalysing and improving the process of environmentally sustainable development.
+
+Some of the benefits that \gls{IoT}, and these platforms, bring to companies are: more operational efficiency, increased security conditions, and cost reduction \cite{forbes-why-iot}.
+
+\section{Problem}
+\label{sec:introduction:problem}
+
+However, the initial investment to adopt this technology is high for small companies and as such its adoption is often postponed.
+
+In addition to the high costs, these platforms are often associated with a company and its products or businesses, for example, according to \cite{6851114} in China most \gls{IoT} applications are domain-specific or application-specific solutions. Another study by \cite{noura2019interoperability} determine that vendor lock-in is a real concern in \gls{IoT}: "each solution provides its own IoT infrastructure, devices, APIs, and data formats leading to interoperability issues.".
+This is often a problem. As an example, for small farmers it is economically unthinkable to change machines and fleet just to be able to benefit from these services.
+
+A service that consumes \gls{IoT} data is composed of by many elements and processes, such as (i) capturing data through sensors, (ii) sending data through a communication network, (iii) aggregating and storing data, (iv) transforming data into concise information, (v) triggering alarms based on defined rules and (vi) graphical presentation of information. Besides, it is a complex and constantly evolving system.
+
+In order to deal with this there are platforms on the market that allow the creation of these services in a simpler way, such as AWS IoT Core by \cite{aws-iot}, Azure IoT by \cite{azure-iot}, Cloud IoT by \cite{google-iot}. However these platforms do not provide pre-made services to help decision making for end customers and small businesses, such as fleet management solutions, smart irrigation management, tracking of deliveries and goods, indoor fire detection, and others. This is often a problem to companies that have little to no background in software development. As an example, for a small transportation company it's unthinkable to resort to this pre-made services in order to create a fleet management system and perceive the benefits \gls{IoT} can provide.
+
+Due to this obstacles the adoption of \gls{IoT} technologies by small companies and individuals is lingered. According to \cite{iot-fail}, 60\% of \gls{IoT} projects stall at the \gls{PoC} stage.
 
 \section{Objectives}
 \label{sec:introduction:objectives}
+
+This work idealizes the creation of a platform where a technician (domain expert) can build a software to collect and make available to humans the data received from any sensor considering a specific business case. The software built by the technician should be responsible for aggregating, processing, storing and presenting information collected by sensors. Some of the essential business cases that the platform should support are:
+
+\begin{itemize}
+    \item Fleet Management: real-time fleet location, fleet location history, distance traveled calculation; 
+    \item Smart Irrigation: capture and storage of soil moisture data and weather forecasts, automatic activation of the irrigation system;
+    \item Smart Parking: real-time location of free and occupied parking lots;
+    \item Public Health and Indoor Fire Outbreak Surveillance: real-time room conditions, alarm triggering based on this conditions.
+\end{itemize}
+
+Coupled with any of this services there are certain functionalities that are always needed. To handle this, the platform should provide configurable components that can be aggregated to create the final solution.
+Some of the essential functionalities that the platform should provide are:
+
+\begin{itemize}
+    \item Data Aggregation: responsible for providing a simple entry-point to the system for any sensor;
+    \item Data Filtering: responsible for discarding erroneous data in the system; 
+    \item Data Storage: responsible for storing the data received and provide it when needed; 
+    \item Data Transformation: responsible for processing the data and extracting the important information for each scenario;
+    \item Data Analysis: responsible for creating reports about the data gathered;
+    \item Data Presentation: responsible for presenting the data to the user in real-time;
+    \item Trigger Warning System: responsible for dispatching alarms based on rules applied to the received data;
+    \item User Authentication/Authorization: responsible for allowing/denying access to the services if the current user isn't authenticated or authorised to access some sensor or resource information.
+\end{itemize}
+
+As such, this project's tangible objectives can be tracked and measured according to two conceptual axis.
+An axis is related to the business cases that are to be provided. The other axis is related to core functionalities that any business case relies on.
+
+Apart from the objectives above referenced, the business cases implemented are to be evaluated by an external entity and then incorporated into a final solution.
+
+\section{Approach}
+\label{sec:introduction:approach}
+
+This work is a greenfield project with the intent of designing and implementing services that answer the needs of various business cases. This business cases are related to the capture and analysis of \gls{IoT} data.
+Each business case is considered a concern and should be addressed independently.
+This cases should then be supported by a single platform.
+
+The approach to follow splits the project in four phases:
+
+\begin{itemize}
+    \item Phase I: Design and implement prototypes for supporting each business case;
+    \item Phase II: Evaluate the developed business cases;
+    \item Phase III: Identify commonality and variability in all designed prototypes;
+    \item Phase IV: Design and implement the platform that supports this business cases.
+\end{itemize}
+
+During the first phase it is extremely important that the design and implementation of support for each business case takes into account phase III. Even though these services are independent they all shared core responsibilities and functionalities that can be reused in the future.
+
+During the second phase, an external evaluation will be performed. This phase will review the work done and define the strong and weak points of each service. If the need arises, the project will move back to phase I again in order to mend possible shortcomings so that it can be evaluated again.
+
+During the third phase, the various services will be analyses and refactored so that most common components can be reused between services.
+
+During the final phase, a platform that comprises support for all business cases must be designed and implemented.
 
 \section{Achieved Results}
 \label{sec:introduction:achieved_results}
 
 \section{Document Structure}
 \label{sec:introduction:document_structure}
+
+This document is divided into 7 more chapters.
+
+\begin{itemize}
+    \item \nameref{chap:state_of_art}: where literature related to this work is explored;
+    \item \nameref{chap:analysis}: where concepts related to this project are referred;
+    \item \nameref{chap:requirements}: where this project's requirements are listed;
+    \item \nameref{chap:design}:; where the architecture design of the solution is presented;
+    \item \nameref{chap:implementation}: where the implementation of the solution is addressed;
+    \item \nameref{chap:evaluation}: where the evaluation of the solution is presented and results discussed;
+    \item \nameref{chap:conclusion}: where a final overview of the project is presented, wrapping up the achievements and future work of this project and solution;
+\end{itemize}

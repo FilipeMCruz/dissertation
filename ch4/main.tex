@@ -160,6 +160,11 @@ should satisfy its functional requirements or on the way it should be developed.
 
 This analysis used the FURPS+ model (\cite{eeles2005capturing}), which distributes the non-functional requirements into the following categories: functionality, usability, reliability, performance, supportability, design requirements, implementation requirements, interface requirements and physical requirements.
 
+Each category's requirements are presented in the following sections. 
+
+\subsection{Functionality Requirements}
+\label{sec:requirements:non_functional:functionality}
+
 Regarding the Functionality category, the following requirements were identified:
 
 \begin{itemize}
@@ -173,7 +178,13 @@ Regarding the Functionality category, the following requirements were identified
     \item Real-Time Information: Any change to the system must be notified to the client in real-time without resorting to techniques like automatic/manual polling. This includes new sensor data, changes to virtual devices, alarms/rules definitions, decoders and anything else deemed important.
 \end{itemize}
 
+\subsection{Usability Requirements}
+\label{sec:requirements:non_functional:usability}
+
 Since this project is a greenfield and is still in the early stages of conception, the Usability category is not a major concern. No requirements were purposed.
+
+\subsection{Reliability Requirements}
+\label{sec:requirements:non_functional:reliability}
 
 The Reliability category has the following requirements:
 
@@ -182,6 +193,9 @@ The Reliability category has the following requirements:
     \item The system must be able to recover from a failure state such as a crash in the system or any system component;
     \item The system must identify or protect itself against compatibility errors due to versions mismatches between the system and third-party scripts or components, e.g. a valid rule in the system version 1 may not be compatible with the system version 2, if that is the case the system should inform the Costumer and not use the rule.
 \end{itemize}
+
+\subsection{Performance Requirements}
+\label{sec:requirements:non_functional:performance}
 
 Even though this work is a \gls{PoC} the Performance of the system is a priority. The requirements specified for this category are:
 
@@ -192,6 +206,9 @@ Even though this work is a \gls{PoC} the Performance of the system is a priority
     \item High Data Ingestion: The system must be able to successfully process, evaluate and store device data with a throughput of at least 10000 data units per minute.
 \end{itemize}
 
+\subsection{Supportability Requirements}
+\label{sec:requirements:non_functional:supportability}
+
 In the Supportability category the following requirements were identified:
 
 \begin{itemize}
@@ -200,9 +217,18 @@ In the Supportability category the following requirements were identified:
     \item The system must provide simple methods to integrate third-party services that answer new business cases without restarting/rebuilding it.
 \end{itemize}
 
+\subsection{Design Requirements}
+\label{sec:requirements:non_functional:design}
+
 No Design Requirements were identified, every decision is up to the developer.
 
+\subsection{Implementation Requirements}
+\label{sec:requirements:non_functional:implementation}
+
 In the Implementation category, the system's Front-Office shall provide a \gls{SPA} to end users;
+
+\subsection{Interface Requirements}
+\label{sec:requirements:non_functional:interface}
 
 In the Interface category, the following requirements were identified:
 
@@ -212,6 +238,9 @@ In the Interface category, the following requirements were identified:
     \item The system shall support the dispatch of downlinks to devices using, at least, the \citetitle{helium}.
     \item The system shall support the ingestion of uplinks from devices using, at least, the \citetitle{helium}.
 \end{itemize}
+
+\subsection{Physical Requirements}
+\label{sec:requirements:non_functional:physical}
 
 In the Physical category, the following requirements were identified:
 

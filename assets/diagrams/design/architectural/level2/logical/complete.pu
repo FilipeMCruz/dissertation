@@ -17,49 +17,76 @@ interface "Azure Active\nDirectory API" as AUTH_ENDPOINT
 interface "Google Identity\nPlatform API" as GOOGLE_ENDPOINT
 
 component "Sensae Console" <<System>> {
-    component "UI Aggregator" as UIAG <<Container>>  {
-        component "Fleet Management Frontend" as LTF <<Container>> 
-        component "Smart Irrigation Frontend" as SIF <<Container>> 
-        component "Device Management Frontend" as DRF <<Container>> 
-        component "Data Processor Frontend" as DPF <<Container>> 
-        component "Data Decoder Frontend" as DDF <<Container>> 
-        component "Identity Management Frontend" as IAMF <<Container>> 
-        component "Rule Management Frontend" as RULE_MAN_FRONT <<Container>> 
-        component "Notification Management Frontend" as NOTIF_MAN_FRONT <<Container>> 
-    }
-    component "Message\nBroker" as MB <<Container>> 
+    component "UI Aggregator" as UIAG <<Container>>
+    component "Fleet Management Frontend" as LTF <<Container>>
+    component "Smart Irrigation Frontend" as SIF <<Container>>
+    component "Device Management Frontend" as DRF <<Container>>
+    component "Data Processor Frontend" as DPF <<Container>>
+    component "Data Decoder Frontend" as DDF <<Container>>
+    component "Identity Management Frontend" as IAMF <<Container>>
+    component "Rule Management Frontend" as RULE_MAN_FRONT <<Container>>
+    component "Notification Management Frontend" as NOTIF_MAN_FRONT <<Container>>
 
-    component "Fleet Management\nBackend" as LTB <<Container>> 
-    component "Smart Irrigation\nBackend" as SIB <<Container>> 
-    component "Device Management\nBackend" as DRB <<Container>> 
-    component "Device Management\nFlow Backend" as DRSB <<Container>> 
-    component "Data Gateway\nBackend" as DDG <<Container>> 
-    component "Data Relayer" as DR <<Container>> 
-    component "Data Processor\nFlow Backend" as DPSB <<Container>> 
-    component "Data Processor\nBackend" as DPB <<Container>> 
-    component "Data Decoder\nFlow Backend" as DDSB <<Container>> 
-    component "Data Decoder\nBackend" as DDB <<Container>> 
-    component "Data Validator\nBackend" as DVB <<Container>> 
-    component "Device Management\nDatabase" as DRDB <<Container>> 
-    component "Data Processor\nDatabase" as DPDB <<Container>> 
-    component "Data Decoder\nDatabase" as DDDB <<Container>> 
-    component "Identity Management\nDatabase" as IAMDB <<Container>> 
-    component "Data Store\nBackend" as DS <<Container>> 
-    component "Fleet Management\nDatabase" as QUESTDB <<Container>> 
-    component "Data Store\nDatabase" as MONGODB <<Container>> 
-    component "Smart Irrigation\nData Database" as SIDDB <<Container>> 
-    component "Smart Irrigation\nBusiness Database" as SIBDB <<Container>> 
-    component "Identity Management\nBackend" as IAMB <<Container>> 
-    component "Device Ownership\nBackend" as IAMSB <<Container>> 
-    component "Device Commander\nBackend" as DCB <<Container>> 
+    interface "Fleet Management UI" as LTF_API
+    interface "Smart Irrigation UI" as SIF_API
+    interface "Device Management UI" as DRF_API
+    interface "Data Processor UI" as DPF_API
+    interface "Data Decoder UI" as DDF_API
+    interface "Identity Management UI" as IAMF_API
+    interface "Rule Management UI" as RULE_MAN_FRONT_API
+    interface "Notification Management UI" as NOTIF_MAN_FRONT_API
 
-    component "Rule Management\nBackend" as RULE_MAN_BACK <<Container>> 
-    component "Rule Management\nDatabase" as RULE_MAN_DB <<Container>> 
-    component "Alert Dispatcher\nBackend" as ALERT_BACK <<Container>>  
+    LTF_API -- LTF
+    SIF_API -- SIF
+    DRF_API -- DRF
+    DPF_API -- DPF
+    DDF_API -- DDF
+    IAMF_API -- IAMF
+    RULE_MAN_FRONT_API -- RULE_MAN_FRONT
+    NOTIF_MAN_FRONT_API -- NOTIF_MAN_FRONT
 
-    component "Notification Management\nBackend" as NOTIF_MAN_BACK <<Container>> 
-    component "Notification Management\nDatabase" as NOTIF_MAN_DB <<Container>> 
-    component "Notification Dispatcher\nBackend" as NOTIF_BACK <<Container>>  
+    UIAG --( LTF_API
+    UIAG --( SIF_API
+    UIAG --( DRF_API
+    UIAG --( DPF_API
+    UIAG --( DDF_API
+    UIAG --( IAMF_API
+    UIAG --( RULE_MAN_FRONT_API
+    UIAG --( NOTIF_MAN_FRONT_API
+
+    component "Message\nBroker" as MB <<Container>>
+
+    component "Fleet Management\nBackend" as LTB <<Container>>
+    component "Smart Irrigation\nBackend" as SIB <<Container>>
+    component "Device Management\nBackend" as DRB <<Container>>
+    component "Device Management\nFlow Backend" as DRSB <<Container>>
+    component "Data Gateway\nBackend" as DDG <<Container>>
+    component "Data Relayer" as DR <<Container>>
+    component "Data Processor\nFlow Backend" as DPSB <<Container>>
+    component "Data Processor\nBackend" as DPB <<Container>>
+    component "Data Decoder\nFlow Backend" as DDSB <<Container>>
+    component "Data Decoder\nBackend" as DDB <<Container>>
+    component "Data Validator\nBackend" as DVB <<Container>>
+    component "Device Management\nDatabase" as DRDB <<Container>>
+    component "Data Processor\nDatabase" as DPDB <<Container>>
+    component "Data Decoder\nDatabase" as DDDB <<Container>>
+    component "Identity Management\nDatabase" as IAMDB <<Container>>
+    component "Data Store\nBackend" as DS <<Container>>
+    component "Fleet Management\nDatabase" as QUESTDB <<Container>>
+    component "Data Store\nDatabase" as MONGODB <<Container>>
+    component "Smart Irrigation\nData Database" as SIDDB <<Container>>
+    component "Smart Irrigation\nBusiness Database" as SIBDB <<Container>>
+    component "Identity Management\nBackend" as IAMB <<Container>>
+    component "Device Ownership\nBackend" as IAMSB <<Container>>
+    component "Device Commander\nBackend" as DCB <<Container>>
+
+    component "Rule Management\nBackend" as RULE_MAN_BACK <<Container>>
+    component "Rule Management\nDatabase" as RULE_MAN_DB <<Container>>
+    component "Alert Dispatcher\nBackend" as ALERT_BACK <<Container>>
+
+    component "Notification Management\nBackend" as NOTIF_MAN_BACK <<Container>>
+    component "Notification Management\nDatabase" as NOTIF_MAN_DB <<Container>>
+    component "Notification Dispatcher\nBackend" as NOTIF_BACK <<Container>>
 
     interface "Message Broker\nAPI" as MB_API
     interface "Fleet Management\nBackend API" as LTB_API

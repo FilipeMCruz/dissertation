@@ -11,22 +11,34 @@ interface "Twilio SMS\nDisptacher API" as SMS_ENDPOINT
 interface "SMTP Server" as SMTP_ENDPOINT
 
 component "Sensae Console" <<System>> {
-    component "UI Aggregator" as UIAG <<Container>>  {
-        component "Fleet Management Frontend" as LTF <<Container>> 
-        component "Smart Irrigation Frontend" as SIF <<Container>> 
-        component "Notification Management Frontend" as NOTIF_MAN_FRONT <<Container>> 
-    }
-    component "Message Broker" as MB <<Container>> 
+    component "UI Aggregator" as UIAG <<Container>>
+    component "Fleet Management Frontend" as LTF <<Container>>
+    component "Smart Irrigation Frontend" as SIF <<Container>>
+    component "Notification Management Frontend" as NOTIF_MAN_FRONT <<Container>>
 
-    component "Fleet Management Backend" as LTB <<Container>> 
-    component "Smart Irrigation Backend" as SIB <<Container>> 
-    component "Fleet Management\nDatabase" as QUESTDB <<Container>> 
-    component "Smart Irrigation\nData Database" as SIDDB <<Container>> 
-    component "Smart Irrigation\nBusiness Database" as SIBDB <<Container>> 
+    interface "Fleet Management UI" as LTF_API
+    interface "Smart Irrigation UI" as SIF_API
+    interface "Notification Management UI" as NOTIF_MAN_FRONT_API
 
-    component "Notification Management Backend" as NOTIF_MAN_BACK <<Container>> 
-    component "Notification Management\nDatabase" as NOTIF_MAN_DB <<Container>> 
-    component "Notification Dispatcher Backend" as NOTIF_BACK <<Container>>  
+    LTF_API -- LTF
+    SIF_API -- SIF
+    NOTIF_MAN_FRONT_API -- NOTIF_MAN_FRONT
+
+    UIAG --( LTF_API
+    UIAG --( SIF_API
+    UIAG --( NOTIF_MAN_FRONT_API
+
+    component "Message Broker" as MB <<Container>>
+
+    component "Fleet Management Backend" as LTB <<Container>>
+    component "Smart Irrigation Backend" as SIB <<Container>>
+    component "Fleet Management\nDatabase" as QUESTDB <<Container>>
+    component "Smart Irrigation\nData Database" as SIDDB <<Container>>
+    component "Smart Irrigation\nBusiness Database" as SIBDB <<Container>>
+
+    component "Notification Management Backend" as NOTIF_MAN_BACK <<Container>>
+    component "Notification Management\nDatabase" as NOTIF_MAN_DB <<Container>>
+    component "Notification Dispatcher\nBackend" as NOTIF_BACK <<Container>>
 
     interface "Message Broker\nAPI" as MB_API
     interface "Fleet Management\nBackend API" as LTB_API
@@ -41,7 +53,7 @@ component "Sensae Console" <<System>> {
     NOTIF_MAN_BACK --( NOTIF_MAN_DB_API
     SIB --( SIDDB_API
     SIB --( SIBDB_API
-    MB_API --- MB
+    MB --- MB_API
     NOTIF_MAN_BACK_API -- NOTIF_MAN_BACK
     LTB_API -- LTB
     SIB_API -- SIB
@@ -57,10 +69,12 @@ component "Sensae Console" <<System>> {
     LTB --( MB_API
     SIB --( MB_API
     NOTIF_MAN_BACK --( MB_API
-    MB_API )--- NOTIF_BACK
+    MB_API )-- NOTIF_BACK
 
-    NOTIF_BACK --( SMS_ENDPOINT
-    NOTIF_BACK --( SMTP_ENDPOINT
+    NOTIF_BACK ---( SMS_ENDPOINT
+    NOTIF_BACK ---( SMTP_ENDPOINT
+
+    NOTIF_MAN_BACK -[hidden] SIB
 }
 
 @enduml

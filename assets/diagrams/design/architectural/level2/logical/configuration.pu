@@ -11,26 +11,45 @@ interface "Azure Active\nDirectory API" as AUTH_ENDPOINT
 interface "Google Identity\nPlatform API" as GOOGLE_ENDPOINT
 
 component "Sensae Console" <<System>> {
-    component "UI Aggregator" as UIAG <<Container>>  {
-        component "Device Management Frontend" as DRF <<Container>> 
-        component "Data Processor Frontend" as DPF <<Container>> 
-        component "Data Decoder Frontend" as DDF <<Container>> 
-        component "Identity Management Frontend" as IAMF <<Container>> 
-        component "Rule Management Frontend" as RULE_MAN_FRONT <<Container>> 
-    }
-    component "Message Broker" as MB <<Container>> 
+    component "UI Aggregator" as UIAG <<Container>>
 
-    component "Device Management Backend" as DRB <<Container>> 
-    component "Data Processor Backend" as DPB <<Container>> 
-    component "Data Decoder Backend" as DDB <<Container>> 
-    component "Device Management Database" as DRDB <<Container>> 
-    component "Data Processor Database" as DPDB <<Container>> 
-    component "Data Decoder Database" as DDDB <<Container>> 
-    component "Identity Management Database" as IAMDB <<Container>> 
-    component "Identity Management Backend" as IAMB <<Container>> 
+    component "Device Management Frontend" as DRF <<Container>>
+    component "Data Processor Frontend" as DPF <<Container>>
+    component "Data Decoder Frontend" as DDF <<Container>>
+    component "Identity Management Frontend" as IAMF <<Container>>
+    component "Rule Management Frontend" as RULE_MAN_FRONT <<Container>>
 
-    component "Rule Management Backend" as RULE_MAN_BACK <<Container>> 
-    component "Rule Management Database" as RULE_MAN_DB <<Container>> 
+    interface "Device Management UI" as DRF_API
+    interface "Data Processor UI" as DPF_API
+    interface "Data Decoder UI" as DDF_API
+    interface "Identity Management UI" as IAMF_API
+    interface "Rule Management UI" as RULE_MAN_FRONT_API
+
+    DRF_API -- DRF
+    DPF_API -- DPF
+    DDF_API -- DDF
+    IAMF_API -- IAMF
+    RULE_MAN_FRONT_API -- RULE_MAN_FRONT
+
+    UIAG --( DRF_API
+    UIAG --( DPF_API
+    UIAG --( DDF_API
+    UIAG --( IAMF_API
+    UIAG --( RULE_MAN_FRONT_API
+
+    component "Message Broker" as MB <<Container>>
+
+    component "Device Management Backend" as DRB <<Container>>
+    component "Data Processor Backend" as DPB <<Container>>
+    component "Data Decoder Backend" as DDB <<Container>>
+    component "Device Management Database" as DRDB <<Container>>
+    component "Data Processor Database" as DPDB <<Container>>
+    component "Data Decoder Database" as DDDB <<Container>>
+    component "Identity Management Database" as IAMDB <<Container>>
+    component "Identity Management Backend" as IAMB <<Container>>
+
+    component "Rule Management Backend" as RULE_MAN_BACK <<Container>>
+    component "Rule Management Database" as RULE_MAN_DB <<Container>>
 
     interface "Message Broker\nAPI" as MB_API
     interface "Device Management Master\nBackend API" as DRB_API
@@ -66,18 +85,18 @@ component "Sensae Console" <<System>> {
     IAMF --( IAMB_API
     RULE_MAN_FRONT --( RULE_MAN_BACK_API
 
-    DRB ---( MB_API
-    DPB ---( MB_API
-    DDB ---( MB_API
-    IAMB ---( MB_API
-    RULE_MAN_BACK ---( MB_API
+    DRB --( MB_API
+    DPB --( MB_API
+    DDB --( MB_API
+    IAMB --( MB_API
+    RULE_MAN_BACK --( MB_API
 
     IAMF --( AUTH_ENDPOINT
     AUTH_ENDPOINT )-- IAMB
     IAMF --( GOOGLE_ENDPOINT
     GOOGLE_ENDPOINT )-- IAMB
 
-    MB_API -- MB
+    MB --- MB_API
 
     GOOGLE_ENDPOINT -[hidden]- AUTH_ENDPOINT
 

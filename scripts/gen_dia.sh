@@ -26,6 +26,8 @@ sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Huge," design/architectu
 
 sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level1/logical-view.latex
 
+sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level1/logical-view-v2.latex
+
 sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/logical/configuration.latex
 
 sd -s "\begin{tikzpicture}[" "\begin{tikzpicture}[font=\Large," design/architectural/level2/logical/data-flow.latex

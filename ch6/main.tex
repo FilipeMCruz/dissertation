@@ -741,7 +741,7 @@ From the observation of the code sample one can see that:
     \item The \textit{data} function serves new \textit{SensorData} in real-time according to the filters provided in the \textit{filters} parameter;
     \item The textit{data} function uses \textit{Websocket} to operate as a full duplex communication channel. This spec, contrary to the HTTP spec does not account for HTTP Headers, as such the \gls{JWT} that provides the user authentication details has to be sent as a normal parameter and not as an Authorization HTTP Header.
     \item  There are three query type functions. One to fetch the history regarding Irrigation Zones or Devices over a time span. One to fetch the Irrigation Zones. And the last one to fetch the latest data of each device;
-    \item There are four mutations, each corresponding to the use cases referenced in Section~\ref{subsubsec:requirements:functional:costumer:irrigation}.
+    \item There are four mutations, each corresponding to the use cases referenced in Section~\ref{subsubsec:requirements:functional:services:irrigation}.
 \end{itemize}
 
 \subsection{Sensae Console Data Ingestion Endpoint}

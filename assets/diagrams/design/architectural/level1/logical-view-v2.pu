@@ -1,0 +1,25 @@
+@startuml logical-view-v2
+
+skinparam Monochrome true
+skinparam sequenceMessageAlign center
+skinparam componentStyle uml2
+skinparam packageStyle rectangle
+
+[Sensae Console] as S <<System>>
+
+() "Sensae UI" as UI
+() "Sensae Management\nAPI" as API
+() "Sensae API for\nExternal Services" as DATA_API
+() "IoT Middleware\nDownlink\nRest API" as OUT_ENDPOINT
+() "Sensae Console\nUplink\nRest API" as IN_ENDPOINT
+() "Identity Provider\nOpenID Connect\nAPI" as OPEN_ID
+
+UI -- S
+API -- S
+S - DATA_API
+OPEN_ID )- S
+S -- IN_ENDPOINT
+
+S --( OUT_ENDPOINT
+
+@enduml

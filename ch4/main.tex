@@ -12,10 +12,10 @@ The definitive business cases to develop changed various times during the projec
 This business cases can be vaguely categorized according to the following organization's needs:
 
 \begin{itemize}
-    \item \textbf{Deployment Type}: Whether the solution has to be deployed in the organization' server farm or in the cloud;
+    \item \textbf{Hosting Options}: Whether the solution has to be deployed in the organization' server farm or in the cloud;
     \item \textbf{Physical Resources}: Whether the organization wants to share an instance of the solution with others;
     \item \textbf{Data Access}: Whether the organization wants to provide their data to the public;
-    \item \textbf{Information Visualization Location}: If there's a need to visualize the gathered information, where to present it? In the organization platform or directly in the solution.
+    \item \textbf{Information Access and Visualization}: Where and how to present and serve information. In the costumer organization platform, directly in this solution or via other means such as a simple \gls{API}, SMS, or email.
 \end{itemize}
 
 \begin{table}[H]
@@ -26,18 +26,18 @@ This business cases can be vaguely categorized according to the following organi
     \toprule
     \textbf{Org} &
       \textbf{Business Case} &
-      \textbf{\begin{tabular}[c]{@{}l@{}}Deployment\\ Type\end{tabular}} &
+      \textbf{\begin{tabular}[c]{@{}l@{}}Hosting\\ Option\end{tabular}} &
       \textbf{\begin{tabular}[c]{@{}l@{}}Physical \\ Resources\end{tabular}} &
       \textbf{\begin{tabular}[c]{@{}l@{}}Data \\ Access\end{tabular}} &
-      \textbf{\begin{tabular}[c]{@{}l@{}}Information \\ Visualization\\  Location\end{tabular}} \\ \midrule
+      \textbf{\begin{tabular}[c]{@{}l@{}}Information \\ Access and \\Visualization\end{tabular}} \\ \midrule
     \multirow{5}{*}{A} & Fleet Management           & On-Premise & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6} 
                        & Smart Irrigation           & On-Premise & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6} 
                        & Smart Parking              & On-Premise & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6} 
-                       & Indoor Fire Detention      & On-Premise & Dedicated & Private & None     \\ \cmidrule(l){2-6} 
+                       & Indoor Fire Detention      & On-Premise & Dedicated & Private & SMS and Email      \\ \cmidrule(l){2-6} 
                        & Public Health Surveillance & On-Premise & Dedicated & Public  & Sensae Console     \\ \midrule
-    B                  & Fleet Management           & Cloud      & Dedicated & Private & Org B Platform \\ \midrule
+    B                  & Fleet Management           & Cloud      & Dedicated & Private & Org B Platform     \\ \midrule
     \multirow{3}{*}{C} & Smart Irrigation           & Cloud      & Shared    & Private & Sensae Console     \\ \cmidrule(l){2-6} 
-                       & Indoor Fire Detention      & Cloud      & Shared    & Private & None     \\ \cmidrule(l){2-6} 
+                       & Indoor Fire Detention      & Cloud      & Shared    & Private & SMS and Email      \\ \cmidrule(l){2-6} 
                        & Chicken Farm Monitoring    & Cloud      & Shared    & Private & Sensae Console     \\ \midrule
     D                  & Smart Irrigation           & Cloud      & Shared    & Private & Sensae Console     \\ \bottomrule
     \end{tabular}
@@ -45,7 +45,7 @@ This business cases can be vaguely categorized according to the following organi
 
 The requirements detailed in the following sections were founded on top of the requested business cases mentioned above. This requirements were constantly tailored according to the latest talks with the third parties involved. Even though many requested business cases weren't implemented they conditioned the design and development of the final solution, \textbf{Sensae Console}.
 
-At the time of writing, the solution answers three business cases: (i) Fleet Management, (ii) Smart Irrigation and (iii) Indoor Fire Detention. The other business cases were either abandoned or requested too close to the writing of this dissertation and therefore will not be detailed.
+At the time of writing, the \gls{PoC}s developed answer three business cases: (i) Fleet Management, (ii) Smart Irrigation and (iii) Indoor Fire Detention. The other business cases were either abandoned or requested too close to the writing of this dissertation and therefore will not be detailed.
 
 \section{Functional Requirements}
 \label{sec:requirements:functional}
@@ -54,22 +54,36 @@ Functional Requirements define the user-faced functionalities/operations that th
 
 According to \cite{van2009requirements}, ``Functional requirements define the functional effects that the software-to-be is required to have on its environment. The effects characterized by such requirements result from operations to be automated by the software. Functional requirements may also refer to environmental conditions under which operations should be applied.''
 
-The following sections describe the requirements associated with each role inside \textbf{Sensae Console}, the solution that this project aims to deliver.
+The following sections describe the requirements associated with each role inside \textbf{Sensae Console}, the solution that this project aims to deliver, and the \gls{PoC}s developed, refereed as \textbf{External Services}.
 
-The meetings that took place during this project lifespan lead to the definition of three main roles inside \textbf{Sensae Console}:
+The meetings that took place during this project lifespan lead to the definition of three main roles:
 
 \begin{itemize}
-    \item \textbf{Manager}: a tenant with full control over the system and all its data;
-    \item \textbf{Costumer}: a tenant with restricted control over the devices, employees and departments registered under his/her own organization;
-    \item \textbf{Anonymous User}: a tenant with no account in the system. He/She has access to information about certain business cases fed with data from \textit{'public'} devices in the system;
+    \item \textbf{Manager}: a tenant with full control over the system and all its data. He/She has full control of all \textbf{External Services};
+    \item \textbf{Costumer}: a tenant with restricted control over \textbf{Sensae Console}, controlling only the devices, employees and departments registered under his/her own organization. He/She has access to requested \textbf{External Services};
+    \item \textbf{Anonymous User}: a tenant with no account in the system. He/She has access to the publicly available \textbf{External Services} and data feed from \textit{'public'} devices in the system;
 \end{itemize}
 
-Apart from the basic costumer requirements, each business case has specific use cases that will be detailed in the section~\ref{subsec:requirements:functional:costumer}.
+Apart from the basic costumer requirements inside \textbf{Sensae Console}, each \textbf{External Service} has specific use cases that will be detailed in the section~\ref{subsubsec:requirements:functional:sensae:costumer}.
 
-Essentially, the difference between this roles comes down to what permissions each tenant has been assigned and the extent of data he can visualize. The Section~\ref{subsubsec:design:domain:bounded_contexts:identity} details how this is handled by the solution.
+Essentially, the difference between this roles boils down to what permissions each tenant has been assigned and the extent of data he can visualize. The Section~\ref{subsubsec:design:domain:bounded_contexts:identity} details how this is handled by the solution.
 
-\subsection{Manager}
-\label{subsec:requirements:functional:manager}
+The following sections will be divided in:
+
+\begin{itemize}
+    \item Sensae Console: presenting the functional requirements associated with each role;
+    \item External Services: presenting the functional requirements associated with each business case supported;
+\end{itemize}
+
+\subsection{Sensae Console}
+\label{subsec:requirements:functional:sensae}
+
+The idea behind Sensae Console functional requirements boils down to the core functionalities it should provide so that creating and maintaining External Services is simplified.
+
+For this reasons the Anonymous User role is disregarded inside the solution. 
+
+\subsubsection{Manager}
+\label{subsubsec:requirements:functional:sensae:manager}
 
 The purpose of the Manager is to supervise an instance of \textbf{Sensae Console} and its costumers. This role is an extension of the Costumer role and can do and see everything a Costumer can. A Manager is assign to an instance of \textbf{Sensae Console} at creation time and belongs to the highest domain, the \textit{Root Organization} as described at Section~\ref{subsubsec:design:domain:bounded_contexts:identity}.
 
@@ -91,13 +105,12 @@ The rules referenced in the third item can be used to program how the system ans
 
 The device information mentioned in item four is detailed in Section~\ref{subsubsec:design:domain:bounded_contexts:device}.
 
-Even tho the first four groups of operation belong to the Manager role, can be assigned to normal Costumers on special occasions. As an example, the Organization A and B referenced in Table~\ref{tab:requirements:servicerequests}, had employees capable of fully managing the solution and wanted an instance of \textbf{Sensae Console} exclusively for them. This meant that, when given access to this operations, there was a lower risk for them to misconfigure the platform due to a lack of knowledge and no risk to interfere with other Organizations data pipeline, since they were the only ones in that instance.
+Even though the first four groups of operations belong to the Manager role, they can be assigned to normal Costumers on special occasions. As an example, the Organization A and B referenced in Table~\ref{tab:requirements:servicerequests}, had employees capable of fully managing the solution and wanted an instance of \textbf{Sensae Console} exclusively for them. This meant that, when given access to this operations, there was a lower risk for them to misconfigure the platform due to a lack of knowledge and no risk to interfere with other Organizations data pipeline, since they were the only ones in that instance.
 
-\subsection{Costumer}
-\label{subsec:requirements:functional:costumer}
+\subsubsection{Costumer}
+\label{subsubsec:requirements:functional:sensae:costumer}
 
-The purpose of a Costumer is to manage his/her own organizations and benefit from each of the \textbf{Sensae Console} supported business cases. Each business case has specific use cases defined below.
-
+The purpose of a Costumer is to manage his/her own organizations.
 The following list documents the universal functional requirements related to this role:
 
 \begin{itemize}
@@ -107,8 +120,17 @@ The following list documents the universal functional requirements related to th
     \item A Costumer must be able to move a sensor from one department to another department under his/hers organization;
 \end{itemize}
 
+\subsection{External Services}
+\label{subsec:requirements:functional:services}
+
+This section describes the functional requirements associated with each external service needs from the point of view of a costumer.
+
+The Anonymous User role was created to answer organization A concerns regarding the Public Health Surveillance business case. The external service should be available for the public to consult the current and past \gls{AQI} levels measured in the city without needing to create an account. Event though this business case was abandoned, the Anonymous User role was integrated in the solution.
+
+Each supported external service has specific use cases defined below.
+
 \subsubsection{Fleet Management}
-\label{subsubsec:requirements:functional:costumer:fleet}
+\label{subsubsec:requirements:functional:services:fleet}
 
 Within a simple Fleet Management business case the major utilities a Costumer can benefit from are: real-time tracking of his vehicles and visualizing past data regarding the whereabouts of his fleet. A more advanced Fleet Management would for example provide \gls{KPI} reports about the fleet or alerts when a vehicle would enter or leave a geofence. This advanced topics were mentioned by organization A close to the day when they withdrawn the contract and therefore were never implemented.
 
@@ -124,7 +146,7 @@ The following list documents the key functional requirements of this business ca
 This business case' concepts are discussed with more detail in Section~\ref{subsubsec:design:domain:bounded_contexts:fleet}.
 
 \subsubsection{Smart Irrigation}
-\label{subsubsec:requirements:functional:costumer:irrigation}
+\label{subsubsec:requirements:functional:services:irrigation}
 
 Within a Smart Irrigation business case the major utilities a Costumer can benefit from are: real-time tracking of a garden/greenhouse conditions, archiving conditions for later use/consulting and activate/deactivate the irrigation system remotely.
 
@@ -140,30 +162,24 @@ The following list documents the key functional requirements related to this bus
 The concepts surrounding this business case are discussed with more detail in Section~\ref{subsubsec:design:domain:bounded_contexts:irrigation}.
 
 \subsubsection{Indoor Fire Detention}
-\label{subsubsec:requirements:functional:costumer:fire}
+\label{subsubsec:requirements:functional:services:fire}
 
 An Indoor Fire Detention system usual main objective is to trigger an alarm when precarious conditions are meet. As a first milestone, both companies, A and C, requested a simple alarm system with no other features. Features such as data retention, data visualization and continuous camera vigilance were later requested but never implemented. As such, the only requirement related to this business case is:
 
-A Costumer must be able to receive alerts regarding critical conditions that may indicate a fire outbreak.
-
-\subsection{Anonymous User}
-\label{subsec:requirements:functional:anonymous}
-
-This role was created to answer organization A concerns regarding the Public Health Surveillance business case. The website should be available for the public to consult the current and past \gls{AQI} levels measured in the city without needing to create an account.
+A Costumer must be able to receive alerts regarding critical conditions that may indicate a fire outbreak, either via SMS or email.
 
 \section{Non Functional Requirements}
 \label{sec:requirements:non_functional}
 
 Non-functional requirements define constraints on software development, maintenance, and allocation.
-According to \cite{van2009requirements}, “Non-functional requirements define constraints on the way the software-to-be
-should satisfy its functional requirements or on the way it should be developed.”
+According to \cite{van2009requirements}, “Non-functional requirements define constraints on the way the software-to-be should satisfy its functional requirements or on the way it should be developed.”
 
 This analysis used the FURPS+ model (\cite{eeles2005capturing}), which distributes the non-functional requirements into the following categories: functionality, usability, reliability, performance, supportability, design requirements, implementation requirements, interface requirements and physical requirements.
 
-Each category's requirements are presented in the following sections. 
+Each category's requirements are presented in the following sections.
 
 \subsection{Functionality Requirements}
-\label{sec:requirements:non_functional:functionality}
+\label{subsec:requirements:non_functional:functionality}
 
 Regarding the Functionality category, the following requirements were identified:
 
@@ -179,12 +195,12 @@ Regarding the Functionality category, the following requirements were identified
 \end{itemize}
 
 \subsection{Usability Requirements}
-\label{sec:requirements:non_functional:usability}
+\label{subsec:requirements:non_functional:usability}
 
 Since this project is a greenfield and is still in the early stages of conception, the Usability category is not a major concern. No requirements were purposed.
 
 \subsection{Reliability Requirements}
-\label{sec:requirements:non_functional:reliability}
+\label{subsec:requirements:non_functional:reliability}
 
 The Reliability category has the following requirements:
 
@@ -195,52 +211,69 @@ The Reliability category has the following requirements:
 \end{itemize}
 
 \subsection{Performance Requirements}
-\label{sec:requirements:non_functional:performance}
+\label{subsec:requirements:non_functional:performance}
 
-Even though this work is a \gls{PoC} the Performance of the system is a priority. The requirements specified for this category are:
+Even though this work is in its early stages of development the Performance of the system is a priority. The requirements specified for this category are:
 
 \begin{itemize}
     \item When a new and valid device data is received, the system should make this information available to any user within 2 seconds in 90\% of the cases. The time for the information to be presented should never exceed 5 seconds unless the network connection is broken (in which case the user should be notified);
     \item When an alarm is triggered, the system should dispatch the alarm within 10 seconds in 90\% of the cases;
     \item Concurrent Utilization: The system must be able to be used by various users at the same time;
-    \item High Data Ingestion: The system must be able to successfully process, evaluate and store device data with a throughput of at least 10000 data units per minute.
+    \item High Data Ingestion: The system must be able to successfully process, evaluate and store device data with a throughput of at least 5000 data units per minute.
 \end{itemize}
 
 \subsection{Supportability Requirements}
-\label{sec:requirements:non_functional:supportability}
+\label{subsec:requirements:non_functional:supportability}
 
 In the Supportability category the following requirements were identified:
 
 \begin{itemize}
     \item The system must be highly configurable so that support for any type of device, specially payload decoding, can be added without the need for restarting/rebuilding it;
     \item The system must be agnostic to cloud computing platforms and be independent of any service provided by cloud computing platforms. This ensures that it can be deployed on-premise or on a single cloud computing platform;
-    \item The system must provide simple methods to integrate third-party services that answer new business cases without restarting/rebuilding it.
+    \item The system must provide simple methods to integrate external services that answer new business cases without the need to rebuilding it;
+    \item The system must be agnostic to \gls{IoT} middleware platforms, being able to exchange data with most of them without the need to restarting/rebuilding it. At least \citetitle{helium} has to be supported.
 \end{itemize}
 
 \subsection{Design Requirements}
-\label{sec:requirements:non_functional:design}
+\label{subsec:requirements:non_functional:design}
 
-No Design Requirements were identified, every decision is up to the developer.
+The Design Requirements identified are related to how \textbf{Sensae Console} must interact with External Systems, namely \gls{IoT} middlewares and Identity Providers. This requirements also describe what \gls{API} should be served to Costumers, Organizations and \textbf{External Services}.
+
+\begin{figure}[H]
+    \centering
+   \resizebox{0.5\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/architectural/level1/logical-view-v2.latex}
+   }
+   \caption[Design Requirements Diagram]{Design Requirements Diagram}
+   \label{fig:requirements:non_functional:design}
+\end{figure}
 
 \subsection{Implementation Requirements}
-\label{sec:requirements:non_functional:implementation}
+\label{subsec:requirements:non_functional:implementation}
 
-In the Implementation category, the system's Front-Office shall provide a \gls{SPA} to end users;
+In the Implementation category, the system's shall provide a \gls{SPA} to end users.
 
 \subsection{Interface Requirements}
-\label{sec:requirements:non_functional:interface}
+\label{subsec:requirements:non_functional:interface}
 
-In the Interface category, the following requirements were identified:
+In the Interface category, the following requirements for \textbf{Sensae Console} were identified:
 
 \begin{itemize}
-    \item The system shall support the dispatch of emails using \gls{SMTP};
-    \item The system shall support the dispatch of messages using \gls{SMS};
-    \item The system shall support the dispatch of downlinks to devices using, at least, the \citetitle{helium}.
+    \item The system shall require user authentication via OpenID Connect Protocol offered by any Identity Provider;
+    \item The system shall support the dispatch of downlinks to devices using, at least, the \citetitle{helium};
     \item The system shall support the ingestion of uplinks from devices using, at least, the \citetitle{helium}.
 \end{itemize}
 
+As for the \textbf{External Services}:
+
+\begin{itemize}
+    \item The Indoor Fire Retention related External Service shall support the dispatch of emails using \gls{SMTP};
+    \item The Indoor Fire Retention related External Service shall support the dispatch of messages using \gls{SMS}.
+\end{itemize}
+
 \subsection{Physical Requirements}
-\label{sec:requirements:non_functional:physical}
+\label{subsec:requirements:non_functional:physical}
 
 In the Physical category, the following requirements were identified:
 
@@ -252,9 +285,9 @@ In the Physical category, the following requirements were identified:
 \end{itemize}
 
 \section{Synopsis}
-\label{sec:requirements:synopsis}
+\label{subsec:requirements:synopsis}
 
-This chapter mentioned the functional requirements of the project defined during its lifespan. This requirements intended to address the needs of the various shareholders, divided in three major roles: (i) manager, (ii) costumer and (iii) anonymous user. While the focus of the project lays in supporting common functionalities of \gls{IoT} related services, the chapter also mentioned various specific business cases, requested by third-parties, and their specific requirements.
+This chapter mentioned the functional requirements of the project defined during its lifespan. This requirements addressed the needs of the various shareholders, divided in three major roles: (i) manager, (ii) costumer and (iii) anonymous user. While the focus of the project lays in supporting common functionalities of \gls{IoT} related services within \textbf{Sensae Console}, this chapter also mentioned the \textbf{External Services} requested by third-parties, and their specific requirements.
 
 Altho more vague, the non-functional requirements of the project were also presented using the FURPS+ model.
 

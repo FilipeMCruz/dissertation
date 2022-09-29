@@ -7,8 +7,8 @@ skinparam Shadowing false
 skinparam componentStyle uml2
 skinparam packageStyle rectangle
 
-interface "Sensae Console\nRest API" as IN_ENDPOINT
-interface "Helium Console\nRest API" as OUT_ENDPOINT
+interface "Sensae Console\nUplink\nRest API" as IN_ENDPOINT
+interface "IoT Middleware\nDownlink\nRest API" as OUT_ENDPOINT
 
 component "Sensae Console" <<System>> {
     component "Message Broker" as MB <<Container>> 

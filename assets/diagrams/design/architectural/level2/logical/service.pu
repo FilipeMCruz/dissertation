@@ -7,8 +7,8 @@ skinparam packageStyle rectangle
 
 interface "UI" as UI
 
-interface "Twilio SMS\nDisptacher API" as SMS_ENDPOINT
-interface "SMTP Server" as SMTP_ENDPOINT
+interface "SMS Dispatcher\nAPI" as SMTP_ENDPOINT
+interface "Email Dispatcher\nAPI" as SMS_ENDPOINT
 
 component "Sensae Console" <<System>> {
     component "UI Aggregator" as UIAG <<Container>>

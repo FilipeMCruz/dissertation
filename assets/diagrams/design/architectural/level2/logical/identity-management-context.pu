@@ -1,0 +1,37 @@
+@startuml identity-management-context
+
+interface "Identity\nManagement UI" as FRONT_API
+interface "Identity Management\nBackend API" as BACK_API
+
+interface "OpenID Connect\nAPI" as OPENID
+
+component "Identity Management" <<Context>> {
+    component "Identity Management\nBackend" <<Container>> as BACK
+    component "Identity Management\nFrontend" <<Container>> as FRONT
+    component "Identity Management\nDatabase" <<Container>> as DB
+
+    interface "Identity\nManagement\nDatabase API" as DB_API
+
+    DB_API -- DB
+    FRONT_API -- FRONT
+    BACK_API -- BACK
+    DB_API )- BACK
+    FRONT --( BACK_API
+    OPENID )-- FRONT
+    OPENID )-- BACK
+
+    component "Device Ownership\nBackend" <<Container>> as FLOW #ebdc78
+}
+
+component "Message Broker" <<Container>> as MB
+interface "Message Broker\nAPI" as MB_API
+
+MB_API - MB
+
+BACK --( MB_API
+
+MB_API )-- FLOW
+
+DB -[hidden]- FLOW
+
+@enduml

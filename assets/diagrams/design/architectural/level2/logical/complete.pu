@@ -7,14 +7,13 @@ skinparam packageStyle rectangle
 
 interface "UI" as UI
 
-interface "Sensae Console\nRest API" as IN_ENDPOINT
-interface "Helium Console\nRest API" as OUT_ENDPOINT
+interface "Sensae Console\nUplink\nRest API" as IN_ENDPOINT
+interface "IoT Middleware\nDownlink\nRest API" as OUT_ENDPOINT
 
 interface "Twilio SMS\nDisptacher API" as SMS_ENDPOINT
 interface "SMTP Server" as SMTP_ENDPOINT
 
-interface "Azure Active\nDirectory API" as AUTH_ENDPOINT
-interface "Google Identity\nPlatform API" as GOOGLE_ENDPOINT
+interface "OpenID Connect\nAPI" as AUTH_ENDPOINT
 
 component "Sensae Console" <<System>> {
     component "UI Aggregator" as UIAG <<Container>>
@@ -177,13 +176,10 @@ component "Sensae Console" <<System>> {
     DCB ---( OUT_ENDPOINT
     IAMF --( AUTH_ENDPOINT
     AUTH_ENDPOINT )-- IAMB
-    IAMF --( GOOGLE_ENDPOINT
-    GOOGLE_ENDPOINT )-- IAMB
 
     NOTIF_BACK ---( SMS_ENDPOINT
     NOTIF_BACK ---( SMTP_ENDPOINT
 
-    AUTH_ENDPOINT -[hidden]- GOOGLE_ENDPOINT
 }
 
 @enduml

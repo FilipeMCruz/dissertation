@@ -7,8 +7,7 @@ skinparam packageStyle rectangle
 
 interface "UI" as UI
 
-interface "Azure Active\nDirectory API" as AUTH_ENDPOINT
-interface "Google Identity\nPlatform API" as GOOGLE_ENDPOINT
+interface "OpenID Connect\nAPI" as AUTH_ENDPOINT
 
 component "Sensae Console" <<System>> {
     component "UI Aggregator" as UIAG <<Container>>
@@ -93,12 +92,8 @@ component "Sensae Console" <<System>> {
 
     IAMF --( AUTH_ENDPOINT
     AUTH_ENDPOINT )-- IAMB
-    IAMF --( GOOGLE_ENDPOINT
-    GOOGLE_ENDPOINT )-- IAMB
 
     MB --- MB_API
-
-    GOOGLE_ENDPOINT -[hidden]- AUTH_ENDPOINT
 
 }
 

@@ -1,0 +1,33 @@
+@startuml rule-management-context
+
+interface "Rule Management UI" as FRONT_API
+interface "Rule Management\nBackend API" as BACK_API
+
+component "Rule Management" <<Context>> {
+    component "Rule Management\nBackend" <<Container>> as BACK
+    component "Rule Management\nFrontend" <<Container>> as FRONT
+    component "Rule Management\nDatabase" <<Container>> as DB
+
+    interface "Rule\nManagement\nDatabase API" as DB_API
+
+    DB_API -- DB
+    FRONT_API -- FRONT
+    BACK_API -- BACK
+    DB_API )- BACK
+    FRONT --( BACK_API
+
+    component "Alert Dispatcher Backend" <<Container>> as FLOW #ebdc78
+}
+
+component "Message Broker" <<Container>> as MB
+interface "Message Broker\nAPI" as MB_API
+
+MB_API - MB
+
+BACK --( MB_API
+
+MB_API )-- FLOW
+
+DB -[hidden]- FLOW
+
+@enduml

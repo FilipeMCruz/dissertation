@@ -1,0 +1,40 @@
+@startuml device-management-context
+
+interface "Device Management UI" as FRONT_API
+interface "Device Management\nBackend API" as BACK_API
+
+component "Device Management" <<Context>> {
+    component "Device Management\nBackend" <<Container>> as BACK
+    component "Device Management\nFrontend" <<Container>> as FRONT
+    component "Device Management\nDatabase" <<Container>> as DB
+
+    interface "Device Management\nDatabase API" as DB_API
+
+    DB - DB_API
+    FRONT_API -- FRONT
+    BACK_API -- BACK
+
+    BACK --( DB_API
+    FRONT --( BACK_API
+
+    component "Device Management\nData Flow" <<Container>> as FLOW #ebdc78
+    component "Device Commander" <<Container>> as COMM #ebdc78
+}
+
+component "Message Broker" <<Container>> as MB
+interface "Message Broker\nAPI" as MB_API
+interface "IoT Middleware\nDownlink\nRest API" as OUT_ENDPOINT
+
+MB_API - MB
+
+BACK --( MB_API
+
+MB_API )-- FLOW
+MB_API )-- COMM
+
+DB -[hidden]- FLOW
+FLOW -[hidden] COMM
+
+COMM -( OUT_ENDPOINT
+
+@enduml

@@ -1,0 +1,31 @@
+@startuml smart-irrigation-context
+
+interface "Smart Irrigation UI" as FRONT_API
+interface "Smart Irrigation\nBackend API" as BACK_API
+
+component "Smart Irrigation" <<Context>> {
+    component "Smart Irrigation\nBackend" <<Container>> as BACK
+    component "Smart Irrigation\nFrontend" <<Container>> as FRONT
+    component "Smart Irrigation\nBusiness Database" <<Container>> as DB
+    component "Smart Irrigation\nData Database" <<Container>> as DATA_DB
+
+    interface "Smart Irrigation\nBusiness Database API" as DB_API
+    interface "Smart Irrigation\nData Database API" as DATA_DB_API
+
+    DB_API -- DB
+    DATA_DB_API -- DATA_DB
+    FRONT_API -- FRONT
+    BACK_API -- BACK
+    BACK --( DB_API
+    BACK --( DATA_DB_API
+    FRONT --( BACK_API
+}
+
+component "Message Broker" <<Container>> as MB
+interface "Message Broker\nAPI" as MB_API
+
+MB_API -- MB
+
+BACK -( MB_API
+
+@enduml

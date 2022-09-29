@@ -128,11 +128,12 @@
 \node at (448.1503pt,876.0679pt)[below right,color=black]{Database API};
 \draw[pstyle1] (530pt,14pt) ellipse (8pt and 8pt);
 \node at (521.4pt,31pt)[below right,color=black]{UI};
-\draw[pstyle1] (271pt,1210pt) ellipse (8pt and 8pt);
-\node at (214.1859pt,1227pt)[below right,color=black]{Twilio SMS};
-\node at (214.1859pt,1246.0679pt)[below right,color=black]{Disptacher API};
-\draw[pstyle1] (427pt,1210pt) ellipse (8pt and 8pt);
-\node at (377.3535pt,1227pt)[below right,color=black]{SMTP Server};
+\draw[pstyle1] (261pt,1210pt) ellipse (8pt and 8pt);
+\node at (201.0476pt,1227pt)[below right,color=black]{SMS Dispatcher};
+\node at (201.0476pt,1246.0679pt)[below right,color=black]{API};
+\draw[pstyle1] (436pt,1210pt) ellipse (8pt and 8pt);
+\node at (370.7579pt,1227pt)[below right,color=black]{Email Dispatcher};
+\node at (370.7579pt,1246.0679pt)[below right,color=black]{API};
 \draw[pstyle0] (234.59pt,288.14pt) ..controls (227.67pt,304.62pt) and (211.67pt,342.79pt) .. (199.91pt,370.83pt);
 \draw[pstyle0] (804.62pt,288.14pt) ..controls (809.94pt,304.62pt) and (822.25pt,342.79pt) .. (831.3pt,370.83pt);
 \draw[pstyle0] (530pt,288.14pt) ..controls (530pt,304.62pt) and (530pt,342.79pt) .. (530pt,370.83pt);
@@ -173,8 +174,8 @@
 \draw[pstyle2] (353.504pt,837.553pt) arc (34:-105:9pt);
 \draw[pstyle0] (338.44pt,859.33pt) ..controls (340.21pt,881.8pt) and (343.26pt,920.6pt) .. (345.63pt,950.72pt);
 \draw[pstyle2] (329.4607pt,852.933pt) arc (155:15:9pt);
-\draw[pstyle0] (333.4pt,1038.19pt) ..controls (316.31pt,1084.98pt) and (289.69pt,1157.84pt) .. (277.5pt,1191.21pt);
-\draw[pstyle2] (282.95pt,1200.9305pt) arc (0:-139:9pt);
-\draw[pstyle0] (364.6pt,1038.19pt) ..controls (381.69pt,1084.98pt) and (408.31pt,1157.84pt) .. (420.5pt,1191.21pt);
-\draw[pstyle2] (430.9376pt,1195.1268pt) arc (319:179:9pt);
+\draw[pstyle0] (366.4pt,1038.19pt) ..controls (385.55pt,1085.19pt) and (415.41pt,1158.47pt) .. (428.93pt,1191.64pt);
+\draw[pstyle2] (439.384pt,1194.882pt) arc (317:177:9pt);
+\draw[pstyle0] (331.4pt,1038.19pt) ..controls (312.03pt,1085.19pt) and (281.83pt,1158.47pt) .. (268.15pt,1191.64pt);
+\draw[pstyle2] (273.3221pt,1201.2959pt) arc (2:-137:9pt);
 \end{tikzpicture}

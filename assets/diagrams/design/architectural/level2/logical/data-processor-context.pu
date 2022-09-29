@@ -1,0 +1,33 @@
+@startuml data-processor-context
+
+interface "Data Processor UI" as FRONT_API
+interface "Data Processor\nBackend API" as BACK_API
+
+component "Data Processor" <<Context>> {
+    component "Data Processor\nBackend" <<Container>> as BACK
+    component "Data Processor\nFrontend" <<Container>> as FRONT
+    component "Data Processor\nDatabase" <<Container>> as DB
+
+    interface "Data Processor\nDatabase API" as DB_API
+
+    DB_API -- DB
+    FRONT_API -- FRONT
+    BACK_API -- BACK
+    DB_API )- BACK
+    FRONT --( BACK_API
+
+    component "Data Processor\nData Flow" <<Container>> as FLOW #ebdc78
+}
+
+component "Message Broker" <<Container>> as MB
+interface "Message Broker\nAPI" as MB_API
+
+MB_API - MB
+
+BACK --( MB_API
+
+MB_API )-- FLOW
+
+DB -[hidden]- FLOW
+
+@enduml

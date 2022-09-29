@@ -94,12 +94,14 @@
 \draw[pstyle1] (970pt,105pt) ellipse (8pt and 8pt);
 \node at (881.6pt,122pt)[below right,color=black]{Data Gateway Backend};
 \node at (881.6pt,141.0679pt)[below right,color=black]{API};
-\draw[pstyle1] (1195pt,195pt) ellipse (8pt and 8pt);
-\node at (1136.92pt,212pt)[below right,color=black]{Sensae Console};
-\node at (1136.92pt,231.0679pt)[below right,color=black]{Rest API};
-\draw[pstyle1] (1195pt,922pt) ellipse (8pt and 8pt);
-\node at (1135.2971pt,939pt)[below right,color=black]{Helium Console};
-\node at (1135.2971pt,958.0679pt)[below right,color=black]{Rest API};
+\draw[pstyle1] (1197pt,195pt) ellipse (8pt and 8pt);
+\node at (1138.92pt,212pt)[below right,color=black]{Sensae Console};
+\node at (1138.92pt,231.0679pt)[below right,color=black]{Uplink};
+\node at (1138.92pt,250.1358pt)[below right,color=black]{Rest API};
+\draw[pstyle1] (1197pt,922pt) ellipse (8pt and 8pt);
+\node at (1135.8151pt,939pt)[below right,color=black]{IoT Middleware};
+\node at (1135.8151pt,958.0679pt)[below right,color=black]{Downlink};
+\node at (1135.8151pt,977.1358pt)[below right,color=black]{Rest API};
 \draw[pstyle0] (754.04pt,716pt) ..controls (823.66pt,716pt) and (912.54pt,716pt) .. (950.48pt,716pt);
 \draw[pstyle2] (957.8518pt,707.5428pt) arc (250:110:9pt);
 \draw[pstyle0] (767.31pt,100.44pt) ..controls (842.33pt,102.14pt) and (933.6pt,104.2pt) .. (960.91pt,104.82pt);
@@ -123,9 +125,9 @@
 \draw[pstyle2] (310.6536pt,524.14pt) arc (145:5:9pt);
 \draw[pstyle0] (324.46pt,528.23pt) ..controls (347.02pt,574.89pt) and (413.23pt,699.71pt) .. (505pt,767pt) ..controls (515.94pt,775.02pt) and (528.21pt,781.87pt) .. (540.91pt,787.7pt);
 \draw[pstyle2] (313.7798pt,525.4475pt) arc (134:-5:9pt);
-\draw[pstyle0] (1039.12pt,195pt) ..controls (1092.66pt,195pt) and (1162.01pt,195pt) .. (1185.67pt,195pt);
+\draw[pstyle0] (1039.12pt,195pt) ..controls (1093.44pt,195pt) and (1164.21pt,195pt) .. (1187.89pt,195pt);
 \draw[pstyle0] (970pt,160.9pt) ..controls (970pt,148.73pt) and (970pt,136.56pt) .. (970pt,124.39pt);
 \draw[pstyle2] (961.5428pt,117.2482pt) arc (160:20:9pt);
-\draw[pstyle0] (788.55pt,922pt) ..controls (920.9pt,922pt) and (1115.66pt,922pt) .. (1175.7pt,922pt);
-\draw[pstyle2] (1182.7818pt,913.5428pt) arc (250:110:9pt);
+\draw[pstyle0] (788.69pt,922pt) ..controls (921.53pt,922pt) and (1117.26pt,922pt) .. (1177.61pt,922pt);
+\draw[pstyle2] (1184.7318pt,913.5428pt) arc (250:110:9pt);
 \end{tikzpicture}

@@ -6,27 +6,28 @@ actor Manager
 
 actor "Costumer or\nAnonymous User" as User
 
-collections "External\nSystems" as ExternalSystem
+collections "IoT Middlewares" as ExternalSystem
 
 component "Sensae Console"<<System>> {
 
     component "Configuration\nScope" as Configuration
 
     component "Data Flow\nScope" as DataFlow
-
-    component "Services\nScope" as Service
 }
 
-ExternalSystem -> DataFlow : feeds unsanitized\ndata to
+component "External Services\nScope" as Service
+
+ExternalSystem -> DataFlow : feeds device uplinks
+ExternalSystem <- DataFlow : feeds device downlinks
 
 Configuration --> DataFlow : defines the\nbehaviour of
 Configuration <-- DataFlow : informs about\nnotable\noccurrences
 
-DataFlow -> Service : feeds sanitized data\nand alerts to
-Service -> DataFlow : sends commands to
+Service <-- DataFlow : feeds sanitized data\nand alerts
+Service --> DataFlow : dispatches\ncommands
 
 Manager --> Configuration : configures\nthe ETL
 
-User ---> Service : interacts with the\nsevices available
+User --> Service : interacts with the\nsevices available
 
 @enduml

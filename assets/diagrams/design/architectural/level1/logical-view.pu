@@ -1,52 +1,47 @@
 @startuml logical-view
 
-left to right direction
-
 skinparam Monochrome true
 skinparam sequenceMessageAlign center
 skinparam componentStyle uml2
 skinparam packageStyle rectangle
 
-[Sensae Console] as S
-[Helium Console] as HC
-[Azure Active Directory] as AAD
-[Google Identity Platform] as GIP
-
-[Twilio Paltform] as SMS
-[Google Email Platform] as EMAIL
+[Sensae Console] as S <<System>>
+[External Services] as EXTER <<System>>
 
 () "Sensae UI" as UI
-() "Helium Console\nRest API" as OUT_ENDPOINT
-() "Sensae Console Rest API" as IN_ENDPOINT
+() "Sensae Management\nAPI" as API
+() "Sensae API for\nExternal Services" as DATA_API
+() "IoT Middleware\nDownlink\nRest API" as OUT_ENDPOINT
+() "Sensae Console\nUplink\nRest API" as IN_ENDPOINT
+() "Identity Provider\nOpenID Connect\nAPI" as OPEN_ID
+() "External Services UI" as EXTER_UI
+() "External Services\nAPI" as EXTER_API
+() "SMS Dispatching\nService API" as SMS
+() "Email Dispatching\nService API" as EMAIL
 
-() "AAD API" as AZURE_ENDPOINT
-() "Google API" as GOOGLE_ENDPOINT
+API -- S
+UI -- S
+EXTER_UI -- EXTER
+EXTER_API -- EXTER
+S - DATA_API
+OPEN_ID )- S
+S -- IN_ENDPOINT
 
-() "Twilio API" as SMS_ENDPOINT
-() "Google Email SMTP API" as EMAIL_ENDPOINT
+S --( OUT_ENDPOINT
 
-actor "Manager" as Client
-actor "Costumer" as Tenant
+EXTER --( EMAIL
+EXTER --( SMS
+
+actor "Manager" as Manager
+actor "Costumer" as Costumer
 actor "Anonymous User" as Anonymous
 
-Client --( UI
-Tenant --( UI
-Anonymous --( UI
+Manager --( UI
+Manager --( EXTER_UI
+Costumer --( UI
+Costumer --( EXTER_UI
+Anonymous --( EXTER_UI
 
-UI -- S
-S - IN_ENDPOINT
-OUT_ENDPOINT -- HC
-S --( AZURE_ENDPOINT
-S --( GOOGLE_ENDPOINT
-S --( EMAIL_ENDPOINT
-S --( SMS_ENDPOINT
-
-IN_ENDPOINT )- HC
-OUT_ENDPOINT )- S
-AZURE_ENDPOINT - AAD
-GOOGLE_ENDPOINT - GIP
-
-SMS_ENDPOINT - SMS
-EMAIL_ENDPOINT - EMAIL
+DATA_API )- EXTER
 
 @enduml

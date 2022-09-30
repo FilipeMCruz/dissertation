@@ -143,7 +143,7 @@ This library can render custom maps and is bundled with powerful data visualizat
 \subsection{Expose a GraphQL API On Backend Services}
 \label{subsec:implementation:decisions:graphql}
 
-The \gls{API} discussed in this section refers to the interfaces exposed to the outside world by backend containers of the Configuration and Service Scopes and isn't related to the internal communication or device data ingestion interface exposed by the \textbf{Data Relayer} Container.
+The \gls{API} discussed in this section refers to the interfaces exposed to the outside world by backend containers of the Configuration and External Services Scopes and isn't related to the internal communication or device data ingestion interface exposed by the \textbf{Data Relayer} Container.
 
 The two approaches considered were: (i) \citetitle{rest} and (ii) \citetitle{graphql}.
 
@@ -1912,11 +1912,11 @@ This test verifies that a user in the root domain can see all default domains in
 \label{subsec:implementation:tests:arch}
 
 This section presents some of the architectural tests of \textbf{Sensae Console}'s Containers. This tests are only performed in the backend containers.
-As an example it will be displayed one test for the \textbf{Configuration / Service Scope} and another for the \textbf{Data Flow Scope}.
+As an example it will be displayed one test for the \textbf{Configuration / External Services Scope} and another for the \textbf{Data Flow Scope}.
 
 The tool used was ArchUnit, according to \cite{archunit}, it ``provides a variety of predefined governance rules codified as unit tests and allows architects to write specific tests that address modularity"".
 
-The Listing~\ref{code:implementation:tests:arch1} presents an example of the tests made for \textbf{Configuration / Service Scope} backend containers.
+The Listing~\ref{code:implementation:tests:arch1} presents an example of the tests made for \textbf{Configuration / External Services Scope} backend containers.
 
 \begin{lstlisting}[style=Java, caption=Architectural Test - Onion Architecture - \textbf{Device Management Master Backend}, label={code:implementation:tests:arch1}]
 $$@AnalyzeClasses(packages = "pt.sensae.services")

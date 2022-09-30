@@ -1,0 +1,39 @@
+@startuml services-contexts
+
+component "External Services" <<System>> {
+    component "Fleet Management" <<Context>> as FLEET
+    component "Notification Management" <<Context>> as NOTIF
+    component "Smart Irrigation" <<Context>> as IRRIG
+}
+
+interface "Message Broker\nAPI" as MB_API
+
+interface "Fleet\nManagement API" as FLEET_API
+interface "Fleet\nManagement UI" as FLEET_UI
+
+FLEET_API -- FLEET
+FLEET_UI -- FLEET
+
+interface "Notification\nManagement API" as NOTIF_API
+interface "Notification\nManagement UI" as NOTIF_UI
+
+NOTIF_API -- NOTIF
+NOTIF_UI -- NOTIF
+
+interface "Smart Irrigation API" as IRRIG_API
+interface "Smart Irrigation UI" as IRRIG_UI
+
+IRRIG_API -- IRRIG
+IRRIG_UI -- IRRIG
+
+FLEET --( MB_API
+IRRIG --( MB_API
+NOTIF --( MB_API
+
+interface "SMS Dispatcher\nAPI" as SMS
+interface "Email Dispatcher\nAPI" as EMAIL
+
+NOTIF --( SMS
+NOTIF --( EMAIL
+
+@enduml

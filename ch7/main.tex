@@ -222,9 +222,9 @@ Looking at the architecture the five logical bottlenecks are:
 
 \begin{itemize}
     \item The \nameref{subsec:implementation:description:ingestion} that collects requests (in the \textbf{Data Relayer} Container);
-    \item The databases in the \textbf{Service Scope} that store measures or notifications;
+    \item The databases in the \textbf{External Services Scope} that store measures or notifications;
     \item The \textbf{Message Broker} that routes data units through the system;
-    \item The Websocket implementation used by GraphQL to supply measures and notifications in the Backends of the \textbf{Service Scope};
+    \item The Websocket implementation used by GraphQL to supply measures and notifications in the Backends of the \textbf{External Services Scope};
     \item The process of filling the \textbf{Data Flow Scope} Caches with the information managed by the various containers in the \textbf{Configuration Scope}.
 \end{itemize}
 
@@ -312,7 +312,7 @@ Each color represents the test iteration responsible for sending the data unit.
 
 The Chart~\ref{fig:evaluation:overview:cache:chart:s1eD} also that the system started to underperform around the 65 seconds mark. The \textbf{Data Flow} caches were already stable and therefore, under this experiences, it is plausible to say that this process doesn't cause the performance degradation seen in higher throughput experiences.
 
-\subsection{Service Scope Database Performance}
+\subsection{External Services Scope Database Performance}
 \label{subsec:evaluation:overview:servicedatabase}
 
 Another important question is wether the performance degradation recorded is due to database access or not.

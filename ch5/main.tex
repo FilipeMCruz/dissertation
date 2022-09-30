@@ -283,7 +283,7 @@ Most containers presented here collect specific information from a single backen
    \item The remaining containers don't subscribe to any type of information from the \textbf{Configuration Scope}.
 \end{itemize}
 
-Finally the \textbf{Service Scope} is represented in Figure~\ref{fig:design:architecture:container:logical:diagram:service}. This scope is composed by the processes discussed in \ref{subsec:design:system_scopes:service_scope}.
+Finally the \textbf{External Services Scope} is represented in Figure~\ref{fig:design:architecture:container:logical:diagram:service}. This scope is composed by the processes discussed in \ref{subsec:design:system_scopes:service_scope}.
 
 \begin{figure}[H]
    \centering
@@ -291,7 +291,7 @@ Finally the \textbf{Service Scope} is represented in Figure~\ref{fig:design:arch
    {      
       \input{assets/diagrams/design/architectural/level2/logical/service.latex}
    }
-   \caption[Container Level - Service Scope - Logical View Diagram]{Container Level - Service Scope - Logical View Diagram}
+   \caption[Container Level - External Services Scope - Logical View Diagram]{Container Level - External Services Scope - Logical View Diagram}
    \label{fig:design:architecture:container:logical:diagram:service}
 \end{figure}
 
@@ -473,9 +473,9 @@ The user identity and credentials validation are assured by an external identity
    \label{fig:design:architecture:container:process:diagram:authorization}
 \end{figure}
 
-In this diagram the expected behavior for any pair of frontend and backend containers in \textbf{Configuration Scope} and \textbf{Service Scope} is presented. Each frontend displays only the actions and information that the user permissions allow. The user permissions are once again verified in the backend to secure the system against malicious accesses. Other alternatives related to authentication and authorization are presented in the Section~\ref{subsec:design:alternatives:auth}.
+In this diagram the expected behavior for any pair of frontend and backend containers in \textbf{Configuration Scope} and \textbf{External Services Scope} is presented. Each frontend displays only the actions and information that the user permissions allow. The user permissions are once again verified in the backend to secure the system against malicious accesses. Other alternatives related to authentication and authorization are presented in the Section~\ref{subsec:design:alternatives:auth}.
 
-Finally some operations performed in the \textbf{Service Scope} are presented starting with how a user can see the current location of a device via the Fleet Management Service (Figure~\ref{fig:design:architecture:container:process:diagram:fleet}). Authentication details will be omitted for brevity reasons.
+Finally some operations performed in the \textbf{External Services Scope} are presented starting with how a user can see the current location of a device via the Fleet Management Service (Figure~\ref{fig:design:architecture:container:process:diagram:fleet}). Authentication details will be omitted for brevity reasons.
 
 \begin{figure}[H]
    \centering
@@ -487,7 +487,7 @@ Finally some operations performed in the \textbf{Service Scope} are presented st
    \label{fig:design:architecture:container:process:diagram:fleet}
 \end{figure}
 
-In order to provide live information to the user \textbf{Service Scope} services rely on \textit{WebSockets}. A bidirectional channel is created between the frontend and backend so that data can be sent directly from the backend to the frontend as we can see in the step \textbf{2.6}. Fist the frontend must subscribe to new information with a valid \textit{access token} - steps \textbf{1.2} to \textbf{1.6} - then this channel is maintained till the user leaves the page. Once the user leaves the page the subscription is closed in the frontend and subsequently in the backend - steps \textbf{3.2} to \textbf{3.5}.
+In order to provide live information to the user \textbf{External Services Scope} services rely on \textit{WebSockets}. A bidirectional channel is created between the frontend and backend so that data can be sent directly from the backend to the frontend as we can see in the step \textbf{2.6}. Fist the frontend must subscribe to new information with a valid \textit{access token} - steps \textbf{1.2} to \textbf{1.6} - then this channel is maintained till the user leaves the page. Once the user leaves the page the subscription is closed in the frontend and subsequently in the backend - steps \textbf{3.2} to \textbf{3.5}.
 
 The next diagram in Figure~\ref{fig:design:architecture:container:process:diagram:notification} describes how a user receives notifications via several different delivery channels. For brevity reasons the subscription process is omitted.
 
@@ -515,7 +515,7 @@ Certain types of alerts are also collected by Smart Irrigation Backend to automa
    \label{fig:design:architecture:container:process:diagram:irrigation}
 \end{figure}
 
-The alerts created in \textbf{Sensae Console} are captured by containers in the \textbf{Service Scope} so that they can act based on the alerts.
+The alerts created in \textbf{Sensae Console} are captured by containers in the \textbf{External Services Scope} so that they can act based on the alerts.
 
 The Smart Irrigation Backend subscribes to three types of \textit{Sub Category} alerts all with the same \textit{Category} - \textit{Smart Irrigation}:
 
@@ -1140,9 +1140,9 @@ The main drawback of this approach is that the container can't keep just the nee
 \section{Domain}
 \label{sec:design:domain}
 
-This system's domain model will be discussed here. The idea behind this section is to introduce core business concepts to the reader and explain how they map to the contexts present in the system. To represent this ideas the \gls{UML} notation is used.
+This solution's domain model will be discussed here. The idea behind this section is to introduce core business concepts to the reader and explain how they map to the contexts refereed before. To represent this ideas the \gls{UML} notation is used.
 
-This section is split into four pieces: (i) concepts, (ii) shared model, (iii) bounded contexts and (iv) synopsis.
+This section is split into four pieces: (i) concepts, (ii) shared model, (iii) sensae console bounded contexts and (iv) external services bounded contexts.
 
 \subsection{Taxonomy}
 \label{subsec:design:domain:taxonomy}
@@ -1167,9 +1167,9 @@ In order for the reader to better understand how the system functions some conce
 Currently the \textbf{Topic}s that flow in the system are:
 
 \begin{itemize}
-   \item \textbf{Data}: This topic references the \textbf{Data Unit} concept and is intended to be consumed by the \textbf{Service Scope};
-   \item \textbf{Command}: This topic references the \textbf{Device Command} concept and is intended to be used mainly by the \textbf{Service Scope};
-   \item \textbf{Alert}: This topic references the \textbf{Alert} concept and is intended to be consumed mainly by the \textbf{Service Scope};
+   \item \textbf{Data}: This topic references the \textbf{Data Unit} concept and is intended to be consumed by the \textbf{External Services Scope};
+   \item \textbf{Command}: This topic references the \textbf{Device Command} concept and is intended to be used mainly by the \textbf{External Services Scope};
+   \item \textbf{Alert}: This topic references the \textbf{Alert} concept and is intended to be consumed mainly by the \textbf{External Services Scope};
    \item \textbf{Internal}: This topic references the internal state maintained in the \textbf{Configuration Scope} and \textbf{Data Flow Scope}.
 \end{itemize}
 
@@ -1466,7 +1466,7 @@ The routing key \textit{OperationType} from the \textbf{Internal} topic can have
 
 The \textit{ContextType}, used to identity what piece of the state is referenced, can currently have the following values: (i) \textit{Data Processor}, (ii) \textit{Data Decoder}, (iii) \textit{Device Information}, (iv) \textit{Device Identity}, (v) \textit{Tenant Identity}, (vi) \textit{Addressee Configuration} and (vii) \textit{Rule Management}.
 
-Routing keys help to strengthen the boundaries that a container is expected to have. As an example, a Service in the \textbf{Service Scope} related to Waste Management would subscribe to the \textit{Data Topic} with the following \textit{Routing Keys}: 
+Routing keys help to strengthen the boundaries that a container is expected to have. As an example, a Service in the \textbf{External Services Scope} related to Waste Management would subscribe to the \textit{Data Topic} with the following \textit{Routing Keys}: 
 
 \begin{itemize}
    \item \textit{Info Type Options}: PROCESSED;
@@ -1488,30 +1488,21 @@ And would, for example, subscribe to the \textit{Alert Topic} with the following
 
 As expected, the structure and semantics of the information subscribed to are known upfront with the help of the package \textit{iot-core}. The services developed and their pre-defined boundaries regarding data types consumed are detailed in Section~\ref{subsec:implementation:description:services}.
 
-\subsection{Bounded Contexts}
+\subsection{Sensae Console Bounded Context}
 \label{subsec:design:domain:bounded_contexts}
 
-The \textbf{Bounded Context} concept, defined by \cite{evans2014domain}, refers to an unified model - with well-defined boundaries and internally consistent - that is a single piece in a  larger system composed by various bounded contexts.
+The \textbf{Bounded Context} concept, defined by \cite{evans2014domain}, refers to an unified model - with well-defined boundaries and internally consistent - that is a single piece in a larger system composed by various bounded contexts.
 
-In this project, each Bounded Context can be pictured as a core business process of the system or as a simple service that addresses a specific business case.
+The concept \textbf{Bounded Context} refereed in this section draws inspiration from the one coined by \cite{evans2014domain}, without the notion of Aggregates, Value Objects, Aggregate Root and other \gls{DDD} concepts. It is here to simply characterize the various models of the system that, when isolated, can be more clearly interpreted and understood by the reader. 
 
-The \textbf{Sensae Console} is composed by the following bounded contexts:
+For \textbf{Sensae Console}, each bounded context can be pictured as a core business process of the system, it is composed by the following:
 
 \begin{itemize}
-   \item In \textbf{Configuration/Data Flow Scopes}:
-   \begin{itemize}
-      \item Data Processor;
-      \item Data Decoder;
-      \item Device Management;
-      \item Identity Management;
-      \item Rule Management.
-   \end{itemize}
-   \item In \textbf{Service Scope}:
-   \begin{itemize}
-      \item Smart Irrigation;
-      \item Fleet Management;
-      \item Notification Management.
-   \end{itemize}
+   \item Data Processor;
+   \item Data Decoder;
+   \item Device Management;
+   \item Identity Management;
+   \item Rule Management.
 \end{itemize}
 
 Each of this contexts will be briefly addressed in the following sections.
@@ -1711,6 +1702,23 @@ In this specific solution, the input data are \textbf{Data Unit}s and the output
   \label{fig:design:domain:bounded_contexts:rule:diagram}
 \end{figure}
 
+\subsection{External Services Bounded Contexts}
+\label{subsec:design:domain:services_contexts}
+
+Once again, the therm \textbf{Bounded Context} used here doesn't refer to the therm coined by \cite{evans2014domain}, but to a simple, concise and confined domain model.
+
+Each Bounded Context is analogous to a specific external service that addresses a business case.
+
+The developed \textbf{External Services}, and their bounded contexts are:
+
+\begin{itemize}
+      \item Smart Irrigation;
+      \item Fleet Management;
+      \item Notification Management.
+\end{itemize}
+
+Each of this contexts will be briefly addressed in the following sections.
+
 \subsubsection{Notification Management}
 \label{subsubsec:design:domain:bounded_contexts:notification}
 
@@ -1822,12 +1830,7 @@ The diagram in Figure~\ref{fig:design:domain:bounded_contexts:fleet:diagram} dis
   \label{fig:design:domain:bounded_contexts:fleet:diagram}
 \end{figure}
 
-This was the first \textit{Service} built as an \gls{MVP}, it was intended to be straightforward. The model references \gls{GPS} readings and what device collected them.
-
-\subsection{Synopsis}
-\label{subsec:design:domain:synopsis}
-
-In this section the various domains that \textbf{Sensae Console} incorporates are described. This domains share some concepts such as \textbf{Device} but it isn't clear how they interact with each other. In the next section - \nameref{sec:design:architecture} - it will be addressed how this domains are connected and cooperate.
+This was the first External Service built as a \gls{PoC}, it was intended to be straightforward. The model references \gls{GPS} readings and what device collected them.
 
 \section{Synopsis}
 \label{sec:design:synopsis}

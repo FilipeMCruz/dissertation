@@ -1,22 +1,23 @@
 @startuml device-management-backend
 
+interface "Boot API" as BOOT_API
+
 component "Device Management Backend" {
     component "Application" as APP
     component "Domain" as DOM
     component "Domain Services" as DOM_SERV
-    component "Infrastructure" as INFRA {
+    folder "Infrastructure" as INFRA {
         component "Boot" as BOOT
-        component "Presistence" as PERSIST {
+        folder "Presistence" as PERSIST {
             component "Postgres" as POSTG
             interface "Postgres API" as POSTG_API
         }
-        component "Endpoint" as ENDPOINT {
+        folder "Endpoint" as ENDPOINT {
             component "Graphql" as GRAPH
             component "AMQP" as AMQP
             interface "Graphql API" as GRAPH_API
             interface "AMQP API" as AMQP_API
         }
-        interface "Boot API" as BOOT_API
     }
 
     interface "Application API" as APP_API
@@ -35,7 +36,7 @@ component "Device Management Backend" {
     AMQP --( APP_API
     POSTG --( DOM_API
     GRAPH --( APP_API
-   ' APP --( DOM_SERV_API
+    ' APP --( DOM_SERV_API
     DOM_SERV_API )-- APP
     DOM_API )-- DOM_SERV
     'DOM_SERV --( DOM_API

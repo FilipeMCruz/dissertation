@@ -1,6 +1,5 @@
 @startuml data-flow-scope
 
-state "Data Relayer" as DataRelayer
 state "Data Gateway" as DataGateway
 state decoded_or_encoded <<choice>>
 state "Data Processor Flow" as Processor
@@ -12,9 +11,6 @@ state "Device Management Flow" as Device
 state "Alert Dispatcher" as Alert
 
 DataStore: Data Unit is stored
-
-DataRelayer : Any data received as the body
-DataRelayer : of an HTTP POST is proxied
 
 DataGateway : Data is wraped in a
 DataGateway : Message Envelop with
@@ -44,8 +40,7 @@ Alert: Data Unit is analised and
 Alert: alerts are produced
 Alert: based on rules
 
-[*] --> DataRelayer
-DataRelayer -> DataGateway
+[*] -> DataGateway
 DataGateway -> decoded_or_encoded
 decoded_or_encoded --> Processor : decoded
 decoded_or_encoded --> Decoder : encoded

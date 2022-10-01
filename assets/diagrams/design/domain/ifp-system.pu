@@ -19,7 +19,7 @@ SO2 --> IFP : publish input\ndata >
 SO3 --> IFP
 
 IFP --> SI1
-IFP --> SI2 : collects output\ndata >
+IFP --> SI2 : delivers output\ndata >
 IFP --> SI3
 
 IFP <- RM1 : submits\nrules <

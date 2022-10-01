@@ -10,18 +10,18 @@ class Area
 
 class IrrigationZoneId
 
-class BoundaryEntry
+class BoundaryVertex
 
 class GPSPoint
 
-class EntryPosition
+class VertexPosition
 
-Area "1" -- "*" BoundaryEntry: has boundaries >
+Area "1" -- "*" BoundaryVertex: has boundaries >
 IrrigationZone "1" -- "1" Area: defined by >
 IrrigationZone "1" -- "1" IrrigationZoneName: named >
 IrrigationZone "1" -- "1" IrrigationZoneId: identified by >
 
-BoundaryEntry "1" -- "1" GPSPoint : at >
-BoundaryEntry "1" -- "1" EntryPosition : numbered according to >
+BoundaryVertex "1" -- "1" GPSPoint : at >
+BoundaryVertex "1" -- "1" VertexPosition : numbered according to >
 
 @enduml

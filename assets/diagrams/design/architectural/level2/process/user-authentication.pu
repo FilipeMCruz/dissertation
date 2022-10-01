@@ -28,7 +28,7 @@ AUTHSERVER --> User: presents sign in/sign up page
 deactivate AUTHSERVER
 User -> AUTHSERVER: performs sign in/sign up
 activate AUTHSERVER
-AUTHSERVER -> AUTHSERVER: authenticates\nuser via OIDC
+AUTHSERVER -> AUTHSERVER: authenticates\nuser via OpenID\nConnect Protocol
 AUTHSERVER --> User: redirect to registered callback in Sensae Console with id token
 deactivate AUTHSERVER
 User -> AGGRE: accesses\nregistered callback

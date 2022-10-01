@@ -15,7 +15,7 @@ BACK -> BACK: verifies if the\nuser has the\nneeded permissions
 BACK -> BACK : verify if user\nowns the device
 BACK -> DB ++: store changes made to\ndevice information
 return updated\ndevice information
-BACK -> MB : notify that the device was updated\n@ Internal Topic
+BACK -> MB : publish that the device was updated\n@ Internal Topic
 return updated\ndevice information
 
 @enduml

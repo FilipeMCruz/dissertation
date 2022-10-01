@@ -4,9 +4,9 @@ autonumber 1.1
 
 skinparam style strictuml
 
-participant "Alert Dispatcher\nBakend" as ALERT
+participant "Alert Dispatcher\nBackend" as ALERT
 participant "Message\nBroker" as MB
-participant "Rule Management\nBakend" as RULE
+participant "Rule Management\nBackend" as RULE
 participant "Rule Management\nDatabase" as RULE_DB
 
 activate MB
@@ -15,17 +15,17 @@ activate ALERT
 ALERT -> MB : publishes a "initialized rule\nmanagement context" message 
 deactivate ALERT
 autonumber inc A
-MB -> RULE : sends the message
+MB -> RULE : notifies about the message
 activate RULE
 RULE -> RULE_DB : requests all active rules
 activate RULE_DB
-RULE_DB --> RULE : sends all rules
+RULE_DB --> RULE : returns all rules
 deactivate RULE_DB
 RULE -> RULE : computes the current\nrule management state
 RULE -> MB : publishes a "sync rule\nmanagement context" message
 deactivate RULE
 autonumber inc A
-MB -> ALERT : sends the message
+MB -> ALERT : notifies about the message
 activate ALERT
 ALERT -> ALERT : stores the\nrule management\nstate internally
 ALERT -> MB : unsubscribes from\n"sync rule management context"

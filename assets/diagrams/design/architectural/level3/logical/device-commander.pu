@@ -1,21 +1,22 @@
 @startuml device-commander
 
+interface "Boot API" as BOOT_API
+
 component "Device Ownership" {
     component "Domain" as DOM
     component "Application" as APP
-    component "Infrastructure" as INFRA {
+    folder "Infrastructure" as INFRA {
         component "Boot" as BOOT
-        component "Endpoint" as ENDPOINT {
-            component "AMQP" as AMQP {
+        folder "Endpoint" as ENDPOINT {
+            folder "AMQP" as AMQP {
                 component "Ingress" as INGRESS
                 component "Internal" as INTERNAL
                 interface "Ingress API" as INGRESS_API
                 interface "Internal API" as INTERNAL_API
             }
-            component "REST" as REST 
+            component "REST" as REST
             interface "REST API" as REST_API
         }
-        interface "Boot API" as BOOT_API
     }
 
     interface "Domain API" as DOM_API

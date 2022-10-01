@@ -1,21 +1,23 @@
 \chapter{Requirements Elicitation}
 \label{chap:requirements}
 
-In this chapter the functional and non-functional requirements will be presented. ``A software requirement is a capability needed by the user to solve a problem or to achieve an objective. In other words, requirement is a software capability that must be met or possessed by a system or system component to satisfy a contract, standard, specification, or other formally imposed documentation. Ultimately, what we want to achieve is to develop quality software that meets customers' real needs on time and within budget.'' (\cite{req}).
+In this chapter the functional and non-functional requirements will be presented.
 
-The project followed the Scrum methodology described by \cite{schwaber1997scrum}, with monthly sprints that ended in presentations of the software to the company and weekly meetings focusing on reviewing the progress, discussing issues that rose and future ideas to add to the backlog.
+``A software requirement is a capability needed by the user to solve a problem or to achieve an objective. In other words, requirement is a software capability that must be met or possessed by a system or system component to satisfy a contract, standard, specification, or other formally imposed documentation. Ultimately, what we want to achieve is to develop quality software that meets customers' real needs on time and within budget.'' (\cite{req}).
 
-The project high-level goal was well defined since the start: develop an IoT Platform with focus on extensibility to decrease the delivery time of new business cases and allow others to implement their business on top of the platform.
+The project high-level goal was well defined since the start:
+
+Develop an IoT Platform with focus on extensibility to decrease the delivery time of new business cases and allow others to implement their business on top of the platform.
 
 The definitive business cases to develop changed various times during the project lifespan due to intricate contract promises with third parties that never ended up seeing the light of day. The business cases, ordered by the first time they were requested, and grouped by organization, can be summarized in Table~\ref{tab:requirements:servicerequests}.
 
-This business cases can be vaguely categorized according to the following organization's needs:
+This business cases can be vaguely characterized according to the following organization's needs:
 
 \begin{itemize}
-    \item \textbf{Hosting Options}: Whether the solution has to be deployed in the organization' server farm or in the cloud;
-    \item \textbf{Physical Resources}: Whether the organization wants to share an instance of the solution with others;
-    \item \textbf{Data Access}: Whether the organization wants to provide their data to the public;
-    \item \textbf{Information Access and Visualization}: Where and how to present and serve information. In the costumer organization platform, directly in this solution or via other means such as a simple \gls{API}, SMS, or email.
+    \item \textbf{Hosting Options}: Should the solution be deployed in the organization' server farm or in the cloud;
+    \item \textbf{Physical Resources}: Should the organization share an instance of the solution with others or not;
+    \item \textbf{Data Access}: Does the organization wants to provide their data to the public;
+    \item \textbf{Information Access and Visualization}: Where and how to present and serve information. Present information visually in the costumer organization platform, directly in this solution or via other means such as a simple \gls{API}, SMS, or email.
 \end{itemize}
 
 \begin{table}[H]
@@ -43,7 +45,7 @@ This business cases can be vaguely categorized according to the following organi
     \end{tabular}
 \end{table}
 
-The requirements detailed in the following sections were founded on top of the requested business cases mentioned above. This requirements were constantly tailored according to the latest talks with the third parties involved. Even though many requested business cases weren't implemented they conditioned the design and development of the final solution, \textbf{Sensae Console}.
+The requirements detailed in the following sections were founded on top of the requested business cases mentioned above. This requirements were constantly tailored according to the latest talks with the third parties involved. Even though many requested business cases weren't implemented, they guided the author to the design and development of the final solution, \textbf{Sensae Console} and \gls{PoC}s.
 
 At the time of writing, the \gls{PoC}s developed answer three business cases: (i) Fleet Management, (ii) Smart Irrigation and (iii) Indoor Fire Detention. The other business cases were either abandoned or requested too close to the writing of this dissertation and therefore will not be detailed.
 
@@ -56,11 +58,14 @@ According to \cite{van2009requirements}, ``Functional requirements define the fu
 
 The following sections describe the requirements associated with each role inside \textbf{Sensae Console}, the solution that this project aims to deliver, and the \gls{PoC}s developed, refereed as \textbf{External Services}.
 
+\subsection{Roles}
+\label{subsec:requirements:functional:roles}
+
 The meetings that took place during this project lifespan lead to the definition of three main roles:
 
 \begin{itemize}
-    \item \textbf{Manager}: a tenant with full control over the system and all its data. He/She has full control of all \textbf{External Services};
-    \item \textbf{Costumer}: a tenant with restricted control over \textbf{Sensae Console}, controlling only the devices, employees and departments registered under his/her own organization. He/She has access to requested \textbf{External Services};
+    \item \textbf{Manager}: a tenant with full control over the \textbf{Sensae Console} and all its data. He/She has also full control of all \textbf{External Services};
+    \item \textbf{Costumer}: a tenant with restricted control over \textbf{Sensae Console}, controlling only the devices, employees and departments registered under his/her own organization. He/She has access to the requested \textbf{External Services};
     \item \textbf{Anonymous User}: a tenant with no account in the system. He/She has access to the publicly available \textbf{External Services} and data feed from \textit{'public'} devices in the system.
 \end{itemize}
 
@@ -78,9 +83,9 @@ The following sections will be divided in:
 \subsection{Sensae Console}
 \label{subsec:requirements:functional:sensae}
 
-The idea behind Sensae Console functional requirements boils down to the core functionalities it should provide so that creating and maintaining External Services is simplified.
+The idea behind Sensae Console functional requirements boils down to the core functionalities it should provide so that creating and maintaining external services is simplified.
 
-For this reasons the Anonymous User role is disregarded inside the solution. 
+The Anonymous User role is disregarded here since his/her goal is to simply benefit from curated and publicly available information provided by the external services. 
 
 \subsubsection{Manager}
 \label{subsubsec:requirements:functional:sensae:manager}

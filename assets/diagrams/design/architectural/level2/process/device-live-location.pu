@@ -27,7 +27,7 @@ FRONT --> User: presents latest\ndevices readings
 ... after some time ...
 autonumber inc A
 MB <-? : device\nreadings
-MB -> BACK ++ : send device readings
+MB -> BACK ++ : notifies about new device readings
 BACK -> DB ++ : store device readings
 return success
 BACK -> BACK : search for active\nsubscriptions that can see\nthe new device readings

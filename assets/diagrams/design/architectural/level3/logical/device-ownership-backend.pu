@@ -1,12 +1,14 @@
 @startuml device-ownership-backend
 
+interface "Boot API" as BOOT_API
+
 component "Device Ownership Backend" {
     component "Application" as APP
     component "Domain" as DOM
-    component "Infrastructure" as INFRA {
+    folder "Infrastructure" as INFRA {
         component "Boot" as BOOT
-        component "Endpoint" as ENDPOINT {
-            component "AMQP" as AMQP {
+        folder "Endpoint" as ENDPOINT {
+            folder "AMQP" as AMQP {
                 component "Egress" as EGRESS
                 component "Ingress" as INGRESS
                 component "Internal" as INTERNAL
@@ -15,11 +17,10 @@ component "Device Ownership Backend" {
                 interface "Internal API" as INTERNAL_API
             }
         }
-        component "Persistence" as PRESIST {
+        folder "Persistence" as PRESIST {
             component "Memory" as MEM
             interface "Memory API" as MEM_API
         }
-        interface "Boot API" as BOOT_API
     }
 
     interface "Application API" as APP_API

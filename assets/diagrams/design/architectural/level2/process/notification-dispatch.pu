@@ -23,10 +23,10 @@ User -> FRONT ++ : access page
 ... after some time ...
 autonumber inc A
 
-?-> MB : alert
+?-> MB : publishes a new alert
 
 autonumber inc A
-MB -> BACK ++ : send alert
+MB -> BACK ++ : notifies about the new alert
 
 BACK -> BACK : transform alert\ninto notification
 
@@ -38,7 +38,7 @@ BACK -> FRONT -- : notification
 FRONT -> User : present notification
 
 autonumber inc A
-MB -> DISP ++ : send alert
+MB -> DISP ++ : notifies about the new alert
 
 DISP -> DISP : search for addresses\nsubscribed to the content\n type of the alert via email
 

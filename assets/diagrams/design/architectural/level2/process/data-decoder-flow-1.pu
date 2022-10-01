@@ -4,9 +4,9 @@ autonumber 1.1
 
 skinparam style strictuml
 
-participant "Data Decoder\nFlow Bakend" as DECODER_FLOW
+participant "Data Decoder\nFlow Backend" as DECODER_FLOW
 participant "Message Broker" as MB
-participant "Data Decoder\nBakend" as DECODER
+participant "Data Decoder\nBackend" as DECODER
 participant "Data Decoder\nDatabase" as DECODER_DB
 
 activate MB
@@ -14,7 +14,7 @@ activate MB
 -> MB : published encoded data\nunit message @ Data Topic
 
 autonumber inc A
-MB -> DECODER_FLOW : sends the message\n@ Data Topic
+MB -> DECODER_FLOW : notifies the message\n@ Data Topic
 activate DECODER_FLOW
 DECODER_FLOW -> DECODER_FLOW : searches for the script of\nthe device type mentioned\nin the data unit
 alt indentified device type
@@ -24,10 +24,10 @@ alt indentified device type
     DECODER_FLOW -> MB : publishes a "ping\ndata decoder" message\nfor the device type\n@ Internal Topic
 
     autonumber inc A
-    MB ->? :  sends the message\n@ Data Topic
+    MB ->? :  notifies the message\n@ Data Topic
 
     autonumber inc A
-    MB -> DECODER : sends the message\n@ Internal Topic
+    MB -> DECODER : notifies the message\n@ Internal Topic
     activate DECODER
     DECODER -> DECODER : processes "ping\ndata decoder"
     DECODER -> DECODER_DB : updates the last time that\nthe decoder was used
@@ -43,7 +43,7 @@ else unidentified device type
     DECODER_FLOW -> MB: publishes a "unkown\ndata decoder" message\nfor the device type\n@ Internal Topic
 
     autonumber inc A
-    MB -> DECODER: sends the message\n@ Internal Topic
+    MB -> DECODER: notifies the message\n@ Internal Topic
     activate DECODER
     DECODER -> DECODER: processes "unkown\ndata decoder"
     DECODER -> DECODER_DB : updates the last time that\nthe decoder was used

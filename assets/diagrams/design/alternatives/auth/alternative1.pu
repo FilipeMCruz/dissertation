@@ -15,7 +15,7 @@ end box
 
 participant "X Content\nBackend" as XBACK
 
-participant "Internal\nAuthorization Server" as AUTHSERVER
+participant "Internal\nAutentication Server" as AUTHSERVER
 
 activate AGGRE
 activate User
@@ -29,11 +29,7 @@ AGGRE -> AUTHLIB: Provides information\nabout new User
 activate AUTHLIB
 AUTHLIB -> AUTHSERVER: Provides information\nabout new User
 activate AUTHSERVER
-AUTHSERVER -> AUTHSERVER: Verifies Information
-AUTHSERVER -> AUTHSERVER: Checks if user is\nalready registered
-AUTHSERVER -> AUTHSERVER: Hashes password
-AUTHSERVER -> AUTHSERVER: Stores information\n
-AUTHSERVER -> AUTHSERVER: Generates\naccess token
+AUTHSERVER -> AUTHSERVER: Performs user\nauthentication
 AUTHSERVER --> AUTHLIB: Provides the access token
 deactivate AUTHSERVER
 AUTHLIB -> AGGRE: Notifies that a new\naccess token is present
@@ -51,8 +47,7 @@ AUTHLIB --> XFRONT: Provides the\naccess token
 deactivate AUTHLIB
 XFRONT -> XBACK: Requests infromation\nwith access token
 activate XBACK
-XBACK -> XBACK: Verifies if the\ntoken is valid
-XBACK -> XBACK: Verifies if the\ntoken has the\nneeded permissions
+XBACK -> XBACK: Verifies user\nauthorization
 XBACK --> XFRONT: Provides the information
 deactivate XBACK
 XFRONT --> User: Provides the information

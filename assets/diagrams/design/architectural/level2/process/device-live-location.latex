@@ -192,8 +192,8 @@
 \node at (870.3286pt,697.4641pt)[below right,color=black]{readings};
 \draw[pstyle7] (468.9822pt,744.8762pt) -- (458.9822pt,748.8762pt) -- (468.9822pt,752.8762pt) -- cycle;
 \draw[pstyle1] (462.9822pt,748.8762pt) -- (820.3088pt,748.8762pt);
-\node at (553.1169pt,729.1701pt)[below right,color=black]{\textbf{2.2}};
-\node at (580.1367pt,729.1701pt)[below right,color=black]{send device readings};
+\node at (503.6235pt,729.1701pt)[below right,color=black]{\textbf{2.2}};
+\node at (530.6433pt,729.1701pt)[below right,color=black]{notifies about new device readings};
 \draw[pstyle7] (682.3422pt,776.5822pt) -- (692.3422pt,780.5822pt) -- (682.3422pt,784.5822pt) -- cycle;
 \draw[pstyle1] (457.9822pt,780.5822pt) -- (688.3422pt,780.5822pt);
 \node at (488.0828pt,760.8762pt)[below right,color=black]{\textbf{2.3}};

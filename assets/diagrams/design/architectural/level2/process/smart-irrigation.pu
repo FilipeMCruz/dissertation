@@ -11,7 +11,7 @@ participant "Message\nBroker" as MB
 participant "Device Commander\nBackend" as COMM
 end box 
 
-participant "Heilum\nConsole" as HC
+interface "IoT Middleware" as HC
 
 activate MB
 

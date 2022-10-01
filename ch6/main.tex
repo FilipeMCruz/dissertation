@@ -7,7 +7,7 @@ This chapter addresses the implementation of the design detailed before. First, 
 \label{sec:implementation:decisions}
 
 This section describes and justifies the decisions taken while developing \textbf{Sensae Console}.
-As a green field project, \textbf{Sensae Console}, lacks constraints imposed by prior work, as such, all decisions have been taken during the thesis time span.
+As a green field project, \textbf{Sensae Console} lacks constraints imposed by prior work. As such, all decisions have been taken during the thesis time span.
 
 The following list unveils the most relevant technical decisions for \textbf{Sensae Console}:
 
@@ -45,16 +45,16 @@ In the following sub sections a brief description and justification of the techn
 \subsubsection{Programming Language Used}
 \label{subsubsec:implementation:decisions:backend:prog}
 
-As described in the development view of Section~\ref{subsubsec:design:architecture:context:development}, a package named \textit{iot-core}, an idealized \gls{SDK} for \textbf{Sensae Console}, was developed to define the information that flows inside the system. 
-Since this project is still in the early stages, the \textit{iot-core} package was only developed in \textit{Java}.
+A package named \textit{iot-core}, an idealized \gls{SDK} for \textbf{Sensae Console}, was developed to define the information that flows inside the system. 
+The \textit{iot-core} package was developed in \textit{Java}.
 
-In the future more programming languages may be supported though new \gls{SDK}s. The \textit{Rust} programming language is the next candidate due to its low memory footprint, fast startup times and expressive syntax.
+In the future, more programming languages may be supported though new \gls{SDK}s. The \textit{Rust} programming language is the next candidate due to its low memory footprint, fast startup times and expressive syntax.
 
-The reasons that lead to the development of the first \gls{SDK} in \textit{Java} are:
+The reasons that lead to the development of it in \textit{Java} are:
 
 \begin{itemize}
     \item It's the programming language that the author is most familiarized with;
-    \item Is widely used in industry for backend service development;
+    \item It is widely used in industry for backend service development;
     \item Vast and robust support for virtually any technology used for backend development: database access, synchronous and asynchronous communication protocols, streaming platforms, embedded caches, rule engines and script engines.
 \end{itemize}
 
@@ -67,7 +67,7 @@ The services that this section encompasses can be seen as more robust and heavy 
 
 As such, the framework used to develop them was \citetitle{springboot}, due to its vast documentation and big community. This framework comes with several modules that help to easily create stand-alone, production-grade applications. The author also had previously worked with this framework.
 
-The main drawbacks of this framework are the slow start up time and high memory consumption, since these are not ideal for the microservices/cloud world.
+The main drawbacks of this framework are the slow start up time and high memory consumption, since these are not ideal for the microservices/cloud world [\cite{springslow}].
 
 \subsubsection{Data Flow Scope Backend Services}
 \label{subsubsec:implementation:decisions:backend:flow}
@@ -82,7 +82,7 @@ According to \cite{graalvm-intro}, GraalVM is a ``high-performance JDK designed 
 
 This features, coupled with the fact that the \textit{Quarkus} architecture follows the \citetitle{reactivemanifesto}, are appealing when compared with \citetitle{springboot} that only has experimental support for \citetitle{graalvm}, via \citetitle{spring-native}.
 
-\subsection{Frontend Technologies Usage thought the Solution}
+\subsection{Frontend Technologies Usage through the Solution}
 \label{subsec:implementation:decisions:frontend}
 
 Even though a micro frontend architecture empowers the selection of different technologies depending on the requirements of the solution and team affinity with the stack, the Frontend Containers were developed using the same technological stack. At the time of writing there was only one developer involved, this diminished the cognitive load needed to work on the solution while still allowing future collaborators to use different frontend frameworks.
@@ -112,7 +112,7 @@ As for the framework/library used, the following table, Table~\ref{tab:implement
     \end{tabular}
 \end{table}
 
-Both tools have a wide support from the community and excellent documentation. For the author, Angular outclasses React in this project since it enforces the use of good design principles via the first and second entry described in the table above. 
+Both tools have a wide support from the community and excellent documentation. For the author, Angular outclasses React in this project since it enforces the use of good design principles via the first and second entry described in Table~\ref{tab:implementation:decisions:frontend:prog}. 
 
 \subsubsection{Technologies used to create a Micro Frontend Architecture}
 \label{subsubsec:implementation:decisions:frontend:micro}
@@ -136,11 +136,11 @@ This section briefly describes the library used to render and work with maps.
 
 The two options in regards to this requirement were: (i) \citetitle{googlemaps} and (ii) \citetitle{mapbox}.
 
-The author picked \citetitle{mapbox} due to better documentation, a more stable \gls{API}, and a much suitable pricing plan for small businesses, when compared with \citetitle{googlemaps}.
+The author picked \citetitle{mapbox} due to better documentation, a more stable \gls{API}, and a much suitable pricing plan for small businesses, when compared to \citetitle{googlemaps}.
 
-This library can render custom maps and is bundled with powerful data visualization tools with a simple to use \gls{API}. Two features deemed important for the solution.
+This library can render custom maps and is bundled with powerful data visualization tools with a simple to use \gls{API}, two features deemed important for the solution.
 
-\subsection{Expose a GraphQL API On Backend Services}
+\subsection{Backend Services Expose a GraphQL API}
 \label{subsec:implementation:decisions:graphql}
 
 The \gls{API} discussed in this section refers to the interfaces exposed to the outside world by backend containers of the Configuration and External Services Scopes and isn't related to the internal communication or device data ingestion interface exposed by the \textbf{Data Relayer} Container.
@@ -164,7 +164,9 @@ The idea behind the highly decoupled architecture of this solution derives from 
 \subsection{Usage of RabbitMQ to support Internal Communication}
 \label{subsec:implementation:decisions:rabbitmq}
 
-As discussed in Section~\ref{subsec:design:alternatives:internal} and \ref{subsec:design:alternatives:flow}, the technology ultimately chosen was for internal communication was \citetitle{rabbitmq}. This message broker was chosen in detriment of others since the author had previously worked with the technology.
+As discussed in Section~\ref{subsec:design:alternatives:flow} and \ref{subsec:design:alternatives:internal}, the technology needed for this solution had to act as a message broker. It should enable the system to follow a push approach and ease the complex routing model envisioned.
+
+The technology chosen for internal communication was \citetitle{rabbitmq}. This message broker was chosen in detriment of others since the author had previously worked with the technology.
 
 As discussed in the article, \citetitle{rabbitmqexpl}, the \gls{AMQP} 0.9.1 protocol defines four main concepts: (i) publisher, (ii) exchange, (iii) queue, (iv) consumer. The following diagram, Figure~\ref{fig:implementation:decisions:rabbitmq} explains how this concepts interact.
 
@@ -198,24 +200,24 @@ When dealing with Topic Exchanges a Consumer can only subscribe to one specific 
     \item Duplicate data units, where each copy would be assigned a different channel, deemed inefficient;
 \end{itemize}
 
-To tackle this issue, another Message Broker, such as \citetitle{pulsar}, with its own protocol, can be used in the future. This Message Broker answers the drawback describe above by allowing Consumers to subscribe to multiple topics (equivalent to RabbitMQ' routing keys) on the basis of a regular expression (regex), as stated in \citetitle{pulsarmulti}.
+To tackle this issue, another Message Broker, such as \citetitle{pulsar}, with its own protocol, can be used in the future. This Message Broker answers the drawback describe above by allowing Consumers to subscribe to multiple topics (equivalent to RabbitMQ' routing keys) on the basis of a regular expression (regex) [\citetitle{pulsarmulti}].
 
-The other drawback found is that, according to the \citetitle{rabbitmqprotocol} the routing keys have a max size of 255 bytes. As described in Table~\ref{tab:design:domain:shared_model:routing} of Section~\ref{subsubsec:design:domain:shared_model:routing}, the system currently supports various keys and more keys are expected to be added in the future, meaning that this cap may one day be reached. This limitation lead to the encoding of routing keys in a single character when possible.
+The other drawback found is that, according to the \citetitle{rabbitmqprotocol} the routing keys have a max size of 255 bytes. As described in Table~\ref{tab:design:domain:shared_model:routing} of Section~\ref{subsubsec:design:domain:shared_model:routing}, the system currently supports various keys and more keys are expected to be added in the future, meaning that this cap may one day be reached. This limitation was tackled by mapping each routing key to a single character when possible. As an example, the routing key \textit{Info Type Options} in Table~\ref{tab:design:domain:shared_model:routing} has three possible values: Encoded, Decoded and Processed, theses values are respectively represented in the system as \textit{e}, \textit{d} and \textit{p}.
 
 \subsection{Usage of Protocol Buffers in Internal Communication}
 \label{subsec:implementation:decisions:proto}
 
-This section refers to how messages that flow in the system (via Message Broker) are serialized and deserialized. The common formats used to send structured data across systems are \gls{JSON} and \gls{XML}. This formats, when compared with \citetitle{proto} or \citetitle{thrift}, sacrifice size and de/serialization performance for human readability as stated in \cite{sumaray2012comparison}.
+This section refers to how messages that flow in the system (via Message Broker) are serialized and deserialized. The common formats used to send structured data across systems are \gls{JSON} and \gls{XML}. This formats sacrifice size and de/serialization performance for human readability as stated in \cite{sumaray2012comparison}.
 
 As mentioned before, \textbf{Sensae Console} aims to provide a good developer experience for external costumers that want to expand the solution according to their needs. Due to this, the final decision weighted heavily on formats that were self-documented, e.g. defined by a strict \textit{data schema}, such as \citetitle{proto} and \citetitle{thrift}.
 
-This two technologies, \citetitle{proto} and \citetitle{thrift}, have similar goals and approaches to the problem they try to solve. They both rely on code generation based on a schema of the data structure. The tools related to this formats officially support various languages such as \textit{Java}, \textit{C++}, \textit{C\#}, \textit{Python}, \textit{Go} and others. 
+These two technologies, \citetitle{proto} and \citetitle{thrift}, have similar goals and approaches to the problem they try to solve. They both rely on code generation based on a schema of the data structure. The tools related to this formats officially support various languages such as \textit{Java}, \textit{C++}, \textit{C\#}, \textit{Python}, \textit{Go} and others. 
 
-By leveraging this features, creating a basic \gls{SDK} in a new programming language is trivial since serialization, deserialization and data structure is already taken care by the code generation tool.
+By leveraging these features, creating a basic \gls{SDK} in a new programming language is trivial since serialization, deserialization and data structure is already taken care by the code generation tool.
 
-\citetitle{proto} are a ``language-neutral, platform-neutral, extensible mechanism for serializing structured data''.
+\citetitle{proto} are a ``language-neutral, platform-neutral, extensible mechanism for serializing structured data'' [\cite{proto}].
 
-\citetitle{thrift}s ``primary goal is to enable efficient and reliable communication across programming languages by abstracting the portions of each language that tend to require the most customization into a common library that is implemented in each language.''
+Thrift's ``primary goal is to enable efficient and reliable communication across programming languages by abstracting the portions of each language that tend to require the most customization into a common library that is implemented in each language'' [\cite{thrift}].
 
 Ultimately \citetitle{proto} were chosen due to better documentation and community support.
 
@@ -225,7 +227,9 @@ Ultimately \citetitle{proto} were chosen due to better documentation and communi
 
 This section refers to how information is stored across the system.
 
-A \gls{DBMS} is a general-purpose software system that facilitates the processes of defining, constructing, manipulating, and sharing data - \citetitle{elmasri2000fundamentals}. \gls{DBMS}s can be categorized according to several criteria, such as the data model, number of users or number of sites. This section focus on the data model, these are some of the data model types, according to \cite{elmasri2000fundamentals}: 
+A \gls{DBMS} is a general-purpose software system that facilitates the processes of defining, constructing, manipulating, and sharing data - \citetitle{elmasri2000fundamentals}. \gls{DBMS}s can be categorized according to several criteria, such as the data model, number of users or distribution. This section focus on the data model.
+
+These are some of the data model types, according to \cite{elmasri2000fundamentals}: 
 
 \begin{itemize}
     \item The \textbf{relational data model} represents a database as a collection of tables,
@@ -249,25 +253,25 @@ It is intended for strictly structured data with well defined interrelations. Th
 
 As such, this data model was adopted for the \textbf{Device Management Database}, \textbf{Data Decoder Database}, \textbf{Data Processor Database}, \textbf{Rule Management Database}, \textbf{Identity Management Database}, \textbf{Smart Irrigation Business Database} and \textbf{Notification Management Database} containers. 
 
-The author had previous contact with all the cited \gls{DBMS}, the decision to use \citetitle{postgressql} was taken based on the fact that, contrary to the other options, \citetitle{postgressql} supports a vast number of Data Types such as \gls{JSON}, Arrays, \gls{UUID}, and Ranges. \citetitle{postgressql}'s data model is an extension of the relation data model, named object-relational data model - \cite{elmasri2000fundamentals}. This data model supports various concepts such as objects, classes and inheritance and therefore can lead to entity models more expressive and close to the business ideas.
+The author had previous contact with all the cited \gls{DBMS}, and the decision to use \citetitle{postgressql} was taken based on the fact that, contrary to the other options, \citetitle{postgressql} supports a vast number of Data Types such as \gls{JSON}, Arrays, \gls{UUID}, and Ranges. \citetitle{postgressql}'s data model is an extension of the relation data model, named object-relational data model - \cite{elmasri2000fundamentals}. This data model supports various concepts such as objects, classes and inheritance and therefore can lead to entity models more expressive and close to the business ideas.
 
 \subsubsection{Document-based Database Usage}
 \label{subsubsec:implementation:decisions:database:nosql}
 
-This data model rose from the increasing need to store and analyze unstructured data as stated by \cite{miloslavskaya2016big}.  Citing \cite{elmasri2000fundamentals}, a ``major difference between document-based systems versus object and object-relational systems (...) is that there is no requirement to specify a schema''.
+This data model rose from the increasing need to store and analyze unstructured data as stated by \cite{miloslavskaya2016big}.  Citing \cite{elmasri2000fundamentals}, a ``major difference between document-based systems versus object and object-relational systems (relational database systems) is that there is no requirement to specify a schema''.
 
 This type of requirements and data resembles the Data Store context described in Section~\ref{subsec:design:system_scopes:data_flow_scope} and Figures~\ref{fig:design:architecture:container:logical:diagram:data_flow} and \ref{fig:design:architecture:container:process:diagram:flow}. This context, intended to mimic a Data Lake\footnote{Massively scalable storage repository that holds a vast amount of raw data in its native format («as is») until it is needed, by \cite{miloslavskaya2016big}}, stores any type of data for future use.
 
 As such, this data model was adopted for the \textbf{Data Store Database} container. 
 
-The only technology considered, and therefore adopted, was \citetitle{mongodb} due to its vast community, excellent documentation and large number of libraries that ease the database management operations. \citetitle{mongodb} also supports replication and sharding according to \cite{elmasri2000fundamentals}, this features is useful once a single node isn't capable of withstanding all data collected while providing fast access to it.
+The only technology considered, and therefore adopted, was \citetitle{mongodb} due to its vast community, excellent documentation and large number of libraries that ease the database management operations. \citetitle{mongodb} also supports replication and sharding. According to \cite{elmasri2000fundamentals}, these features are useful once a single node isn't capable of withstanding all data collected while providing fast access to it.
 
 \subsubsection{Column-based Database Usage}
 \label{subsubsec:implementation:decisions:database:time}
 
-This data model is used in applications that require large amounts of data storage, and is commonly named \textit{data warehouses}. According to \cite{dehdouh2015using}, a data warehouse  is ``designed according to a dimensional modelling which has for objective to observe facts through measures, also called indicators, according to the dimensions that represent the analysis axes''. Citing \cite{han2011survey}, this databases ``can maintain high-performance of data analysis and business intelligence processing''.
+This data model is used in applications that require large amounts of data storage, and is commonly named \textit{data warehouses}. According to \cite{dehdouh2015using}, a data warehouse  is ``designed according to a dimensional modelling which has for objective to observe facts through measures, also called indicators, according to the dimensions that represent the analysis axes''. Citing \cite{han2011survey}, these databases ``can maintain high-performance of data analysis and business intelligence processing''.
 
-This features fit the requirements related to storing and reading vast amounts of device measures. As such, it was adopter for the \textbf{Fleet Management Database} and \textbf{Smart Irrigation Data Database} containers.
+These features fit the requirements related to storing and reading vast amounts of device measures. As such, it was adopter for the \textbf{Fleet Management Database} and \textbf{Smart Irrigation Data Database} containers.
 
 The author had no previous contact with this type of data model. Some of the technologies related to this concept are: (i) \citetitle{hbase}, (ii) \citetitle{cassandradb}, (iii) \citetitle{influxdb}, (iv) \citetitle{questdb}.
 
@@ -294,7 +298,7 @@ Between the two missing options, the author picked \citetitle{questdb} due to be
 \subsubsection{Graph-based Database Usage}
 \label{subsubsec:implementation:decisions:database:identity}
 
-Even tho this data model was ultimately not used, the author deemed relevant to mention it.
+Even tho this data model was ultimately not used, the author deemed relevant to analyze it.
 
 As stated in the bounded context's section of~\nameref{subsubsec:design:domain:bounded_contexts:identity}, the domains follow a hierarchical structure that can resemble a graph. This context in particular would benefit from a  graph-based database, but this option was not pursued since the author had no previous contact with this family of technologies. Instead \citetitle{postgressql} was used.
 
@@ -307,11 +311,11 @@ Queries that revolve around graph concepts such as: select parent node, select c
 
 This section refers to the bounded context of \textbf{Rule Management}. As mentioned before, the purpose of this context is to provide a high-level language that can analyze a stream of Data Units and output alerts base on them. The technology adopted was \citetitle{drools}.
 
-\citetitle{drools} is an open-source rule engine widely used in the industry. The features that stud out from other rule engines were:
+\citetitle{drools} is an open-source rule engine widely used in the industry [\cite{droolsindustry}]. The features that stud out from other rule engines are:
 
 \begin{itemize}
     \item Supports for sliding windows of time;
-    \item Is also a \gls{CEP} System;
+    \item It is also a \gls{CEP} System;
     \item Integrates with the \textit{iot-core} package since it is also written in \textit{Java};
     \item Can be used as a standalone application or an embedded component of another application;
     \item Has an expressive, yet complex, syntax to write rules; 
@@ -325,25 +329,33 @@ The Section~\ref{subsec:implementation:description:rule} details how one can wri
 
 This section refers to the bounded context of \textbf{Data Decoder}. As mentioned before, this context purpose is to translate inbound Data Units into a format and semantics that the system can understand. The technology adopted was \textit{Javascript}.
 
-\textit{Javascript} is a high level language with an enormous community and is widely used in the industry. Another big reason behind this decision is that a lot of companies producing \gls{IoT} devices provide open-source decoders written in \textit{Javascript}, such as \href{https://github.com/Milesight-IoT/SensorDecoders}{Milesight}
-\footnote{\href {https://github.com/Milesight-IoT/SensorDecoders}{github.com/Milesight-IoT/SensorDecoders}}, \href{https://github.com/SensationalSystems}{SensationalSystems}, \href{https://github.com/helium/console-decoders}{Helium}, 
-\footnote{\href {https://github.com/helium/console-decoders}{github.com/helium/console-decoders}} and
-\footnote{\href {https://github.com/SensationalSystems}{github.com/SensationalSystems}}. This makes it easy and straightforward to integrate new decoders in \textbf{Sensae Console}.
+\textit{Javascript} is a high level language with an enormous community and is widely used in the industry. Another big reason behind this decision is that a lot of companies producing \gls{IoT} devices provide open-source decoders written in \textit{Javascript}, such as \href{https://github.com/Milesight-IoT/SensorDecoders}{Milesight} \footnote{\href {https://github.com/Milesight-IoT/SensorDecoders}{github.com/Milesight-IoT/SensorDecoders}}, \href{https://github.com/SensationalSystems}{SensationalSystems} \footnote{\href {https://github.com/SensationalSystems}{github.com/SensationalSystems}} and \href{https://github.com/helium/console-decoders}{Helium}, \footnote{\href {https://github.com/helium/console-decoders}{github.com/helium/console-decoders}}. This makes it easy and straightforward to integrate new decoders in \textbf{Sensae Console}.
 
 The Section~\ref{subsec:implementation:description:decoder} details how one can write decoders.
 
 \subsection{Containerization of services via Docker}
 \label{subsec:implementation:decisions:docker}
 
-This section describes how the final product is packaged using \citetitle{docker}.
+This section describes how the final product is packaged into containers.
 
-As stated in \citetitle{dockerinit}, Docker acts as an intermediary layer between the application to be deployed and the operating system where it will be deployed, ensuring that the developed software has the same behavior regardless of the system. The dependencies of the solution do not have to be present in the system, it is only necessary to install the Docker tool in the \gls{OS}.
+As stated in \citetitleyear{dockerinit}, Docker acts as an intermediary layer between the application to be deployed and the operating system where it will be deployed, ensuring that the developed software has the same behavior regardless of the system. The dependencies of the solution do not have to be present in the system, it is only necessary to install the Docker tool in the \gls{OS}.
 
 This tool thus makes it possible to lower the coupling between the \gls{OS} and the software to be deployed.
 
 With regards for this solution, each container defined in Section~\ref{subsec:design:architecture:containers} is mapped into a docker container.
-A container is often compared to a virtual machine running on a hypervisor or
-\gls{OS}, but it has a much lower resource consumption, since only the application is run and not not all the processes inherent to an \gls{OS}. Containers execute calls directly to the kernel running on the physical machine and can be seen, unlike virtual machines with their own kernel, as a normal process.
+A container is often compared to a virtual machine running on a hypervisor or \gls{OS}, but it has a much lower resource consumption, since only the application runs and not not all the processes inherent to an \gls{OS} as described by \cite{bernstein2014containers}.
+
+The Figure~\ref{fig:implementation:decisions:docker:contvsvm} compares a \gls{VM} and Container-based deployments.
+
+\begin{figure}[H]
+    \centering
+    \resizebox{0.7\columnwidth}{!}
+    {
+       \includegraphics{assets/figures/vmvscontainer.png}
+    }
+    \caption[Comparison of VM and Container-based deployments]{Comparison of VM (a) and Container-based (b) deployments by \cite{bernstein2014containers}}
+    \label{fig:implementation:decisions:docker:contvsvm}
+\end{figure}
 
 The system is thus represented as a collection of containers that communicate with each other and the outside through standard protocols such as HTTP or AMQP.
 
@@ -356,9 +368,9 @@ Details about service containerization can be found in Section~\ref{subsec:imple
 
 This section describes how the final product is orchestrated using Docker Compose.
 
-As stated in the article \citetitle{dockercompose}, ``Compose is a tool for defining and running multi-container Docker applications''. 
+As stated in the article \citetitleyear{dockercompose}, ``Compose is a tool for defining and running multi-container Docker applications''. 
 
-Since there is no need to automatically scale the solution it was decided to use a docker compose in production inserted of tools like Kubernetes.
+Currently a single node is capable of handling the traffic generated by all the managed devices and costumers. Due to this, it was decided to use a docker compose in production inserted of tools like Kubernetes (that can ease the process of autoscaling individual containers).
 
 The solution's orchestration is defined in a \textit{YAML} file and then started with a single command. To improve security, only the needed container ports are exposed. To ensure data integrity throughout service disruptions, persistence data is mapped to folder in the \gls{OS}. To ensure an easy management of the environment, configurations are kept in the \gls{OS} and fetched by each container once they start.
 
@@ -372,7 +384,7 @@ To serve the frontend pages and redirect requests made to backend containers, th
 \begin{itemize}
     \item \citetitle{nginx};
     \item \citetitle{apachehttp};
-    \item \citetitle{lighttpd};
+    \item \citetitle{lighttpd}.
 \end{itemize}
 
 All of them support the necessary requirements, but some factors lead the author to pick Nginx over the others, the following table, Table~\ref{tab:implementation:decisions:nginx:compare}, describes this criteria.
@@ -390,7 +402,7 @@ All of them support the necessary requirements, but some factors lead the author
     \end{tabular}
 \end{table}
 
-The details about \citetitle{nginx} configuration can be found in Section~\ref{subsec:implementation:description:nginx}.
+The details about \citetitle{nginx} adoption and configuration can be found in Section~\ref{subsec:implementation:description:nginx}.
 
 \subsection{Usage of Git as a version control system of the project}
 \label{subsec:implementation:decisions:git}
@@ -624,7 +636,7 @@ In the Appendix~\ref{AppendixE} Appendix the full \textit{pom.xml} is presented.
 \section{Technical Description}
 \label{sec:implementation:description}
 
-This section guides the reader though \textbf{Sensae Console} with a technical description of the various elements that are exposed to the final costumers and platform managers.
+This section guides the reader through \textbf{Sensae Console} and \textbf{External Services} with a technical description of the various elements that are exposed to the final costumers and platform managers.
 
 It describes the following topics:
 
@@ -1485,7 +1497,7 @@ In the following sections examples for each test category will be presented.
 \subsection{Unit Tests}
 \label{subsec:implementation:tests:unit}
 
-This section focus on unit tests preformed in various containers.
+This section focus on unit tests preformed throughout the solution.
 
 The test presented in Listing~\ref{code:implementation:tests:unit1} verifies that a value referenced via the path \textit{'path[0].prop'} can be found and transferred to the path defined in the mentioned Property: \textit{DEVICE\_ID}. 
 It uses the \citetitle{junit5}.
@@ -1577,9 +1589,9 @@ describe('Device Command Unit Test', () => {
 \subsection{Integration Tests}
 \label{subsec:implementation:tests:integration}
 
-This section, as an example, starts to focus on integration tests preformed in the \textbf{Device Ownership Flow} Container and then moves on to \textbf{Notification Management Backend}.
+This section, as an example, describes the integration tests preformed in the \textbf{Device Ownership Flow} Container and then moves on to \textbf{Notification Management Backend}.
 
-The tool used to ease the formulation of integration tests was \citetitle{testcontainers}. This tool uses docker to fabricate the needed environment where integration tests can run.
+The tool used to ease the formulation of integration tests was \citetitle{testcontainers}. This tool uses docker to fabricate the needed environment where integration tests can run. It is responsible for automaticaly starting and shuting down the containers needed to performed this tests.
 
 The code in Listing~\ref{code:implementation:tests:inte1} verifies that the message broker can be reached by \textbf{Device Ownership Flow}.
 
@@ -1618,7 +1630,9 @@ class DeviceInformationEmitterTest {
 }
 \end{lstlisting}
 
-The class tested is \textit{DeviceInformationEmitter}, line \textbf{5}, as we can see, a message is sent in line \textbf{25} and, as expected it is recieved in line \textbf{27}.
+In this example a \textit{RabbitMQ} instance, the only system that this container depends on, is started by the \citetitle{testcontainers} library before running the tests and shuted down once they end.
+
+The class tested is \textit{DeviceInformationEmitter}, line \textbf{5}. As we can see, a message is sent in line \textbf{25} and, as expected it is recieved in line \textbf{27}.
 
 The code in Listing~\ref{code:implementation:tests:inte2} verifies that the database can be reached by the \textbf{Notification Management Backend}.
 

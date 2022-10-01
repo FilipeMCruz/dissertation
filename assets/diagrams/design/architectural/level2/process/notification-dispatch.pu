@@ -13,8 +13,8 @@ participant "Notification Management\nDatabase" as DB
 participant "Message\nBroker" as MB
 end box
 
-participant "Twilio\nPlatform" as SMS
-participant "Google Email\nPlatform" as EMAIL
+interface "SMS Dispatcher" as EMAIL
+interface "Email Dispatcher" as SMS
 
 activate MB 
 

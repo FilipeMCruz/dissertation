@@ -21,13 +21,13 @@
 \draw[pstyle1] (865.5696pt,58.1358pt) -- (865.5696pt,495.7261pt);
 \draw[pstyle2] (5pt,10pt) arc (180:270:5pt) -- (10pt,5pt) -- (139.1853pt,5pt) arc (270:360:5pt) -- (144.1853pt,10pt) -- (144.1853pt,52.1358pt) arc (0:90:5pt) -- (139.1853pt,57.1358pt) -- (10pt,57.1358pt) arc (90:180:5pt) -- (5pt,52.1358pt) -- cycle;
 \node at (12pt,12pt)[below right,color=black]{Alert Dispatcher};
-\node at (45.4327pt,31.0679pt)[below right,color=black]{Bakend};
+\node at (41.5155pt,31.0679pt)[below right,color=black]{Backend};
 \draw[pstyle2] (325.6812pt,10pt) arc (180:270:5pt) -- (330.6812pt,5pt) -- (398.9357pt,5pt) arc (270:360:5pt) -- (403.9357pt,10pt) -- (403.9357pt,52.1358pt) arc (0:90:5pt) -- (398.9357pt,57.1358pt) -- (330.6812pt,57.1358pt) arc (90:180:5pt) -- (325.6812pt,52.1358pt) -- cycle;
 \node at (332.6812pt,12pt)[below right,color=black]{Message};
 \node at (337.7302pt,31.0679pt)[below right,color=black]{Broker};
 \draw[pstyle2] (566.2256pt,10pt) arc (180:270:5pt) -- (571.2256pt,5pt) -- (713.5256pt,5pt) arc (270:360:5pt) -- (718.5256pt,10pt) -- (718.5256pt,52.1358pt) arc (0:90:5pt) -- (713.5256pt,57.1358pt) -- (571.2256pt,57.1358pt) arc (90:180:5pt) -- (566.2256pt,52.1358pt) -- cycle;
 \node at (573.2256pt,12pt)[below right,color=black]{Rule Management};
-\node at (613.2156pt,31.0679pt)[below right,color=black]{Bakend};
+\node at (609.2984pt,31.0679pt)[below right,color=black]{Backend};
 \draw[pstyle2] (789.5696pt,10pt) arc (180:270:5pt) -- (794.5696pt,5pt) -- (936.8696pt,5pt) arc (270:360:5pt) -- (941.8696pt,10pt) -- (941.8696pt,52.1358pt) arc (0:90:5pt) -- (936.8696pt,57.1358pt) -- (794.5696pt,57.1358pt) arc (90:180:5pt) -- (789.5696pt,52.1358pt) -- cycle;
 \node at (796.5696pt,12pt)[below right,color=black]{Rule Management};
 \node at (830.4311pt,31.0679pt)[below right,color=black]{Database};
@@ -44,7 +44,7 @@
 \draw[pstyle3] (625.3756pt,137.2539pt) -- (635.3756pt,141.2539pt) -- (625.3756pt,145.2539pt) -- cycle;
 \draw[pstyle4] (369.8084pt,141.2539pt) -- (631.3756pt,141.2539pt);
 \node at (376.8084pt,121.5479pt)[below right,color=black]{\textbf{2.1}};
-\node at (403.8283pt,121.5479pt)[below right,color=black]{sends the message};
+\node at (403.8283pt,121.5479pt)[below right,color=black]{notifies about the message};
 \draw[pstyle3] (848.7196pt,168.9599pt) -- (858.7196pt,172.9599pt) -- (848.7196pt,176.9599pt) -- cycle;
 \draw[pstyle4] (647.3756pt,172.9599pt) -- (854.7196pt,172.9599pt);
 \node at (654.3756pt,153.2539pt)[below right,color=black]{\textbf{2.2}};
@@ -52,7 +52,7 @@
 \draw[pstyle3] (658.3756pt,200.6659pt) -- (648.3756pt,204.6659pt) -- (658.3756pt,208.6659pt) -- cycle;
 \draw[color=plantucolor0001,line width=1.0pt,dash pattern=on 2.0pt off 2.0pt] (652.3756pt,204.6659pt) -- (864.7196pt,204.6659pt);
 \node at (664.3756pt,184.9599pt)[below right,color=black]{\textbf{2.3}};
-\node at (691.3954pt,184.9599pt)[below right,color=black]{sends all rules};
+\node at (691.3954pt,184.9599pt)[below right,color=black]{returns all rules};
 \draw[pstyle4] (647.3756pt,254.0779pt) -- (689.3756pt,254.0779pt);
 \draw[pstyle4] (689.3756pt,254.0779pt) -- (689.3756pt,267.0779pt);
 \draw[pstyle4] (648.3756pt,267.0779pt) -- (689.3756pt,267.0779pt);
@@ -68,7 +68,7 @@
 \draw[pstyle3] (90.5927pt,344.196pt) -- (80.5927pt,348.196pt) -- (90.5927pt,352.196pt) -- cycle;
 \draw[pstyle4] (84.5927pt,348.196pt) -- (358.8084pt,348.196pt);
 \node at (96.5927pt,328.49pt)[below right,color=black]{\textbf{3.1}};
-\node at (123.6125pt,328.49pt)[below right,color=black]{sends the message};
+\node at (123.6125pt,328.49pt)[below right,color=black]{notifies about the message};
 \draw[pstyle4] (79.5927pt,415.314pt) -- (121.5927pt,415.314pt);
 \draw[pstyle4] (121.5927pt,415.314pt) -- (121.5927pt,428.314pt);
 \draw[pstyle4] (80.5927pt,428.314pt) -- (121.5927pt,428.314pt);

@@ -71,7 +71,7 @@
 \draw[pstyle3] (615.1031pt,458.7261pt) -- (625.1031pt,462.7261pt) -- (615.1031pt,466.7261pt) -- cycle;
 \draw[pstyle4] (286.699pt,462.7261pt) -- (621.1031pt,462.7261pt);
 \node at (293.699pt,434.1671pt)[below right,color=black]{\textbf{1.7}};
-\node at (320.7189pt,425.314pt)[below right,color=black]{notify that the device was updated};
+\node at (320.7189pt,425.314pt)[below right,color=black]{publish that the device was updated};
 \node at (320.7189pt,443.0201pt)[below right,color=black]{@ Internal Topic};
 \draw[pstyle3] (100.2657pt,508.1381pt) -- (90.2657pt,512.1381pt) -- (100.2657pt,516.1381pt) -- cycle;
 \draw[pstyle5] (94.2657pt,512.1381pt) -- (280.699pt,512.1381pt);

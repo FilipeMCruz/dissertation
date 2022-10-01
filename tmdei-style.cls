@@ -505,6 +505,21 @@ unicode,
 breaklinks=true,
 }
 
+\DeclareCiteCommand{\citetitleyear}
+{\boolfalse{citetracker}%
+  \boolfalse{pagetracker}}
+{\ifciteindex
+  {\indexfield{indextitle}}
+  {}%
+  \printfield[citetitle]{labeltitle}%
+  \setunit{\addspace}%
+  \printtext[bibhyperref]{%
+    \usebibmacro{prenote}%
+    \printfield{year}\printfield{extrayear}%
+    \usebibmacro{postnote}}}
+{\multicitedelim}
+{}
+
 \pdfstringdefDisableCommands{% If there is an explicit linebreak in a section heading (or anything printed to the pdf-bookmarks), it is replaced by a space
    \let\\\space%
 }
@@ -660,3 +675,5 @@ breaklinks=true,
 	commentstyle=\color{gray},
 	postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{gray}\hookrightarrow\space}},
 }
+
+

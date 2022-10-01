@@ -12,11 +12,11 @@ participant "Ui Aggregator Shell" as AGGRE
 participant "X Content\nFrontend" as XFRONT
 participant "Auth Lib" as AUTHLIB
 end box
-participant "Permissions\nServer" as ROLESBACK
+participant "Authorization\nServer" as ROLESBACK
 participant "X Content\nBackend" as XBACK
 end box
 
-participant "External\nAuthorization Server" as AUTHSERVER
+participant "External\nAutentication Server" as AUTHSERVER
 
 activate AGGRE
 activate User
@@ -29,7 +29,7 @@ User -> AUTHSERVER: Accesses external auth service
 activate AUTHSERVER
 AUTHSERVER --> User: Presents sign in/sign up page
 User -> AUTHSERVER: Performs sign ip/sign up
-AUTHSERVER -> AUTHSERVER: Authenticates\nuser via OIDC
+AUTHSERVER -> AUTHSERVER: Authenticates\nuser via OpenID\nConnect Protocol
 AUTHSERVER -> User: Redirect to registered callback with access token
 deactivate AUTHSERVER
 User -> AGGRE: Accesses registered\ncallback

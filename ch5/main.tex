@@ -4,6 +4,16 @@
 This chapter's goal is to describe the overall system design to the reader.
 First, the system scopes will be introduced to guide the reader through the system design. After this, the system's architectural design will be presented and major decisions/alternatives are discussed. Then a more detailed vision of the system is given by presenting the domain models of each scope's contexts.
 
+According to \cite{DIAS2022100529}, \gls{IoT} solutions, on a high-level, are commonly composed by three tiers: 
+
+\begin{itemize}
+   \item Cloud Tier: Servers, Applications and Data Centers;
+   \item Fog Tier: Routes and Gateways;
+   \item Edge Tier: Embedded Systems, sensors and actuators (things).
+\end{itemize}
+
+This chapter focus only on the Cloud Tier, the other tiers are out of scope since the author had no relevant involvement in their development. 
+
 Scopes are derived from the major system responsibilities of the solution as a whole, contexts are derived from the major functionalities or business cases that the project has to answer.
 
 \section{System Scopes}
@@ -851,7 +861,7 @@ The following picture, Figure~\ref{fig:design:alternatives:auth:backend:scale}, 
    \label{fig:design:alternatives:auth:backend:scale}
 \end{figure}
 
-The final decision was to follow an architecture based on Microservices even tho this decision had several oversights:
+The final decision was to follow an architecture based on Microservices, even tho this decision had several oversights:
 
 \begin{itemize}
    \item Development Team size: microservices are commonly adopted by big companies where each team of developers is responsible for a subset of microservices. This lowers the friction between teams when developing and deploying the solution and is seen as a big reason to move to a microservice architecture. For this solution, a single developer is responsible for everything;
@@ -859,16 +869,19 @@ The final decision was to follow an architecture based on Microservices even tho
    \item A solution shouldn't start with a microservice architecture: a solution should migrate to microservices when it becomes too complex and hard to maintain, \cite{ibmmicro}. 
 \end{itemize}
 
-The decision made was based on the following assumptions and perceptions:
+The decision made was based on the following assumptions, perceptions and findings:
 
 \begin{itemize}
    \item There are well defined boundaries between the various business processes that the project needs to support;
    \item There is a perception that the solution will need to scale early on the road due to high volumes of \gls{IoT} data to process and store;
    \item There are a high number of completely independent External services to develop and deploy;
-   \item There are different types of costumers with diverse requirements regarding the deployment and development of the solution.
+   \item There are different types of costumers with diverse requirements regarding the deployment and development of the solution;
+   \item Each costumer is interested in their specific business case or cases and therefore requires different combinations of External Services.
 \end{itemize}
 
-\gls{SOA} was discarded since it focus on business functionality reuse instead of functional requirements segregation. With \gls{SOA} each service is responsible only for one non functional requirement such as: auditing, security, logging, data storage, data presentation, business process logic and others. All these services usually communicate via \gls{ESB}. A new functional requirement or business process requires every type of service to be modified. Microservices on the other hand are separated by functional requirements and each service is responsible for storing data, presenting data, logging and everything else deemed necessary. Microservices are more easily extended when/if needed compared with \gls{SOA} since the focus is on loose coupling services and not highly reusable services.
+\gls{SOA} was discarded since: ``Although the concept of a share-as-much-as-possible architecture solves issues associated with the duplication of business functionality, it also tends to lead to tightly coupled components and increases the overall risk associated with change''. (\cite{richards2015microservices}). Microservices are more easily extended when/if needed compared with \gls{SOA} since the focus is on loose coupling services and not highly reusable services.
+
+Despite this, the solution adopted some architecture decisions that are usually associated with \gls{SOA}, as an example a canonical data model (Section~\ref{subsec:design:domain:shared_model}) was created to ease the communication between services. This is something common in projects that follow \gls{SOA} according to \cite{cerny2017disambiguation}.
 
 \subsection{Frontend Segregation}
 \label{subsec:design:alternatives:frontend}

@@ -104,7 +104,7 @@ The following list documents the functional requirements related to this actor r
     \item The Manager must be able to assign new authenticated users to a specific organization;
 \end{itemize}
 
-As described in Sections~\ref{subsubsec:design:domain:bounded_contexts:processor} and ~\ref{subsubsec:design:domain:bounded_contexts:decoder}, the decoders and processors referenced in the first and second items are meant to translate unsanitized device data.
+As described in Sections~\ref{subsubsec:design:domain:bounded_contexts:processor} and ~\ref{subsubsec:design:domain:bounded_contexts:decoder}, the decoders and processors referenced in the first and second items are meant to translate unsanitized device data. This is highly required since ``the nonexistence of interoperability standards is one of \gls{IoT}'s most pressing issues, (...) designing a system using the latest available standard proposal does not ensure its adoption or that the standard will be deprecated before the system reaches the market'' - \cite{DIAS2022100529}. 
 
 The rules referenced in the third item can be used to program how the system answers to certain abnormal occurrences, more context is given in Section~\ref{subsubsec:design:domain:bounded_contexts:rule}.
 

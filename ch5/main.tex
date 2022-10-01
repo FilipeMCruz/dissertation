@@ -163,7 +163,7 @@ The logical view of the system is introduced here, complete but not detailed, in
    \label{fig:design:architecture:context:logical:diagram}
 \end{figure}
 
-The \textbf{External Services} are represented as an independent system that consumes the \textbf{Sensae Console} \gls{API}. This \gls{API} is responsible for streaming information such as device measures, device commands, alerts and internal state asynchronously.
+The \textbf{External Services} are represented as an independent system that consumes the \textbf{Sensae Console} \gls{API}. This \gls{API} is responsible for streaming information such as device measures, device commands, alerts and internal state asynchronously. These concept's semantics and structure are enforced by a library, \textit{iot-core}, also developed and discussed in Section~\ref{subsec:design:domain:shared_model}.
 
 Both of the \textit{systems} provide an \gls{API} for automated management/control and a \gls{UI} for ease of use and data visualization.
 
@@ -186,12 +186,18 @@ Next is the physical view (Figure~\ref{fig:design:architecture:context:physical:
    \label{fig:design:architecture:context:physical:diagram}
 \end{figure}
 
+The Identity Providers currently in use by the solution are \cite{googleid} and \cite{azureid} both of this platforms provide an OpenID Connect \gls{API}.
+
+The SMS dispatching service is the \textit{Twilio Platform}. The Email dispatching service is the \textit{Google Email Platform}. And finally, the only \gls{IoT} Middleware in use currently is \cite{helium}.
+
 \subsubsection{Context Level - Synopsis}
 \label{subsubsec:design:architecture:context:synopsis}
 
 The context level introduces the reader to the bigger picture of \textbf{Sensae Console}, but it contains little to no information about how the system functions internally, the Section~\ref{subsec:design:architecture:containers} will dive into this subject.
 
-The process view was not represented since at this level the interactions between the system, actors and external systems, are too abstract to be relevant for the reader.
+The process view was not represented since at this level the interactions between the system, actors and external systems, are too abstract to be relevant for the reader. 
+
+The implementation view was also not represented since the \textbf{Sensae Console} and \textbf{External Services} were developed as a single project.
 
 \subsection{C4 Level 2 - Containers}
 \label{subsec:design:architecture:containers}

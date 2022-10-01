@@ -32,11 +32,11 @@ This business cases can be vaguely characterized according to the following orga
       \textbf{\begin{tabular}[c]{@{}l@{}}Physical \\ Resources\end{tabular}} &
       \textbf{\begin{tabular}[c]{@{}l@{}}Data \\ Access\end{tabular}} &
       \textbf{\begin{tabular}[c]{@{}l@{}}Information \\ Access and \\Visualization\end{tabular}} \\ \midrule
-    \multirow{5}{*}{A} & Fleet Management           & On-Premise & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6} 
-                       & Smart Irrigation           & On-Premise & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6} 
-                       & Smart Parking              & On-Premise & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6} 
-                       & Indoor Fire Detention      & On-Premise & Dedicated & Private & SMS and Email      \\ \cmidrule(l){2-6} 
-                       & Public Health Surveillance & On-Premise & Dedicated & Public  & Sensae Console     \\ \midrule
+    \multirow{5}{*}{A} & Fleet Management           & On-Site & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6} 
+                       & Smart Irrigation           & On-Site & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6} 
+                       & Smart Parking              & On-Site & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6} 
+                       & Indoor Fire Detention      & On-Site & Dedicated & Private & SMS and Email      \\ \cmidrule(l){2-6} 
+                       & Public Health Surveillance & On-Site & Dedicated & Public  & Sensae Console     \\ \midrule
     B                  & Fleet Management           & Cloud      & Dedicated & Private & Org B Platform     \\ \midrule
     \multirow{3}{*}{C} & Smart Irrigation           & Cloud      & Shared    & Private & Sensae Console     \\ \cmidrule(l){2-6} 
                        & Indoor Fire Detention      & Cloud      & Shared    & Private & SMS and Email      \\ \cmidrule(l){2-6} 
@@ -234,7 +234,7 @@ In the Supportability category the following requirements were identified:
 
 \begin{itemize}
     \item The system must be highly configurable so that support for any type of device, specially payload decoding, can be added without the need for restarting/rebuilding it;
-    \item The system must be agnostic to cloud computing platforms and be independent of any service provided by cloud computing platforms. This ensures that it can be deployed on-premise or on a single cloud computing platform;
+    \item The system must be agnostic to cloud computing platforms and be independent of any service provided by cloud computing platforms. This ensures that it can be deployed on-site or on a single cloud computing platform;
     \item The system must provide simple methods to integrate external services that answer new business cases without the need to rebuilding it;
     \item The system must be agnostic to \gls{IoT} middleware platforms, being able to exchange data with most of them without the need to restarting/rebuilding it. At least \citetitle{helium} has to be supported.
 \end{itemize}

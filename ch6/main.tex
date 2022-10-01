@@ -207,7 +207,7 @@ The other drawback found is that, according to the \citetitle{rabbitmqprotocol} 
 \subsection{Usage of Protocol Buffers in Internal Communication}
 \label{subsec:implementation:decisions:proto}
 
-This section refers to how messages that flow in the system (via Message Broker) are serialized and deserialized. The common formats used to send structured data across systems are \gls{JSON} and \gls{XML}. This formats sacrifice size and de/serialization performance for human readability as stated in \cite{sumaray2012comparison}.
+This section refers to how messages that flow in the system (via Message Broker) are serialized and deserialized. The common formats used to send structured data across systems are \gls{JSON} and \gls{XML}. This formats sacrifice size and de/serialization performance for human readability as stated by \cite{sumaray2012comparison}.
 
 As mentioned before, \textbf{Sensae Console} aims to provide a good developer experience for external costumers that want to expand the solution according to their needs. Due to this, the final decision weighted heavily on formats that were self-documented, e.g. defined by a strict \textit{data schema}, such as \citetitle{proto} and \citetitle{thrift}.
 
@@ -1527,7 +1527,7 @@ void ensureTransferWorksWithValidArrayPath() throws JsonProcessingException {
 
 The test presented in Listing~\ref{code:implementation:tests:unit2} verifies that a user with the appropriate permissions can fetch a decoder and the last time it was used. This test relies on database access to fetch decoders and access to an RSA file to verify the authenticity of the user's access token. Since this is a unit test and its responsibility is not to verify the solution integration, it mocks the classes that access the mentioned resources using the \citetitle{mockito}.
 
-This test only verifies the isolated behavior of the service \textit{DataDecoderCollectorService} - line \textbf{14} - other classes that the service needs are mocked and then injected in it with the annotation \textit{@InjectMocks}.
+This test only verifies the isolated behavior of the service \textit{DataDecoderCollectorService} - line \textbf{14}. Other classes - lines \textbf{5}, \textbf{8} and \textbf{11} - needed by the service, are mocked and then injected in it with the annotation \textit{@InjectMocks}.
 
 \begin{lstlisting}[style=Java, caption=Unit Test - Data Decoder Backend Container, label={code:implementation:tests:unit2}]
 $$@Mock

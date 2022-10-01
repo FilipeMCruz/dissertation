@@ -1,0 +1,121 @@
+@startuml contexts-v2
+
+interface "Sensae Console\nUplink\nRest API" as RELAY_API
+interface "IoT Middleware\nDownlink\nRest API" as OUT_ENDPOINT
+
+component "Sensae Console" <<System>> {
+
+    component "UI Aggregator" <<Container>> as UI
+
+    component "Identity Management" <<Context>> as ID_MAN
+    component "Rule Management" <<Context>> as RULE_MAN
+    component "Decoder Management" <<Context>> as DECO_MAN
+    component "Processor Management" <<Context>> as PROC_MAN
+    component "Device Management" <<Context>> as DEVI_MAN
+
+    component "Message Broker" <<Container>> as MB
+
+    interface "Message Broker\nAPI" as MB_API
+
+    component "Data Gateway" <<Container>> as GATE
+
+    interface "Data Gateway\nAPI" as GATE_API
+
+    component "Data Relayer" <<Container>> as RELAY
+
+    component "Data Validator\nBackend" <<Container>> as VALI
+    component "Data Store\nBackend" <<Container>> as STORE
+    component "Data Store\nDatabase" <<Container>> as STORE_DB
+
+    interface "Data Store\nDatabase API" as STORE_DB_API
+
+    STORE_DB_API -- STORE_DB
+    STORE -( STORE_DB_API
+    GATE_API - GATE
+    RELAY -( GATE_API
+
+    ID_MAN -[hidden]- RELAY
+
+    interface "Identity\nManagement API" as ID_MAN_API
+    interface "Identity\nManagement UI" as ID_MAN_UI
+
+    ID_MAN_API -- ID_MAN
+    ID_MAN_UI --- ID_MAN
+
+    interface "Rule\nManagement API" as RULE_MAN_API
+    interface "Rule\nManagement UI" as RULE_MAN_UI
+
+    RULE_MAN_API -- RULE_MAN
+    RULE_MAN_UI --- RULE_MAN
+
+    interface "Device\nManagement API" as DEVI_MAN_API
+    interface "Device\nManagement UI" as DEVI_MAN_UI
+
+    DEVI_MAN_API -- DEVI_MAN
+    DEVI_MAN_UI --- DEVI_MAN
+
+    interface "Data\nDecoder API" as DECO_MAN_API
+    interface "Data\nDecoder UI" as DECO_MAN_UI
+
+    DECO_MAN_API -- DECO_MAN
+    DECO_MAN_UI --- DECO_MAN
+
+    interface "Data\nProcessor API" as PROC_MAN_API
+    interface "Data\nProcessor UI" as PROC_MAN_UI
+
+    PROC_MAN_API -- PROC_MAN
+    PROC_MAN_UI --- PROC_MAN
+
+    UI --( PROC_MAN_API
+    UI --( PROC_MAN_UI
+
+    UI --( DECO_MAN_API
+    UI --( DECO_MAN_UI
+
+    UI --( DEVI_MAN_API
+    UI --( DEVI_MAN_UI
+
+    UI --( RULE_MAN_API
+    UI --( RULE_MAN_UI
+
+    UI --( ID_MAN_API
+    UI --( ID_MAN_UI
+}
+
+interface "Message Broker\nAPI" as MB_API2
+
+MB -- MB_API2
+
+DEVI_MAN -( OUT_ENDPOINT
+
+interface "OpenID Connect\nAPI" as OPENID
+
+OPENID )- ID_MAN
+
+RELAY_API - RELAY
+
+MB_API )- STORE
+MB_API )-- VALI
+
+ID_MAN -[hidden]- RELAY_API
+OPENID -[hidden]- RELAY_API
+
+
+MB_API -- MB
+
+PROC_MAN --( MB_API
+DEVI_MAN --( MB_API
+DECO_MAN --( MB_API
+ID_MAN --( MB_API
+RULE_MAN --( MB_API
+GATE -( MB_API
+
+DEVI_MAN_API -[hidden]- OUT_ENDPOINT
+
+interface "Sensae Console\nManagement API" as API
+interface "Sensae Console UI" as UI_API
+
+API -- UI
+UI_API -- UI
+
+@enduml

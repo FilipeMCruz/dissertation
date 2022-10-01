@@ -1,5 +1,7 @@
 @startuml service
 
+'left to right direction
+
 skinparam sequenceMessageAlign center
 skinparam Shadowing false
 skinparam componentStyle uml2
@@ -9,8 +11,9 @@ interface "UI" as UI
 
 interface "SMS Dispatcher\nAPI" as SMTP_ENDPOINT
 interface "Email Dispatcher\nAPI" as SMS_ENDPOINT
+interface "Message Broker\nAPI" as MB_API
 
-component "Sensae Console" <<System>> {
+component "External Services" <<System>> {
     component "UI Aggregator" as UIAG <<Container>>
     component "Fleet Management Frontend" as LTF <<Container>>
     component "Smart Irrigation Frontend" as SIF <<Container>>
@@ -28,7 +31,6 @@ component "Sensae Console" <<System>> {
     UIAG --( SIF_API
     UIAG --( NOTIF_MAN_FRONT_API
 
-    component "Message Broker" as MB <<Container>>
 
     component "Fleet Management Backend" as LTB <<Container>>
     component "Smart Irrigation Backend" as SIB <<Container>>
@@ -40,7 +42,6 @@ component "Sensae Console" <<System>> {
     component "Notification Management\nDatabase" as NOTIF_MAN_DB <<Container>>
     component "Notification Dispatcher\nBackend" as NOTIF_BACK <<Container>>
 
-    interface "Message Broker\nAPI" as MB_API
     interface "Fleet Management\nBackend API" as LTB_API
     interface "Smart Irrigation\nBackend API" as SIB_API
     interface "Fleet Management\nDatabase API" as QUESTDB_API
@@ -53,7 +54,6 @@ component "Sensae Console" <<System>> {
     NOTIF_MAN_BACK --( NOTIF_MAN_DB_API
     SIB --( SIDDB_API
     SIB --( SIBDB_API
-    MB --- MB_API
     NOTIF_MAN_BACK_API -- NOTIF_MAN_BACK
     LTB_API -- LTB
     SIB_API -- SIB
@@ -69,12 +69,15 @@ component "Sensae Console" <<System>> {
     LTB --( MB_API
     SIB --( MB_API
     NOTIF_MAN_BACK --( MB_API
-    MB_API )-- NOTIF_BACK
+    NOTIF_BACK --( MB_API
 
-    NOTIF_BACK ---( SMS_ENDPOINT
-    NOTIF_BACK ---( SMTP_ENDPOINT
+    NOTIF_BACK -( SMTP_ENDPOINT
+    SMS_ENDPOINT )-- NOTIF_BACK
+
+    NOTIF_MAN_BACK -[hidden] NOTIF_BACK
 
     NOTIF_MAN_BACK -[hidden] SIB
 }
+
 
 @enduml

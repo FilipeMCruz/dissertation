@@ -6,8 +6,9 @@ skinparam sequenceMessageAlign center
 skinparam componentStyle uml2
 skinparam packageStyle rectangle
 
-node "Cloud" {
+node "Cloud / On-Site" {
     node "Sensae Console" <<System>> as SYSTEM1
+    node "External Services" <<System>> as SYSTEM2
 }
 
 node "Helium" {
@@ -29,11 +30,13 @@ node "Twilio Paltform" {
 
 SYSTEM1 -- HC : http
 SYSTEM1 -- HC : http
-EMAIL -- SYSTEM1 : smtp
-SYSTEM1 -- SMS : http
+EMAIL -- SYSTEM2 : smtp
+SYSTEM2 -- SMS : http
 
-AAD -- SYSTEM1 : http
+AAD - SYSTEM1 : http
 GIP -- SYSTEM1 : http
+
+SYSTEM1 - SYSTEM2 : amqp
 
 
 @enduml

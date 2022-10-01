@@ -11,13 +11,13 @@ participant "Message\nBroker" as MB
 participant "Device Commander\nBackend" as COMM
 end box 
 
-interface "IoT Middleware" as HC
+participant "IoT Middleware" as HC
 
 activate MB
 
 ?-> MB : publish\nalert
 
-MB -> BACK ++ : send alert
+MB -> BACK ++ : notify about new alert
 
 BACK -> BACK : extract related\ndevice from alert
 
@@ -38,7 +38,7 @@ BACK -> BACK : create command\nfor device
 BACK -> MB -- : publish command
 
 autonumber inc A
-MB -> COMM ++ : send command
+MB -> COMM ++ : notify about\nnew command
 COMM -> COMM : search for device\ncommand details
 COMM -> HC ++--: send http downlink
 deactivate HC

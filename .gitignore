@@ -278,3 +278,5 @@ TSWLatexianTemp*
 !tikz/*.dpth
 !tikz/*.md5
 !tikz/*.dep
+
+*.sh

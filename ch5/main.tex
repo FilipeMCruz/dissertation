@@ -14,7 +14,8 @@ According to \cite{DIAS2022100529}, \gls{IoT} solutions, on a high-level, are co
 
 This chapter focus only on the Cloud Tier, the other tiers are out of scope since the author had no relevant involvement in their development. 
 
-Scopes are derived from the major system responsibilities of the solution as a whole, contexts are derived from the major functionalities or business cases that the project has to answer.
+To ease the interpretation of the solution's architectural design it was divided according to two subjects, scopes and concept/concern/capability. 
+Scopes are derived from the major system responsibilities of the solution as a whole, concept/concern/capability are derived from the major functionalities or business cases that the project has to answer.
 
 \section{System Scopes}
 \label{sec:design:system_scopes}
@@ -214,10 +215,198 @@ The implementation view was also not represented since the \textbf{Sensae Consol
 
 The C4 level 2 introduces the reader to the various containers that compose the system. In this section all relevant views will be presented according to the alternative in use or idealized for the system. In the Section~\ref{sec:design:alternatives} other alternatives are discussed. 
 
-\subsubsection{Container Level - Logical View}
-\label{subsubsec:design:architecture:container:logical}
-
 The description of this level of abstraction begins with a logical view of the containers that compose the system.
+
+\subsubsection{Container Level - Logical View NEW}
+
+In order to support the functional requirements identified (Section~\ref{sec:requirements:functional}), and knowing that \textbf{Sensae Console} will serve multiple users with different levels of access to the managed information, the various business concepts were segregated from the user interaction. The business management also had to be separated from the  data pipeline, knowing that \textbf{Sensae Console} will process a high volume of device measures.
+
+Considering the need to persist and provide the information collected, the system integrates databases, which are not developed, but only configured and operated - using a \gls{DBMS}.
+
+The system also uses one (or more) message brokers, \cite{broker}, that will be configured but not developed.
+ 
+In order to ease the analysis of the system the following diagram, Figure~\ref{fig:design:architecture:containers:logical:complete}, presents a complete view of \textbf{Sensae Console} where each concept/concern/capability represents a group of containers that focus on the same concern. These groups are them explored in detail.
+
+\begin{sidewaysfigure}
+      \centering
+   \resizebox{0.8\columnwidth}{!}
+   {      
+      \input{assets/diagrams/design/architectural/level2/logical/contexts-v2.latex}
+   }
+   \caption[Sensae Console - Container Level - Logical View Diagram]{Sensae Console - Container Level - Logical View Diagram}
+      \label{fig:design:architecture:containers:logical:complete}
+\end{sidewaysfigure}
+
+As seen in the diagram:
+
+\begin{itemize}
+   \item Each concept/concern/capability exposes a \gls{UI} and an \gls{API}, these are aggregated in the \gls{UI} Aggregator container that then exposes everything as a single \gls{UI} and \gls{API} for management;
+   \item The Device Management concept/concern/capability consumes the \gls{IoT} Middleware API since it is responsible for sending downlinks to devices;
+   \item The Message Broker exposes an \gls{API}, this is the \gls{API} that the \textbf{External Services} consume to access the information that flow in \textbf{Sensae Console};
+   \item The Identity Management concept/concern/capability consumes the Identity Provider's OpenID Connect API to handle User Authentication;
+   \item The Message Broker is responsible for routing messages through the system and ensuring that the various containers communicate;
+   \item The Data Store Backend and Data Store Database are responsible for store data in a specific format, defined at startup;
+   \item The Data Relayer and Data Gateway are responsible for exposing an \gls{API} for data ingestion and publish the ingested data in the system through the Message Broker;
+   \item The Data Validator applies simple filters to incoming data, for example, measures that report a soil moisture of 120\% as marked as incorrect. 
+\end{itemize}
+
+Each concept/concern/capability is composed by containers that belong to the \textbf{Configuration} and \textbf{Data Flow} Scopes (represented in yellow in the following diagrams).
+
+The Configuration Scope of each concept/concern/capability is composed by a three layers architecture, as per \cite{3tier}:
+
+\begin{itemize}
+   \item \textbf{Presentation Layer}: the user interface and communication layer of the application where the user interacts with the system;
+   \item \textbf{Application Layer}: the business layer of the application where information from the \textbf{Presentation Layer} is processed and sent to the \textbf{Data Layer};
+   \item \textbf{Data Layer}: the infrastructure layer of the application where data is stored and requested as needed. 
+\end{itemize}
+
+The Data Flow Scope is usually composed by a single container that only consumes the Message Broker \gls{API}.
+
+As a brief description of some of the similar characteristics of all concept/concern/capability:
+
+\begin{itemize}
+   \item The frontend container corresponds to the \textbf{Presentation Layer} and exposes an \gls{UI};
+   \item The backend container corresponds to the \textbf{Application Layer} and communication with the Data Flow container(s) exclusively through the \textbf{Message Broker}. The Backend publishes issues related to the concept/concern/capability configuration that the Data Flow Container consumes. The Data Flow container publishes metrics related to what resources are being used that are then consumed by the Backend;
+   \item The communication exchanged between Backend and Data Flow containers is parameterized according to the Section~\ref{subsubsec:design:domain:shared_model:routing} and is preformed in the Internal Topic;
+   \item The backend container also exposes an \gls{API} that is consumed by the frontend and optionally by properly authenticated external systems;
+   \item The database container correspond to the \textbf{Data Layer}.
+\end{itemize}
+
+The Data Processor concept/concern/capability group is presented in Figure~\ref{fig:design:architecture:containers:logical:processor}.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+       {      
+       \input{assets/diagrams/design/architectural/level2/logical/data-processor-context.latex}
+       }
+   \caption[Data Processor - Container Level - Logical View Diagram]{Data Processor - Container Level - Logical View Diagram}
+   \label{fig:design:architecture:containers:logical:processor}
+\end{figure}
+
+This concept/concern/capability is responsible for transforming the data received in a format and semantic that can be understood by the system, it is explored in detail in Section~\ref{subsubsec:design:domain:bounded_contexts:processor}. The Data Processor Data Flow publishes metrics to the Message Broker regarding the time each Data Processor was used so that the Backend can then report this usages.
+
+The Data Decoder concept/concern/capability group is presented in Figure~\ref{fig:design:architecture:containers:logical:decoder}.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+       {      
+       \input{assets/diagrams/design/architectural/level2/logical/data-decoder-context.latex}
+       }
+   \caption[Data Decoder - Container Level - Logical View Diagram]{Data Decoder - Container Level - Logical View Diagram}
+   \label{fig:design:architecture:containers:logical:decoder}
+\end{figure}
+
+This concept/concern/capability is also responsible for transforming the data received in a format and semantic that can be understood by the system. In contrast with the Data Processor, it provides a more flexible but complex way of manipulating data, it is explored in detail in Section~\ref{subsubsec:design:domain:bounded_contexts:decoder}. The Data Decoder Data Flow publishes metrics to the Message Broker regarding the time each Data Decoder was used so that the Backend can then report this usages.
+
+The Device Management concept/concern/capability group is presented in Figure~\ref{fig:design:architecture:containers:logical:device}.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+       {      
+       \input{assets/diagrams/design/architectural/level2/logical/device-management-context.latex}
+       }
+   \caption[Device Management - Container Level - Logical View Diagram]{Device Management - Container Level - Logical View Diagram}
+   \label{fig:design:architecture:containers:logical:device}
+\end{figure}
+
+This concept/concern/capability is responsible for maintaining a registry of the devices in use by the platform. 
+
+The Device Management Data Flow enriching the measures collected with more information regarding the device that sent them. The Device Commander consumes an \gls{IoT} Middleware REST \gls{API} to dispatch downlinks to devices. This downlinks contain commands that control the behavior of the implied actuator.
+This concept/concern/capability is explored in Section~\ref{subsubsec:design:domain:bounded_contexts:device}. The Data Flow containers publishes metrics to the Message Broker regarding the time each device was used so that the Backend can then report this usages.
+
+The Rule Management concept/concern/capability group is presented in Figure~\ref{fig:design:architecture:containers:logical:rule}.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+       {      
+       \input{assets/diagrams/design/architectural/level2/logical/rule-management-context.latex}
+       }
+   \caption[Rule Management - Container Level - Logical View Diagram]{Rule Management - Container Level - Logical View Diagram}
+   \label{fig:design:architecture:containers:logical:rule}
+\end{figure}
+
+This concept/concern/capability is responsible for managing rule scenarios that produce alerts based on the captured device measures.
+
+The Alert Dispatcher is responsible for publishing alerts based on the rule scenarios published by the Rule Management Backend. The Rule Management Backend ensures that the rules submitted are valid. This concept/concern/capability is explored in Section~\ref{subsubsec:design:domain:bounded_contexts:rule}. This data flow container does not publishes any metrics, its interactions are better described with the help of sequence diagrams available in Figures~\ref{fig:design:architecture:container:process:diagram:init} and \ref{fig:design:architecture:component:process:diagram:rule}.
+
+The Identity Management concept/concern/capability group is presented in Figure~\ref{fig:design:architecture:containers:logical:identity}.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+       {      
+       \input{assets/diagrams/design/architectural/level2/logical/identity-management-context.latex}
+       }
+   \caption[Identity Management - Container Level - Logical View Diagram]{Identity Management - Container Level - Logical View Diagram}
+   \label{fig:design:architecture:containers:logical:identity}
+\end{figure}
+
+This concept/concern/capability is responsible for managing devices ownership, user identity and organization's details. The backend and frontend containers communicate with an identity provider via OpenID Connect to verify the user identity. The Device Ownership Backend enriches the data measures and alerts with information regarding the organizations that own the device responsible for sending the measures or that lead to the dispatch of an alert. This concept/concern/capability is explored in Section~\ref{subsubsec:design:domain:bounded_contexts:identity}. This data flow container publishes metrics to the Message Broker regarding the time each organization information was used.
+
+As the diagrams above presented, all communication between backend containers of both scopes is guaranteed by the Message Broker. This Message Broker exposes its \gls{API} so that External Services can consume all information and act according to it. The next diagrams present the three External Services that were developed.
+
+Some of the similarities shared between the architecture of all services are:
+
+\begin{itemize}
+   \item All contain a backend that exposes an \gls{API};
+   \item All contain a frontend that exposes a \gls{UI};
+   \item All contain at least a database that exposes an \gls{API} consumed solely by the backend;
+   \item Any communication with \textbf{Sensae Console} is preformed by consuming the Message Broker's \gls{API};
+   \item All follow the idea behind the separation of responsibilities seen in a three layer architecture;
+\end{itemize}
+
+The Fleet Management service is presented in Figure~\ref{fig:design:architecture:containers:logical:fleet}.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+       {      
+       \input{assets/diagrams/design/architectural/level2/logical/fleet-management-context.latex}
+       }
+   \caption[Fleet Management - Container Level - Logical View Diagram]{Fleet Management - Container Level - Logical View Diagram}
+   \label{fig:design:architecture:containers:logical:fleet}
+\end{figure}
+
+This service is composed by a simple three layers architecture. The details related to this service are discussed in Section~\ref{subsubsec:design:domain:bounded_contexts:fleet}.
+
+The Notification Management service is presented in Figure~\ref{fig:design:architecture:containers:logical:noti}.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+       {      
+       \input{assets/diagrams/design/architectural/level2/logical/notification-management-context.latex}
+       }
+   \caption[Notification Management - Container Level - Logical View Diagram]{Notification Management - Container Level - Logical View Diagram}
+   \label{fig:design:architecture:containers:logical:noti}
+\end{figure}
+
+This service is composed by a simple three layers architecture and has a separated container responsible for dispatching SMS and emails, the Notification Dispatcher Backend container. Information regarding the type of alerts each user is interested in are exchanged between the Backend and Dispatcher containers through the Message Broker. The details related to this service are discussed in Section~\ref{subsubsec:design:domain:bounded_contexts:fleet}.
+
+Finally, the Smart Irrigation Management service is presented in Figure~\ref{fig:design:architecture:containers:logical:irrigation}.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+       {      
+       \input{assets/diagrams/design/architectural/level2/logical/smart-irrigation-context.latex}
+       }
+   \caption[Smart Irrigation - Container Level - Logical View Diagram]{Smart Irrigation - Container Level - Logical View Diagram}
+   \label{fig:design:architecture:containers:logical:irrigation}
+\end{figure}
+
+This service is composed by a three layers architecture, the \textbf{Data Layer} is divided in two databases, one responsible for storing device measures and another responsible for storing information regarding the Irrigation Zones and device information. The details related to this service are discussed in Section~\ref{subsubsec:design:domain:bounded_contexts:irrigation}.
+
+As a final note, even though it isn't required, the \textbf{UI Aggregator} can be configured to consume the \gls{UI} and \gls{API} belonging to each External Services. By doing so, the complete solution, \gls{UI} and \gls{API} can be presented under a single \gls{FQDN}.
+
+In the following section the internal communication of the system is clarified.
+
+\subsubsection{Container Level - Logical View - OLD}
+\label{subsubsec:design:architecture:container:logical}
 
 In order to support the functional requirements identified (Section~\ref{sec:requirements:functional}), and knowing that \textbf{Sensae Console} will serve multiple users with different levels of access to the managed information, the various business concepts were segregated from the user interaction. The business management also had to be separated from the  data pipeline, knowing that \textbf{Sensae Console} will process a high volume of device measures.
 
@@ -227,7 +416,7 @@ The system also uses one (or more) message brokers, \cite{broker}, that will be 
 
 In order to ease the analysis of the system the following diagrams will be divided by scopes, mentioned in \ref{sec:design:system_scopes}. In the Appendix~\ref{AppendixB} a complete logical view is provided.
 
-The logical view of the \textbf{Configuration Scope} is represented in Figure~\ref{fig:design:architecture:container:logical:diagram:configuration}. This scope is composed by the processes discussed in \ref{subsec:design:system_scopes:configuration_scope}. Each process is composed by a three tier architecture, as per \cite{3tier}:
+The logical view of the \textbf{Configuration Scope} is represented in Figure~\ref{fig:design:architecture:container:logical:diagram:configuration}. This scope is composed by the processes discussed in \ref{subsec:design:system_scopes:configuration_scope}. Each process is composed by a three layer architecture, as per \cite{3tier}:
 
 \begin{itemize}
    \item \textbf{Presentation Layer}: the user interface and communication layer of the application where the user interacts with the system;
@@ -252,9 +441,9 @@ This scope was also divided into micro services - \cite{newman2021building} - \t
 As a brief description:
 
 \begin{itemize}
-   \item Frontend containers correspond to the \textbf{Presentation Tier} and are provided to the user through \textbf{UI Aggregator};
-   \item Backend containers correspond to the \textbf{Application Tier} and communication with each other through \textbf{Message Broker};
-   \item Database containers correspond to the \textbf{Data Tier}.
+   \item Frontend containers correspond to the \textbf{Presentation Layer} and are provided to the user through \textbf{UI Aggregator};
+   \item Backend containers correspond to the \textbf{Application Layer} and communication with each other through \textbf{Message Broker};
+   \item Database containers correspond to the \textbf{Data Layer}.
 \end{itemize}
 
 Next, the logical view of the \textbf{Data Flow} is represented in Figure~\ref{fig:design:architecture:container:logical:diagram:data_flow}. This scope is composed by the processes discussed in \ref{subsec:design:system_scopes:data_flow_scope}. In parallel with the \textbf{Configuration Scope} this scope is also divided into multiple micro services in order for them to better scale once needed. This scope is also built based on a \textit{Reactive architecture} as described in \cite{reactivemanifesto} and \cite{reactivesystem}.  

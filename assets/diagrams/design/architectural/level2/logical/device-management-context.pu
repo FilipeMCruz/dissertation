@@ -22,7 +22,7 @@ component "Device Management" <<Context>> {
 }
 
 component "Message Broker" <<Container>> as MB
-interface "Message Broker\nAPI" as MB_API
+interface "Message\nBroker API" as MB_API
 interface "IoT Middleware\nDownlink\nRest API" as OUT_ENDPOINT
 
 MB_API - MB

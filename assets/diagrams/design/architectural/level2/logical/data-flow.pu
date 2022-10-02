@@ -26,9 +26,9 @@ component "Sensae Console" <<System>> {
 
     component "Alert Dispatcher Backend" as ALERT_BACK <<Container>>  
 
-    interface "Message Broker\nAPI" as MB_API
+    interface "Message\nBroker API" as MB_API
     interface "Data Store\nDatabase API" as MONGODB_API
-    interface "Data Gateway Backend\nAPI" as DDG_API
+    interface "Data Gateway\nBackend API" as DDG_API
 
     DS --( MONGODB_API
     DDG -- DDG_API
@@ -46,7 +46,6 @@ component "Sensae Console" <<System>> {
     MB_API )--- ALERT_BACK
 
     DR -- IN_ENDPOINT
-    ' DDG_API )- DR
     DR -( DDG_API
     DCB ---( OUT_ENDPOINT
 
@@ -60,7 +59,6 @@ component "Sensae Console" <<System>> {
     IAMSB -[hidden] DDSB
     DDSB -[hidden] DPSB
     DPSB -[hidden] DDG
-
 }
 
 @enduml

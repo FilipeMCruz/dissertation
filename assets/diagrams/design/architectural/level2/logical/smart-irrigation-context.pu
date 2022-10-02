@@ -13,18 +13,19 @@ component "Smart Irrigation" <<Context>> {
     interface "Smart Irrigation\nData Database API" as DATA_DB_API
 
     DB_API -- DB
-    DATA_DB_API -- DATA_DB
+    DATA_DB_API - DATA_DB
     FRONT_API -- FRONT
     BACK_API -- BACK
-    BACK --( DB_API
+    'BACK --( DB_API
+    DB_API )- BACK
     BACK --( DATA_DB_API
     FRONT --( BACK_API
 }
 
 component "Message Broker" <<Container>> as MB
-interface "Message Broker\nAPI" as MB_API
+interface "Message\nBroker API" as MB_API
 
-MB_API -- MB
+MB_API - MB
 
 BACK -( MB_API
 

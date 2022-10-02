@@ -11,7 +11,7 @@
 \draw[pstyle0] (965pt,228pt) -- (975pt,218pt);
 \draw[pstyle0] (395pt,228pt) -- (965pt,228pt);
 \draw[pstyle0] (965pt,228pt) -- (965pt,369pt);
-\node at (644.526pt,231pt)[below right,color=black]{\textbf{Cloud}};
+\node at (588.7097pt,231pt)[below right,color=black]{\textbf{Cloud / On-Site}};
 \draw[pstyle0] (371pt,440pt) -- (381pt,430pt) -- (645pt,430pt) -- (645pt,571pt) -- (635pt,581pt) -- (371pt,581pt) -- (371pt,440pt) -- cycle;
 \draw[pstyle0] (635pt,440pt) -- (645pt,430pt);
 \draw[pstyle0] (371pt,440pt) -- (635pt,440pt);

@@ -12,7 +12,7 @@ component "Sensae Console" <<System>> {
 
     component "Message Broker" <<Container>> as MB
 
-    interface "Message Broker\nAPI" as MB_API
+    interface "Message\nBroker API" as MB_API
 
     component "Data Gateway" <<Container>> as GATE
 
@@ -35,7 +35,7 @@ component "Sensae Console" <<System>> {
 
 }
 
-interface "Message Broker\nAPI" as MB_API2
+interface "Message\nBroker API" as MB_API2
 
 MB -- MB_API2
 

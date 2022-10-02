@@ -6,7 +6,7 @@ component "External Services" <<System>> {
     component "Smart Irrigation" <<Context>> as IRRIG
 }
 
-interface "Message Broker\nAPI" as MB_API
+interface "Message\nBroker API" as MB_API
 
 interface "Fleet\nManagement API" as FLEET_API
 interface "Fleet\nManagement UI" as FLEET_UI

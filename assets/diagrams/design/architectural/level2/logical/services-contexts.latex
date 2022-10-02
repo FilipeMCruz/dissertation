@@ -32,8 +32,8 @@
 \node at (481.4988pt,158pt)[below right,color=black]{\textit{\guillemotleft Context\guillemotright }};
 \node at (455.5579pt,177.0679pt)[below right,color=black]{Smart Irrigation};
 \draw[pstyle1] (523.5579pt,317pt) ellipse (8pt and 8pt);
-\node at (462.2722pt,334pt)[below right,color=black]{Message Broker};
-\node at (462.2722pt,353.0679pt)[below right,color=black]{API};
+\node at (480.9634pt,334pt)[below right,color=black]{Message};
+\node at (480.9634pt,353.0679pt)[below right,color=black]{Broker API};
 \draw[pstyle1] (71.5579pt,14pt) ellipse (8pt and 8pt);
 \node at (6pt,31pt)[below right,color=black]{Fleet};
 \node at (6pt,50.0679pt)[below right,color=black]{Management API};
@@ -50,12 +50,12 @@
 \node at (358.0367pt,31pt)[below right,color=black]{Smart Irrigation API};
 \draw[pstyle1] (638.5579pt,14pt) ellipse (8pt and 8pt);
 \node at (564.8788pt,31pt)[below right,color=black]{Smart Irrigation UI};
-\draw[pstyle1] (726.5579pt,317pt) ellipse (8pt and 8pt);
-\node at (666.6055pt,334pt)[below right,color=black]{SMS Dispatcher};
-\node at (666.6055pt,353.0679pt)[below right,color=black]{API};
-\draw[pstyle1] (901.5579pt,317pt) ellipse (8pt and 8pt);
-\node at (836.3158pt,334pt)[below right,color=black]{Email Dispatcher};
-\node at (836.3158pt,353.0679pt)[below right,color=black]{API};
+\draw[pstyle1] (717.5579pt,317pt) ellipse (8pt and 8pt);
+\node at (657.6055pt,334pt)[below right,color=black]{SMS Dispatcher};
+\node at (657.6055pt,353.0679pt)[below right,color=black]{API};
+\draw[pstyle1] (892.5579pt,317pt) ellipse (8pt and 8pt);
+\node at (827.3158pt,334pt)[below right,color=black]{Email Dispatcher};
+\node at (827.3158pt,353.0679pt)[below right,color=black]{API};
 \draw[pstyle0] (80.7879pt,20.92pt) ..controls (110.2579pt,39.85pt) and (203.6779pt,99.82pt) .. (263.1179pt,137.98pt);
 \draw[pstyle0] (251.1579pt,23.39pt) ..controls (260.2679pt,44.59pt) and (284.5979pt,101.24pt) .. (300.3279pt,137.87pt);
 \draw[pstyle0] (823.8979pt,23.39pt) ..controls (814.6579pt,44.59pt) and (789.9679pt,101.24pt) .. (773.9979pt,137.87pt);
@@ -68,8 +68,8 @@
 \draw[pstyle2] (532.0151pt,304.7718pt) arc (-20:-160:9pt);
 \draw[pstyle0] (704.8179pt,206.17pt) ..controls (652.2779pt,238.01pt) and (575.9679pt,284.25pt) .. (541.5679pt,305.09pt);
 \draw[pstyle2] (539.6808pt,316.1208pt) arc (38:-101:9pt);
-\draw[pstyle0] (751.9079pt,206.17pt) ..controls (745.2979pt,234.81pt) and (735.9979pt,275.11pt) .. (730.6879pt,298.09pt);
-\draw[pstyle2] (737.3701pt,306.7476pt) arc (-7:-147:9pt);
-\draw[pstyle0] (792.4879pt,206.17pt) ..controls (821.9679pt,235.85pt) and (863.8779pt,278.06pt) .. (886.1879pt,300.53pt);
-\draw[pstyle2] (897.2962pt,299.7048pt) arc (295:155:9pt);
+\draw[pstyle0] (749.8179pt,206.17pt) ..controls (741.4079pt,234.81pt) and (729.5679pt,275.11pt) .. (722.8179pt,298.09pt);
+\draw[pstyle2] (728.9295pt,307.2753pt) arc (-3:-143:9pt);
+\draw[pstyle0] (790.4079pt,206.17pt) ..controls (818.0179pt,235.85pt) and (857.2679pt,278.06pt) .. (878.1679pt,300.53pt);
+\draw[pstyle2] (889.0676pt,299.8329pt) arc (297:157:9pt);
 \end{tikzpicture}

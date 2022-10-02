@@ -8,19 +8,19 @@ component "Notification Management" <<Context>> {
     component "Notification Management\nFrontend" <<Container>> as FRONT
     component "Notification Management\nDatabase" <<Container>> as DB
 
-    interface "Notification Management\n Database API" as DB_API
+    interface "Notification\nManagement\n Database API" as DB_API
     
     component "Notification Dispatcher\nBackend" <<Container>> as DISP
 
-    DB - DB_API
+    DB_API -- DB
     FRONT_API -- FRONT
     BACK_API -- BACK
-    BACK --( DB_API
+    DB_API )- BACK
     FRONT --( BACK_API
 }
 
 component "Message Broker" <<Container>> as MB
-interface "Message Broker\nAPI" as MB_API
+interface "Message\nBroker API" as MB_API
 
 interface "SMS Dispatcher\nAPI" as SMS
 interface "Email Dispatcher\nAPI" as EMAIL
@@ -30,7 +30,9 @@ MB_API - MB
 BACK --( MB_API
 DISP -( MB_API
 
-EMAIL )-- DISP
-SMS )-- DISP
+BACK -[hidden]- DISP
+
+DISP --( EMAIL
+DISP --( SMS
 
 @enduml

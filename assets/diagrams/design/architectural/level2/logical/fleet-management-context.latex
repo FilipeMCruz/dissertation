@@ -35,9 +35,8 @@
 \node at (120pt,324.0679pt)[below right,color=black]{Fleet Management};
 \node at (120pt,343.1358pt)[below right,color=black]{Database};
 \draw[pstyle1] (331pt,328.5pt) ellipse (8pt and 8pt);
-\node at (280.2682pt,345.5pt)[below right,color=black]{Fleet};
-\node at (280.2682pt,364.5679pt)[below right,color=black]{Management};
-\node at (280.2682pt,383.6358pt)[below right,color=black]{Database API};
+\node at (260.1607pt,345.5pt)[below right,color=black]{Fleet Management};
+\node at (260.1607pt,364.5679pt)[below right,color=black]{Database API};
 \draw[pstyle1] (114pt,14pt) ellipse (8pt and 8pt);
 \node at (32.5206pt,31pt)[below right,color=black]{Fleet Management UI};
 \draw[pstyle1] (323pt,14pt) ellipse (8pt and 8pt);
@@ -50,8 +49,8 @@
 \node at (541.2165pt,167.5pt)[below right,color=black]{\textit{\guillemotleft Container\guillemotright }};
 \node at (525.5pt,186.5679pt)[below right,color=black]{Message Broker};
 \draw[pstyle1] (466pt,181.5pt) ellipse (8pt and 8pt);
-\node at (404.7143pt,198.5pt)[below right,color=black]{Message Broker};
-\node at (404.7143pt,217.5679pt)[below right,color=black]{API};
+\node at (423.4055pt,198.5pt)[below right,color=black]{Message};
+\node at (423.4055pt,217.5679pt)[below right,color=black]{Broker API};
 \draw[pstyle0] (287.23pt,328.5pt) ..controls (298.74pt,328.5pt) and (310.26pt,328.5pt) .. (321.77pt,328.5pt);
 \draw[pstyle0] (114pt,23.43pt) ..controls (114pt,44.18pt) and (114pt,98.85pt) .. (114pt,137.85pt);
 \draw[pstyle0] (323.41pt,23.43pt) ..controls (324.41pt,44.18pt) and (327.05pt,98.85pt) .. (328.94pt,137.85pt);

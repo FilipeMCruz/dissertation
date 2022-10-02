@@ -50,8 +50,8 @@
 \node at (593.7744pt,442.5pt)[below right,color=black]{\textit{\guillemotleft Container\guillemotright }};
 \node at (578.0579pt,461.5679pt)[below right,color=black]{Message Broker};
 \draw[pstyle1] (816.5579pt,309.5pt) ellipse (8pt and 8pt);
-\node at (755.2722pt,326.5pt)[below right,color=black]{Message Broker};
-\node at (755.2722pt,345.5679pt)[below right,color=black]{API};
+\node at (773.9634pt,326.5pt)[below right,color=black]{Message};
+\node at (773.9634pt,345.5679pt)[below right,color=black]{Broker API};
 \draw[pstyle1] (609.0579pt,280.5pt) arc (180:270:5pt) -- (614.0579pt,275.5pt) -- (750.6256pt,275.5pt) arc (270:360:5pt) -- (755.6256pt,280.5pt) -- (755.6256pt,338.6358pt) arc (0:90:5pt) -- (750.6256pt,343.6358pt) -- (614.0579pt,343.6358pt) arc (90:180:5pt) -- (609.0579pt,338.6358pt) -- cycle;
 \draw[pstyle1] (735.6256pt,280.5pt) rectangle (750.6256pt,290.5pt);
 \draw[pstyle1] (733.6256pt,282.5pt) rectangle (737.6256pt,284.5pt);
@@ -100,8 +100,8 @@
 \node at (1424.373pt,208.0679pt)[below right,color=black]{Downlink};
 \node at (1424.373pt,227.1358pt)[below right,color=black]{Rest API};
 \draw[pstyle1] (644.5579pt,611pt) ellipse (8pt and 8pt);
-\node at (583.2722pt,628pt)[below right,color=black]{Message Broker};
-\node at (583.2722pt,647.0679pt)[below right,color=black]{API};
+\node at (601.9634pt,628pt)[below right,color=black]{Message};
+\node at (601.9634pt,647.0679pt)[below right,color=black]{Broker API};
 \draw[pstyle1] (205.5579pt,172pt) ellipse (8pt and 8pt);
 \node at (143.2764pt,189pt)[below right,color=black]{OpenID Connect};
 \node at (143.2764pt,208.0679pt)[below right,color=black]{API};

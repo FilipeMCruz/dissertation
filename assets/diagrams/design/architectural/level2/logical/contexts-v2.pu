@@ -1,21 +1,21 @@
 @startuml contexts-v2
 
 interface "Sensae Console\nUplink\nRest API" as RELAY_API
-interface "IoT Middleware\nDownlink\nRest API" as OUT_ENDPOINT
+interface "OpenID Connect\nAPI" as OUT_ENDPOINT
 
 component "Sensae Console" <<System>> {
 
     component "UI Aggregator" <<Container>> as UI
 
-    component "Identity Management" <<Context>> as ID_MAN
+    component "Device Management" <<Context>> as ID_MAN
     component "Rule Management" <<Context>> as RULE_MAN
     component "Decoder Management" <<Context>> as DECO_MAN
     component "Processor Management" <<Context>> as PROC_MAN
-    component "Device Management" <<Context>> as DEVI_MAN
+    component "Identity Management" <<Context>> as DEVI_MAN
 
     component "Message Broker" <<Container>> as MB
 
-    interface "Message Broker\nAPI" as MB_API
+    interface "Message\nBroker API" as MB_API
 
     component "Data Gateway" <<Container>> as GATE
 
@@ -36,8 +36,8 @@ component "Sensae Console" <<System>> {
 
     ID_MAN -[hidden]- RELAY
 
-    interface "Identity\nManagement API" as ID_MAN_API
-    interface "Identity\nManagement UI" as ID_MAN_UI
+    interface "Device\nManagement API" as ID_MAN_API
+    interface "Device\nManagement UI" as ID_MAN_UI
 
     ID_MAN_API -- ID_MAN
     ID_MAN_UI --- ID_MAN
@@ -48,8 +48,8 @@ component "Sensae Console" <<System>> {
     RULE_MAN_API -- RULE_MAN
     RULE_MAN_UI --- RULE_MAN
 
-    interface "Device\nManagement API" as DEVI_MAN_API
-    interface "Device\nManagement UI" as DEVI_MAN_UI
+    interface "Identity\nManagement API" as DEVI_MAN_API
+    interface "Identity\nManagement UI" as DEVI_MAN_UI
 
     DEVI_MAN_API -- DEVI_MAN
     DEVI_MAN_UI --- DEVI_MAN
@@ -82,13 +82,13 @@ component "Sensae Console" <<System>> {
     UI --( ID_MAN_UI
 }
 
-interface "Message Broker\nAPI" as MB_API2
+interface "Message\nBroker API" as MB_API2
 
-MB -- MB_API2
+MB_API2 - MB
 
 DEVI_MAN -( OUT_ENDPOINT
 
-interface "OpenID Connect\nAPI" as OPENID
+interface "IoT Middleware\nDownlink\nRest API" as OPENID
 
 OPENID )- ID_MAN
 
@@ -99,7 +99,8 @@ MB_API )-- VALI
 
 ID_MAN -[hidden]- RELAY_API
 OPENID -[hidden]- RELAY_API
-
+GATE_API -[hidden] MB
+RELAY_API -[hidden] MB_API2
 
 MB_API -- MB
 

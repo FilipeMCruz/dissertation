@@ -16,18 +16,18 @@ component "Rule Management" <<Context>> {
     DB_API )- BACK
     FRONT --( BACK_API
 
-    component "Alert Dispatcher Backend" <<Container>> as FLOW #ebdc78
+    component "Alert Dispatcher\nBackend" <<Container>> as FLOW #ebdc78
 }
 
 component "Message Broker" <<Container>> as MB
-interface "Message Broker\nAPI" as MB_API
+interface "Message\nBroker API" as MB_API
 
 MB_API - MB
 
 BACK --( MB_API
 
-MB_API )-- FLOW
+FLOW -( MB_API
 
-DB -[hidden]- FLOW
+DB -[hidden] FLOW
 
 @enduml

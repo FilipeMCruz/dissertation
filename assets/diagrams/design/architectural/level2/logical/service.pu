@@ -11,7 +11,7 @@ interface "UI" as UI
 
 interface "SMS Dispatcher\nAPI" as SMTP_ENDPOINT
 interface "Email Dispatcher\nAPI" as SMS_ENDPOINT
-interface "Message Broker\nAPI" as MB_API
+interface "Message\nBroker API" as MB_API
 
 component "External Services" <<System>> {
     component "UI Aggregator" as UIAG <<Container>>

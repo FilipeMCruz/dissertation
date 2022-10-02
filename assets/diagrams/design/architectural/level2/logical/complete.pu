@@ -87,7 +87,7 @@ component "Sensae Console" <<System>> {
     component "Notification Management\nDatabase" as NOTIF_MAN_DB <<Container>>
     component "Notification Dispatcher\nBackend" as NOTIF_BACK <<Container>>
 
-    interface "Message Broker\nAPI" as MB_API
+    interface "Message\nBroker API" as MB_API
     interface "Fleet Management\nBackend API" as LTB_API
     interface "Smart Irrigation\nBackend API" as SIB_API
     interface "Device Management\nBackend API" as DRB_API

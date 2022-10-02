@@ -50,7 +50,7 @@ component "Sensae Console" <<System>> {
     component "Rule Management Backend" as RULE_MAN_BACK <<Container>>
     component "Rule Management Database" as RULE_MAN_DB <<Container>>
 
-    interface "Message Broker\nAPI" as MB_API
+    interface "Message\nBroker API" as MB_API
     interface "Device Management Master\nBackend API" as DRB_API
     interface "Data Processor Master\nBackend API" as DPB_API
     interface "Data Decoder Master\nBackend API" as DDMB_API

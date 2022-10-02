@@ -64,8 +64,8 @@
 \node at (563.2165pt,314.5pt)[below right,color=black]{\textit{\guillemotleft Container\guillemotright }};
 \node at (547.5pt,333.5679pt)[below right,color=black]{Message Broker};
 \draw[pstyle1] (488pt,328.5pt) ellipse (8pt and 8pt);
-\node at (426.7143pt,345.5pt)[below right,color=black]{Message Broker};
-\node at (426.7143pt,364.5679pt)[below right,color=black]{API};
+\node at (445.4055pt,345.5pt)[below right,color=black]{Message};
+\node at (445.4055pt,364.5679pt)[below right,color=black]{Broker API};
 \draw[pstyle1] (491pt,475.5pt) ellipse (8pt and 8pt);
 \node at (429.8151pt,492.5pt)[below right,color=black]{IoT Middleware};
 \node at (429.8151pt,511.5679pt)[below right,color=black]{Downlink};

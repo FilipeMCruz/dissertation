@@ -8,7 +8,7 @@ component "Fleet Management" <<Context>> {
     component "Fleet Management\nFrontend" <<Container>> as FRONT
     component "Fleet Management\nDatabase" <<Container>> as DB
 
-    interface "Fleet\nManagement\nDatabase API" as DB_API
+    interface "Fleet Management\nDatabase API" as DB_API
 
     DB - DB_API
     FRONT_API -- FRONT
@@ -19,7 +19,7 @@ component "Fleet Management" <<Context>> {
 }
 
 component "Message Broker" <<Container>> as MB
-interface "Message Broker\nAPI" as MB_API
+interface "Message\nBroker API" as MB_API
 
 MB_API - MB
 

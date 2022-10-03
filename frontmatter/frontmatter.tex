@@ -10,13 +10,38 @@
 
 \maketitlepage
 
+\clearpage
+
+\thispagestyle{empty}
+\null\vfill
+
+\settowidth\longest{\huge\itshape Experience is merely the name}
+\centering
+\parbox{\longest}{%
+  \raggedright{\huge\itshape%
+   Experience is merely the name \\ 
+   men gave to their mistakes.\par\bigskip
+  }   
+  \raggedleft\Large\MakeUppercase{Oscar Wilde}\par%
+}
+
+\vfill\vfill
+
+\clearpage
+\raggedright
 %----------------------------------------------------------------------------------------
 %	DEDICATION  (optional)
 %----------------------------------------------------------------------------------------
 %
 %\dedicatory{For/Dedicated to/To my\ldots}
 \begin{dedicatory}
-TODO
+The completion of this undertaking could not have been possible without the never ending support of those close to me. 
+
+First of all, i would like to thank Professor Dr. Nuno Silva for the involvement and support manifested during this project and my scholarship. 
+I would like to express a deep appreciation and indebtedness to all my close relatives and friends that helped me turn this dream into a reality.
+Lastly, i would like to thank Margarida, my girlfriend, that closely accompanied me in this journey.
+
+Thank you
 \end{dedicatory}
 
 %----------------------------------------------------------------------------------------
@@ -29,10 +54,10 @@ TODO
 
 Today there are more smart devices than people. The number of devices worldwide is forecast to almost triple from 8.74 billion in 2020 to more than 25.4 billion devices in 2030.
 
-The \gls{IoT} is the connection of millions of smart devices and sensors connected to the Internet. These connected devices and sensors collect and share data for use and evaluation by many organizations.
+The \gls{IoT} is the connection of millions of smart devices and sensors connected to the Internet. These connected devices and sensors collect and share data for use and analysis by many organizations.
 Some examples of intelligent connected sensors are: GPS asset tracking, parking spots, refrigerator thermostats, soil condition and many others. The limit of different objects that could become intelligent sensors is limited only by our imagination. But this devices are mostly useless without a platform to analyze, store and present the aggregated data.
 
-Recently, several platforms have emerged to address this need and help companies/governments to increase efficiency, cut on operational costs and improve safety. Sadly, most of this platforms are tailor made for the devices that the company offers. This dissertation presents a platform and its development that assembles multiple services related to \gls{IoT} into a single application. All the services provided by this platform attempt to be sensor-neutral and are to be exhibited under the same unified application.
+Recently, several platforms have emerged to address this need and help companies/governments to increase efficiency, cut on operational costs and improve safety. Sadly, most of this platforms are tailor made for the devices that the company offers. This dissertation presents a platform focused on enabling other to create \gls{IoT}-based services and three \gls{PoC} services built on top of this platform. This platform attempts to be device-neutral, \gls{IoT} middleware-neutral and provide flexible upstream integration and hosting options while providing a simple and concise data streaming \gls{API}. 
 
 \end{abstract}
 
@@ -41,10 +66,10 @@ Recently, several platforms have emerged to address this need and help companies
 
 Atualmente, existem mais sensores inteligentes do que pessoas. O número de sensores em todo o mundo deve quase triplicar de 8,74 bilhões em 2020 para mais de 25,4 bilhões em 2030.
 
-O conceito de \gls{IoT} está relacionado com a interacção entre milhões de dispositivos inteligentes através da Internet. Estes dispositivos e sensores conectados recolhem e disponibilizam dados para uso e avaliação por parte de muitas organizações.
-Alguns exemplos de sensores inteligentes e seus usos são: dispositivos GPS para rastreamento de activos, monitorização de vagas de estacionamento, termostatos em arcas frigoríficas, condição do solo e muitos outros. O número de diferentes objectos que podem vir-se a tornar sensores inteligentes é limitado apenas pela nossa imaginação. Mas estes dispositivos são praticamente inúteis sem uma plataforma para analisar, armazenar e apresentar os dados por eles agregados.
+O conceito de \gls{IoT} está relacionado com a interação entre milhões de dispositivos inteligentes através da Internet. Estes dispositivos e sensores conectados recolhem e disponibilizam dados para uso e análise por parte de muitas organizações.
+Alguns exemplos de sensores inteligentes e seus usos são: dispositivos GPS para rastreamento de ativos, monitorização de vagas de estacionamento, termostatos em arcas frigoríficas, condição do solo e muitos outros. O número de diferentes objetos que podem vir-se a tornar sensores inteligentes é limitado apenas pela nossa imaginação. Mas estes dispositivos são praticamente inúteis sem uma plataforma para analisar, armazenar e apresentar os dados por eles agregados.
 
-Recentemente, várias plataformas surgiram para responder a essa necessidade e ajudar empresas/governos a aumentar a sua eficiência, reduzir custos operacionais e melhorar a segurança dos espaços e negócios. Infelizmente, a maioria dessas plataformas é feita à medida para os dispositivos que a empresa em questão oferece. Esta tese apresenta uma plataforma que permite a criação e agregação de vários serviços relacionados com \gls{IoT} num ambiente único. Todos os serviços fornecidos por esta plataforma procuram ser agnósticos em relação aos dispositivos inteligentes suportados.
+Recentemente, várias plataformas surgiram para responder a essa necessidade e ajudar empresas/governos a aumentar a sua eficiência, reduzir custos operacionais e melhorar a segurança dos espaços e negócios. Infelizmente, a maioria dessas plataformas é feita à medida para os dispositivos que a empresa em questão oferece. Esta tese apresenta uma plataforma focada em que propiciar a criação de serviços relacionados com \gls{IoT} e três provas de conceito apoiadas pela plataforma em questão. Esta plataforma procura ser agnóstica em relação aos dispositivos inteligentes e middleware de \gls{IoT} usados por terceiros, oferece variadas e flexíveis opções de integração e hosting como também uma \gls{API} de streaming simples e concisa.
 
 \end{abstractotherlanguage}
 
@@ -68,11 +93,11 @@ TODO
 
 \listoftables % Prints the list of tables
 
-\iflanguage{portuguese}{
-\renewcommand{\listalgorithmname}{Lista de Algor\'itmos}
-}
-\listofalgorithms % Prints the list of algorithms
-\addchaptertocentry{\listalgorithmname}
+%\iflanguage{portuguese}{
+%\renewcommand{\listalgorithmname}{Lista de Algor\'itmos}
+%}
+%\listofalgorithms % Prints the list of algorithms
+%\addchaptertocentry{\listalgorithmname}
 
 
 \renewcommand{\lstlistlistingname}{List of Source Code}

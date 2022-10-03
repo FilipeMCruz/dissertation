@@ -1,36 +1,29 @@
 @startuml data-gateway
 
-left to right direction
+interface "AMQP API" as AMQP_API
+interface "REST API" as REST_API
 
-interface "Boot API" as BOOT_API
-
-component "Data Gateway" {
-    component "Domain" as DOM
-    component "Application" as APP
+component "Data Gateway" <<Container>> {
+    component "Domain" as DOM <<Component>>
+    component "Application" as APP <<Component>>
     folder "Infrastructure" as INFRA {
-        component "Boot" as BOOT
         folder "Endpoint" as ENDPOINT {
-            component "AMQP" as AMQP
-            component "REST" as REST
-            interface "AMQP API" as AMQP_API
-            interface "REST API" as REST_API
+            component "AMQP" as AMQP <<Component>>
+            component "REST" as REST <<Component>>
         }
     }
     interface "Application API" as APP_API
     interface "Domain API" as DOM_API
 
-    DOM - DOM_API
+    DOM_API - DOM
 
-    AMQP_API -- AMQP
+    AMQP_API )-- AMQP
     REST_API -- REST
-    APP - APP_API
+    APP_API - APP
 
-    BOOT - BOOT_API
-    DOM_API )- APP
+    APP -( DOM_API
     AMQP --( APP_API
     REST --( APP_API
-    BOOT --( REST_API
-    BOOT --( AMQP_API
 }
 
 @enduml

@@ -3,7 +3,7 @@
 \definecolor{plantucolor0001}{RGB}{24,24,24}
 \definecolor{plantucolor0002}{RGB}{226,226,240}
 \definecolor{plantucolor0003}{RGB}{0,0,0}
-\begin{tikzpicture}[font=\Large,yscale=-1
+\begin{tikzpicture}[font=\Large,font=\Large,yscale=-1
 ,pstyle0/.style={color=plantucolor0001,fill=white,line width=1.0pt}
 ,pstyle1/.style={color=plantucolor0001,line width=0.5pt,dash pattern=on 5.0pt off 5.0pt}
 ,pstyle2/.style={color=plantucolor0001,fill=plantucolor0002,line width=0.5pt}
@@ -11,48 +11,51 @@
 ,pstyle4/.style={color=plantucolor0001,line width=1.0pt}
 ,pstyle5/.style={color=plantucolor0001,line width=1.0pt,dash pattern=on 2.0pt off 2.0pt}
 ]
-\draw[pstyle0] (314.5682pt,72.7739pt) rectangle (324.5682pt,310.4221pt);
-\draw[pstyle0] (525.8718pt,247.01pt) rectangle (535.8718pt,278.716pt);
-\draw[pstyle1] (107pt,39.0679pt) -- (107pt,328.4221pt);
-\draw[pstyle1] (319.0182pt,39.0679pt) -- (319.0182pt,328.4221pt);
-\draw[pstyle1] (530.1182pt,39.0679pt) -- (530.1182pt,328.4221pt);
-\draw[pstyle2] (5pt,10pt) arc (180:270:5pt) -- (10pt,5pt) -- (205.0182pt,5pt) arc (270:360:5pt) -- (210.0182pt,10pt) -- (210.0182pt,33.0679pt) arc (0:90:5pt) -- (205.0182pt,38.0679pt) -- (10pt,38.0679pt) arc (90:180:5pt) -- (5pt,33.0679pt) -- cycle;
-\node at (12pt,12pt)[below right,color=black]{Data Processor Frontend};
-\draw[pstyle2] (220.0182pt,10pt) arc (180:270:5pt) -- (225.0182pt,5pt) -- (414.1182pt,5pt) arc (270:360:5pt) -- (419.1182pt,10pt) -- (419.1182pt,33.0679pt) arc (0:90:5pt) -- (414.1182pt,38.0679pt) -- (225.0182pt,38.0679pt) arc (90:180:5pt) -- (220.0182pt,33.0679pt) -- cycle;
-\node at (227.0182pt,12pt)[below right,color=black]{Data Processor Backend};
-\draw[pstyle2] (429.1182pt,10pt) arc (180:270:5pt) -- (434.1182pt,5pt) -- (627.6255pt,5pt) arc (270:360:5pt) -- (632.6255pt,10pt) -- (632.6255pt,33.0679pt) arc (0:90:5pt) -- (627.6255pt,38.0679pt) -- (434.1182pt,38.0679pt) arc (90:180:5pt) -- (429.1182pt,33.0679pt) -- cycle;
-\node at (436.1182pt,12pt)[below right,color=black]{Data Processor Database};
-\draw[pstyle0] (314.5682pt,72.7739pt) rectangle (324.5682pt,310.4221pt);
-\draw[pstyle0] (525.8718pt,247.01pt) rectangle (535.8718pt,278.716pt);
-\draw[pstyle3] (302.5682pt,68.7739pt) -- (312.5682pt,72.7739pt) -- (302.5682pt,76.7739pt) -- cycle;
-\draw[pstyle4] (107.5091pt,72.7739pt) -- (308.5682pt,72.7739pt);
-\node at (114.5091pt,53.0679pt)[below right,color=black]{\textbf{1.1}};
-\node at (141.5289pt,53.0679pt)[below right,color=black]{request data mappers};
-\draw[pstyle4] (324.5682pt,122.186pt) -- (366.5682pt,122.186pt);
-\draw[pstyle4] (366.5682pt,122.186pt) -- (366.5682pt,135.186pt);
-\draw[pstyle4] (325.5682pt,135.186pt) -- (366.5682pt,135.186pt);
-\draw[pstyle3] (335.5682pt,131.186pt) -- (325.5682pt,135.186pt) -- (335.5682pt,139.186pt) -- cycle;
-\node at (331.5682pt,93.6269pt)[below right,color=black]{\textbf{1.2}};
-\node at (358.588pt,84.7739pt)[below right,color=black]{verifies if the};
-\node at (358.588pt,102.4799pt)[below right,color=black]{token is valid};
-\draw[pstyle4] (324.5682pt,202.304pt) -- (366.5682pt,202.304pt);
-\draw[pstyle4] (366.5682pt,202.304pt) -- (366.5682pt,215.304pt);
-\draw[pstyle4] (325.5682pt,215.304pt) -- (366.5682pt,215.304pt);
-\draw[pstyle3] (335.5682pt,211.304pt) -- (325.5682pt,215.304pt) -- (335.5682pt,219.304pt) -- cycle;
-\node at (331.5682pt,164.892pt)[below right,color=black]{\textbf{1.3}};
-\node at (358.588pt,147.186pt)[below right,color=black]{verifies if the};
-\node at (358.588pt,164.892pt)[below right,color=black]{user has the};
-\node at (358.588pt,182.598pt)[below right,color=black]{needed permissions};
-\draw[pstyle3] (513.8718pt,243.01pt) -- (523.8718pt,247.01pt) -- (513.8718pt,251.01pt) -- cycle;
-\draw[pstyle4] (324.5682pt,247.01pt) -- (519.8718pt,247.01pt);
-\node at (331.5682pt,227.304pt)[below right,color=black]{\textbf{1.4}};
-\node at (358.588pt,227.304pt)[below right,color=black]{query data mappers};
-\draw[pstyle3] (335.5682pt,274.716pt) -- (325.5682pt,278.716pt) -- (335.5682pt,282.716pt) -- cycle;
-\draw[pstyle5] (329.5682pt,278.716pt) -- (529.8718pt,278.716pt);
-\node at (341.5682pt,259.01pt)[below right,color=black]{\textbf{1.5}};
-\node at (368.588pt,259.01pt)[below right,color=black]{data mappers};
-\draw[pstyle3] (118.5091pt,306.4221pt) -- (108.5091pt,310.4221pt) -- (118.5091pt,314.4221pt) -- cycle;
-\draw[pstyle5] (112.5091pt,310.4221pt) -- (318.5682pt,310.4221pt);
-\node at (124.5091pt,290.716pt)[below right,color=black]{\textbf{1.6}};
-\node at (151.5289pt,290.716pt)[below right,color=black]{data mappers};
+\draw[pstyle0] (314.5682pt,91.8419pt) rectangle (324.5682pt,329.49pt);
+\draw[pstyle0] (525.8718pt,266.0779pt) rectangle (535.8718pt,297.784pt);
+\draw[pstyle1] (107pt,58.1358pt) -- (107pt,347.49pt);
+\draw[pstyle1] (319.0182pt,58.1358pt) -- (319.0182pt,347.49pt);
+\draw[pstyle1] (530.1182pt,58.1358pt) -- (530.1182pt,347.49pt);
+\draw[pstyle2] (5pt,10pt) arc (180:270:5pt) -- (10pt,5pt) -- (205.0182pt,5pt) arc (270:360:5pt) -- (210.0182pt,10pt) -- (210.0182pt,52.1358pt) arc (0:90:5pt) -- (205.0182pt,57.1358pt) -- (10pt,57.1358pt) arc (90:180:5pt) -- (5pt,52.1358pt) -- cycle;
+\node at (61.9399pt,12pt)[below right,color=black]{\textit{\guillemotleft Container\guillemotright }};
+\node at (12pt,31.0679pt)[below right,color=black]{Data Processor Frontend};
+\draw[pstyle2] (220.0182pt,10pt) arc (180:270:5pt) -- (225.0182pt,5pt) -- (414.1182pt,5pt) arc (270:360:5pt) -- (419.1182pt,10pt) -- (419.1182pt,52.1358pt) arc (0:90:5pt) -- (414.1182pt,57.1358pt) -- (225.0182pt,57.1358pt) arc (90:180:5pt) -- (220.0182pt,52.1358pt) -- cycle;
+\node at (273.999pt,12pt)[below right,color=black]{\textit{\guillemotleft Container\guillemotright }};
+\node at (227.0182pt,31.0679pt)[below right,color=black]{Data Processor Backend};
+\draw[pstyle2] (429.1182pt,10pt) arc (180:270:5pt) -- (434.1182pt,5pt) -- (627.6255pt,5pt) arc (270:360:5pt) -- (632.6255pt,10pt) -- (632.6255pt,52.1358pt) arc (0:90:5pt) -- (627.6255pt,57.1358pt) -- (434.1182pt,57.1358pt) arc (90:180:5pt) -- (429.1182pt,52.1358pt) -- cycle;
+\node at (485.3026pt,12pt)[below right,color=black]{\textit{\guillemotleft Container\guillemotright }};
+\node at (436.1182pt,31.0679pt)[below right,color=black]{Data Processor Database};
+\draw[pstyle0] (314.5682pt,91.8419pt) rectangle (324.5682pt,329.49pt);
+\draw[pstyle0] (525.8718pt,266.0779pt) rectangle (535.8718pt,297.784pt);
+\draw[pstyle3] (302.5682pt,87.8419pt) -- (312.5682pt,91.8419pt) -- (302.5682pt,95.8419pt) -- cycle;
+\draw[pstyle4] (107.5091pt,91.8419pt) -- (308.5682pt,91.8419pt);
+\node at (114.5091pt,72.1358pt)[below right,color=black]{\textbf{1.1}};
+\node at (141.5289pt,72.1358pt)[below right,color=black]{request data mappers};
+\draw[pstyle4] (324.5682pt,141.2539pt) -- (366.5682pt,141.2539pt);
+\draw[pstyle4] (366.5682pt,141.2539pt) -- (366.5682pt,154.2539pt);
+\draw[pstyle4] (325.5682pt,154.2539pt) -- (366.5682pt,154.2539pt);
+\draw[pstyle3] (335.5682pt,150.2539pt) -- (325.5682pt,154.2539pt) -- (335.5682pt,158.2539pt) -- cycle;
+\node at (331.5682pt,112.6949pt)[below right,color=black]{\textbf{1.2}};
+\node at (358.588pt,103.8419pt)[below right,color=black]{verifies if the};
+\node at (358.588pt,121.5479pt)[below right,color=black]{token is valid};
+\draw[pstyle4] (324.5682pt,221.3719pt) -- (366.5682pt,221.3719pt);
+\draw[pstyle4] (366.5682pt,221.3719pt) -- (366.5682pt,234.3719pt);
+\draw[pstyle4] (325.5682pt,234.3719pt) -- (366.5682pt,234.3719pt);
+\draw[pstyle3] (335.5682pt,230.3719pt) -- (325.5682pt,234.3719pt) -- (335.5682pt,238.3719pt) -- cycle;
+\node at (331.5682pt,183.9599pt)[below right,color=black]{\textbf{1.3}};
+\node at (358.588pt,166.2539pt)[below right,color=black]{verifies if the};
+\node at (358.588pt,183.9599pt)[below right,color=black]{user has the};
+\node at (358.588pt,201.6659pt)[below right,color=black]{needed permissions};
+\draw[pstyle3] (513.8718pt,262.0779pt) -- (523.8718pt,266.0779pt) -- (513.8718pt,270.0779pt) -- cycle;
+\draw[pstyle4] (324.5682pt,266.0779pt) -- (519.8718pt,266.0779pt);
+\node at (331.5682pt,246.3719pt)[below right,color=black]{\textbf{1.4}};
+\node at (358.588pt,246.3719pt)[below right,color=black]{query data mappers};
+\draw[pstyle3] (335.5682pt,293.784pt) -- (325.5682pt,297.784pt) -- (335.5682pt,301.784pt) -- cycle;
+\draw[pstyle5] (329.5682pt,297.784pt) -- (529.8718pt,297.784pt);
+\node at (341.5682pt,278.0779pt)[below right,color=black]{\textbf{1.5}};
+\node at (368.588pt,278.0779pt)[below right,color=black]{data mappers};
+\draw[pstyle3] (118.5091pt,325.49pt) -- (108.5091pt,329.49pt) -- (118.5091pt,333.49pt) -- cycle;
+\draw[pstyle5] (112.5091pt,329.49pt) -- (318.5682pt,329.49pt);
+\node at (124.5091pt,309.784pt)[below right,color=black]{\textbf{1.6}};
+\node at (151.5289pt,309.784pt)[below right,color=black]{data mappers};
 \end{tikzpicture}

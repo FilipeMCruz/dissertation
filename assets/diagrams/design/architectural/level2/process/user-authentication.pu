@@ -6,13 +6,13 @@ autonumber 1.1
 
 actor User
 
-box "Sensae Console"
-participant "Ui Aggregator" as AGGRE
-participant "Identity Management\nBackend" as AUTHBACK
-participant "Identity Management\nDatabase" as DB
+box "    //<<System>>//\nSensae Console"
+participant "Ui Aggregator" as AGGRE <<Container>>
+participant "Identity Management\nBackend" as AUTHBACK <<Container>>
+participant "Identity Management\nDatabase" as DB <<Container>>
 end box
 
-participant "Identity Platform" as AUTHSERVER
+participant "Identity Platform" as AUTHSERVER <<System>>
 
 activate AGGRE
 activate User

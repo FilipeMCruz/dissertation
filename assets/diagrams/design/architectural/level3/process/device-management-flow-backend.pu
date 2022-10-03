@@ -2,12 +2,12 @@
 
 autonumber 1
 
-box "Device Management Flow Backend"
-participant Ingress
-participant Application
-participant Domain
-participant Memory
-participant Egress
+box "                     //<<Container>>//\nDevice Management Flow Backend"
+participant Ingress <<Component>>
+participant Application <<Component>>
+participant Domain <<Component>>
+participant Memory <<Component>>
+participant Egress <<Component>>
 end box
 
 ?-> Ingress ++ : message\nconsumed dto

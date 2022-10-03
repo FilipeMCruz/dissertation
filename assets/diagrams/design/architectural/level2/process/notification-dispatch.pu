@@ -5,28 +5,25 @@ skinparam style strictuml
 autonumber 1.1
 actor User
 
-box "Sensae Console"
-participant "Notification Management\nFrontend" as FRONT
-participant "Notification Management\nBackend" as BACK
-participant "Notification Dispatcher\nBackend" as DISP
-participant "Notification Management\nDatabase" as DB
-participant "Message\nBroker" as MB
+box "       //<<System>>//\nExternal Service"
+participant "Notification Management\nFrontend" as FRONT <<Container>>
+participant "Notification Management\nBackend" as BACK <<Container>>
+participant "Notification Dispatcher\nBackend" as DISP <<Container>>
+participant "Notification Management\nDatabase" as DB <<Container>>
 end box
 
-participant "SMS Dispatcher" as EMAIL
-participant "Email Dispatcher" as SMS
+participant "SMS Dispatcher" as EMAIL <<System>>
+participant "Email Dispatcher" as SMS <<System>>
 
-activate MB 
+participant "Sensae Console" as MB <<System>>
 
 User -> FRONT ++ : access page
 
 ... after some time ...
-autonumber inc A
-
-?-> MB : publishes a new alert
 
 autonumber inc A
-MB -> BACK ++ : notifies about the new alert
+MB -> BACK ++ : notifies about the new "X" alert
+activate MB
 
 BACK -> BACK : transform alert\ninto notification
 
@@ -38,9 +35,10 @@ BACK -> FRONT -- : notification
 FRONT -> User : present notification
 
 autonumber inc A
-MB -> DISP ++ : notifies about the new alert
+MB -> DISP ++ : notifies about the new "X" alert
 
 DISP -> DISP : search for addresses\nsubscribed to the content\n type of the alert via email
+deactivate MB 
 
 loop for each addressee
 

@@ -4,20 +4,23 @@ autonumber 1.1
 
 skinparam style strictuml
 
-box "Sensae Console"
-participant "Smart Irrigation\nBackend" as BACK
-participant "Smart Irrigation\nBusiness Database" as DB
-participant "Message\nBroker" as MB
-participant "Device Commander\nBackend" as COMM
+box "   //<<System>>//\nExternal Service"
+participant "Smart Irrigation\nBackend" as BACK <<Container>>
+participant "Smart Irrigation\nBusiness Database" as DB <<Container>>
+end box
+
+participant "IoT Middleware" as HC <<System>>
+
+box "     //<<System>>//\nSensae Console"
+participant "Message\nBroker" as MB <<Container>>
+participant "Device Commander\nBackend" as COMM <<Container>>
 end box 
 
-participant "IoT Middleware" as HC
-
+MB <-? : publish\nalert
 activate MB
 
-?-> MB : publish\nalert
-
 MB -> BACK ++ : notify about new alert
+deactivate MB
 
 BACK -> BACK : extract related\ndevice from alert
 
@@ -36,9 +39,12 @@ end
 
 BACK -> BACK : create command\nfor device
 BACK -> MB -- : publish command
+activate MB
 
 autonumber inc A
 MB -> COMM ++ : notify about\nnew command
+deactivate MB
+
 COMM -> COMM : search for device\ncommand details
 COMM -> HC ++--: send http downlink
 deactivate HC

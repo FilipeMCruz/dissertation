@@ -4,7 +4,6 @@ folder "device-ownership-backend" {
     folder "application" as APP
     folder "domain" as DOM
     folder "infrastructure" as INFRA {
-        folder "boot" as BOOT
         folder "endpoint" as ENDPOINT {
             folder "amqp" as AMQP {
                 folder "egress" as EGRESS
@@ -18,9 +17,6 @@ folder "device-ownership-backend" {
     INGRESS ..> APP
     INTERNAL ..> APP
     APP .> DOM
-    BOOT ..> INTERNAL
-    BOOT ..> EGRESS
-    BOOT ..> INGRESS
 }
 
 @enduml

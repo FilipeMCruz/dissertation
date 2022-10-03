@@ -3,18 +3,14 @@
 skinparam sequenceMessageAlign center
 skinparam style strictuml
 autonumber 1
-!pragma teoz true
 
 actor User
-box "Sensae Console" #LightBlue
-box "Ui Aggregator"
-participant "Ui Aggregator Shell" as AGGRE
-participant "X Content\nFrontend" as XFRONT
-participant "Auth Lib" as AUTHLIB
+box "    //<<System>>//\nSensae Console"
+participant "Ui Aggregator" as AGGRE <<Container>>
+participant "X Content\nFrontend" as XFRONT <<Container>>
+participant "X Content\nBackend" as XBACK <<Container>>
 end box
-participant "X Content\nBackend" as XBACK
-end box
-participant "External\nAutentication Server" as AUTHSERVER
+participant "External\nAutentication Server" as AUTHSERVER <<System>>
 
 activate AGGRE
 activate User
@@ -31,21 +27,17 @@ AUTHSERVER -> AUTHSERVER: Performs user\nauthentication\nvia OpenID\nConnect Pro
 AUTHSERVER -> User: Redirect to registered callback with access token
 deactivate AUTHSERVER
 User -> AGGRE: Accesses registered\ncallback
-AGGRE -> AUTHLIB: Stores the access token
-activate AUTHLIB
-AUTHLIB -> AGGRE: Notifies that a new\naccess token is present
-deactivate AUTHLIB
+AGGRE -> AGGRE: Stores the access token
+AGGRE -> AGGRE: Notifies that a new\naccess token is present
 AGGRE -> AGGRE: Checks what\nFrontends the\naccess token\ngives access to
 AGGRE --> User: Presents the\nX Content Frontend
 User -> XFRONT: Accessses the service window
 activate XFRONT
 XFRONT --> User: Presents X interaction with the service
 User -> XFRONT: Picks X interaction
-XFRONT -> AUTHLIB: Requests the\naccess token
-activate AUTHLIB
-AUTHLIB -> AUTHLIB: Verifies if the\naccess token\nis still valid
-AUTHLIB --> XFRONT: Provides the\naccess token
-deactivate AUTHLIB
+XFRONT -> AGGRE: Requests the\naccess token
+AGGRE -> AGGRE: Verifies if the\naccess token\nis still valid
+AGGRE --> XFRONT: Provides the\naccess token
 XFRONT -> XBACK: Requests infromation with access token
 activate XBACK
 XBACK -> XBACK: Verifies user\nauthorization

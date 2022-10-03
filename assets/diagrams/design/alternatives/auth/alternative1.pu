@@ -7,15 +7,12 @@ autonumber 1
 
 actor User
 
-box "Ui Aggregator"
-participant "Ui Aggregator Shell" as AGGRE
-participant "X Content\nFrontend" as XFRONT
-participant "Auth Lib" as AUTHLIB
-end box
+participant "Ui Aggregator" as AGGRE <<Container>>
+participant "X Content\nFrontend" as XFRONT <<Container>>
 
-participant "X Content\nBackend" as XBACK
+participant "X Content\nBackend" as XBACK <<Container>>
 
-participant "Internal\nAutentication Server" as AUTHSERVER
+participant "Internal\nAutentication Server" as AUTHSERVER <<Container>>
 
 activate AGGRE
 activate User
@@ -25,26 +22,22 @@ AGGRE --> User: Presents a\nSign In/Sign Up section
 User -> AGGRE: Picks the Sign Up option
 AGGRE --> User: Requests user infromation
 User -> AGGRE: Provides information
-AGGRE -> AUTHLIB: Provides information\nabout new User
-activate AUTHLIB
-AUTHLIB -> AUTHSERVER: Provides information\nabout new User
+AGGRE -> AGGRE: Provides information\nabout new User
+AGGRE -> AUTHSERVER: Provides information\nabout new User
 activate AUTHSERVER
 AUTHSERVER -> AUTHSERVER: Performs user\nauthentication
-AUTHSERVER --> AUTHLIB: Provides the access token
+AUTHSERVER --> AGGRE: Provides the access token
 deactivate AUTHSERVER
-AUTHLIB -> AGGRE: Notifies that a new\naccess token is present
-deactivate AUTHLIB
+AGGRE -> AGGRE: Notifies that a new\naccess token is present
 AGGRE -> AGGRE: Checks what Frontends\nthe access token\ngives access to
 AGGRE --> User: Presents\nX Content Frontend
 User -> XFRONT: Accessses the service window
 activate XFRONT
 XFRONT --> User: Presents X interaction with the service
 User -> XFRONT: Picks X interaction
-XFRONT -> AUTHLIB: Requests the\naccess token
-activate AUTHLIB
-AUTHLIB -> AUTHLIB: Verifies if the\naccess token\nis still valid
-AUTHLIB --> XFRONT: Provides the\naccess token
-deactivate AUTHLIB
+XFRONT -> AGGRE: Requests the\naccess token
+AGGRE -> AGGRE: Verifies if the\naccess token\nis still valid
+AGGRE --> XFRONT: Provides the\naccess token
 XFRONT -> XBACK: Requests infromation\nwith access token
 activate XBACK
 XBACK -> XBACK: Verifies user\nauthorization

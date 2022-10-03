@@ -566,7 +566,7 @@ The next diagram describes what happens when a message with a decoder is publish
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
+   \resizebox{0.8\columnwidth}{!}
    {
       \input{assets/diagrams/design/architectural/level2/process/data-decoder-flow-2.latex}
    }
@@ -591,7 +591,7 @@ The next diagrams, in Figure~\ref{fig:design:architecture:container:process:diag
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
+   \resizebox{0.8\columnwidth}{!}
    {
       \input{assets/diagrams/design/architectural/level2/process/consult-data-processor.latex}
    }
@@ -603,7 +603,7 @@ The diagram presented above represents a simple consult of data mappers, as we c
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
+   \resizebox{0.8\columnwidth}{!}
    {
       \input{assets/diagrams/design/architectural/level2/process/edit-device-management.latex}
    }
@@ -650,7 +650,7 @@ The user identity and credentials validation are assured by an external identity
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
+   \resizebox{0.8\columnwidth}{!}
    {
       \input{assets/diagrams/design/architectural/level2/process/user-authorization.latex}
    }
@@ -658,7 +658,7 @@ The user identity and credentials validation are assured by an external identity
    \label{fig:design:architecture:container:process:diagram:authorization}
 \end{figure}
 
-In this diagram the expected behavior for any pair of frontend and backend containers in \textbf{Configuration Scope} and \textbf{External Services Scope} is presented. Each frontend displays only the actions and information that the user permissions allow. The user permissions are once again verified in the backend to secure the system against malicious accesses. Other alternatives related to authentication and authorization are presented in the Section~\ref{subsec:design:alternatives:auth}.
+In this diagram the expected behavior for any pair of frontend and backend containers in \textbf{Configuration Scope} and \textbf{External Services Scope} (when served from the \textbf{UI Aggregator}) is presented. Each frontend displays only the actions and information that the user permissions allow. The user permissions are once again verified in the backend to secure the system against malicious accesses. Other alternatives related to authentication and authorization are presented in the Section~\ref{subsec:design:alternatives:auth}.
 
 Finally some operations performed in the \textbf{External Services Scope} are presented starting with how a user can see the current location of a device via the Fleet Management Service (Figure~\ref{fig:design:architecture:container:process:diagram:fleet}). Authentication details will be omitted for brevity reasons.
 
@@ -672,7 +672,7 @@ Finally some operations performed in the \textbf{External Services Scope} are pr
    \label{fig:design:architecture:container:process:diagram:fleet}
 \end{figure}
 
-In order to provide live information to the user \textbf{External Services Scope} services rely on \textit{WebSockets}. A bidirectional channel is created between the frontend and backend so that data can be sent directly from the backend to the frontend as we can see in the step \textbf{2.6}. Fist the frontend must subscribe to new information with a valid \textit{access token} - steps \textbf{1.2} to \textbf{1.6} - then this channel is maintained till the user leaves the page. Once the user leaves the page the subscription is closed in the frontend and subsequently in the backend - steps \textbf{3.2} to \textbf{3.5}.
+In order to provide live information to the user, \textbf{External Services Scope} services rely on \textit{WebSockets}. A bidirectional channel is created between the frontend and backend so that data can be sent directly from the backend to the frontend as we can see in the step \textbf{2.5}. Fist the frontend must subscribe to new information with a valid \textit{access token} - steps \textbf{1.2} to \textbf{1.6} - then this channel is maintained till the user leaves the page. Once the user leaves the page the subscription is closed in the frontend and subsequently in the backend - steps \textbf{3.2} to \textbf{3.5}.
 
 The next diagram in Figure~\ref{fig:design:architecture:container:process:diagram:notification} describes how a user receives notifications via several different delivery channels. For brevity reasons the subscription process is omitted.
 
@@ -686,7 +686,7 @@ The next diagram in Figure~\ref{fig:design:architecture:container:process:diagra
    \label{fig:design:architecture:container:process:diagram:notification}
 \end{figure}
 
-As a brief description this diagram describes what happens when an alert is dispatched inside \textbf{Sensae Console}. An alert is created in Alert Dispatcher Backend, flows though Device Ownership Backend to be enriched with the domains that own it and is then collected by, at least, Notification Management Backend and Notification Dispatcher Backend. Notification Management Backend deliveries alerts in the form of \gls{UI} notifications - step \textbf{3.5} and \textbf{3.6} - and stores this alert as a notification for later use - step \textbf{3.3}. Notification Dispatcher Backend deliveries alerts in the form of Emails - step \textbf{4.4} - and SMS - step \textbf{4.7}.
+As a brief description this diagram describes what happens when an alert is dispatched inside \textbf{Sensae Console}. An alert is created in Alert Dispatcher Backend, flows though Device Ownership Backend to be enriched with the domains that own it and is then collected by, at least, Notification Management Backend and Notification Dispatcher Backend. Notification Management Backend deliveries alerts in the form of \gls{UI} notifications - step \textbf{2.5} and \textbf{2.6} - and stores this alert as a notification for later use - step \textbf{2.3}. Notification Dispatcher Backend deliveries alerts in the form of Emails - step \textbf{3.4} - and SMS - step \textbf{3.7}.
 
 Certain types of alerts are also collected by Smart Irrigation Backend to automatically control conditions inside an irrigation zone. In the next diagram, Figure \ref{fig:design:architecture:container:process:diagram:irrigation}, this process is presented.
 
@@ -797,9 +797,9 @@ The physical view will not be presented since all relevant details have been add
 The architectures used in the various developed containers can be condensate into 3 types with minor variations:
 
 \begin{itemize}
-   \item \textbf{Frontend Architecture}: used on all frontend containers;
-   \item \textbf{Management Backend Architecture}: used on most service scope backend containers and all configuration scope backends;
-   \item \textbf{Data Flow Architecture}: used on most containers related to the Data Flow scope.
+   \item \textbf{Frontend Architecture}: used on all frontend containers, in both \textbf{Sensae Console} and the \textbf{External Services};
+   \item \textbf{Management Backend Architecture}: used on most \textbf{External Services}' backend containers and all Configuration Scope backends in \textbf{Sensae Console};
+   \item \textbf{Data Flow Architecture}: used on most containers related to the Data Flow scope in \textbf{Sensae Console}.
 \end{itemize}
 
 Starting with the Frontend Architecture used, it was decided to maintain two distinct domains (Model and DTOS) in order to meet the \gls{SRP} (high cohesion) and to lower the coupling between the information displayed in the UI and the data sent/received by the container. This segmentation led to the addition of the Mapper component, which has the responsibility of converting the data (DTOS component) into information (Model component) and vice-versa. The Auth component indicates what backend resources the user has access to and the Utils component has several methods commonly used to process backend requests. These two components are reused in all frontend containers.
@@ -808,7 +808,7 @@ As an example, the logical view of the Data Decoder Frontend is presented in Fig
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
+   \resizebox{0.7\columnwidth}{!}
    {
       \input{assets/diagrams/design/architectural/level3/logical/data-decoder-frontend.latex}
    }
@@ -816,7 +816,7 @@ As an example, the logical view of the Data Decoder Frontend is presented in Fig
    \label{fig:design:architecture:component:logical:diagram:decoder}
 \end{figure}
 
-This architecture is used on the containers: (i) Device Management Frontend, (ii) Data Decoder Frontend, (iii) Data Processor Frontend, (iv) Notification Management Frontend, (v) Identity Management Frontend, (vi) Rule Management Frontend, (vii) Fleet Management Frontend and (viii) Smart Irrigation Frontend. The UI Aggregator has a simpler architecture them the other frontend containers, it is comprised by a Presentation component that depends on the Auth component to handle user authentication and authorization.
+This architecture is used on the containers: (i) Device Management Frontend, (ii) Data Decoder Frontend, (iii) Data Processor Frontend, (iv) Rule Management Frontend, (v) Identity Management Frontend, (vi) Notification Management Frontend, (vii) Fleet Management Frontend and (viii) Smart Irrigation Frontend. The UI Aggregator has a simpler architecture them the other frontend containers, it is comprised by a Presentation component that depends on the Auth component to handle user authentication and authorization.
 
 Next, the Management Backend Architecture is discussed. It is based on the Onion Architecture, an architecture pattern that "emphasizes separation of concerns throughout the system" and "leads to more maintainable applications" (\cite{onion}).
 
@@ -824,7 +824,7 @@ As an example the logical view of the Device Management Backend is presented in 
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
+   \resizebox{0.8\columnwidth}{!}
    {
       \input{assets/diagrams/design/architectural/level3/logical/device-management-backend.latex}
    }
@@ -832,45 +832,43 @@ As an example the logical view of the Device Management Backend is presented in 
    \label{fig:design:architecture:component:logical:diagram:device}
 \end{figure}
 
-This architecture is used on the containers: (i) Device Management Backend, (ii) Data Decoder Backend, (iii) Data Processor Backend, (iv) Notification Management Backend, (v) Identity Management Backend, (vi) Rule Management Backend and (vii) Fleet Management Backend. The Smart Irrigation Backend has an additional component - QuestDB - inside the Persistence component with the same dependencies as the Postgres component. The Notification Dispatcher's architecture also differs from the architecture here presented. Further details of these differences can be consulted in Appendix ~\ref{AppendixC}.
+This architecture is used on the containers: (i) Device Management Backend, (ii) Data Decoder Backend, (iii) Data Processor Backend, (iv) Rule Management Backend, (v) Identity Management Backend, (vi) Notification Management Backend and (vii) Fleet Management Backend. The Smart Irrigation Backend has an additional component - QuestDB - inside the Persistence component with the same dependencies as the Postgres component. The Notification Dispatcher's architecture also differs from the architecture here presented. Further details of these differences can be consulted in Appendix ~\ref{AppendixC}.
 
 The following table, Table~\ref{tab:design:architecture:components:logical:backend}, discusses each component responsibilities.
 
 \begin{table}[H]
+   \centering
    \caption{Backend components responsibilities}
    \label{tab:design:architecture:components:logical:backend}
    \begin{tabular}{@{}cl@{}}
    \toprule
    \textbf{Component}               & \textbf{Responsibilities}                                            \\ \midrule
    Infrastructure &
-     \begin{tabular}[c]{@{}l@{}}- Enclose components that manage the Input/Output\\ operations required by the container;\end{tabular} \\ \midrule
-   \multirow{3}{*}{Boot}            & - Manage the start up of the container;                              \\
-    &
-     \begin{tabular}[c]{@{}l@{}}- Construct the components' pieces according\\ to the defined dependencies;\end{tabular} \\
-                                    & - Manage the configuration of the container;                         \\ \midrule
+     \begin{tabular}[c]{@{}l@{}}- Enclose components that manage the Input/Output\\ operations required by the container.\end{tabular} \\ \midrule
    Endpoint &
-     \begin{tabular}[c]{@{}l@{}}- Enclose components that are used by external\\ containers to interact with the container;\end{tabular} \\ \midrule
+     \begin{tabular}[c]{@{}l@{}}- Enclose components that are used by external\\ containers to interact with the container.\end{tabular} \\ \midrule
    \multirow{2}{*}{AMQP} &
      - Define how to consume and publish events in the Message Broker; \\
     &
-     \begin{tabular}[c]{@{}l@{}}- Delegate the handling of events received to \\ specific Application processes;\end{tabular} \\ \midrule
-   \multirow{2}{*}{GraphQl}         & - Define the interface to be consumed by the frontend;               \\
-                                    & - Delegate external requests made to specific Application processes; \\ \midrule
+     \begin{tabular}[c]{@{}l@{}}- Delegate the handling of events received to \\ specific Application processes.\end{tabular} \\ \midrule
+   \multirow{2}{*}{GraphQl}         & 
+     \begin{tabular}[c]{@{}l@{}} - Define the interface to be consumed by the \\ frontend and external Systems;  \end{tabular} \\
+                                    & - Delegate external requests made to specific Application processes.\\ \midrule
    Persistence &
-     \begin{tabular}[c]{@{}l@{}}- Enclose components that interface with \\ containers responsible for persisting data;\end{tabular} \\ \midrule
-   Postgres                         & - Interact with a database to persist and query data;                \\ \midrule
+     \begin{tabular}[c]{@{}l@{}}- Enclose components that interface with \\ containers responsible for persisting data.\end{tabular} \\ \midrule
+   Postgres                         & - Interact with a database to persist and query data.                \\ \midrule
    \multirow{4}{*}{Application}     & - Represent the application processes;                               \\
     &
      \begin{tabular}[c]{@{}l@{}}- Ensure the propagation of events related to the\\ process in question, requiring this responsibility to AMQP;\end{tabular} \\
     &
      \begin{tabular}[c]{@{}l@{}}- Ensure the execution of the process in question,\\ requiring this responsibility to Domain Services;\end{tabular} \\
-                                    & - Enforce user authorization;                                        \\ \midrule
+                                    & - Enforce user authorization.                                        \\ \midrule
    \multirow{3}{*}{Domain Services} & - Represent business processes;                                      \\
-                                    & - Interact with the Domain;                                          \\
+                                    & - Interact with the Domain;                                  \\
     &
-     \begin{tabular}[c]{@{}l@{}}- Ensure the persistence of the data in question,\\ requiring this responsibility to the Persistence;\end{tabular} \\ \midrule
+     \begin{tabular}[c]{@{}l@{}}- Ensure the persistence of the data in question,\\ requiring this responsibility to the Persistence.\end{tabular} \\ \midrule
    \multirow{2}{*}{Domain}          & - Represent de business rules and concepts;                          \\
-                                    & - Manage the system information;                                     \\ \bottomrule
+                                    & - Manage the system information.                                    \\ \bottomrule
    \end{tabular}
 \end{table}
 
@@ -930,7 +928,7 @@ As presented in the diagram:
 
 \begin{itemize}
    \item As soon as the message dto arrives, it is mapped to the \textit{iot-core} data unit model - step \textbf{2} - this model is used inside every Data Flow container. Before publishing the data unit it is mapped to the dto once again - step \textbf{16} and \textbf{23}. This conversion happens with any other event published and consumed in the system;
-   \item If the device information is found, a \textit{ping} notification for that device is sent - steps \textbf{6} to \textbf{8}, otherwise an \textit{unknown} notification would be sent and the container would store the data unit;
+   \item If the device information is found, a \textit{ping} notification for that device is sent - steps \textbf{6} to \textbf{8}, otherwise an \textit{unknown} notification would be sent and the container would store the data unit in the Memory component and process it when possible;
    \item For each sub device of the controller, a new data unit with that device measures is published in the system - steps \textbf{20} to \textbf{24};
 \end{itemize}
 

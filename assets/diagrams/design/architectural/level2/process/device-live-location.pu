@@ -5,13 +5,15 @@ skinparam style strictuml
 autonumber 1.1
 actor User
 
-participant "Fleet Management\nFrontend" as FRONT
-participant "Fleet Management\nBackend" as BACK
-participant "Fleet Management\nDatabase" as DB
-participant "Message\nBroker" as MB
+box "     //<<System>>//\nExternal Service"
+participant "Fleet Management\nFrontend" as FRONT <<Container>>
+participant "Fleet Management\nBackend" as BACK <<Container>>
+participant "Fleet Management\nDatabase" as DB <<Container>>
+end box
 
-activate MB 
+participant "Sensae Console" as MB <<System>>
 
+activate User
 User -> FRONT ++ : accesses page
 FRONT -> BACK ++ : susbcribe to new\ndevice readings
 BACK -> BACK : extracts user\ndomains from token
@@ -26,20 +28,24 @@ return latest devices readings
 FRONT --> User: presents latest\ndevices readings
 ... after some time ...
 autonumber inc A
-MB <-? : device\nreadings
 MB -> BACK ++ : notifies about new device readings
+activate MB
+deactivate MB 
 BACK -> DB ++ : store device readings
 return success
 BACK -> BACK : search for active\nsubscriptions that can see\nthe new device readings
 BACK -> FRONT : new device readings
+deactivate BACK
 FRONT -> FRONT : replace latest device\nreadings with new one
 FRONT --> User : show new\ndevice readings
 ... after some time ...
 autonumber inc A
 User -> FRONT : leaves the page
 FRONT -> BACK : unsubscribe from\nsubscription
+activate BACK
 BACK -> BACK : close subscription
 BACK --> FRONT : subscription closed
+deactivate BACK
 FRONT -> FRONT : remove subscription
 
 @enduml

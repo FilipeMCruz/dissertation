@@ -7,40 +7,44 @@ skinparam packageStyle rectangle
 
 interface "UI" as COMP_API
 
-component "Data Decoder Frontend" {
+component "Data Decoder Frontend" <<Container>> {
 
     folder "App" {
-        component "Presentation" as COMP
+        component "Presentation" as COMP <<Component>>
     }
+    interface "Services API" as SERV_API
+    interface "Model API" as MOD_API
 
     folder "Library" {
-        component "DTOS" as DTO
-        component "Mappers" as MAP
-        component "Model" as MOD
-        component "Services" as SERV
-        component "Auth" as AUTH
-        component "Utils" as UTIL
+        folder "Data Decoder" {
+            component "DTOS" as DTO <<Component>>
+            component "Mappers" as MAP <<Component>>
+            component "Model" as MOD <<Component>>
+            component "Services" as SERV <<Component>>
 
-        interface "DTOs API" as DTO_API
-        interface "Mappers API" as MAP_API
-        interface "Model API" as MOD_API
-        interface "Services API" as SERV_API
+            interface "DTOs API" as DTO_API
+            interface "Mappers API" as MAP_API
+        }
+
+        component "Auth" as AUTH <<Component>>
+        component "Utils" as UTIL <<Component>>
+
         interface "Auth API" as AUTH_API
         interface "Utils API" as UTIL_API
     }
 
-    COMP --( SERV_API
+    COMP -( SERV_API
 
     COMP - COMP_API
     DTO_API -- DTO
     MAP_API -- MAP
     MOD_API -- MOD
-    SERV_API - SERV
+    SERV_API -- SERV
     AUTH_API -- AUTH
     UTIL_API -- UTIL
 
     SERV --( DTO_API
-    SERV --( AUTH_API
+    AUTH_API )- SERV
     SERV --( UTIL_API
     COMP --( MOD_API
     SERV --( MOD_API

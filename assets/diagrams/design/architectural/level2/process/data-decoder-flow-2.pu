@@ -4,8 +4,8 @@ autonumber 1.1
 
 skinparam style strictuml
 
-participant "Data Decoder\nFlow Backend" as DECODER_FLOW
-participant "Message Broker" as MB
+participant "Data Decoder\nFlow Backend" as DECODER_FLOW <<Container>>
+participant "Message\nBroker" as MB <<Container>>
 
 activate MB
 

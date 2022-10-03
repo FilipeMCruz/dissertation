@@ -4,10 +4,10 @@ autonumber 1.1
 
 skinparam style strictuml
 
-participant "Data Decoder\nFlow Backend" as DECODER_FLOW
-participant "Message Broker" as MB
-participant "Data Decoder\nBackend" as DECODER
-participant "Data Decoder\nDatabase" as DECODER_DB
+participant "Data Decoder\nFlow Backend" as DECODER_FLOW <<Container>>
+participant "Message\nBroker" as MB <<Container>>
+participant "Data Decoder\nBackend" as DECODER <<Container>>
+participant "Data Decoder\nDatabase" as DECODER_DB <<Container>>
 
 activate MB
 

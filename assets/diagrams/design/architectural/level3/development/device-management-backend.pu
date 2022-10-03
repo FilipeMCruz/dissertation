@@ -5,7 +5,6 @@ folder "device-management-backend" {
     folder "domain" as DOM
     folder "domain-services" as DOM_SERV
     folder "infrastructure" as INFRA {
-        folder "boot" as BOOT
         folder "presistence" as PERSIST {
             folder "postgres" as POSTG
         }
@@ -20,9 +19,6 @@ folder "device-management-backend" {
     GRAPH ..> APP
     APP .> DOM_SERV
     DOM_SERV .> DOM
-    BOOT ..> GRAPH
-    BOOT ..> POSTG
-    BOOT ..> AMQP
 }
 
 @enduml

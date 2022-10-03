@@ -4,10 +4,10 @@ autonumber 1.1
 
 skinparam style strictuml
 
-participant "Alert Dispatcher\nBackend" as ALERT
-participant "Message\nBroker" as MB
-participant "Rule Management\nBackend" as RULE
-participant "Rule Management\nDatabase" as RULE_DB
+participant "Alert Dispatcher\nBackend" as ALERT <<Container>>
+participant "Message\nBroker" as MB <<Container>>
+participant "Rule Management\nBackend" as RULE <<Container>>
+participant "Rule Management\nDatabase" as RULE_DB <<Container>>
 
 activate MB
 

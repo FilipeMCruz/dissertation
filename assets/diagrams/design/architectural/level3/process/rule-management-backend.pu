@@ -2,16 +2,16 @@
 
 autonumber 1
 
-box "Rule Management Backend"
-participant "Application" as app
-participant "Domain Services" as serv
-participant "Postgres" as postgres
-participant "AMQP" as amqp
-participant "Domain" as dom
+box "           //<<Container>>//\nRule Management Backend"
+participant "Application" as app  <<Component>>
+participant "Domain Services" as serv  <<Component>>
+participant "Postgres" as postgres  <<Component>>
+participant "AMQP" as amqp <<Component>>
+participant "Domain" as dom <<Component>>
 end box
 
-participant "Rule Management\nDatabase" as db
-participant "Message\nBroker" as MB
+participant "Rule Management\nDatabase" as db <<Container>>
+participant "Message\nBroker" as MB <<Container>>
 
 note over app : every 30 minutes
 

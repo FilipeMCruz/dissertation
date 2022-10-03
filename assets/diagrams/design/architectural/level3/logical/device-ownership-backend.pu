@@ -1,25 +1,20 @@
 @startuml device-ownership-backend
 
-interface "Boot API" as BOOT_API
+interface "AMQP API" as AMQP_API
 
-component "Device Ownership Backend" {
-    component "Application" as APP
-    component "Domain" as DOM
+component "Device Ownership Backend" <<Container>> {
+    component "Application" as APP <<Component>>
+    component "Domain" as DOM <<Component>>
     folder "Infrastructure" as INFRA {
-        component "Boot" as BOOT
         folder "Endpoint" as ENDPOINT {
             folder "AMQP" as AMQP {
-                component "Egress" as EGRESS
-                component "Ingress" as INGRESS
-                component "Internal" as INTERNAL
-                interface "Egress API" as EGRESS_API
-                interface "Ingress API" as INGRESS_API
-                interface "Internal API" as INTERNAL_API
+                component "Egress" as EGRESS <<Component>>
+                component "Ingress" as INGRESS <<Component>>
+                component "Internal" as INTERNAL <<Component>>
             }
         }
         folder "Persistence" as PRESIST {
-            component "Memory" as MEM
-            interface "Memory API" as MEM_API
+            component "Memory" as MEM <<Component>>
         }
     }
 
@@ -28,24 +23,17 @@ component "Device Ownership Backend" {
 
     DOM_API - DOM
 
-    MEM_API -- MEM
-
-    EGRESS_API -- EGRESS
-    INGRESS_API -- INGRESS
-    INTERNAL_API -- INTERNAL
+    AMQP_API )-- EGRESS
+    AMQP_API )-- INGRESS
+    AMQP_API )-- INTERNAL
 
     APP_API - APP
-    BOOT_API - BOOT
 
     EGRESS --( APP_API
     INGRESS --( APP_API
     INTERNAL --( APP_API
     APP -( DOM_API
     MEM -( DOM_API
-    BOOT --( INTERNAL_API
-    BOOT --( EGRESS_API
-    BOOT --( INGRESS_API
-    BOOT --( MEM_API
 }
 
 @enduml

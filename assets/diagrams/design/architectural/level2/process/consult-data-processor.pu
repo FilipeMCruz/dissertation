@@ -4,9 +4,9 @@ autonumber 1.1
 
 skinparam style strictuml
 
-participant "Data Processor Frontend" as FRONT
-participant "Data Processor Backend" as BACK
-participant "Data Processor Database" as DB
+participant "Data Processor Frontend" as FRONT <<Container>>
+participant "Data Processor Backend" as BACK <<Container>>
+participant "Data Processor Database" as DB <<Container>>
 
 FRONT -> BACK ++ : request data mappers
 BACK -> BACK: verifies if the\ntoken is valid

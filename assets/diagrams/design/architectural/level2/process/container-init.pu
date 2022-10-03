@@ -3,13 +3,16 @@
 skinparam sequenceMessageAlign center
 skinparam style strictuml
 
-participant "Smart Irrigation\nBackend" as SIB
-participant "Device Commander\nBackend" as DCB
-participant "Device Management\nFlow Backend" as DRSB
-participant "Device Management\nBackend" as DRB
-participant "Data Decoder\nFlow Backend" as SDD
-participant "Data\nStore" as DS
-participant "Message\nBroker" as MB
+participant "X External Service" as SIB <<System>>
+
+box "     //>>System>>//\nSensae Console"
+participant "Device Commander\nBackend" as DCB <<Container>>
+participant "Device Management\nFlow Backend" as DRSB <<Container>>
+participant "Device Management\nBackend" as DRB <<Container>>
+participant "Data Decoder\nFlow Backend" as SDD <<Container>>
+participant "Data\nStore" as DS <<Container>>
+participant "Message\nBroker" as MB <<Container>>
+end box
 
 activate MB
 

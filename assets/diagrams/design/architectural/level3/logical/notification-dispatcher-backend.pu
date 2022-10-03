@@ -1,19 +1,17 @@
 @startuml notification-dispatcher-backend
 
-interface "Boot API" as BOOT_API
+interface "AMQP API" as AMQP_API
+interface "SMS API" as SMS_API
+interface "EMAIL API" as EMAIL_API
 
-component "Notification Dispatcher Backend" {
-    component "Domain" as DOM
-    component "Application" as APP
+component "Notification Dispatcher Backend" <<Container>> {
+    component "Domain" as DOM <<Component>>
+    component "Application" as APP <<Component>>
     folder "Infrastructure" as INFRA {
-        component "Boot" as BOOT
         folder "Endpoint" as ENDPOINT {
-            component "AMQP" as AMQP
-            component "SMS" as SMS
-            component "EMAIL" as EMAIL
-            interface "AMQP API" as AMQP_API
-            interface "SMS API" as SMS_API
-            interface "EMAIL API" as EMAIL_API
+            component "AMQP" as AMQP <<Component>>
+            component "SMS" as SMS <<Component>>
+            component "EMAIL" as EMAIL <<Component>>
         }
     }
     interface "Application API" as APP_API
@@ -22,19 +20,14 @@ component "Notification Dispatcher Backend" {
     DOM_API - DOM
     APP_API - APP
 
-    AMQP_API -- AMQP
-    SMS_API -- SMS
-    EMAIL_API -- EMAIL
-
-    BOOT_API - BOOT
+    AMQP_API )-- AMQP
+    SMS_API )-- SMS
+    EMAIL_API )-- EMAIL
 
     AMQP --( APP_API
     SMS --( APP_API
     EMAIL --( APP_API
     APP -( DOM_API
-    BOOT --( SMS_API
-    BOOT --( EMAIL_API
-    BOOT --( AMQP_API
 }
 
 @enduml

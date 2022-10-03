@@ -6,14 +6,13 @@ autonumber 1.1
 
 actor User
 
-participant "Ui Aggregator" as AGGRE
-participant "X Context\nFrontend" as XFRONT
-participant "X Context\nBackend" as XBACK
+participant "Ui Aggregator" as AGGRE <<Container>>
+participant "X Context\nFrontend" as XFRONT <<Container>>
+participant "X Context\nBackend" as XBACK <<Container>>
 
 activate AGGRE
 activate User
 
-... user authentication process ...
 AGGRE --> User: authentication successful
 AGGRE -> AGGRE: checks what frontends\nthe access token\ngives access to
 AGGRE --> User: presents X frontend

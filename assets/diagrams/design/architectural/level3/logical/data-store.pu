@@ -1,40 +1,32 @@
 @startuml data-store
 
-left to right direction
+interface "AMQP API" as AMQP_API
+interface "MongoDB API" as DB_API
 
-interface "Boot API" as BOOT_API
-
-component "Data Store" {
-    component "Domain" as DOM
-    component "Application" as APP
+component "Data Store" <<Container>> {
+    component "Domain" as DOM <<Component>>
+    component "Application" as APP <<Component>>
     folder "Infrastructure" as INFRA {
-        component "Boot" as BOOT
         folder "Persistence" {
-            component "MongoDB" as DB
-            interface "MongoDB API" as DB_API
+            component "MongoDB" as DB <<Component>>
         }
         folder "Endpoint" as ENDPOINT {
-            component "AMQP" as AMQP
-            interface "AMQP API" as AMQP_API
+            component "AMQP" as AMQP <<Component>>
         }
     }
 
     interface "Application API" as APP_API
     interface "Domain API" as DOM_API
 
-    DOM - DOM_API
+    DOM_API - DOM
 
-    AMQP_API -- AMQP
-    APP - APP_API
-    DB_API -- DB
-
-    BOOT - BOOT_API
+    AMQP_API )-- AMQP
+    APP_API - APP
+    DB_API )-- DB
 
     AMQP --( APP_API
     DB --( DOM_API
     DOM_API )- APP
-    BOOT --( DB_API
-    BOOT --( AMQP_API
 }
 
 @enduml

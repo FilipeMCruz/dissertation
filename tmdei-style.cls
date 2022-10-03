@@ -515,7 +515,7 @@ breaklinks=true,
   \setunit{\addspace}%
   \printtext[bibhyperref]{%
     \usebibmacro{prenote}%
-    \printfield{year}\printfield{extrayear}%
+    \printfield{year}\printfield{extradate}%
     \usebibmacro{postnote}}}
 {\multicitedelim}
 {}

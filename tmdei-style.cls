@@ -675,5 +675,3 @@ breaklinks=true,
 	commentstyle=\color{gray},
 	postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{gray}\hookrightarrow\space}},
 }
-
-

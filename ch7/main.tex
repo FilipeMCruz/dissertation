@@ -81,7 +81,7 @@ In order to focus on the raw performance of the system, the following conjecture
     \item A single type of Data Decoder is used to decode Data Units;
     \item A single type of Data Processor is used to process Data Units;
     \item The Data Units sent will evenly require a Data Decoder or a Data Processor;
-    \item The Data Decoder and Data Processor operations are identical, meaning that, given the same input, both must provide the same output;  
+    \item The Data Decoder and Data Processor operations are identical, meaning that, given the same input, both must provide the same output;
     \item A single \textit{Anonymous user} is notified about new measures or notifications;
     \item Each scenario focus on a single business case in the \textbf{Service} Scope;
     \item All devices belong to the \textit{Public} Domain (this eases the process of authentication);
@@ -138,7 +138,7 @@ This scenario focus on the Fleet Management Service. The Table~\ref{tab:evaluati
     \end{tabular}
 \end{table}
 
-This results show that, a system focused on the Fleet Management business case, can successfully handle 125 Data Units per second while answering the defined requirements. 
+This results show that, a system focused on the Fleet Management business case, can successfully handle 125 Data Units per second while answering the defined requirements.
 
 The experience \textbf{H} had the measures supplied with a delay of 40 seconds on average, this results are far from the optimal response time defined in the requirements.
 
@@ -167,7 +167,7 @@ This scenario focus on the Smart Irrigation Service. The Table~\ref{tab:evaluati
     \end{tabular}
 \end{table}
 
-This results show that, a system focused on the Smart Irrigation business case, can successfully handle 45 Data Units per second while answering the defined requirements. The experiences \textbf{D}, \textbf{F}, \textbf{G}, \textbf{H} shed a light on the possible limits for this Service. 
+This results show that, a system focused on the Smart Irrigation business case, can successfully handle 45 Data Units per second while answering the defined requirements. The experiences \textbf{D}, \textbf{F}, \textbf{G}, \textbf{H} shed a light on the possible limits for this Service.
 
 The results captured in this experiences infer that this system can comfortably withstand a throughput of around 500 devices, each sending their measures every 10 seconds without undermining its overall behavior.
 
@@ -216,7 +216,7 @@ Apart from the results gathered it is important to mention the following finding
 
 The experiences performed helped to determine the platform throughput limits but didn't indicated what components were underperforming and degrading the results.
 
-In the following sections some components are individually evaluated so that the bottlenecks of the system can be found. 
+In the following sections some components are individually evaluated so that the bottlenecks of the system can be found.
 
 Looking at the architecture the five logical bottlenecks are:
 
@@ -289,7 +289,7 @@ As we can see the time taken to process or decode a data unit is very similar, t
 \subsection{Data Flow Caching Process Performance}
 \label{subsubsec:evaluation:overview:cache}
 
-The experiences preformed clearly display the process mentioned during the \nameref{chap:design} Chapter in Figure~\ref{fig:design:architecture:container:process:diagram:decoder:2}, about how the \textbf{Data Flow} state is maintained. 
+The experiences preformed clearly display the process mentioned during the \nameref{chap:design} Chapter in Figure~\ref{fig:design:architecture:container:process:diagram:decoder:2}, about how the \textbf{Data Flow} state is maintained.
 
 In the following charts, Chart~\ref{fig:evaluation:overview:cache:chart:s2eB} and \ref{fig:evaluation:overview:cache:chart:s1eD}, it's possible to envision the various caches in the \textbf{Data Flow} being filled during the first iteration.
 
@@ -322,7 +322,7 @@ This database, contrary to the one used in \textbf{Fleet Management Data Databas
 
 The following chart, Figure~\ref{fig:evaluation:overview:servicedatabase:chart:s4}, shows the discrepancy between storing and serving GPS locations with the \textbf{Fleet Management Backend}. The experiment was performed by mimicking 1500 devices, each sending 10 data units with an interval of around 10 seconds.
 
-This chart represents the number of data units/measures ingested, stored and supplied (Y axis) over time (X axis). 
+This chart represents the number of data units/measures ingested, stored and supplied (Y axis) over time (X axis).
 
 \begin{figure}[H]
     \centering
@@ -334,14 +334,14 @@ This chart represents the number of data units/measures ingested, stored and sup
 This Chart displays three distinct lines:
 
 \begin{itemize}
-    \item Consumption (in red): Measures received by a websocket client connected to the \textbf{Fleet Management Backend}; 
+    \item Consumption (in red): Measures received by a websocket client connected to the \textbf{Fleet Management Backend};
     \item Ingestion (in blue): Data Units ingested by the \textbf{Data Relayer};
     \item Storage (in green): Measures stored in the \textbf{Fleet Management Data Database}.
 \end{itemize}
 
 The data is stored in \citetitle{questdb} via \gls{ILP} and therefore is only committed after a while. The time taken for data to be committed is derived from various parameters and conditions as explained in the Commit Strategy Page\footnote{\href {https://questdb.io/docs/reference/api/ilp/tcp-receiver/\#commit-strategy}{link to QuestDB Commit Strategy Page}} of \citetitle{questdb}.
 
-The chart shows that data is stored long before it is consumed by the websocket client. It also shows that the time between storage and ingestion is relatively small, and once the \textbf{Data Flow} caches stabilize this gap starts to decrease. Implying that the \textbf{Message Broker} does not fall behind the ingestion throughput enforced by the test (136 request per second).  
+The chart shows that data is stored long before it is consumed by the websocket client. It also shows that the time between storage and ingestion is relatively small, and once the \textbf{Data Flow} caches stabilize this gap starts to decrease. Implying that the \textbf{Message Broker} does not fall behind the ingestion throughput enforced by the test (136 request per second).
 
 \subsection{System Bottlenecks}
 \label{sec:evaluation:overview:bottlenecks}
@@ -354,14 +354,14 @@ The next bottleneck of the solution appears to be the \citetitle{postgressql} Da
 
 The experiences \textbf{H} of each scenario foresee that the \textbf{Message Broker} is the next logical bottleneck of the system.
 
-The \nameref{subsec:implementation:description:ingestion} only becomes a bottleneck with a ridiculous amount of devices for a small/medium organization. 
+The \nameref{subsec:implementation:description:ingestion} only becomes a bottleneck with a ridiculous amount of devices for a small/medium organization.
 
 If the \textbf{Data Flow} cache sizes are configured correctly, the process of filling them will hardly become a bottleneck, specially since it will be very rare to receive a high number of data units from new devices, decoders or processors that are not already cached.
 
 \section{Synopsis}
 \label{sec:evaluation:synopsis}
 
-The system performed successfully under the requirements defined. The conducted analysis helped to identify the most important bottlenecks to tackle in the future: (i) GraphQL Subscriptions, (ii) \citetitle{postgressql} Databases. 
+The system performed successfully under the requirements defined. The conducted analysis helped to identify the most important bottlenecks to tackle in the future: (i) GraphQL Subscriptions, (ii) \citetitle{postgressql} Databases.
 
 The performance tests helped the company to understand the platform limits and how far the production environments are from reaching this limits.
 

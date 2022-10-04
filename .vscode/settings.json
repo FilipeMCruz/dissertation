@@ -3,6 +3,7 @@
         "DTO",
         "env",
         "envsubst",
+        "ICT",
         "overengineered",
         "schemaless",
         "toplevel"

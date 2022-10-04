@@ -32,14 +32,14 @@ This business cases can be vaguely characterized according to the following orga
       \textbf{\begin{tabular}[c]{@{}l@{}}Physical \\ Resources\end{tabular}} &
       \textbf{\begin{tabular}[c]{@{}l@{}}Data \\ Access\end{tabular}} &
       \textbf{\begin{tabular}[c]{@{}l@{}}Information \\ Access and \\Visualization\end{tabular}} \\ \midrule
-    \multirow{5}{*}{A} & Fleet Management           & On-Site & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6} 
-                       & Smart Irrigation           & On-Site & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6} 
-                       & Smart Parking              & On-Site & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6} 
-                       & Indoor Fire Detention      & On-Site & Dedicated & Private & SMS and Email      \\ \cmidrule(l){2-6} 
+    \multirow{5}{*}{A} & Fleet Management           & On-Site & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6}
+                       & Smart Irrigation           & On-Site & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6}
+                       & Smart Parking              & On-Site & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6}
+                       & Indoor Fire Detention      & On-Site & Dedicated & Private & SMS and Email      \\ \cmidrule(l){2-6}
                        & Public Health Surveillance & On-Site & Dedicated & Public  & Sensae Console     \\ \midrule
     B                  & Fleet Management           & Cloud      & Dedicated & Private & Org B Platform     \\ \midrule
-    \multirow{3}{*}{C} & Smart Irrigation           & Cloud      & Shared    & Private & Sensae Console     \\ \cmidrule(l){2-6} 
-                       & Indoor Fire Detention      & Cloud      & Shared    & Private & SMS and Email      \\ \cmidrule(l){2-6} 
+    \multirow{3}{*}{C} & Smart Irrigation           & Cloud      & Shared    & Private & Sensae Console     \\ \cmidrule(l){2-6}
+                       & Indoor Fire Detention      & Cloud      & Shared    & Private & SMS and Email      \\ \cmidrule(l){2-6}
                        & Chicken Farm Monitoring    & Cloud      & Shared    & Private & Sensae Console     \\ \midrule
     D                  & Smart Irrigation           & Cloud      & Shared    & Private & Sensae Console     \\ \bottomrule
     \end{tabular}
@@ -85,7 +85,7 @@ The following sections will be divided in:
 
 The idea behind Sensae Console functional requirements boils down to the core functionalities it should provide so that creating and maintaining external services is simplified.
 
-The Anonymous User role is disregarded here since his/her goal is to simply benefit from curated and publicly available information provided by the external services. 
+The Anonymous User role is disregarded here since his/her goal is to simply benefit from curated and publicly available information provided by the external services.
 
 \subsubsection{Manager}
 \label{subsubsec:requirements:functional:sensae:manager}
@@ -104,7 +104,7 @@ The following list documents the functional requirements related to this actor r
     \item The Manager must be able to assign new authenticated users to a specific organization.
 \end{itemize}
 
-As described in Sections~\ref{subsubsec:design:domain:bounded_contexts:processor} and ~\ref{subsubsec:design:domain:bounded_contexts:decoder}, the decoders and processors referenced in the first and second items are meant to translate unsanitized device data. This is highly required since ``the nonexistence of interoperability standards is one of \gls{IoT}'s most pressing issues, (...) designing a system using the latest available standard proposal does not ensure its adoption or that the standard will be deprecated before the system reaches the market'' - \cite{DIAS2022100529}. 
+As described in Sections~\ref{subsubsec:design:domain:bounded_contexts:processor} and ~\ref{subsubsec:design:domain:bounded_contexts:decoder}, the decoders and processors referenced in the first and second items are meant to translate unsanitized device data. This is highly required since ``the nonexistence of interoperability standards is one of \gls{IoT}'s most pressing issues, (...) designing a system using the latest available standard proposal does not ensure its adoption or that the standard will be deprecated before the system reaches the market'' - \cite{DIAS2022100529}.
 
 The rules referenced in the third item can be used to program how the system answers to certain abnormal occurrences, more context is given in Section~\ref{subsubsec:design:domain:bounded_contexts:rule}.
 

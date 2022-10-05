@@ -5,17 +5,17 @@ skinparam style strictuml
 autonumber 1.1
 actor User
 
-box "       //<<System>>//\nExternal Service"
-participant "Notification Management\nFrontend" as FRONT <<Container>>
-participant "Notification Management\nBackend" as BACK <<Container>>
+box "               //<<System>>//\nNotification Management"
+participant "Notification\nManagement\nFrontend" as FRONT <<Container>>
+participant "Notification\nManagement\nBackend" as BACK <<Container>>
 participant "Notification Dispatcher\nBackend" as DISP <<Container>>
-participant "Notification Management\nDatabase" as DB <<Container>>
+participant "Notification\nManagement\nDatabase" as DB <<Container>>
 end box
 
-participant "SMS Dispatcher" as EMAIL <<System>>
-participant "Email Dispatcher" as SMS <<System>>
+participant "SMS\nDispatcher" as EMAIL <<System>>
+participant "Email\nDispatcher" as SMS <<System>>
 
-participant "Sensae Console" as MB <<System>>
+participant "Sensae\nConsole" as MB <<System>>
 
 User -> FRONT ++ : access page
 
@@ -32,7 +32,7 @@ return success
 
 BACK -> BACK : search for active\nsubscriptions to the\ncontent type of the alert
 BACK -> FRONT -- : notification
-FRONT -> User : present notification
+FRONT -> User : present\nnotification
 
 autonumber inc A
 MB -> DISP ++ : notifies about the new "X" alert

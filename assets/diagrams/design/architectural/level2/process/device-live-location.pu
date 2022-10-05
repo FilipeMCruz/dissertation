@@ -5,7 +5,7 @@ skinparam style strictuml
 autonumber 1.1
 actor User
 
-box "     //<<System>>//\nExternal Service"
+box "           //<<System>>//\nFleet Management"
 participant "Fleet Management\nFrontend" as FRONT <<Container>>
 participant "Fleet Management\nBackend" as BACK <<Container>>
 participant "Fleet Management\nDatabase" as DB <<Container>>

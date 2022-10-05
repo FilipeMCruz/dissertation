@@ -3,7 +3,7 @@
 interface "Data Processor UI" as FRONT_API
 interface "Data Processor\nBackend API" as BACK_API
 
-component "Data Processor" <<Context>> {
+component "Data Processor" <<Concern>> {
     component "Data Processor\nBackend" <<Container>> as BACK
     component "Data Processor\nFrontend" <<Container>> as FRONT
     component "Data Processor\nDatabase" <<Container>> as DB

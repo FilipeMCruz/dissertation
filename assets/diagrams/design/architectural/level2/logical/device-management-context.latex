@@ -13,7 +13,7 @@
 \draw[pstyle0] (443pt,86pt) rectangle (458pt,96pt);
 \draw[pstyle0] (441pt,88pt) rectangle (445pt,90pt);
 \draw[pstyle0] (441pt,92pt) rectangle (445pt,94pt);
-\node at (197.85pt,94pt)[below right,color=black]{\textit{\guillemotleft Context\guillemotright }};
+\node at (195.6706pt,94pt)[below right,color=black]{\textit{\guillemotleft Concern\guillemotright }};
 \node at (148.9826pt,113.0679pt)[below right,color=black]{\textbf{Device Management}};
 \draw[pstyle1] (252.5pt,143pt) arc (180:270:5pt) -- (257.5pt,138pt) -- (442.0313pt,138pt) arc (270:360:5pt) -- (447.0313pt,143pt) -- (447.0313pt,220.2038pt) arc (0:90:5pt) -- (442.0313pt,225.2038pt) -- (257.5pt,225.2038pt) arc (90:180:5pt) -- (252.5pt,220.2038pt) -- cycle;
 \draw[pstyle1] (427.0313pt,143pt) rectangle (442.0313pt,153pt);

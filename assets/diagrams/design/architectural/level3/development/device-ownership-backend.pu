@@ -11,12 +11,16 @@ folder "device-ownership-backend" {
                 folder "internal" as INTERNAL
             }
         }
+        folder "persistence" as PERS {
+            folder "memory" as MEM
+        }
     }
 
     EGRESS ..> APP
     INGRESS ..> APP
     INTERNAL ..> APP
     APP .> DOM
+    MEM ..> DOM
 }
 
 @enduml

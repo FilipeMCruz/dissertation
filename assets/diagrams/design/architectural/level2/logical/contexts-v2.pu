@@ -1,17 +1,17 @@
 @startuml contexts-v2
 
 interface "Sensae Console\nUplink\nRest API" as RELAY_API
-interface "OpenID Connect\nAPI" as OUT_ENDPOINT
+interface "OpenID\nConnect\nAPI" as OUT_ENDPOINT
 
 component "Sensae Console" <<System>> {
 
     component "UI Aggregator" <<Container>> as UI
 
-    component "Device Management" <<Context>> as ID_MAN
-    component "Rule Management" <<Context>> as RULE_MAN
-    component "Decoder Management" <<Context>> as DECO_MAN
-    component "Processor Management" <<Context>> as PROC_MAN
-    component "Identity Management" <<Context>> as DEVI_MAN
+    component "Device Management" <<Concern>> as ID_MAN
+    component "Rule Management" <<Concern>> as RULE_MAN
+    component "Decoder Management" <<Concern>> as DECO_MAN
+    component "Processor Management" <<Concern>> as PROC_MAN
+    component "Identity Management" <<Concern>> as DEVI_MAN
 
     component "Message Broker" <<Container>> as MB
 

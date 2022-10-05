@@ -1,9 +1,9 @@
 @startuml notification-management-context
 
 interface "Notification Management UI" as FRONT_API
-interface "Notification Management\nBackend API" as BACK_API
+interface "Notification Management Backend API" as BACK_API
 
-component "Notification Management" <<Context>> {
+component "Notification Management" <<System>> {
     component "Notification Management\nBackend" <<Container>> as BACK
     component "Notification Management\nFrontend" <<Container>> as FRONT
     component "Notification Management\nDatabase" <<Container>> as DB
@@ -22,8 +22,8 @@ component "Notification Management" <<Context>> {
 component "Sensae Console" <<System>> as MB
 interface "Sensae API for\nExternal Services" as MB_API
 
-interface "SMS Dispatcher\nAPI" as SMS
-interface "Email Dispatcher\nAPI" as EMAIL
+interface "SMS Dispatcher API" as SMS
+interface "Email Dispatcher API" as EMAIL
 
 MB_API - MB
 

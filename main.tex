@@ -48,7 +48,7 @@ headsepline, % Uncomment to get a line under the header
 \usepgfplotslibrary{external} 
 \tikzexternalize[prefix=tikz/]
 \tikzsetfigurename{output}
-\setcounter{secnumdepth}{3}
+\setcounter{secnumdepth}{4}
 \usepackage{standalone}
 \usepackage{tikzscale}
 \usepackage{multirow}
@@ -58,7 +58,11 @@ headsepline, % Uncomment to get a line under the header
 \usepackage{rotating}
 \usepackage{xfp}
 \usepackage[dvipsnames]{xcolor}
-
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+% display heading, like subsubsection
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {1.5ex \@plus .2ex}%
+                                     {\normalfont\normalsize\bfseries}}
 \newlength\longest
 %
 % Next you have examples of admissable citation styles; we recomend using the authoryear-comp citation style (which resembles Harvard); don't forget to only uncomment one
@@ -153,7 +157,9 @@ headsepline, % Uncomment to get a line under the header
 \input{appendices/appendixA}
 \input{appendices/appendixB}
 \input{appendices/appendixC}
+\input{appendices/appendixC2}
 \input{appendices/appendixD}
+\input{appendices/appendixD2}
 \input{appendices/appendixE}
 \input{appendices/appendixF}
 \input{appendices/appendixG}

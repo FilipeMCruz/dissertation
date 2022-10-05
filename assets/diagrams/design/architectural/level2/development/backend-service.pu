@@ -1,0 +1,14 @@
+@startuml backend-services
+
+folder "sensae-console" {
+    folder "project" {
+        folder "backend-services" {
+            folder "fleet-management-backend" as b5
+            folder "notification-dispatcher-backend" as a6
+            folder "notification-management-backend" as b6
+            folder "smart-irrigation-backend" as a7
+        }
+    }
+}
+
+@enduml

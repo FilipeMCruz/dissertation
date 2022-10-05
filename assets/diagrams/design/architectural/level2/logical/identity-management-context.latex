@@ -13,7 +13,7 @@
 \draw[pstyle0] (552.7132pt,86pt) rectangle (567.7132pt,96pt);
 \draw[pstyle0] (550.7132pt,88pt) rectangle (554.7132pt,90pt);
 \draw[pstyle0] (550.7132pt,92pt) rectangle (554.7132pt,94pt);
-\node at (270.5632pt,94pt)[below right,color=black]{\textit{\guillemotleft Context\guillemotright }};
+\node at (268.3838pt,94pt)[below right,color=black]{\textit{\guillemotleft Concern\guillemotright }};
 \node at (215.7367pt,113.0679pt)[below right,color=black]{\textbf{Identity Management}};
 \draw[pstyle1] (352.2132pt,143pt) arc (180:270:5pt) -- (357.2132pt,138pt) -- (552.3517pt,138pt) arc (270:360:5pt) -- (557.3517pt,143pt) -- (557.3517pt,220.2038pt) arc (0:90:5pt) -- (552.3517pt,225.2038pt) -- (357.2132pt,225.2038pt) arc (90:180:5pt) -- (352.2132pt,220.2038pt) -- cycle;
 \draw[pstyle1] (537.3517pt,143pt) rectangle (552.3517pt,153pt);

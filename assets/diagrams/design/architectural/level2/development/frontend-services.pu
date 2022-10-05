@@ -1,0 +1,34 @@
+@startuml frontend-services
+
+left to right direction
+
+folder "sensae-console" {
+    folder "project" {
+        folder "frontend-services" {
+            folder "apps" as a {
+                folder "fleet-management-frontend" as a4
+                folder "notification-management-frontend" as a6
+                folder "smart-irrigation-frontend" as a8
+            }
+            folder "libs" as b{
+                folder "fleet-management" as b4
+                folder "notification-management" as b6
+                folder "smart-irrigation" as b10
+                folder "auth" as b7
+                folder "core" as b8
+            }
+            a4 ..> b4
+            a6 ..> b6
+            a8 ..> b10
+
+            b4 ..> b7
+            b4 ..> b8
+            b6 ..> b7
+            b6 ..> b8
+            b10 ..> b7
+            b10 ..> b8
+        }
+    }
+}
+
+@enduml

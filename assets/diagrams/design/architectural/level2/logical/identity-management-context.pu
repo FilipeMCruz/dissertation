@@ -5,7 +5,7 @@ interface "Identity Management\nBackend API" as BACK_API
 
 interface "OpenID Connect\nAPI" as OPENID
 
-component "Identity Management" <<Context>> {
+component "Identity Management" <<Concern>> {
     component "Identity Management\nBackend" <<Container>> as BACK
     component "Identity Management\nFrontend" <<Container>> as FRONT
     component "Identity Management\nDatabase" <<Container>> as DB

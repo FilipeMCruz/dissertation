@@ -2,31 +2,33 @@
 
 autonumber 1.1
 
+skinparam maxMessageSize 280
+
 skinparam style strictuml
 
-participant "Data Decoder\nFlow Backend" as DECODER_FLOW <<Container>>
-participant "Message\nBroker" as MB <<Container>>
+participant "Data Decoder Flow Backend" as DECODER_FLOW <<Container>>
+participant "Message Broker" as MB <<Container>>
 
 activate MB
 
--> MB : publishes a message containing a decoder\ndetails @ Internal Topic
+-> MB : publishes a message containing a decoder details @ Internal Topic
 
 autonumber inc A
 MB -> DECODER_FLOW : notifies the message @ Internal Topic
 activate DECODER_FLOW
-DECODER_FLOW -> DECODER_FLOW : stores the data decoder of that device type\nfor a defined amount of hours
+DECODER_FLOW -> DECODER_FLOW : stores the data decoder of that device type for a defined amount of hours
 DECODER_FLOW -> DECODER_FLOW : retrieves stored data units of that device type
 
 loop for each data unit found
     DECODER_FLOW -> DECODER_FLOW : decodes the data unit
-    DECODER_FLOW -> MB : publishes the processed data\nunit @ Data Topic
+    DECODER_FLOW -> MB : publishes the processed data unit\n@ Data Topic
 
     autonumber inc A
     MB ->? :  notifies the message\n@ Data Topic
 
 end
 autonumber 2.6
-DECODER_FLOW -> MB : publishes a "ping data decoder"\n message of the device type\n@ Internal Topic
+DECODER_FLOW -> MB : publishes a "ping data decoder"  message of the device type @ Internal Topic
 
 autonumber inc A
 autonumber inc A

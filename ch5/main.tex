@@ -673,20 +673,7 @@ The Figure~\ref{fig:implementation:description:ui:home} represents the main layo
     \label{fig:implementation:description:ui:home}
 \end{figure}
 
-From this page, if the user has sufficient permissions, one can access services pages, as an example the \textbf{Smart Irrigation Page} is displayed in Figure~\ref{fig:implementation:description:ui:smartirrigation}.
-This page presents a map where the user can see, search and create irrigation zones. Device measures are updated in real time via \textit{Websocket}s. The user can also see the irrigation zone details after clicking on it. From there it's possible to open/close valves an see the history of measures of each device.
-
-\begin{figure}[H]
-    \centering
-    \resizebox{\columnwidth}{!}
-    {
-       \includegraphics{assets/figures/ui/smart-irrigation.png}
-    }
-    \caption[Sensae Console Smart Irrigation Page]{Sensae Console Smart Irrigation Page}
-    \label{fig:implementation:description:ui:smartirrigation}
-\end{figure}
-
-From the home page the user can also access configuration pages, as an example the \textbf{Device Management Page} is displayed in Figure~\ref{fig:implementation:description:ui:device}.
+From this page, if the user has sufficient permissions, he/she can access configuration pages, as an example the \textbf{Device Management Page} is displayed in Figure~\ref{fig:implementation:description:ui:device}.
 
 \begin{figure}[H]
     \centering
@@ -700,7 +687,20 @@ From the home page the user can also access configuration pages, as an example t
 
 In this page the user can see when was the last time the device interacted with the platform, create and delete devices and edit the details of each device according to the model presented in Section\nameref{subsubsec:design:domain:bounded_contexts:device} of the \textit{Bounded Contexts}.
 
-Other relevant pages are presented in the Appendix~\ref{AppendixD}.
+From the home page, if the UI Aggregator was configured to fetch external services, one can access those services' pages too, as an example the \textbf{Smart Irrigation Page} is displayed in Figure~\ref{fig:implementation:description:ui:smartirrigation}.
+This page presents a map where the user can see, search and create irrigation zones. Device measures are updated in real time via \textit{Websocket}s. The user can also see the irrigation zone details after clicking on it. From there it's possible to open/close valves an see the history of measures of each device.
+
+\begin{figure}[H]
+    \centering
+    \resizebox{\columnwidth}{!}
+    {
+       \includegraphics{assets/figures/ui/smart-irrigation.png}
+    }
+    \caption[Sensae Console Smart Irrigation Page]{Sensae Console Smart Irrigation Page}
+    \label{fig:implementation:description:ui:smartirrigation}
+\end{figure}
+
+Other relevant pages are presented in the Appendix~\ref{AppendixD}, for Sensae Console, and Appendix~\ref{AppendixD2}, for the Solutions developed.
 
 \subsection{Sensae Console Custom Maps}
 \label{subsec:implementation:description:maps}
@@ -1080,7 +1080,7 @@ In line \textbf{17}, the variable \textbf{\$SENSAE\_ADMIN\_EMAIL} is replace by 
 The section describes how \textbf{Sensae Console} is containerized with docker.
 As explained in Section~\ref{subsec:implementation:decisions:docker}, the author choose to containerize the solution.
 
-The following Code Samples describe how each container mentioned in Section~\ref{subsubsec:design:architecture:container:logical} are packaged. To simplify, only three distinct samples will be presented.
+The following Code Samples describe how each container mentioned during the Design Chapter are packaged. To simplify, only three distinct samples will be presented.
 
 The first sample, Listing~\ref{code:implementation:description:docker:frontend}, refers to UI Aggregator and is similar to all other frontend containers.
 
@@ -1099,7 +1099,7 @@ COPY --from=build /workspace/dist/apps/ui-aggregator /usr/share/nginx/html
 
 This Dockerfile contains two stages to reduce the size of the final image. The first stage, lines \textbf{1} to \textbf{6}, builds the project. The second one, containing only \citetitle{nginx} and the code that was previously built, is used to serve the UI Aggregator Frontend and route requests. The \citetitle{nginx} configuration file at line \textbf{9} is discussed in the \ref{subsec:implementation:description:nginx} Section.
 
-The second sample, Listing~\ref{code:implementation:description:docker:spring}, refers to \textbf{Fleet Management Backend} and is similar to all backend containers in the Configuration or Services Scope.
+The second sample, Listing~\ref{code:implementation:description:docker:spring}, refers to \textbf{Fleet Management Backend} and is similar to all backend containers in the Configuration Scope or External Services.
 
 \begin{lstlisting}[caption=Dockerfile for Fleet Management Backend, label={code:implementation:description:docker:spring}]
 FROM maven:3.8.5-openjdk-18 AS build
@@ -1163,7 +1163,7 @@ This sample, once again, is also a multi-stage Dockerfile. It was adapted from t
 \subsection{Sensae Console Orchestration}
 \label{subsec:implementation:description:compose}
 
-As described in Section~\ref{subsubsec:design:architecture:container:physical}, \citetitle{dockercompose} was the tool used to orchestrate the solution. This tool consumes a configuration file to know what containers, and their configurations, are needed. The complete configuration file for production is vast, a summarized version will be presented containing only the \textbf{Data Processor} Context' related containers.
+As described in Section~\ref{par:design:architecture:platform:container:physical}, \citetitle{dockercompose} was the tool used to orchestrate the whole solution, the \textbf{Sensae Console} and External Services. This tool consumes a configuration file to know what containers, and their configurations, are needed. The complete configuration file for production is vast, a summarized version will be presented containing only the \textbf{Data Processor} Context' related containers.
 
 \begin{lstlisting}[style=yaml, caption=Docker Compose Configuration File for Production, label={code:implementation:description:compose:file}]
 services:
@@ -1233,7 +1233,7 @@ The following conclusions can be observed:
 \subsection{Sensae Console Reverse Proxy Configuration}
 \label{subsec:implementation:description:nginx}
 
-This section reveals how \citetitle{nginx} is configured. As an example, the Listing~\ref{code:implementation:description:nginx:irrig}, describes the \textbf{Smart Irrigation Frontend}.
+This section reveals how \citetitle{nginx} is configured for all frontend containers in the solution. As an example, the Listing~\ref{code:implementation:description:nginx:irrig}, describes the \textbf{Smart Irrigation Frontend}.
 
 \begin{lstlisting}[caption=Configuration File for Production Environment, label={code:implementation:description:nginx:irrig}]
 server {
@@ -1290,7 +1290,7 @@ server {
 }
 \end{lstlisting}
 
-The following conclusions can be observed:
+The following conclusions can be inferred:
 
 \begin{itemize}
     \item It only exposes the HTTPS port - line \textbf{4} and lines \textbf{49} to \textbf{51};
@@ -1305,7 +1305,7 @@ The following conclusions can be observed:
 \subsection{Sensae Console Configuration Files}
 \label{subsec:implementation:description:config}
 
-This section describes how a \textbf{Sensae Console} is configured. One of the problems that arise from a microservice architecture is how to maintain all configurations for each container developed and configured. following the \citetitle{confcentral}, all configurations are defined via configuration files that support three environments: \textit{dev}, \textit{test} and \textit{prod}.
+This section describes how a \textbf{Sensae Console} and External Services are configured. One of the problems that arise from a microservice architecture is how to maintain all configurations for each container developed and configured. Following the \citetitle{confcentral}, all configurations are defined via configuration files that support three environments: \textit{dev}, \textit{test} and \textit{prod}.
 
 This configurations are defined, for each environment, in a single file. This file, Listing~\ref{code:implementation:description:config:file}, has the following structure:
 
@@ -1382,14 +1382,14 @@ envsubst < $SECRET_DB/rule-management-database.env > \
 
 In the future, as more isolated deployments are made, a tool such as \citetitle{vault} should be integrated in the solution.
 
-\subsection{External Services}
+\subsection{Solutions - External Services}
 \label{subsec:implementation:description:services}
 
-This section refers how services interact with the \textbf{Data Flow Scope}, this was briefly mentioned in Section~\ref{subsubsec:design:domain:shared_model:routing}.
+This section discusses how external services interact with the Sensae \gls{API}, this was briefly mentioned in Section~\ref{subsubsec:design:domain:shared_model:routing}.
 
-In order to provide an easy to understand integration with the \textbf{Data Flow Scope}, the routing keys concept was introduced. The idea, from the point of view of someone developing a service, is to start by defining what type of information that service should capture.
+In order to provide an easy to understand integration with the platform, the routing keys concept was introduced. The idea, from the point of view of someone developing a service, is to start by defining what type of information that service should capture.
 
-The two types of information a service can capture are: (i) \textbf{Data Unit}s and (ii) \textbf{Alert}s. Each of this information are defined by their routing keys as described in Table~\ref{tab:design:domain:shared_model:routing}.
+The two types of information a service usually needs are: (i) \textbf{Data Unit}s and (ii) \textbf{Alert}s. Each of this information are defined by their routing keys as described in Table~\ref{tab:design:domain:shared_model:routing}.
 
 A service can also publish \textbf{Command}s.
 
@@ -1431,7 +1431,7 @@ This service captures information of a single type (and doesn't publish any Comm
 
 At a high-level view, this service requires all alerts that already have a \textit{'defined ownership'}.
 
-It is divided in two backend containers (as described in Figure~\ref{fig:design:architecture:container:logical:diagram:service}) that subscribe to the same information but handle it differently.
+It is divided in two backend containers (as described in Figure~\ref{fig:design:architecture:solutions:containers:logical:noti}) that subscribe to the same information but handle it differently.
 
 \subsection{Sensae Console Device Integration}
 \label{subsec:implementation:description:sensor}
@@ -1488,7 +1488,7 @@ These categories complement each other to ensure the correct behavior of the sys
 
 The smoke tests were replaced by common unit tests. The acceptance tests weren't required since, at the time of writing, the project had no clear and concise functional requirements that the platform could be tested against.
 
-Architectural tests were added to the test suite to ensure that the Design discussed in the \nameref{subsubsec:design:architecture:components:logical} Section would always be respected.
+Architectural tests were added to the test suite to ensure that the Design discussed in the \nameref{subsubsec:design:architecture:platform:components:logical} Section would always be respected.
 
 The performance tests will be discussed in depth in the \nameref{chap:evaluation} Chapter.
 

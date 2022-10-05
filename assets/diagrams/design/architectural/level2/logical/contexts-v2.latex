@@ -2,7 +2,7 @@
 \definecolor{plantucolor0000}{RGB}{24,24,24}
 \definecolor{plantucolor0001}{RGB}{0,0,0}
 \definecolor{plantucolor0002}{RGB}{241,241,241}
-\begin{tikzpicture}[yscale=-1
+\begin{tikzpicture}[font=\Large,yscale=-1
 ,pstyle0/.style={color=plantucolor0000,line width=1.0pt}
 ,pstyle1/.style={color=plantucolor0000,fill=plantucolor0002,line width=0.5pt}
 ,pstyle2/.style={color=plantucolor0000,line width=1.5pt}
@@ -23,31 +23,31 @@
 \draw[pstyle1] (287.6661pt,595pt) rectangle (302.6661pt,605pt);
 \draw[pstyle1] (285.6661pt,597pt) rectangle (289.6661pt,599pt);
 \draw[pstyle1] (285.6661pt,601pt) rectangle (289.6661pt,603pt);
-\node at (168.2505pt,610pt)[below right,color=black]{\textit{\guillemotleft Context\guillemotright }};
+\node at (166.071pt,610pt)[below right,color=black]{\textit{\guillemotleft Concern\guillemotright }};
 \node at (128.1348pt,629.0679pt)[below right,color=black]{Device Management};
 \draw[pstyle1] (841.6348pt,595pt) arc (180:270:5pt) -- (846.6348pt,590pt) -- (1014.9348pt,590pt) arc (270:360:5pt) -- (1019.9348pt,595pt) -- (1019.9348pt,653.1358pt) arc (0:90:5pt) -- (1014.9348pt,658.1358pt) -- (846.6348pt,658.1358pt) arc (90:180:5pt) -- (841.6348pt,653.1358pt) -- cycle;
 \draw[pstyle1] (999.9348pt,595pt) rectangle (1014.9348pt,605pt);
 \draw[pstyle1] (997.9348pt,597pt) rectangle (1001.9348pt,599pt);
 \draw[pstyle1] (997.9348pt,601pt) rectangle (1001.9348pt,603pt);
-\node at (888.6348pt,610pt)[below right,color=black]{\textit{\guillemotleft Context\guillemotright }};
+\node at (886.4554pt,610pt)[below right,color=black]{\textit{\guillemotleft Concern\guillemotright }};
 \node at (856.6348pt,629.0679pt)[below right,color=black]{Rule Management};
 \draw[pstyle1] (343.6348pt,595pt) arc (180:270:5pt) -- (348.6348pt,590pt) -- (546.6019pt,590pt) arc (270:360:5pt) -- (551.6019pt,595pt) -- (551.6019pt,653.1358pt) arc (0:90:5pt) -- (546.6019pt,658.1358pt) -- (348.6348pt,658.1358pt) arc (90:180:5pt) -- (343.6348pt,653.1358pt) -- cycle;
 \draw[pstyle1] (531.6019pt,595pt) rectangle (546.6019pt,605pt);
 \draw[pstyle1] (529.6019pt,597pt) rectangle (533.6019pt,599pt);
 \draw[pstyle1] (529.6019pt,601pt) rectangle (533.6019pt,603pt);
-\node at (405.4683pt,610pt)[below right,color=black]{\textit{\guillemotleft Context\guillemotright }};
+\node at (403.2889pt,610pt)[below right,color=black]{\textit{\guillemotleft Concern\guillemotright }};
 \node at (358.6348pt,629.0679pt)[below right,color=black]{Decoder Management};
 \draw[pstyle1] (587.1348pt,595pt) arc (180:270:5pt) -- (592.1348pt,590pt) -- (801.6058pt,590pt) arc (270:360:5pt) -- (806.6058pt,595pt) -- (806.6058pt,653.1358pt) arc (0:90:5pt) -- (801.6058pt,658.1358pt) -- (592.1348pt,658.1358pt) arc (90:180:5pt) -- (587.1348pt,653.1358pt) -- cycle;
 \draw[pstyle1] (786.6058pt,595pt) rectangle (801.6058pt,605pt);
 \draw[pstyle1] (784.6058pt,597pt) rectangle (788.6058pt,599pt);
 \draw[pstyle1] (784.6058pt,601pt) rectangle (788.6058pt,603pt);
-\node at (654.7203pt,610pt)[below right,color=black]{\textit{\guillemotleft Context\guillemotright }};
+\node at (652.5409pt,610pt)[below right,color=black]{\textit{\guillemotleft Concern\guillemotright }};
 \node at (602.1348pt,629.0679pt)[below right,color=black]{Processor Management};
 \draw[pstyle1] (1054.1348pt,595pt) arc (180:270:5pt) -- (1059.1348pt,590pt) -- (1254.2732pt,590pt) arc (270:360:5pt) -- (1259.2732pt,595pt) -- (1259.2732pt,653.1358pt) arc (0:90:5pt) -- (1254.2732pt,658.1358pt) -- (1059.1348pt,658.1358pt) arc (90:180:5pt) -- (1054.1348pt,653.1358pt) -- cycle;
 \draw[pstyle1] (1239.2732pt,595pt) rectangle (1254.2732pt,605pt);
 \draw[pstyle1] (1237.2732pt,597pt) rectangle (1241.2732pt,599pt);
 \draw[pstyle1] (1237.2732pt,601pt) rectangle (1241.2732pt,603pt);
-\node at (1114.554pt,610pt)[below right,color=black]{\textit{\guillemotleft Context\guillemotright }};
+\node at (1112.3746pt,610pt)[below right,color=black]{\textit{\guillemotleft Concern\guillemotright }};
 \node at (1069.1348pt,629.0679pt)[below right,color=black]{Identity Management};
 \draw[pstyle1] (229.1348pt,879.5pt) arc (180:270:5pt) -- (234.1348pt,874.5pt) -- (386.7062pt,874.5pt) arc (270:360:5pt) -- (391.7062pt,879.5pt) -- (391.7062pt,937.6358pt) arc (0:90:5pt) -- (386.7062pt,942.6358pt) -- (234.1348pt,942.6358pt) arc (90:180:5pt) -- (229.1348pt,937.6358pt) -- cycle;
 \draw[pstyle1] (371.7062pt,879.5pt) rectangle (386.7062pt,889.5pt);
@@ -132,8 +132,9 @@
 \node at (14.5548pt,797.5679pt)[below right,color=black]{Uplink};
 \node at (14.5548pt,816.6358pt)[below right,color=black]{Rest API};
 \draw[pstyle1] (1303.6348pt,624pt) ellipse (8pt and 8pt);
-\node at (1241.3533pt,641pt)[below right,color=black]{OpenID Connect};
-\node at (1241.3533pt,660.0679pt)[below right,color=black]{API};
+\node at (1272.42pt,641pt)[below right,color=black]{OpenID};
+\node at (1272.42pt,660.0679pt)[below right,color=black]{Connect};
+\node at (1272.42pt,679.1358pt)[below right,color=black]{API};
 \draw[pstyle1] (72.6348pt,908.5pt) ellipse (8pt and 8pt);
 \node at (6pt,925.5pt)[below right,color=black]{Sensae API for};
 \node at (6pt,944.5679pt)[below right,color=black]{External Services};

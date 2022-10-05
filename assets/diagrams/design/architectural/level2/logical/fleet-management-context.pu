@@ -3,17 +3,20 @@
 interface "Fleet Management UI" as FRONT_API
 interface "Fleet Management\nBackend API" as BACK_API
 
-component "Fleet Management" <<Context>> {
+component "Fleet Management" <<System>> {
     component "Fleet Management\nBackend" <<Container>> as BACK
     component "Fleet Management\nFrontend" <<Container>> as FRONT
     component "Fleet Management\nDatabase" <<Container>> as DB
 
-    interface "Fleet Management\nDatabase API" as DB_API
+    interface "Fleet Management\nDatabase JDBC API" as DB_API
+    interface "Fleet Management\nDatabase ILP API" as DB_ILP_API
 
     DB - DB_API
+    DB_ILP_API - DB
     FRONT_API -- FRONT
     BACK_API -- BACK
     BACK --( DB_API
+    BACK --( DB_ILP_API
     FRONT --( BACK_API
 
 }

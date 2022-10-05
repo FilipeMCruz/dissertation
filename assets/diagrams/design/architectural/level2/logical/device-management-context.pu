@@ -3,7 +3,7 @@
 interface "Device Management UI" as FRONT_API
 interface "Device Management\nBackend API" as BACK_API
 
-component "Device Management" <<Context>> {
+component "Device Management" <<Concern>> {
     component "Device Management\nBackend" <<Container>> as BACK
     component "Device Management\nFrontend" <<Container>> as FRONT
     component "Device Management\nDatabase" <<Container>> as DB

@@ -13,9 +13,14 @@ component "Notification Dispatcher Backend" <<Container>> {
             component "SMS" as SMS <<Component>>
             component "EMAIL" as EMAIL <<Component>>
         }
+        folder "Persistence" as PERS {
+            component "Memory" as MEM <<Component>>
+        }
     }
     interface "Application API" as APP_API
     interface "Domain API" as DOM_API
+
+    MEM -( DOM_API
 
     DOM_API - DOM
     APP_API - APP

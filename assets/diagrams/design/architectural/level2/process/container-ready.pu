@@ -12,7 +12,7 @@ participant "Rule Management\nDatabase" as RULE_DB <<Container>>
 activate MB
 
 activate ALERT
-ALERT -> MB : publishes a "initialized rule\nmanagement context" message 
+ALERT -> MB : publishes a "initialized rule\nmanagement concern" message 
 deactivate ALERT
 autonumber inc A
 MB -> RULE : notifies about the message
@@ -22,13 +22,13 @@ activate RULE_DB
 RULE_DB --> RULE : returns all rules
 deactivate RULE_DB
 RULE -> RULE : computes the current\nrule management state
-RULE -> MB : publishes a "sync rule\nmanagement context" message
+RULE -> MB : publishes a "sync rule\nmanagement concern" message
 deactivate RULE
 autonumber inc A
 MB -> ALERT : notifies about the message
 activate ALERT
 ALERT -> ALERT : stores the\nrule management\nstate internally
-ALERT -> MB : unsubscribes from\n"sync rule management context"
+ALERT -> MB : unsubscribes from\n"sync rule management concern"
 deactivate ALERT
 
 @enduml

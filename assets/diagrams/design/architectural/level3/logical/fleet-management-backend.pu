@@ -1,0 +1,43 @@
+@startuml fleet-management-backend
+
+interface "QuestDB\nJDBC API" as QUEST_API
+interface "QuestDB\nILP API" as QUEST_ILP_API
+
+interface "Graphql API" as GRAPH_API
+interface "AMQP API" as AMQP_API
+
+component "Fleet Management Backend" <<Container>> {
+    component "Application" as APP <<Component>>
+    component "Domain" as DOM <<Component>>
+    component "Domain Services" as DOM_SERV <<Component>>
+    folder "Infrastructure" as INFRA {
+        folder "Endpoint" as ENDPOINT {
+            component "Graphql" as GRAPH <<Component>>
+            component "AMQP" as AMQP <<Component>>
+        }
+        folder "Presistence" as PERSIST {
+            component "QuestDB" as QUEST <<Component>>
+        }
+    }
+
+    interface "Application API" as APP_API
+    interface "Domain API" as DOM_API
+    interface "Domain Services API" as DOM_SERV_API
+
+    GRAPH_API -- GRAPH
+    DOM_API -- DOM
+    DOM_SERV_API -- DOM_SERV
+
+    QUEST_API )-- QUEST
+    QUEST_ILP_API )-- QUEST
+    AMQP_API )-- AMQP
+    APP_API -- APP
+
+    AMQP --( APP_API
+    QUEST --( DOM_API
+    GRAPH --( APP_API
+    DOM_SERV_API )-- APP
+    DOM_API )-- DOM_SERV
+}
+
+@enduml

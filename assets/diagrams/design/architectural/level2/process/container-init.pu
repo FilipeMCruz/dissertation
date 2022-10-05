@@ -3,16 +3,16 @@
 skinparam sequenceMessageAlign center
 skinparam style strictuml
 
-participant "X External Service" as SIB <<System>>
+'participant "X External Service" as SIB <<System>>
 
-box "     //>>System>>//\nSensae Console"
+'box "     //>>System>>//\nSensae Console"
 participant "Device Commander\nBackend" as DCB <<Container>>
 participant "Device Management\nFlow Backend" as DRSB <<Container>>
 participant "Device Management\nBackend" as DRB <<Container>>
 participant "Data Decoder\nFlow Backend" as SDD <<Container>>
 participant "Data\nStore" as DS <<Container>>
 participant "Message\nBroker" as MB <<Container>>
-end box
+'end box
 
 activate MB
 
@@ -27,9 +27,9 @@ DRSB -> MB : subscribe to new informations\n in device management @ INTERNAL top
 ... other containers subscribe to the information they need ...
 DCB -> MB : subscribe to any command @ COMMAND topic
 DCB -> MB : subscribe to new informations\n in device management @ INTERNAL topic
-SIB -> MB : subscribe to new validated, processed and owned\ngps+trigger data unit with device info @ DATA topic
-SIB -> MB : subscribe to new validated, processed and owned\ngps+temperature+air humidity data unit with device info @ DATA topic
-SIB -> MB : subscribe to new validated, processed and owned\ngps+soil moisture+illuminance data unit with device info @ DATA topic
-SIB -> MB : subscribe to new owned alerts of the smart irrigation category @ ALERT topic
+'SIB -> MB : subscribe to new validated, processed and owned\ngps+trigger data unit with device info @ DATA topic
+'SIB -> MB : subscribe to new validated, processed and owned\ngps+temperature+air humidity data unit with device info @ DATA topic
+'SIB -> MB : subscribe to new validated, processed and owned\ngps+soil moisture+illuminance data unit with device info @ DATA topic
+'SIB -> MB : subscribe to new owned alerts of the smart irrigation category @ ALERT topic
 
 @enduml

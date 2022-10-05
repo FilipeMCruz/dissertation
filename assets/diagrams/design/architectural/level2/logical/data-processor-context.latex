@@ -13,7 +13,7 @@
 \draw[pstyle0] (419pt,86pt) rectangle (434pt,96pt);
 \draw[pstyle0] (417pt,88pt) rectangle (421pt,90pt);
 \draw[pstyle0] (417pt,92pt) rectangle (421pt,94pt);
-\node at (185.85pt,94pt)[below right,color=black]{\textit{\guillemotleft Context\guillemotright }};
+\node at (183.6706pt,94pt)[below right,color=black]{\textit{\guillemotleft Concern\guillemotright }};
 \node at (158.3612pt,113.0679pt)[below right,color=black]{\textbf{Data Processor}};
 \draw[pstyle1] (267.5pt,143pt) arc (180:270:5pt) -- (272.5pt,138pt) -- (417.3404pt,138pt) arc (270:360:5pt) -- (422.3404pt,143pt) -- (422.3404pt,220.2038pt) arc (0:90:5pt) -- (417.3404pt,225.2038pt) -- (272.5pt,225.2038pt) arc (90:180:5pt) -- (267.5pt,220.2038pt) -- cycle;
 \draw[pstyle1] (402.3404pt,143pt) rectangle (417.3404pt,153pt);

@@ -7,9 +7,7 @@ folder "sensae-console" {
             folder "data-processor-database"
             folder "device-management-database"
             folder "identity-management-database"
-            folder "notification-management-database"
             folder "rule-management-database"
-            folder "smart-irrigation-business-database"
         }
     }
 }

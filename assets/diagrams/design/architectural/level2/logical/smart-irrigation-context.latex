@@ -2,31 +2,31 @@
 \definecolor{plantucolor0000}{RGB}{24,24,24}
 \definecolor{plantucolor0001}{RGB}{0,0,0}
 \definecolor{plantucolor0002}{RGB}{241,241,241}
-\begin{tikzpicture}[yscale=-1
+\begin{tikzpicture}[font=\Large,yscale=-1
 ,pstyle0/.style={color=plantucolor0000,line width=1.0pt}
 ,pstyle1/.style={color=plantucolor0000,fill=plantucolor0002,line width=0.5pt}
 ,pstyle2/.style={color=plantucolor0000,line width=1.5pt}
 ]
-\draw[pstyle0] (7pt,86pt) arc (180:270:5pt) -- (12pt,81pt) -- (468pt,81pt) arc (270:360:5pt) -- (473pt,86pt) -- (473pt,383pt) arc (0:90:5pt) -- (468pt,388pt) -- (12pt,388pt) arc (90:180:5pt) -- (7pt,383pt) -- cycle;
-\draw[pstyle0] (453pt,86pt) rectangle (468pt,96pt);
-\draw[pstyle0] (451pt,88pt) rectangle (455pt,90pt);
-\draw[pstyle0] (451pt,92pt) rectangle (455pt,94pt);
-\node at (202.85pt,94pt)[below right,color=black]{\textit{\guillemotleft Context\guillemotright }};
-\node at (167.7892pt,113.0679pt)[below right,color=black]{\textbf{Smart Irrigation}};
-\draw[pstyle1] (277pt,143pt) arc (180:270:5pt) -- (282pt,138pt) -- (438.1818pt,138pt) arc (270:360:5pt) -- (443.1818pt,143pt) -- (443.1818pt,220.2038pt) arc (0:90:5pt) -- (438.1818pt,225.2038pt) -- (282pt,225.2038pt) arc (90:180:5pt) -- (277pt,220.2038pt) -- cycle;
-\draw[pstyle1] (423.1818pt,143pt) rectangle (438.1818pt,153pt);
-\draw[pstyle1] (421.1818pt,145pt) rectangle (425.1818pt,147pt);
-\draw[pstyle1] (421.1818pt,149pt) rectangle (425.1818pt,151pt);
-\node at (309.5217pt,158pt)[below right,color=black]{\textit{\guillemotleft Container\guillemotright }};
-\node at (292pt,177.0679pt)[below right,color=black]{Smart Irrigation};
-\node at (292pt,196.1358pt)[below right,color=black]{Backend};
-\draw[pstyle1] (23pt,143pt) arc (180:270:5pt) -- (28pt,138pt) -- (184.1818pt,138pt) arc (270:360:5pt) -- (189.1818pt,143pt) -- (189.1818pt,220.2038pt) arc (0:90:5pt) -- (184.1818pt,225.2038pt) -- (28pt,225.2038pt) arc (90:180:5pt) -- (23pt,220.2038pt) -- cycle;
-\draw[pstyle1] (169.1818pt,143pt) rectangle (184.1818pt,153pt);
-\draw[pstyle1] (167.1818pt,145pt) rectangle (171.1818pt,147pt);
-\draw[pstyle1] (167.1818pt,149pt) rectangle (171.1818pt,151pt);
-\node at (55.5217pt,158pt)[below right,color=black]{\textit{\guillemotleft Container\guillemotright }};
-\node at (38pt,177.0679pt)[below right,color=black]{Smart Irrigation};
-\node at (38pt,196.1358pt)[below right,color=black]{Frontend};
+\draw[pstyle0] (7pt,86pt) arc (180:270:5pt) -- (12pt,81pt) -- (521pt,81pt) arc (270:360:5pt) -- (526pt,86pt) -- (526pt,383pt) arc (0:90:5pt) -- (521pt,388pt) -- (12pt,388pt) arc (90:180:5pt) -- (7pt,383pt) -- cycle;
+\draw[pstyle0] (506pt,86pt) rectangle (521pt,96pt);
+\draw[pstyle0] (504pt,88pt) rectangle (508pt,90pt);
+\draw[pstyle0] (504pt,92pt) rectangle (508pt,94pt);
+\node at (230.9492pt,94pt)[below right,color=black]{\textit{\guillemotleft System\guillemotright }};
+\node at (194.2892pt,113.0679pt)[below right,color=black]{\textbf{Smart Irrigation}};
+\draw[pstyle1] (309pt,143pt) arc (180:270:5pt) -- (314pt,138pt) -- (470.1818pt,138pt) arc (270:360:5pt) -- (475.1818pt,143pt) -- (475.1818pt,220.2038pt) arc (0:90:5pt) -- (470.1818pt,225.2038pt) -- (314pt,225.2038pt) arc (90:180:5pt) -- (309pt,220.2038pt) -- cycle;
+\draw[pstyle1] (455.1818pt,143pt) rectangle (470.1818pt,153pt);
+\draw[pstyle1] (453.1818pt,145pt) rectangle (457.1818pt,147pt);
+\draw[pstyle1] (453.1818pt,149pt) rectangle (457.1818pt,151pt);
+\node at (341.5217pt,158pt)[below right,color=black]{\textit{\guillemotleft Container\guillemotright }};
+\node at (324pt,177.0679pt)[below right,color=black]{Smart Irrigation};
+\node at (324pt,196.1358pt)[below right,color=black]{Backend};
+\draw[pstyle1] (55pt,143pt) arc (180:270:5pt) -- (60pt,138pt) -- (216.1818pt,138pt) arc (270:360:5pt) -- (221.1818pt,143pt) -- (221.1818pt,220.2038pt) arc (0:90:5pt) -- (216.1818pt,225.2038pt) -- (60pt,225.2038pt) arc (90:180:5pt) -- (55pt,220.2038pt) -- cycle;
+\draw[pstyle1] (201.1818pt,143pt) rectangle (216.1818pt,153pt);
+\draw[pstyle1] (199.1818pt,145pt) rectangle (203.1818pt,147pt);
+\draw[pstyle1] (199.1818pt,149pt) rectangle (203.1818pt,151pt);
+\node at (87.5217pt,158pt)[below right,color=black]{\textit{\guillemotleft Container\guillemotright }};
+\node at (70pt,177.0679pt)[below right,color=black]{Smart Irrigation};
+\node at (70pt,196.1358pt)[below right,color=black]{Frontend};
 \draw[pstyle1] (23pt,290pt) arc (180:270:5pt) -- (28pt,285pt) -- (198.1752pt,285pt) arc (270:360:5pt) -- (203.1752pt,290pt) -- (203.1752pt,367.2038pt) arc (0:90:5pt) -- (198.1752pt,372.2038pt) -- (28pt,372.2038pt) arc (90:180:5pt) -- (23pt,367.2038pt) -- cycle;
 \draw[pstyle1] (183.1752pt,290pt) rectangle (198.1752pt,300pt);
 \draw[pstyle1] (181.1752pt,292pt) rectangle (185.1752pt,294pt);
@@ -41,37 +41,44 @@
 \node at (323.5217pt,305pt)[below right,color=black]{\textit{\guillemotleft Container\guillemotright }};
 \node at (306pt,324.0679pt)[below right,color=black]{Smart Irrigation};
 \node at (306pt,343.1358pt)[below right,color=black]{Data Database};
-\draw[pstyle1] (233pt,181.5pt) ellipse (8pt and 8pt);
-\node at (147.4432pt,198.5pt)[below right,color=black]{Smart Irrigation};
-\node at (147.4432pt,217.5679pt)[below right,color=black]{Business Database API};
+\draw[pstyle1] (265pt,181.5pt) ellipse (8pt and 8pt);
+\node at (201.9091pt,198.5pt)[below right,color=black]{Smart Irrigation};
+\node at (201.9091pt,217.5679pt)[below right,color=black]{Business};
+\node at (201.9091pt,236.6358pt)[below right,color=black]{Database API};
 \draw[pstyle1] (247pt,328.5pt) ellipse (8pt and 8pt);
-\node at (176.4195pt,345.5pt)[below right,color=black]{Smart Irrigation};
-\node at (176.4195pt,364.5679pt)[below right,color=black]{Data Database API};
-\draw[pstyle1] (106pt,14pt) ellipse (8pt and 8pt);
-\node at (32.3209pt,31pt)[below right,color=black]{Smart Irrigation UI};
-\draw[pstyle1] (326pt,14pt) ellipse (8pt and 8pt);
-\node at (262.9091pt,31pt)[below right,color=black]{Smart Irrigation};
-\node at (262.9091pt,50.0679pt)[below right,color=black]{Backend API};
-\draw[pstyle1] (542pt,152.5pt) arc (180:270:5pt) -- (547pt,147.5pt) -- (693.16pt,147.5pt) arc (270:360:5pt) -- (698.16pt,152.5pt) -- (698.16pt,210.6358pt) arc (0:90:5pt) -- (693.16pt,215.6358pt) -- (547pt,215.6358pt) arc (90:180:5pt) -- (542pt,210.6358pt) -- cycle;
-\draw[pstyle1] (678.16pt,152.5pt) rectangle (693.16pt,162.5pt);
-\draw[pstyle1] (676.16pt,154.5pt) rectangle (680.16pt,156.5pt);
-\draw[pstyle1] (676.16pt,158.5pt) rectangle (680.16pt,160.5pt);
-\node at (579.5292pt,167.5pt)[below right,color=black]{\textit{\guillemotleft System\guillemotright }};
-\node at (557pt,186.5679pt)[below right,color=black]{Sensae Console};
-\draw[pstyle1] (498pt,181.5pt) ellipse (8pt and 8pt);
-\node at (431.3652pt,198.5pt)[below right,color=black]{Sensae API for};
-\node at (431.3652pt,217.5679pt)[below right,color=black]{External Services};
-\draw[pstyle0] (228.41pt,190.6pt) ..controls (223.33pt,199.36pt) and (214.69pt,213.6pt) .. (206pt,225pt) ..controls (190.34pt,245.54pt) and (171.43pt,266.91pt) .. (154.77pt,284.78pt);
+\node at (164.0552pt,345.5pt)[below right,color=black]{Smart Irrigation Data};
+\node at (164.0552pt,364.5679pt)[below right,color=black]{Database JDBC API};
+\draw[pstyle1] (501pt,328.5pt) ellipse (8pt and 8pt);
+\node at (418.0552pt,345.5pt)[below right,color=black]{Smart Irrigation Data};
+\node at (418.0552pt,364.5679pt)[below right,color=black]{Database ILP API};
+\draw[pstyle1] (138pt,14pt) ellipse (8pt and 8pt);
+\node at (64.3209pt,31pt)[below right,color=black]{Smart Irrigation UI};
+\draw[pstyle1] (358pt,14pt) ellipse (8pt and 8pt);
+\node at (294.9091pt,31pt)[below right,color=black]{Smart Irrigation};
+\node at (294.9091pt,50.0679pt)[below right,color=black]{Backend API};
+\draw[pstyle1] (595pt,152.5pt) arc (180:270:5pt) -- (600pt,147.5pt) -- (746.16pt,147.5pt) arc (270:360:5pt) -- (751.16pt,152.5pt) -- (751.16pt,210.6358pt) arc (0:90:5pt) -- (746.16pt,215.6358pt) -- (600pt,215.6358pt) arc (90:180:5pt) -- (595pt,210.6358pt) -- cycle;
+\draw[pstyle1] (731.16pt,152.5pt) rectangle (746.16pt,162.5pt);
+\draw[pstyle1] (729.16pt,154.5pt) rectangle (733.16pt,156.5pt);
+\draw[pstyle1] (729.16pt,158.5pt) rectangle (733.16pt,160.5pt);
+\node at (632.5292pt,167.5pt)[below right,color=black]{\textit{\guillemotleft System\guillemotright }};
+\node at (610pt,186.5679pt)[below right,color=black]{Sensae Console};
+\draw[pstyle1] (551pt,181.5pt) ellipse (8pt and 8pt);
+\node at (484.3652pt,198.5pt)[below right,color=black]{Sensae API for};
+\node at (484.3652pt,217.5679pt)[below right,color=black]{External Services};
+\draw[pstyle0] (260.9pt,190.54pt) ..controls (256.12pt,199.49pt) and (247.62pt,214.14pt) .. (238pt,225pt) ..controls (218.74pt,246.74pt) and (194.62pt,267.66pt) .. (172.72pt,284.86pt);
 \draw[pstyle0] (256.43pt,328.5pt) ..controls (267.91pt,328.5pt) and (279.39pt,328.5pt) .. (290.87pt,328.5pt);
-\draw[pstyle0] (106pt,23.43pt) ..controls (106pt,44.18pt) and (106pt,98.85pt) .. (106pt,137.85pt);
-\draw[pstyle0] (327.73pt,23.43pt) ..controls (332pt,44.18pt) and (343.23pt,98.85pt) .. (351.24pt,137.85pt);
-\draw[pstyle0] (252.65pt,181.5pt) ..controls (260.72pt,181.5pt) and (268.8pt,181.5pt) .. (276.87pt,181.5pt);
-\draw[pstyle2] (245.5082pt,189.9572pt) arc (70:-70:9pt);
-\draw[pstyle0] (321.21pt,225.19pt) ..controls (305.57pt,243.14pt) and (287.78pt,264.58pt) .. (273pt,285pt) ..controls (267.09pt,293.17pt) and (261.17pt,302.71pt) .. (256.47pt,310.69pt);
-\draw[pstyle2] (260.3061pt,320.9769pt) arc (9:-130:9pt);
-\draw[pstyle0] (139.17pt,137.89pt) ..controls (157.29pt,116.54pt) and (181.08pt,91.39pt) .. (206pt,73pt) ..controls (238.6pt,48.94pt) and (282.74pt,30.66pt) .. (307.38pt,21.51pt);
-\draw[pstyle2] (311.1687pt,11.154pt) arc (230:90:9pt);
-\draw[pstyle0] (507.05pt,181.5pt) ..controls (518.67pt,181.5pt) and (530.29pt,181.5pt) .. (541.91pt,181.5pt);
-\draw[pstyle0] (443.02pt,181.5pt) ..controls (454.99pt,181.5pt) and (466.95pt,181.5pt) .. (478.92pt,181.5pt);
-\draw[pstyle2] (485.9018pt,173.0428pt) arc (250:110:9pt);
+\draw[pstyle0] (457.34pt,328.5pt) ..controls (468.83pt,328.5pt) and (480.31pt,328.5pt) .. (491.79pt,328.5pt);
+\draw[pstyle0] (428.84pt,225.41pt) ..controls (443.73pt,243.4pt) and (460.74pt,264.8pt) .. (475pt,285pt) ..controls (480.82pt,293.24pt) and (486.73pt,302.79pt) .. (491.44pt,310.75pt);
+\draw[pstyle2] (502.272pt,312.5563pt) arc (309:169:9pt);
+\draw[pstyle0] (138pt,23.43pt) ..controls (138pt,44.18pt) and (138pt,98.85pt) .. (138pt,137.85pt);
+\draw[pstyle0] (359.73pt,23.43pt) ..controls (364pt,44.18pt) and (375.23pt,98.85pt) .. (383.24pt,137.85pt);
+\draw[pstyle0] (284.65pt,181.5pt) ..controls (292.72pt,181.5pt) and (300.8pt,181.5pt) .. (308.87pt,181.5pt);
+\draw[pstyle2] (277.5082pt,189.9572pt) arc (70:-70:9pt);
+\draw[pstyle0] (335.38pt,225.14pt) ..controls (314.45pt,242.42pt) and (291.36pt,263.39pt) .. (273pt,285pt) ..controls (266.39pt,292.78pt) and (260.35pt,302.42pt) .. (255.76pt,310.55pt);
+\draw[pstyle2] (259.8352pt,320.7928pt) arc (8:-131:9pt);
+\draw[pstyle0] (171.17pt,137.89pt) ..controls (189.29pt,116.54pt) and (213.08pt,91.39pt) .. (238pt,73pt) ..controls (270.6pt,48.94pt) and (314.74pt,30.66pt) .. (339.38pt,21.51pt);
+\draw[pstyle2] (343.1687pt,11.154pt) arc (230:90:9pt);
+\draw[pstyle0] (560.05pt,181.5pt) ..controls (571.67pt,181.5pt) and (583.29pt,181.5pt) .. (594.91pt,181.5pt);
+\draw[pstyle0] (475.23pt,181.5pt) ..controls (494.04pt,181.5pt) and (512.86pt,181.5pt) .. (531.68pt,181.5pt);
+\draw[pstyle2] (538.7418pt,173.0428pt) arc (250:110:9pt);
 \end{tikzpicture}

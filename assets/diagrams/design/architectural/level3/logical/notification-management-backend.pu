@@ -1,0 +1,44 @@
+@startuml notification-management-backend
+
+interface "Graphql API" as GRAPH_API
+interface "AMQP API" as AMQP_API
+
+interface "Postgres API" as POSTG_API
+
+component "Notification Management Backend" <<Container>> {
+    component "Application" as APP <<Component>>
+    component "Domain" as DOM <<Component>>
+    component "Domain Services" as DOM_SERV <<Component>>
+    folder "Infrastructure" as INFRA {
+        folder "Presistence" as PERSIST {
+            component "Postgres" as POSTG <<Component>>
+            component "Memory" as MEM <<Component>>
+        }
+        folder "Endpoint" as ENDPOINT {
+            component "Graphql" as GRAPH <<Component>>
+            component "AMQP" as AMQP <<Component>>
+        }
+    }
+
+    interface "Application API" as APP_API
+    interface "Domain API" as DOM_API
+    interface "Domain Services API" as DOM_SERV_API
+
+    MEM -( DOM_API
+
+    GRAPH_API -- GRAPH
+    DOM_API -- DOM
+    DOM_SERV_API -- DOM_SERV
+
+    POSTG_API )-- POSTG
+    AMQP_API )-- AMQP
+    APP_API -- APP
+
+    AMQP --( APP_API
+    POSTG --( DOM_API
+    GRAPH --( APP_API
+    DOM_SERV_API )-- APP
+    DOM_API )-- DOM_SERV
+}
+
+@enduml

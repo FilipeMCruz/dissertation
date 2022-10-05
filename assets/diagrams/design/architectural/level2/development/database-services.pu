@@ -1,0 +1,12 @@
+@startuml database-services
+
+folder "sensae-console" {
+    folder "project" {
+        folder "databases" {
+            folder "notification-management-database"
+            folder "smart-irrigation-business-database"
+        }
+    }
+}
+
+@enduml

@@ -13,7 +13,7 @@
 \draw[pstyle0] (463pt,86pt) rectangle (478pt,96pt);
 \draw[pstyle0] (461pt,88pt) rectangle (465pt,90pt);
 \draw[pstyle0] (461pt,92pt) rectangle (465pt,94pt);
-\node at (207.85pt,94pt)[below right,color=black]{\textit{\guillemotleft Context\guillemotright }};
+\node at (205.6706pt,94pt)[below right,color=black]{\textit{\guillemotleft Concern\guillemotright }};
 \node at (168.0847pt,113.0679pt)[below right,color=black]{\textbf{Rule Management}};
 \draw[pstyle1] (289pt,143pt) arc (180:270:5pt) -- (294pt,138pt) -- (462.3pt,138pt) arc (270:360:5pt) -- (467.3pt,143pt) -- (467.3pt,220.2038pt) arc (0:90:5pt) -- (462.3pt,225.2038pt) -- (294pt,225.2038pt) arc (90:180:5pt) -- (289pt,220.2038pt) -- cycle;
 \draw[pstyle1] (447.3pt,143pt) rectangle (462.3pt,153pt);

@@ -1,41 +1,42 @@
 @startuml device-management-flow-backend
 
 autonumber 1
+skinparam maxMessageSize 170
 
 box "                     //<<Container>>//\nDevice Management Flow Backend"
 participant Ingress <<Component>>
 participant Application <<Component>>
 participant Domain <<Component>>
 participant Memory <<Component>>
+participant Internal <<Component>>
 participant Egress <<Component>>
 end box
 
 ?-> Ingress ++ : message\nconsumed dto
-Ingress -> Ingress : convert to consumed\nmessage with data unit
-Ingress -> Application ++-- : consumed message\nwith data unit
-Application -> Memory ++ : search for data unit's\ndevice information
+Ingress -> Ingress : convert to consumed message with data unit
+Ingress -> Application ++-- : consumed message with data unit
+Application -> Memory ++ : search for data unit's device information
 return device information
-Application -> Egress ++ : publish device ping notification
-Egress -> Egress : convert to dto
-Egress ->? -- : publish ping dto
-Application -> Domain ++ : merge data unit\nand device information\ninto "device with measures"
+Application -> Internal ++ : publish device ping notification
+Internal -> Internal : convert to dto
+Internal ->] -- : publish ping dto
+Application -> Domain ++ : merge data unit and device information into "device with measures"
 return device measures
-
-Application -> Application : update routing keys\nof message consumed
-Application -> Domain ++ : extract controller data unit\nfrom "device with measures"
+Application -> Domain ++ : extract controller data unit from "device with measures"
 return controller data unit
-Application -> Application : transform consumed message\nto supplied message with updated\nrouting keys and  controller data unit
+Application -> Application : transform consumed message into supplied with updated routing keys and controller data unit
 Application -> Egress ++ : publish supplied message
 Egress -> Egress : convert to\nmessage dto
 Egress ->? -- : publish supplied\nmessage dto
-Application -> Domain ++ : extract sub devices data units\nfrom "device with measures"
+Application -> Domain ++ : extract sub devices data units from "device with measures"
 return sub devices' data units
 loop for each sub device data unit
     Application -> Application : create new routing keys
-    Application -> Application : create new message with\nrouting keys and data unit
+    Application -> Application : create new message with routing keys and data unit
     Application -> Egress ++ : publish message
     Egress -> Egress : convert to\nmessage dto
     Egress ->? -- : publish supplied\nmessage dto
 end
+deactivate Application
 
 @enduml

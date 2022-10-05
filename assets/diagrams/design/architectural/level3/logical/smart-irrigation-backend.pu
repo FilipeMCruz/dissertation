@@ -1,6 +1,7 @@
 @startuml smart-irrigation-backend
 
-interface "QuestDB API" as QUEST_API
+interface "QuestDB\nJDBC API" as QUEST_API
+interface "QuestDB\nILP API" as QUEST_ILP_API
 interface "Postgres API" as POSTG_API
 
 interface "Graphql API" as GRAPH_API
@@ -18,6 +19,7 @@ component "Smart Irrigation Backend" <<Container>> {
         folder "Presistence" as PERSIST {
             component "Postgres" as POSTG <<Component>>
             component "QuestDB" as QUEST <<Component>>
+            component "Memory" as MEM <<Component>>
         }
     }
 
@@ -31,11 +33,13 @@ component "Smart Irrigation Backend" <<Container>> {
 
     POSTG_API )-- POSTG
     QUEST_API )-- QUEST
+    QUEST_ILP_API )-- QUEST
     AMQP_API )-- AMQP
     APP_API -- APP
 
     AMQP --( APP_API
     POSTG --( DOM_API
+    MEM --( DOM_API
     QUEST --( DOM_API
     GRAPH --( APP_API
     DOM_SERV_API )-- APP

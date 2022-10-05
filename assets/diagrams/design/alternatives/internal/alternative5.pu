@@ -5,17 +5,17 @@ skinparam Shadowing false
 skinparam componentStyle uml2
 skinparam packageStyle rectangle
 
-component "X Context Frontend" as FRONT
-component "X Context Backend" as BACK
-component "X Context Database" as DB
+component "X Concern Frontend" as FRONT
+component "X Concern Backend" as BACK
+component "X Concern Database" as DB
 component "Message Broker" as MB
-component "X Context Flow" as FLOW
+component "X Concern Flow" as FLOW
 component "Event Store" as SHAR
 
 interface "Message\nBroker API" as MB_API
-interface "X Context\nDatabase API" as DB_API
-interface "X Context\nBackend API" as BACK_API
-interface "X Context UI" as FRONT_API
+interface "X Concern\nDatabase API" as DB_API
+interface "X Concern\nBackend API" as BACK_API
+interface "X Concern UI" as FRONT_API
 interface "Event Store API" as SHAR_API
 
 SHAR -- SHAR_API

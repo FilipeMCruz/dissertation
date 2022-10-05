@@ -4,7 +4,7 @@ autonumber 1.1
 
 skinparam style strictuml
 
-box "   //<<System>>//\nExternal Service"
+box "     //<<System>>//\nSmart Irrigation"
 participant "Smart Irrigation\nBackend" as BACK <<Container>>
 participant "Smart Irrigation\nBusiness Database" as DB <<Container>>
 end box

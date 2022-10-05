@@ -3,7 +3,7 @@
 interface "Data Decoder UI" as FRONT_API
 interface "Data Decoder\nBackend API" as BACK_API
 
-component "Data Decoder" <<Context>> {
+component "Data Decoder" <<Concern>> {
     component "Data Decoder\nBackend" <<Container>> as BACK
     component "Data Decoder\nFrontend" <<Container>> as FRONT
     component "Data Decoder\nDatabase" <<Container>> as DB

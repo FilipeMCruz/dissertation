@@ -3,17 +3,20 @@
 interface "Smart Irrigation UI" as FRONT_API
 interface "Smart Irrigation\nBackend API" as BACK_API
 
-component "Smart Irrigation" <<Context>> {
+component "Smart Irrigation" <<System>> {
     component "Smart Irrigation\nBackend" <<Container>> as BACK
     component "Smart Irrigation\nFrontend" <<Container>> as FRONT
     component "Smart Irrigation\nBusiness Database" <<Container>> as DB
     component "Smart Irrigation\nData Database" <<Container>> as DATA_DB
 
-    interface "Smart Irrigation\nBusiness Database API" as DB_API
-    interface "Smart Irrigation\nData Database API" as DATA_DB_API
+    interface "Smart Irrigation\nBusiness\nDatabase API" as DB_API
+    interface "Smart Irrigation Data\nDatabase JDBC API" as DATA_DB_API
+    interface "Smart Irrigation Data\nDatabase ILP API" as DATA_ILP_DB_API
 
     DB_API -- DB
     DATA_DB_API - DATA_DB
+    DATA_DB - DATA_ILP_DB_API
+    BACK --( DATA_ILP_DB_API
     FRONT_API -- FRONT
     BACK_API -- BACK
     DB_API )- BACK

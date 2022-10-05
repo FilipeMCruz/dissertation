@@ -1395,24 +1395,6 @@ A service can also publish \textbf{Command}s.
 
 The following sub sections will detail each service information needs.
 
-\subsubsection{Smart Irrigation Service}
-\label{subsubsec:implementation:description:services:irrigation}
-
-This service captures information of the given types:
-
-\begin{itemize}
-    \item \textbf{Data Topic}: \textit{'processed'}, \textit{'correct'}, with \textit{'defined ownership'} and \textit{'device information'} data unit with \textit{'gps'} and \textit{'trigger'} readings in the channel \textit{'irrigation'} (for valves);
-    \item \textbf{Data Topic}: \textit{'processed'}, \textit{'correct'}, with \textit{'defined ownership'} and \textit{'device information'} data unit with \textit{'gps'}, \textit{'temperature'} and \textit{'air humidity'} readings in the channel \textit{'irrigation'} (for green house sensors);
-    \item \textbf{Data Topic}: \textit{'processed'}, \textit{'correct'}, with \textit{'defined ownership'} and \textit{'device information'} data unit with \textit{'gps'}, \textit{'illuminance'} and \textit{'soil moisture'} readings in the channel \textit{'irrigation'} (for park sensors);
-    \item \textbf{Alert Topic}: alerts with the category \textit{'smartIrrigation'} and sub category \textit{'drySoil'} (to open all valves in a garden);
-    \item \textbf{Alert Topic}: alerts with \textit{'defined ownership'}, the category \textit{'smartIrrigation'} and sub category \textit{'moistSoil'} (to close all valves in a garden);
-    \item \textbf{Alert Topic}: alerts with \textit{'defined ownership'}, the category \textit{'smartIrrigation'} and sub category \textit{'valveOpenForLengthyPeriod'} (to close that specific valve).
-\end{itemize}
-
-It then publishes Commands to close or open valves. The service can only issue a command if the Data Unit sent by the valve refers two commands, one to open and another to close the valve. This commands, usually defined in the \textbf{Device Management Page}, and mentioned in the \nameref{subsubsec:design:domain:bounded_contexts:device} Bounded Context, need to have the \textit{CommandId} value as \textit{'openValve'} or \textit{'closeValve'}.
-
-At a high-level view, this service requires data from \textit{Park} sensors, \textit{Green Houses} and \textit{Valves} that flow in the \textit{'irrigation'} channel. It captures Alerts to decide when to open or close Valves by sending specific Commands.
-
 \subsubsection{Fleet Management Service}
 \label{subsubsec:implementation:description:services:fleet}
 
@@ -1432,6 +1414,24 @@ This service captures information of a single type (and doesn't publish any Comm
 At a high-level view, this service requires all alerts that already have a \textit{'defined ownership'}.
 
 It is divided in two backend containers (as described in Figure~\ref{fig:design:architecture:solutions:containers:logical:noti}) that subscribe to the same information but handle it differently.
+
+\subsubsection{Smart Irrigation Service}
+\label{subsubsec:implementation:description:services:irrigation}
+
+This service captures information of the given types:
+
+\begin{itemize}
+    \item \textbf{Data Topic}: \textit{'processed'}, \textit{'correct'}, with \textit{'defined ownership'} and \textit{'device information'} data unit with \textit{'gps'} and \textit{'trigger'} readings in the channel \textit{'irrigation'} (for valves);
+    \item \textbf{Data Topic}: \textit{'processed'}, \textit{'correct'}, with \textit{'defined ownership'} and \textit{'device information'} data unit with \textit{'gps'}, \textit{'temperature'} and \textit{'air humidity'} readings in the channel \textit{'irrigation'} (for green house sensors);
+    \item \textbf{Data Topic}: \textit{'processed'}, \textit{'correct'}, with \textit{'defined ownership'} and \textit{'device information'} data unit with \textit{'gps'}, \textit{'illuminance'} and \textit{'soil moisture'} readings in the channel \textit{'irrigation'} (for park sensors);
+    \item \textbf{Alert Topic}: alerts with the category \textit{'smartIrrigation'} and sub category \textit{'drySoil'} (to open all valves in a garden);
+    \item \textbf{Alert Topic}: alerts with \textit{'defined ownership'}, the category \textit{'smartIrrigation'} and sub category \textit{'moistSoil'} (to close all valves in a garden);
+    \item \textbf{Alert Topic}: alerts with \textit{'defined ownership'}, the category \textit{'smartIrrigation'} and sub category \textit{'valveOpenForLengthyPeriod'} (to close that specific valve).
+\end{itemize}
+
+It then publishes Commands to close or open valves. The service can only issue a command if the Data Unit sent by the valve refers two commands, one to open and another to close the valve. This commands, usually defined in the \textbf{Device Management Page}, and mentioned in the \nameref{subsubsec:design:domain:bounded_contexts:device} Bounded Context, need to have the \textit{CommandId} value as \textit{'openValve'} or \textit{'closeValve'}.
+
+At a high-level view, this service requires data from \textit{Park} sensors, \textit{Green Houses} and \textit{Valves} that flow in the \textit{'irrigation'} channel. It captures Alerts to decide when to open or close Valves by sending specific Commands.
 
 \subsection{Sensae Console Device Integration}
 \label{subsec:implementation:description:sensor}

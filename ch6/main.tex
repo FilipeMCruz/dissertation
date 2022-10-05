@@ -67,8 +67,8 @@ As described before, 3 scenarios that emulate a variable number of devices sendi
 
 \begin{itemize}
     \item \textbf{Scenario 1}: Fleet Management;
-    \item \textbf{Scenario 2}: Smart Irrigation;
-    \item \textbf{Scenario 3}: Notification Management;
+    \item \textbf{Scenario 2}: Notification Management;
+    \item \textbf{Scenario 3}: Smart Irrigation;
 \end{itemize}
 
 Each scenario examines the time it takes to notify a user about a measure or notification since the system collected the correspondent data unit.
@@ -144,6 +144,33 @@ The experience \textbf{H} had the measures supplied with a delay of 40 seconds o
 
 Currently, the devices used in production for this business case send, at best, measures every minute, this means that the real number of devices is much higher than the one determined by this tests.
 
+\subsection{Notification Management Experience Scenario}
+\label{subsec:evaluation:experiences:notification}
+
+This scenario focus on the Notification Management Service. The Table~\ref{tab:evaluation:experiences:notification:results} presents the results related to the time is takes for a Data Unit to be processed and trigger a new alert that is  supplied to the user as a notification.
+
+In this experience it was simulated that an average of 10\% of the data units would produce an alert.
+
+\begin{table}[H]
+    \caption{Results for the Notification Management Scenario (in seconds)}
+    \label{tab:evaluation:experiences:notification:results}
+    \centering
+    \begin{tabular}{@{}ccccccc@{}}
+    \toprule
+    \textbf{Experience} & \textbf{Average} & \textbf{Min} & \textbf{Median} & \textbf{Max} & \textbf{90\% Percentile} & \textbf{95\% Percentile} \\ \midrule
+    A & 0.268 & 0.208 & 0.226 & 1.697 & 0.265 & 0.308 \\ \midrule
+    B & 0.263 & 0.196 & 0.223 & 1.735 & 0.245 & 0.266 \\ \midrule
+    C & 0.434 & 0.199 & 0.235 & 4.029 & 0.287 & 2.364 \\ \midrule
+    D & 1.678 & 0.195 & 0.241 & 11.95 & 6.885 & 9.728 \\ \midrule
+    E & 0.334 & 0.207 & 0.230 & 3.947 & 0.323 & 0.372 \\ \midrule
+    F & 0.856 & 0.200 & 0.241 & 5.629 & 2.379 & 4.875 \\ \midrule
+    G & 10.02 & 1.188 & 11.09 & 19.08 & 14.01 & 15.03 \\ \midrule
+    H & 27.51 & 13.48 & 27.77 & 35.50 & 29.68 & 31.14 \\ \bottomrule
+    \end{tabular}
+\end{table}
+
+The results captured in this experiences infer that this system can comfortably withstand a throughput of around 500 devices (each sending measures every 10 seconds) without undermining its overall behavior.
+
 \subsection{Smart Irrigation Experience Scenario}
 \label{subsec:evaluation:experiences:irrigation}
 
@@ -172,33 +199,6 @@ This results show that, a system focused on the Smart Irrigation business case, 
 The results captured in this experiences infer that this system can comfortably withstand a throughput of around 500 devices, each sending their measures every 10 seconds without undermining its overall behavior.
 
 Currently, the devices used in production for this business case send measures every 10 minutes, this means that the real number of devices is much higher than the one determine by this tests.
-
-\subsection{Notification Management Experience Scenario}
-\label{subsec:evaluation:experiences:notification}
-
-This scenario focus on the Notification Management Service. The Table~\ref{tab:evaluation:experiences:notification:results} presents the results related to the time is takes for a Data Unit to be processed and trigger a new alert that is  supplied to the user as a notification.
-
-In this experience it was simulated that an average of 10\% of the data units would produce an alert.
-
-\begin{table}[H]
-    \caption{Results for the Notification Management Scenario (in seconds)}
-    \label{tab:evaluation:experiences:notification:results}
-    \centering
-    \begin{tabular}{@{}ccccccc@{}}
-    \toprule
-    \textbf{Experience} & \textbf{Average} & \textbf{Min} & \textbf{Median} & \textbf{Max} & \textbf{90\% Percentile} & \textbf{95\% Percentile} \\ \midrule
-    A & 0.268 & 0.208 & 0.226 & 1.697 & 0.265 & 0.308 \\ \midrule
-    B & 0.263 & 0.196 & 0.223 & 1.735 & 0.245 & 0.266 \\ \midrule
-    C & 0.434 & 0.199 & 0.235 & 4.029 & 0.287 & 2.364 \\ \midrule
-    D & 1.678 & 0.195 & 0.241 & 11.95 & 6.885 & 9.728 \\ \midrule
-    E & 0.334 & 0.207 & 0.230 & 3.947 & 0.323 & 0.372 \\ \midrule
-    F & 0.856 & 0.200 & 0.241 & 5.629 & 2.379 & 4.875 \\ \midrule
-    G & 10.02 & 1.188 & 11.09 & 19.08 & 14.01 & 15.03 \\ \midrule
-    H & 27.51 & 13.48 & 27.77 & 35.50 & 29.68 & 31.14 \\ \bottomrule
-    \end{tabular}
-\end{table}
-
-The results captured in this experiences infer that this system can comfortably withstand a throughput of around 500 devices (each sending measures every 10 seconds) without undermining its overall behavior.
 
 \section{Discussion of the overall results}
 \label{subsubsec:evaluation:overview}
@@ -289,7 +289,7 @@ As we can see the time taken to process or decode a data unit is very similar, t
 \subsection{Data Flow Caching Process Performance}
 \label{subsubsec:evaluation:overview:cache}
 
-The experiences preformed clearly display the process mentioned during the \nameref{chap:design} Chapter in Figure~\ref{fig:design:architecture:container:process:diagram:decoder:2}, about how the \textbf{Data Flow} state is maintained.
+The experiences preformed clearly display the process mentioned during the \nameref{chap:design} Chapter in Figure~\ref{fig:design:architecture:platform:container:process:diagram:decoder:2}, about how the \textbf{Data Flow} state is maintained.
 
 In the following charts, Chart~\ref{fig:evaluation:overview:cache:chart:s2eB} and \ref{fig:evaluation:overview:cache:chart:s1eD}, it's possible to envision the various caches in the \textbf{Data Flow} being filled during the first iteration.
 

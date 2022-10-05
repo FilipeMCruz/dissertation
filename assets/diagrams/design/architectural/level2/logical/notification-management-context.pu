@@ -19,8 +19,8 @@ component "Notification Management" <<Context>> {
     FRONT --( BACK_API
 }
 
-component "Message Broker" <<Container>> as MB
-interface "Message\nBroker API" as MB_API
+component "Sensae Console" <<System>> as MB
+interface "Sensae API for\nExternal Services" as MB_API
 
 interface "SMS Dispatcher\nAPI" as SMS
 interface "Email Dispatcher\nAPI" as EMAIL

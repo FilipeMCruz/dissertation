@@ -16,14 +16,13 @@ component "Smart Irrigation" <<Context>> {
     DATA_DB_API - DATA_DB
     FRONT_API -- FRONT
     BACK_API -- BACK
-    'BACK --( DB_API
     DB_API )- BACK
     BACK --( DATA_DB_API
     FRONT --( BACK_API
 }
 
-component "Message Broker" <<Container>> as MB
-interface "Message\nBroker API" as MB_API
+component "Sensae Console" <<System>> as MB
+interface "Sensae API for\nExternal Services" as MB_API
 
 MB_API - MB
 

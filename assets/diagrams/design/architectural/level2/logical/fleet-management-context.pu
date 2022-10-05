@@ -18,8 +18,8 @@ component "Fleet Management" <<Context>> {
 
 }
 
-component "Message Broker" <<Container>> as MB
-interface "Message\nBroker API" as MB_API
+component "Sensae Console" <<System>> as MB
+interface "Sensae API for\nExternal Services" as MB_API
 
 MB_API - MB
 

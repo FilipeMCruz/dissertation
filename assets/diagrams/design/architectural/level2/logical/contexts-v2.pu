@@ -82,7 +82,7 @@ component "Sensae Console" <<System>> {
     UI --( ID_MAN_UI
 }
 
-interface "Message\nBroker API" as MB_API2
+interface "Sensae API for\nExternal Services" as MB_API2
 
 MB_API2 - MB
 

@@ -52,15 +52,15 @@
 \draw[pstyle1] (326pt,14pt) ellipse (8pt and 8pt);
 \node at (262.9091pt,31pt)[below right,color=black]{Smart Irrigation};
 \node at (262.9091pt,50.0679pt)[below right,color=black]{Backend API};
-\draw[pstyle1] (542.5pt,152.5pt) arc (180:270:5pt) -- (547.5pt,147.5pt) -- (700.0714pt,147.5pt) arc (270:360:5pt) -- (705.0714pt,152.5pt) -- (705.0714pt,210.6358pt) arc (0:90:5pt) -- (700.0714pt,215.6358pt) -- (547.5pt,215.6358pt) arc (90:180:5pt) -- (542.5pt,210.6358pt) -- cycle;
-\draw[pstyle1] (685.0714pt,152.5pt) rectangle (700.0714pt,162.5pt);
-\draw[pstyle1] (683.0714pt,154.5pt) rectangle (687.0714pt,156.5pt);
-\draw[pstyle1] (683.0714pt,158.5pt) rectangle (687.0714pt,160.5pt);
-\node at (573.2165pt,167.5pt)[below right,color=black]{\textit{\guillemotleft Container\guillemotright }};
-\node at (557.5pt,186.5679pt)[below right,color=black]{Message Broker};
+\draw[pstyle1] (542pt,152.5pt) arc (180:270:5pt) -- (547pt,147.5pt) -- (693.16pt,147.5pt) arc (270:360:5pt) -- (698.16pt,152.5pt) -- (698.16pt,210.6358pt) arc (0:90:5pt) -- (693.16pt,215.6358pt) -- (547pt,215.6358pt) arc (90:180:5pt) -- (542pt,210.6358pt) -- cycle;
+\draw[pstyle1] (678.16pt,152.5pt) rectangle (693.16pt,162.5pt);
+\draw[pstyle1] (676.16pt,154.5pt) rectangle (680.16pt,156.5pt);
+\draw[pstyle1] (676.16pt,158.5pt) rectangle (680.16pt,160.5pt);
+\node at (579.5292pt,167.5pt)[below right,color=black]{\textit{\guillemotleft System\guillemotright }};
+\node at (557pt,186.5679pt)[below right,color=black]{Sensae Console};
 \draw[pstyle1] (498pt,181.5pt) ellipse (8pt and 8pt);
-\node at (455.4055pt,198.5pt)[below right,color=black]{Message};
-\node at (455.4055pt,217.5679pt)[below right,color=black]{Broker API};
+\node at (431.3652pt,198.5pt)[below right,color=black]{Sensae API for};
+\node at (431.3652pt,217.5679pt)[below right,color=black]{External Services};
 \draw[pstyle0] (228.41pt,190.6pt) ..controls (223.33pt,199.36pt) and (214.69pt,213.6pt) .. (206pt,225pt) ..controls (190.34pt,245.54pt) and (171.43pt,266.91pt) .. (154.77pt,284.78pt);
 \draw[pstyle0] (256.43pt,328.5pt) ..controls (267.91pt,328.5pt) and (279.39pt,328.5pt) .. (290.87pt,328.5pt);
 \draw[pstyle0] (106pt,23.43pt) ..controls (106pt,44.18pt) and (106pt,98.85pt) .. (106pt,137.85pt);
@@ -71,7 +71,7 @@
 \draw[pstyle2] (260.3061pt,320.9769pt) arc (9:-130:9pt);
 \draw[pstyle0] (139.17pt,137.89pt) ..controls (157.29pt,116.54pt) and (181.08pt,91.39pt) .. (206pt,73pt) ..controls (238.6pt,48.94pt) and (282.74pt,30.66pt) .. (307.38pt,21.51pt);
 \draw[pstyle2] (311.1687pt,11.154pt) arc (230:90:9pt);
-\draw[pstyle0] (507.35pt,181.5pt) ..controls (519.05pt,181.5pt) and (530.74pt,181.5pt) .. (542.44pt,181.5pt);
+\draw[pstyle0] (507.05pt,181.5pt) ..controls (518.67pt,181.5pt) and (530.29pt,181.5pt) .. (541.91pt,181.5pt);
 \draw[pstyle0] (443.02pt,181.5pt) ..controls (454.99pt,181.5pt) and (466.95pt,181.5pt) .. (478.92pt,181.5pt);
 \draw[pstyle2] (485.9018pt,173.0428pt) arc (250:110:9pt);
 \end{tikzpicture}

@@ -73,7 +73,7 @@ An axis is related to the platform and its core functionalities (that any servic
 \section{Approach}
 \label{sec:introduction:approach}
 
-This work is a greenfield project with the intent of designing and implementing a platform that simplifies the creation of \gls{IoT} services. Some \gls{PoC}s that answer the needs of various business cases must be developed. This business cases are related to the capture and analysis of \gls{IoT} data.
+This work is a greenfield project with the intent of designing and implementing a platform that simplifies the creation of \gls{IoT} services. Some \gls{PoC}s that answer the needs of various business cases must be developed. These business cases are related to the capture and analysis of \gls{IoT} data.
 Each business case is considered a concern and should be addressed in an independent \gls{PoC}.
 The \gls{PoC}s implemented must, in the end, relies on the platform to develop.
 
@@ -86,13 +86,13 @@ The pursued approach envisions the project divided in four phases:
     \item Phase IV: Refactor the \gls{PoC}s so that they rely on the platform's functionalities.
 \end{itemize}
 
-During the first phase it is extremely important that the design and implementation of each \gls{PoC} takes into account phase II. Even though these services are independent they all shared core responsibilities, functionalities and procedures that can be reused.
+During the first phase it is extremely important that the design and implementation of each \gls{PoC} takes into account the goals of phase II. Even though these services are independent they all shared core responsibilities, functionalities and procedures that can be reused.
 
 During the second phase, the various \gls{PoC}s will be evaluated so that most common components can be moved to the platform and later reused by them.
 
 During the third phase, a platform that comprises shared functionalities of all \gls{PoC}'s business cases must be designed and implemented. This platform must offer an agnostic, homogeneous and concise access to sensors and actuators regardless of the \gls{IoT} platform used to connect to them.
 
-In the final phase the developed \gls{PoC}s must be integrated with the \gls{API} provided by the platform.
+In the final phase, the developed \gls{PoC}s must be integrated with the \gls{API} provided by the platform.
 
 The project must follow the Scrum methodology described by \cite{schwaber1997scrum}, with monthly sprints that end in presentations of the software to the company and weekly meetings focusing on reviewing the progress, discussing issues that rose and future ideas to add to the backlog.
 
@@ -103,7 +103,7 @@ This work gave birth to a platform, \textbf{Sensae Console}, capable of handling
 
 This platform proved it self capable of integrating with the researched \gls{IoT} middlewares while offering to consumers a semantically rich and homogeneous data model. The concepts tackled by this data model were materialized in a \gls{SDK}, \textit{iot-core}, that was created to ease the development of services integrated with this platform via the low-level, generic and event-based \gls{API}.
 
-Three \gls{PoC}s were designed and implemented during this project time span: (i) fleet management, (ii) smart irrigation, (iii) notification management.
+Three \gls{PoC}s were designed and implemented during this project time span: (i) fleet management, (ii) smart irrigation and (iii) notification management.
 
 The platform and \gls{PoC}s were later evaluated according to the performance requirements envisioned for them as a dedicated hosted solution.
 

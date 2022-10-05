@@ -260,7 +260,7 @@ The author had previous contact with all the cited \gls{DBMS}, and the decision 
 
 This data model rose from the increasing need to store and analyze unstructured data as stated by \cite{miloslavskaya2016big}.  Citing \cite{elmasri2000fundamentals}, a ``major difference between document-based systems versus object and object-relational systems (relational database systems) is that there is no requirement to specify a schema''.
 
-This type of requirements and data resembles the Data Store context described in Section~\ref{subsec:design:system_scopes:data_flow_scope} and Figures~\ref{fig:design:architecture:platform:container:logical:diagram:data_flow} and \ref{fig:design:architecture:platform:container:process:diagram:flow}. This context, intended to mimic a Data Lake\footnote{Massively scalable storage repository that holds a vast amount of raw data in its native format («as is») until it is needed, by \cite{miloslavskaya2016big}}, stores any type of data for future use.
+This type of requirements and data resembles the Data Store container described in Section~\ref{subsec:design:system_scopes:data_flow_scope} and Figure~\ref{fig:design:architecture:platform:container:process:diagram:flow}. This container, intended to mimic a Data Lake\footnote{Massively scalable storage repository that holds a vast amount of raw data in its native format («as is») until it is needed, by \cite{miloslavskaya2016big}}, stores any type of data for future use.
 
 As such, this data model was adopted for the \textbf{Data Store Database} container.
 
@@ -342,7 +342,7 @@ As stated in \citetitleyear{dockerinit}, Docker acts as an intermediary layer be
 
 This tool thus makes it possible to lower the coupling between the \gls{OS} and the software to be deployed.
 
-With regards for this solution, each container defined in Section~\ref{subsec:design:architecture} is mapped into a docker container.
+With regards for this solution, each container defined in Section~\ref{sec:design:architecture} is mapped into a docker container.
 A container is often compared to a virtual machine running on a hypervisor or \gls{OS}, but it has a much lower resource consumption, since only the application runs and not not all the processes inherent to an \gls{OS} as described by \cite{bernstein2014containers}.
 
 The Figure~\ref{fig:implementation:decisions:docker:contvsvm} compares a \gls{VM} and Container-based deployments.
@@ -769,7 +769,7 @@ The endpoint corresponds to an HTTP POST verb with the following \gls{URL} schem
 
 The endpoint collects the request body and then forwards it with the appropriate routing keys.
 
-The routing keys are created according to the Table~\ref{tab:design:domain:shared_model:routing}. The \textit{infoType} can have two values: ENCODED or DECODED. Depending on this value the message is routed to \textit{Data Decoder Flow} or \textit{Data Processor Flow} as described in Figure~\ref{fig:design:architecture:platform:container:logical:diagram:data_flow}.
+The routing keys are created according to the Table~\ref{tab:design:domain:shared_model:routing}. The \textit{infoType} can have two values: ENCODED or DECODED. Depending on this value the message is routed to \textit{Data Decoder Flow} or \textit{Data Processor Flow} as described in Figure~\ref{fig:design:architecture:platform:container:process:diagram:flow}.
 
 The \textit{channel} parameter indicates the final service that it is destine to: \textit{fleet} for Fleet Management Service or \textit{irrigation} for Smart Irrigation Service. If another value is given the message is not routed to any service.
 

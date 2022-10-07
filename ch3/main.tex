@@ -179,7 +179,7 @@ The concepts surrounding this business case are discussed with more detail in Se
 Non-functional requirements define constraints on software development, maintenance, and allocation.
 According to \cite{van2009requirements}, “Non-functional requirements define constraints on the way the software-to-be should satisfy its functional requirements or on the way it should be developed.”
 
-This analysis used the FURPS+ model (\cite{eeles2005capturing}), which distributes the non-functional requirements into the following categories: functionality, usability, reliability, performance, supportability, design requirements, implementation requirements, interface requirements and physical requirements.
+This analysis used the FURPS+ model (\cite{eeles2005capturing}), which distributes the non-functional requirements into the following categories: functionality, usability, reliability, performance, supportability, design requirements, implementation requirements, interface requirements and physical requirements. Some of the requirements here presented were extrapolated from the ones mentioned by \cite{iot-a} and therefore reference their \textit{UNI ID}.
 
 Each category's requirements are presented in the following sections.
 
@@ -190,10 +190,18 @@ Regarding the Functionality category, the following requirements were identified
 
 \begin{itemize}
     \item User Authentication: Apart from the Anonymous Users, everyone else must be authenticated to use the system;
-    \item User Authorization: Everyone only has access to what his/her permissions cover;
+    \item User Authorization: Everyone only has access to what his/her permissions cover, the system shall provide different access permissions to information (UNI.067);
+    \item Data Exposure Control: Users have control how their data is exposed to other users (UNI.002);
+    \item Data Semantic Description: The system should enable the provision and exchange of semantics between services in order to support the design of new applications (UNI.003);
+    \item Communication: The system built shall support event-based, periodic, and/or autonomous communication (UNI.005);
+    \item Autonomicity: The system shall enable autonomous goal-driven (task-driven) collaboration between devices or services (UNI.010);
+    \item Data parameterization: The system shall provide a resolution infrastructure for naming, addressing and assignment of virtual entities and services (UNI.030);
+    \item Data Storage; The system shall provide historical information about the physical entity (UNI.041);
+    \item Data Interoperability: the system  shall provide interoperable naming and addressing (UNI.048);
     \item Auditing and Traceability: All actions performed against the system must be recorded;
     \item Security in Communication: The use of secure protocols between clients and the system is mandatory, e.g.: https instead of http;
     \item Security in User-provided code: All user-provided code must run in sandbox's to prevent permission escalation, data theft and other related concerns;
+    \item Data Analysis: The system shall support the integration with a \gls{CEP} component (UNI.232);
     \item Data Filtering: The system shall be able to filter erroneous sensor data such as GPS coordinated of a vehicle appearing in the middle of the ocean;
     \item Real-time Alerts: The system must notify the interested clients in real time of any alarm triggered by custom rules;
     \item Real-Time Information: Any change to the system must be notified to the client in real-time without resorting to techniques like automatic/manual polling. This includes new sensor data, changes to virtual devices, alarms/rules definitions, decoders and anything else deemed important.
@@ -212,6 +220,7 @@ The Reliability category has the following requirements:
 \begin{itemize}
     \item The system must validate all user inputs, denying code injection according to \cite{top10};
     \item The system must be able to recover from a failure state such as a crash in the system or any system component;
+    \item The system shall provide availability through resilience (UNI.064);
     \item The system must identify or protect itself against compatibility errors due to versions mismatches between the system and third-party scripts or components, e.g. a valid rule in the system version 1 may not be compatible with the system version 2, if that is the case the system should inform the Costumer and not use the rule.
 \end{itemize}
 
@@ -222,7 +231,9 @@ Even though this work is in its early stages of development the Performance of t
 
 \begin{itemize}
     \item When a new and valid device data is received, the system should make this information available to any user within 2 seconds in 90\% of the cases. The time for the information to be presented should never exceed 5 seconds unless the network connection is broken (in which case the user should be notified);
+    \item A system shall support time-critical message handling and delivery on a second time scale (UNI.026);
     \item When an alarm is triggered, the system should dispatch the alarm within 10 seconds in 90\% of the cases;
+    \item Data shall be processed on a set of distributed nodes (UNI.234);
     \item Concurrent Utilization: The system must be able to be used by various users at the same time;
     \item High Data Ingestion: The system must be able to successfully process, evaluate and store device data with a throughput of at least 5000 data units per minute.
 \end{itemize}
@@ -236,6 +247,7 @@ In the Supportability category the following requirements were identified:
     \item The system must be highly configurable so that support for any type of device, specially payload decoding, can be added without the need for restarting/rebuilding it;
     \item The system must be agnostic to cloud computing platforms and be independent of any service provided by cloud computing platforms. This ensures that it can be deployed on-site or on a single cloud computing platform;
     \item The system must provide simple methods to integrate external services that answer new business cases without the need to rebuilding it;
+    \item The system shall be extensible for future technologies (UNI.093);
     \item The system must be agnostic to \gls{IoT} middleware platforms, being able to exchange data with most of them without the need to restarting/rebuilding it. At least \citetitle{helium} has to be supported.
 \end{itemize}
 

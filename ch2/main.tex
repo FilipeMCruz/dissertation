@@ -51,11 +51,20 @@ After these categories are explored, some \nameref{subsec:stateofart:arch:ref} a
 \subsection{Reference Architectures}
 \label{subsec:stateofart:arch:ref}
 
-As the \gls{IoT} domain covers such a wide spectrum of application fields with very little in common, the development cycles, technologies and architectures used can be completely different. This section sheds a light on some of the Reference Architectures of this field, what their focus is and the relevancy they have for this project.
+As the \gls{IoT} domain covers such a wide spectrum of application fields with very little in common, the development cycles, technologies and architectures used can be completely different. The vast array of choices given to those involved in a greenfield project of this area, coupled with the lack of standards with a broad usage \parencite{DIAS2022100529, weyrich2015reference}, can linger the design, development and interoperability of \gls{IoT} systems.
 
-The Reference Architectures discussed are: (i) \nameref{subsubsec:stateofart:arch:iota}, (ii) \nameref{subsubsec:stateofart:arch:sat}, (iii) \nameref{subsubsec:stateofart:arch:iira}, (iv) \nameref{subsubsec:stateofart:arch:wso2}, (v) \nameref{subsubsec:stateofart:arch:p2413}, (vi) \nameref{subsubsec:stateofart:arch:rami}, (vii) \nameref{subsubsec:stateofart:arch:intel}, (viii) \nameref{subsubsec:stateofart:arch:azure}.
+Reference Architectures for the \gls{IoT} aim to help developers tackle some of these problems \parencite{weyrich2015reference}.
+
+According to \cite{muller2008reference}, a Reference Architecture ``captures the essence of the architecture of a collection of systems. The purpose of a Reference Architecture is to provide guidance for the development of architectures for new versions of the system or extended systems and product families''.
+
+This section sheds a light on some of the Reference Architectures of this field, what their focus is and the relevancy they have for this project.
+
+The Reference Architectures discussed are: (i) \nameref{subsubsec:stateofart:arch:iota}, (ii) \nameref{subsubsec:stateofart:arch:sat}, (iii) \nameref{subsubsec:stateofart:arch:iira}, (iv) \nameref{subsubsec:stateofart:arch:wso2}, (v) \nameref{subsubsec:stateofart:arch:p2413}, (vi) \nameref{subsubsec:stateofart:arch:rami}, (vii) \nameref{subsubsec:stateofart:arch:azure}, (viii) \nameref{subsubsec:stateofart:arch:arrrowhead}.
 
 This section was based on the papers written by \cite{Lynn2020} and \cite{DIAS2022100529}.
+
+Intel System Architecture Specifications (Intel SAS) will not be discussed since no relevant information was found about it.
+The \nameref{subsubsec:stateofart:arch:iota} also mentions the \gls{IoT} \gls{ARM}.
 
 \subsubsection{IoT-A}
 \label{subsubsec:stateofart:arch:iota}
@@ -193,7 +202,7 @@ This reference architecture envisions two cross-cutting and five horizontal laye
 
 In the Event processing and analytics Layer it's recommended the use of ``a highly scalable, column-based data storage for storing events'', ``map-reduce for long-running batch-oriented processing of data'', ``complex event processing for fast in-memory processing and real-time reaction and autonomic actions based on the data an activity of devices and other systems'' and ``traditional application processing platforms'' (custom-made applications for data processing).
 
-\subsubsection{P2413}
+\subsubsection{IEEE P2413}
 \label{subsubsec:stateofart:arch:p2413}
 
 The IEEE Standard for an Architectural Framework for the IoT ``defines an architecture framework description for \gls{IoT}''. The architecture framework defined in the standard ``will promote cross-domain interaction, aid system
@@ -266,25 +275,87 @@ According to \cite{iira-inter-rami}, this reference architecture is aligned with
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.4]{
+    \includegraphics[scale=0.35]{
         assets/figures/iira-rami-mapping.png
     }
     \caption[IIRA and RAMI 4.0 Functional Mapping]{IRRA and RAMI 4.0 Functional Mapping, \cite{iira-inter-rami}}
     \label{fig:stateofart:arch:rami:mapping}
 \end{figure}
 
-\subsubsection{Intel SAS}
-\label{subsubsec:stateofart:arch:intel}
+The need to map the concepts of both reference architectures derives from the fact that these two are the most actively references used in the industry \parencite{DIAS2022100529}. Therefore, the document by \cite{iira-inter-rami} provides guidelines on how to achieve better interoperability between systems built according to different reference architecture. 
 
 \subsubsection{Azure IRA}
 \label{subsubsec:stateofart:arch:azure}
 
+The \citetitleyear{azure-ira} proposes the architecture envisioned in Figure~\ref{fig:stateofart:arch:azure:ira}, this architecture relies heavily on the Azure platform services. According to \cite{azure-ira}, the recommended architecture is ``cloud native, microservice, and serverless-based''. This project's final version is dated back to April 2021.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.35]{
+        assets/figures/azure.png
+    }
+    \caption[Azure IoT Reference Architecture]{Azure IoT Reference Architecture, \cite{azure-ira}}
+    \label{fig:stateofart:arch:azure:ira}
+\end{figure}
+
+\cite{azure-ira} recommends that ``subsystems should be built as discrete services that are independently deployable, and able to scale independently'', to ``enable greater scale, more flexibility in updating individual subsystems, and provide the flexibility to choose appropriate technology on a per-subsystem basis''.
+
+This reference architecture is based on the lambda architecture. According to \cite{kiran2015lambda}, the lambda architecture ``combines both batch and stream processing capabilities for online processing and handling of massive data volumes in a uniform manner, reducing costs in the process.''
+It is comprised of three layers (or patches), a Batch or Slow layer for extensive and prolonged analysis, a Speed or Fast layer for real-time evident information, and a Serving layer responsible for providing the results gathered by the other two layers.
+
+As we can see in Figure~\ref{fig:stateofart:arch:azure:ira} the Insights section is divided into two patches, the Fast Patch for real-time processing, and the Slow Patch for batch processing. Results are then provided in the Action section.
+
+\subsubsection{Arrowhead}
+\label{subsubsec:stateofart:arch:arrrowhead}
+
+According to \cite{varga2017making}, ``the objective of the Arrowhead Framework is to efficiently support the development, deployment and operation of interconnected, cooperative systems. It is based on the \gls{SOA} philosophy''. It has a big focus on Interoperability between systems and services already in production.
+
+``The Arrowhead project targets five business domains; Production (process and manufacturing), Smart Buildings and infrastructures, Electro mobility, Energy production and Virtual Markets of Energy'' \parencite{blomstedt2014arrowhead}.
+
+The Arrowhead challenge is to enable interoperability between these systems, therefore, it starts by defining how one should document his/her solutions. Three hierarchical levels of solutions are proposed: (i) service, (ii) system, (iii) system of systems (Figure~\ref{fig:stateofart:arch:arrowhead:levels}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{
+        assets/figures/arrowhead-levels.png
+    }
+    \caption[Arrowhead Framework Core and Application Services]{Arrowhead Framework Core and Application Services, \cite{blomstedt2014arrowhead}}
+    \label{fig:stateofart:arch:arrowhead:levels}
+\end{figure}
+
+The lower level, service, can be something that, for example, indicates the current measured humidity level by sensor \textit{X} (pull-typed service) or that opens/closes valve \textit{Y} (push-typed service). A system is composed by several services. A System of Systems is composed by several systems that work in harmony in a Arrowhead local cloud. A Arrowhead local cloud is composed by at least three mandatory core systems: (i) ServiceRegistry system, (ii) Authorization system and (iii) Orchestration system presented in Figure~\ref{fig:stateofart:arch:arrowhead:system}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{
+        assets/figures/arrowhead.png
+    }
+    \caption[Arrowhead Framework Core and Application Services]{Arrowhead Framework Core and Application Services, \cite{blomstedt2014arrowhead}}
+    \label{fig:stateofart:arch:arrowhead:system}
+\end{figure}
+
+These core systems handle essential features for a local cloud such as: service discovery, service registration, service advertisement, authentication of consuming services, data exchange between systems and service coordination according to \cite{marcu2020arrowhead}. A local cloud can expose its systems to other local clouds and consume other local clouds systems. Since each service and system is well documented and arrowhead compliant it's possible to ensure interoperability between local clouds.
+
+\subsubsection{Overall Perspective}
+\label{subsec:stateofart:arch:prepective}
+
+To close this section, some of the author sentiment and ideas surrounding these reference architecture models, and how they may shape this project's solution, are presented:
+
+\begin{itemize}
+    \item \nameref{subsubsec:stateofart:arch:iota}: The Unified Requirements detailed by this initiative gave the author an idea of the basic features for an \gls{IoT} system and enriched the requirements proposed by the company;
+    \item \nameref{subsubsec:stateofart:arch:sat}: The extendability notion behind the "Embedded IoT Application" component was interesting to author from a business point of view. This idea would give customers the possibility to integrate custom-made solutions in the platform;
+    \item \nameref{subsubsec:stateofart:arch:iira}: The author argues that the clear division between the Application, Information and Business domains provide a common abstraction that can be applied to any \gls{IoT} System to ease the cognitive burden taken to understand it;
+    \item \nameref{subsubsec:stateofart:arch:wso2}: The author finds the clear division between the responsibilities of gathering measures, processing and analyzing them, and providing them in a business focused manner very aligned with this project's goals;
+    \item \nameref{subsubsec:stateofart:arch:p2413}: The concept of "Smart City Platform", and how it interacts with various systems is highly related with the overall requirements of this project;
+    \item \nameref{subsubsec:stateofart:arch:rami}: This reference architecture provided no relevant insight for the author, mostly due to the discrepancy between the \gls{IoT} domains each project was devoted to (Smart Cities vs Industry 4.0);
+    \item \nameref{subsubsec:stateofart:arch:azure}: This reference architecture presented the author with a conceivable architecture for the future of the current solution. It introduced the notion of a Batch layer to better handle complex and prolonged analysis and provide \gls{KPI} reports;
+    \item \nameref{subsubsec:stateofart:arch:arrrowhead}: This reference architecture appeared to be out-of-scope for the project since it focus on a more fine-grained access and control of devices (without the need for \gls{IoT} Midlleware that handle device management and propagation of measures).
+\end{itemize}
+
 \subsection{Synopsis}
-\label{subsec:stateofart:arch:synopsis}
+\label{subsec:stateofart:synopsis}
 
-To close this section some of the gathered opinions and ideas surrounding these reference architecture models are presented. 
-
-The author found the extendability notion behind the "Embedded IoT Application" component of \nameref{subsubsec:stateofart:arch:sat} interesting from a business point of view.
+This section introduced the reader to the technological landscape of \gls{IoT}. The next section discusses some of its business areas or domains.
 
 \section{Business Areas}
 \label{sec:stateofart:areas}
@@ -304,7 +375,7 @@ From another point of view, and according to \cite{7073822}, the sectors \gls{Io
 
 According to (\cite{6851114}) these are the main application fields for \gls{IoT} in China: industry, smart agriculture, smart logistics, intelligent transportation, smart grids, smart environmental protection, smart safety, smart medical and smart home.
 
-Even though this work focus mostly on Smart Cities other areas will also be described. Each of this areas incorporate several interconnected use cases that will briefly described in the following segments in accordance with \cite{nivzetic2019smart}.
+Even though this work focus mostly on Smart Cities other areas are also be described. Each of this areas incorporate several interconnected use cases that are briefly described in the following segments.
 
 \subsection{Smart Cities}
 \label{subsec:stateofart:areas:cities}

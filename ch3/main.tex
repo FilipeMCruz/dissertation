@@ -248,7 +248,7 @@ In the Supportability category the following requirements were identified:
     \item The system must be agnostic to cloud computing platforms and be independent of any service provided by cloud computing platforms. This ensures that it can be deployed on-site or on a single cloud computing platform;
     \item The system must provide simple methods to integrate external services that answer new business cases without the need to rebuilding it;
     \item The system shall be extensible for future technologies (UNI.093);
-    \item The system must be agnostic to \gls{IoT} middleware platforms, being able to exchange data with most of them without the need to restarting/rebuilding it. At least \citetitle{helium} has to be supported.
+    \item The system must attempt to be agnostic to \gls{IoT} middleware platforms, being able to exchange data with most of them without the need to restarting/rebuilding it. At least \citetitle{helium} has to be supported.
 \end{itemize}
 
 \subsection{Design Requirements}
@@ -265,6 +265,9 @@ The Design Requirements identified are related to how \textbf{Sensae Console} mu
    \caption[Design Requirements Diagram]{Design Requirements Diagram}
    \label{fig:requirements:non_functional:design}
 \end{figure}
+
+Most Identity Providers adder to the OpenID Connect Standard, therefore it's possible to develop a single solution that can exchange information with various Identity Providers in a agnostic manner.
+The \textit{'\gls{IoT} Middleware Downlink Rest API'} may require a different implementation for each \gls{IoT} Middleware since there is no Standard that these platforms can follow, according to \cite{KOO20224191}.  
 
 \subsection{Implementation Requirements}
 \label{subsec:requirements:non_functional:implementation}

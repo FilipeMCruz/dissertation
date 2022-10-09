@@ -33,6 +33,16 @@ After these categories are explored, some \nameref{subsec:stateofart:arch:ref} a
 \subsubsection{IoT Midlleware}
 \label{subsubsec:stateofart:arch:infra:middleware}
 
+https://www.thethingsindustries.com/stack/
+
+Azure IoT Hub
+
+Helium
+
+Aws IoT 
+
+Watson IoT Platform
+
 \subsubsection{Asynchronous Communication}
 \label{subsubsec:stateofart:arch:infra:async}
 
@@ -45,8 +55,40 @@ After these categories are explored, some \nameref{subsec:stateofart:arch:ref} a
 \subsection{Platforms}
 \label{subsec:stateofart:arch:platforms}
 
+Things Board
+
+TagoIO
+
+DataCake
+
+Node-red
+
 \subsection{Solutions}
 \label{subsec:stateofart:arch:solutions}
+
+This section focus on several solutions devoted to specific business cases. 
+The business cases addressed here are the ones this project attempts to answer.
+
+\subsubsection{Indoor Fire Detention}
+\label{subsubsec:stateofart:arch:solutions:fire}
+
+\subsubsection{Smart Irrigation}
+\label{subsubsec:stateofart:arch:solutions:irrigation}
+
+\subsubsection{Fleet Management}
+\label{subsubsec:stateofart:arch:solutions:fleet}
+
+This section focus on the following Fleet Management solutions:
+
+\begin{itemize}
+    \item 
+\end{itemize} 
+
+\paragraph{Verizon Connect}
+\label{par:stateofart:arch:solutions:fleet:verizon}
+
+Verizon Connect is a Fleet Management solution that provides it's own sensors/devices, platform and application under a subscription (\cite{verizon-iot}).
+A team from Verizon installs the devices in the fleet according to the specification and access to the platform is given. This is an Hassle-free solution but the costs associated with it can be high.
 
 \subsection{Reference Architectures}
 \label{subsec:stateofart:arch:ref}
@@ -90,7 +132,7 @@ The reference model defines several models that help to describe certain aspects
     \item User: Those who interact with the system, human beings, devices, services and others;
     \item Device: Hardware to monitor or interact with real world objects;
     \item Resource: Computational element that gives access to information or control over a real-world object;
-    \item Service: Entities that expose resources via a common interface, making then available for consumption by other services;
+    \item Service: Entities that expose resources via a common interface, making then available for consumption by other services.
 \end{itemize}
 
 Each concept is them explored in detail. These concepts are them used to create the reference architecture.
@@ -349,7 +391,7 @@ To close this section, some of the author sentiment and ideas surrounding these 
     \item \nameref{subsubsec:stateofart:arch:p2413}: The concept of "Smart City Platform", and how it interacts with various systems is highly related with the overall requirements of this project;
     \item \nameref{subsubsec:stateofart:arch:rami}: This reference architecture provided no relevant insight for the author, mostly due to the discrepancy between the \gls{IoT} domains each project was devoted to (Smart Cities vs Industry 4.0);
     \item \nameref{subsubsec:stateofart:arch:azure}: This reference architecture presented the author with a conceivable architecture for the future of the current solution. It introduced the notion of a Batch layer to better handle complex and prolonged analysis and provide \gls{KPI} reports;
-    \item \nameref{subsubsec:stateofart:arch:arrrowhead}: This reference architecture appeared to be out-of-scope for the project since it focus on a more fine-grained access and control of devices (without the need for \gls{IoT} Midlleware that handle device management and propagation of measures).
+    \item \nameref{subsubsec:stateofart:arch:arrrowhead}: This reference architecture appeared to be out-of-scope for the project since it focus on a more fine-grained access and control of devices (without the need for a \gls{IoT} Midlleware that handle device management and propagation of measures).
 \end{itemize}
 
 \subsection{Synopsis}
@@ -480,7 +522,7 @@ According to the author this challenges substantially lingered the growth of \gl
     \item Network interoperability: concerned with information addressing, routing, security, resource optimization, \gls{QoS} and mobility support;
     \item Syntactical interoperability: concerned with the format and structure of the information exchanged between heterogeneous systems;
     \item Semantic interoperability: concerned with the meaning behind the information exchanged, heterogeneous devices can, for example, work with diverse unit measurements;
-    \item Platform interoperability: concerned with heterogeneous platforms that use diverse programming languages, \gls{OS} and software architectures.
+    \item Platform interoperability: concerned with heterogeneous platforms that use diverse programming languages, \gls{OS} and software architectures (also mentioned by \cite{KOO20224191, SILVA2018697, DIAS2022100529}).
 \end{itemize}
 
 For \gls{IoT} Technologies to deliver on the promises made by companies like Cisco or Gartner, these barriers must be surpassed.
@@ -489,8 +531,6 @@ For \gls{IoT} Technologies to deliver on the promises made by companies like Cis
 \label{sec:stateofart:synopsis}
 
 This chapter presented the big theme surrounding this work: \gls{IoT}.
-
-In the \gls{IoT} section some business cases relevant for this work were introduced. Besides these, several solutions currently in the market were presented.
-The technologies usually used to tackle the challenges related to \gls{IoT} were presented in the \nameref{sec:stateofart:tech} section, these were: (i) Asynchronous Communication, (ii) Data Processing and (iii) Data Storage.
+Major business areas and relevant solutions/technologies for this work were introduced.
 
 In the following chapter, \nameref{chap:requirements}, some of the business cases and challenges discussed here will be tackled.

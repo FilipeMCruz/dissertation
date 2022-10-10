@@ -166,30 +166,11 @@ The idea behind the highly decoupled architecture of this solution derives from 
 
 As discussed in Section~\ref{subsec:design:alternatives:flow} and \ref{subsec:design:alternatives:internal}, the technology needed for this solution had to act as a message broker. It should enable the system to follow a push approach and ease the complex routing model envisioned.
 
-The technology chosen for internal communication was \citetitle{rabbitmq}. This message broker was chosen in detriment of others since the author had previously worked with the technology.
+The technology chosen for internal communication was \citetitle{rabbitmq}. This message broker was chosen in detriment of others since the author had previously worked with the technology and, according to \cite{10.1145/3093742.3093908} ``RabbitMQ would be a good choice for realtime processing, based on the complex filtering the broker could provide''.
 
-As discussed in the article, \citetitle{rabbitmqexpl}, the \gls{AMQP} 0.9.1 protocol defines four main concepts: (i) publisher, (ii) exchange, (iii) queue, (iv) consumer. The following diagram, Figure~\ref{fig:implementation:decisions:rabbitmq} explains how this concepts interact.
+\cite{10.1145/3093742.3093908} also mentions that RabbitMQ would be best-suited to be the Underlying Layer for IoT Applications Platform.
 
-\begin{figure}[H]
-    \centering
-    \resizebox{\columnwidth}{!}
-    {
-       \includegraphics{assets/figures/rabbitmq.png}
-    }
-    \caption[\gls{AMQP} 0.9.1 Protocol Concepts]{\gls{AMQP} 0.9.1 Protocol Concepts by \cite{rabbitmqexpl}}
-    \label{fig:implementation:decisions:rabbitmq}
- \end{figure}
-
-As discussed in \citetitle{rabbitmqexpl}, there are four types of exchanges:
-
-\begin{itemize}
-    \item Direct Exchange: ideal for the unicast routing of messages;
-    \item Fanout Exchange: ideal for the broadcast routing of messages;
-    \item Topic Exchange: ideal for the multicast routing of messages, queues subscribe to specific routing keys;
-    \item Header Exchange: ideal for more flexible unicast routing of messages, queues subscribe to specific message headers;
-\end{itemize}
-
-The exchange that better fits the defined requirements is the Topic Exchange.
+The exchange that better fits the defined requirements is the Topic Exchange, due to the possibility to subscribe to specific messages depending on their routing keys (as mentioned in Section~\ref{par:stateofart:arch:infra:mediator:rabbitmq}).
 
 When working with this protocol and type of exchange, some drawbacks were found:
 
@@ -357,7 +338,7 @@ The Figure~\ref{fig:implementation:decisions:docker:contvsvm} compares a \gls{VM
     \label{fig:implementation:decisions:docker:contvsvm}
 \end{figure}
 
-The system is thus represented as a collection of containers that communicate with each other and the outside through standard protocols such as HTTP or AMQP.
+The system is thus represented as a collection of containers that communicate with each other and the outside through standard protocols such as HTTP or \gls{AMQP}.
 
 The production environment can thus be quickly replicated on another machine in case of a failure disaster or a overwhelming number of interaction with the server.
 

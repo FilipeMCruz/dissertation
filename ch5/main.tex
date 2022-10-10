@@ -1398,7 +1398,9 @@ The following sub sections will detail each service information needs.
 \subsubsection{Fleet Management Service}
 \label{subsubsec:implementation:description:services:fleet}
 
-This service captures information of a single type (and doesn't publish any Command):
+The focus of this service was to simply collect the location of the costumers' fleet since the company was given no permission to access the vehicles' \gls{OBD} System. Access to the \gls{OBD} System would provide a deeper knowledge regarding the vehicles' conditions.
+
+Therefore, this service captures information of a single type (and doesn't publish any Command):
 
 \textbf{Data Topic}: \textit{'processed'}, \textit{'correct'}, with \textit{'defined ownership'} and \textit{'device information'} data unit with \textit{'gps'} readings in the channel \textit{'fleet'}.
 
@@ -1406,6 +1408,8 @@ At a high-level view, this service only requires \gls{GPS} data sent to the \tex
 
 \subsubsection{Notification Management Service}
 \label{subsubsec:implementation:description:services:notification}
+
+The focus of this service was to simply showcase and dispatch the alerts sent by \textbf{Sensae Console}. A simple rule scenario for Indoor Fire Detention was then created based on tests performed on a costumer's facilities (Appendix \ref{AppendixH}). The rule scenario was based on the following metrics: CO2 \gls{PPM}, Air humidity and Air Temperature.
 
 This service captures information of a single type (and doesn't publish any Command):
 
@@ -1417,6 +1421,12 @@ It is divided in two backend containers (as described in Figure~\ref{fig:design:
 
 \subsubsection{Smart Irrigation Service}
 \label{subsubsec:implementation:description:services:irrigation}
+
+The focus of this service was on the two most common types of agriculture mentioned in literature, outdoor and greenhouse, according to \cite{garcia2020iot}.
+
+The Greenhouse agriculture type collects two measures: (i) Air Temperature and (ii) Air Humidity, the Outdoor agriculture also collects two measures: (i) Luminosity and (ii) Soil Moisture. Both rely on a irrigation system that can be activated and deactivated remotely, like a simple switch, to regulate the monitured environment.
+
+The measures to capture were chosen according to costumers' sugestions and \cite{garcia2020iot} that states that the Soil moisture, Air Temperature, Air Humidity and Luminosity parameters are the most common monitured parameters in papers that propose an irrigaiton system. 
 
 This service captures information of the given types:
 

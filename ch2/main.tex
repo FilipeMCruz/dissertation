@@ -17,7 +17,7 @@ This section focus on the landscape of services, solutions, tools, terms and tec
 It starts by dividing the concepts in three distinct categories:
 
 \begin{itemize}
-    \item \nameref{subsec:stateofart:arch:infra}: concepts that don't answer any specific business case but are common or even a requirement for any \gls{IoT} related project; 
+    \item \nameref{subsec:stateofart:arch:infra}: concepts that don't answer any specific business case but are common or even a requirement for most \gls{IoT} related projects; 
     \item \nameref{subsec:stateofart:arch:platforms}: concepts that support and ease the creation of \gls{IoT} projects but are not a necessity;
     \item \nameref{subsec:stateofart:arch:solutions}: concepts that answer specific business cases.
 \end{itemize}
@@ -30,18 +30,55 @@ After these categories are explored, some \nameref{subsec:stateofart:arch:ref} a
 \subsubsection{Mediator}
 \label{subsubsec:stateofart:arch:infra:mediator}
 
-\subsubsection{IoT Midlleware}
+\subsubsection{IoT Middleware}
 \label{subsubsec:stateofart:arch:infra:middleware}
 
-https://www.thethingsindustries.com/stack/
+The term \gls{IoT} Middleware in this work referes to platforms/solutions that offer or focus on three main features:
 
-Azure IoT Hub
+\begin{itemize}
+    \item Device Management: device onboarding, maintenance, updates and monitoring;
+    \item Data Transmission: device data collection and provision in real-time;
+    \item Device Control: offer an \gls{API} to send commands to devices. 
+\end{itemize}
 
-Helium
+These platforms handle the lower-layers communication protocols such as: (i) RFID, (ii) Bluetooth/BLE, (iii) LoRa and LoRaWAN, (iv) SigFox, (v) ZigBee, (vi) Thread, (vii) EnOcean, (viii) ANT, (ix) GPRS/2G/3G/4G/5G cellular, (x) Wi-Fi \parencite{DIAS2022100529}.
 
-Aws IoT 
+The article \citetitleyear{DIAS2022100529} argues that due to a lack of standards a designer can't objectively choose from one or another protocol when developing \gls{IoT} Systems. These platforms have the benefit of abstracting these lower-layers communication details and provide \gls{API}s that provision all data gathered with high-layer communication protocols like (i) HTTP, (ii) MQTT, (iii) AMQP, (iv) CoAP, (v) XMPP, (vi) LwM2M, (vii) LLAP, (viii) UPnP \parencite{DIAS2022100529}.
 
-Watson IoT Platform
+The platforms that will be briefly mentioned are:
+
+\begin{itemize}
+    \item \nameref{par:stateofart:arch:infra:middleware:ttn};
+    \item \nameref{par:stateofart:arch:infra:middleware:azure};
+    \item \nameref{par:stateofart:arch:infra:middleware:helium};
+    \item \nameref{par:stateofart:arch:infra:middleware:aws};
+    \item \nameref{par:stateofart:arch:infra:middleware:watson};
+\end{itemize}
+
+This project focus mostly on \nameref{par:stateofart:arch:infra:middleware:helium} since it controls the lower-layers communication with the company's installed devices (via the community's installed hotspots).
+
+\paragraph{The Things Stack}
+\label{par:stateofart:arch:infra:middleware:ttn}
+
+\citetitleyear{ttn} is behind the creation of a platform that focus on interacting with devices via LoRa and LoRaWAN.
+
+Apart from the common features referred above, their cloud platform provides integrations with AWS IoT, Azure IoT Hub and other platforms such as Cumulocity, ThingsBoard, and LoRa Cloud. It also provides agnostic \gls{API}s based on MQTT, webhooks and PubSubs to connect with other systems.
+
+The company maintains an open-source version of their platform. According to \citetitleyear{ttn-stack}, this platform supports: almost all the LoRaWAN protocols specifications, device classes, regional parameters and onboarding options; device payload conversion for well-known formats or via custom Javascript functions; user and entity management; GRPC management \gls{API}s; HTTP management \gls{API}s. 
+
+\paragraph{Azure IoT Hub}
+\label{par:stateofart:arch:infra:middleware:azure}
+
+\citetitleyear{azure-hub} is a platform provided by Microsoft ``that acts as a central message hub for communication between an IoT application and its attached devices'' \parencite{azure-hub}. A helper service, Azure IoT Hub Device Provisioning Service, handles the registration and provisioning of devices.
+
+\paragraph{Helium}
+\label{par:stateofart:arch:infra:middleware:helium}
+
+\paragraph{AWS IoT Core}
+\label{par:stateofart:arch:infra:middleware:aws}
+
+\paragraph{Watson IoT Platform}
+\label{par:stateofart:arch:infra:middleware:watson}
 
 \subsubsection{Asynchronous Communication}
 \label{subsubsec:stateofart:arch:infra:async}
@@ -75,17 +112,22 @@ The business cases addressed here are the ones this project attempts to answer.
 \subsubsection{Smart Irrigation}
 \label{subsubsec:stateofart:arch:solutions:irrigation}
 
+This section mentions the Smart Irrigation Systems discussed by \cite{OBAIDEEN2022100124}.
+
+According to \cite{8372905} a Smart Irrigation System offers the following benefits: (i) Community Farming, (ii) Safety Control and Fraud Prevention, (iii) Competitive Advantages, (iv) Wealth Creation and Distributions, (v) Cost Reduction and Wastage, (vi) Operational Efficiency, (vii) Awareness and (ix) Asset Management.
+
+WaterBit provides a ``secured wireless connectivity to its autonomous irrigation solution, allowing management and control of local irrigation'' \parencite{OBAIDEEN2022100124}. WaterBit gathers soil moisture levels measured every few minutes and presents theses measures via a mobile-friendly application where farmers can control the irrigation system.
+
+Ipswich city council ``depicted that using an automated soil-moisture monitoring system as a driver of irrigation leads to significantly conserve water along with saving costs'' \parencite{OBAIDEEN2022100124}. The system's method to control the irrigation system was considered highly efficient when compared with a rainfall-based allocation method.
+
+Maejo University in Thailand built a system to control the environment where mushrooms were cultivated. The system measured light, air temperature, air humidity and air flow to determine when to activate the irrigation system \parencite{OBAIDEEN2022100124}. The system was powered by solar energy.
+
+AgirSens is a dynamic irrigation scheduling system based on IoT for efficient water management of irrigated crop fields. According to \cite{9249427} ``AgriSens has a farmer-friendly user interface, which provides field information to the farmers in a multimodal manner - visual display, cell phone, and Web portal''.
+
 \subsubsection{Fleet Management}
 \label{subsubsec:stateofart:arch:solutions:fleet}
 
-This section focus on the following Fleet Management solutions:
-
-\begin{itemize}
-    \item 
-\end{itemize} 
-
-\paragraph{Verizon Connect}
-\label{par:stateofart:arch:solutions:fleet:verizon}
+This section focus on some Fleet Management solutions. The market is crowded with solutions that provide no relevant information to the public, therefore it was difficult to derive any meaningful opinion. The following solutions, besides Verizon Connect, were mentioned in academic works.
 
 Verizon Connect is a Fleet Management solution that provides it's own sensors/devices, platform and application under a subscription (\cite{verizon-iot}).
 A team from Verizon installs the devices in the fleet according to the specification and access to the platform is given. This is an Hassle-free solution but the costs associated with it can be high.
@@ -522,7 +564,7 @@ According to the author this challenges substantially lingered the growth of \gl
     \item Network interoperability: concerned with information addressing, routing, security, resource optimization, \gls{QoS} and mobility support;
     \item Syntactical interoperability: concerned with the format and structure of the information exchanged between heterogeneous systems;
     \item Semantic interoperability: concerned with the meaning behind the information exchanged, heterogeneous devices can, for example, work with diverse unit measurements;
-    \item Platform interoperability: concerned with heterogeneous platforms that use diverse programming languages, \gls{OS} and software architectures (also mentioned by \cite{KOO20224191, SILVA2018697, DIAS2022100529}).
+    \item Platform interoperability: concerned with heterogeneous platforms that use diverse programming languages, \gls{OS} and software architectures (also mentioned by \cite{KOO20224191, SILVA2018697, DIAS2022100529, RAY201635}).
 \end{itemize}
 
 For \gls{IoT} Technologies to deliver on the promises made by companies like Cisco or Gartner, these barriers must be surpassed.

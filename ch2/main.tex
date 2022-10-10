@@ -173,6 +173,8 @@ These are some of the data model types, according to \cite{elmasri2000fundamenta
     \item The \textbf{key-value data model} associates a unique key with each value (which can be a record or object) and provides very fast access to a value given its key.
 \end{itemize}
 
+The following sections briefly discuss these data models.
+
 \paragraph{Relational Data Model}
 \label{par:stateofart:arch:infra:store:relational}
 %todo: main info
@@ -202,7 +204,7 @@ According to \cite{naqvi2017time}, InfluxDB is an ``open-source schemaless \gls{
 
 QuestDB is a relational column-oriented database designed for time series and event data and entitles it self as the ``fastest open source time series database'' (\cite{questdb}).
 According to benchmarks (\cite{quest-bench}) preformed using the \gls{TSBS}, \cite{TSBS}, QuestDB ranks as the fastest option in the market.
-It has out-of-the-box support for SQL Postgres wire protocol, (thus integrating with \gls{JDBC}), can be easily deployed using a single Docker Image, and also supports the \gls{ILP}.
+It has out-of-the-box support for SQL Postgres wire protocol, (thus integrating with \citetitle{postgressql} client libraries), can be easily deployed using a single Docker Image, and also supports the \gls{ILP}.
 
 \subsubsection{Graph-based Data Model}
 \label{par:stateofart:arch:infra:store:graph}

@@ -23,8 +23,8 @@ The following list unveils the most relevant technical decisions for \textbf{Sen
     \item \nameref{subsec:implementation:decisions:docker};
     \item \nameref{subsec:implementation:decisions:compose};
     \item \nameref{subsec:implementation:decisions:nginx};
-    \item \nameref{subsec:implementation:decisions:git};
-    \item \nameref{subsec:implementation:decisions:issues};
+    %\item \nameref{subsec:implementation:decisions:git};
+    %\item \nameref{subsec:implementation:decisions:issues};
     \item \nameref{subsec:implementation:decisions:actions};
     \item \nameref{subsec:implementation:decisions:maven};
 \end{itemize}
@@ -202,79 +202,45 @@ Thrift's ``primary goal is to enable efficient and reliable communication across
 
 Ultimately \citetitle{proto} were chosen due to better documentation and community support.
 
-
 \subsection{Database Usage throughout the Solution}
 \label{subsec:implementation:decisions:database}
 
-This section refers to how information is stored across the system.
+This section refers to how information is stored across the system and follows the terms mentioned in Section~\ref{subsubsec:stateofart:arch:infra:store}.
 
-A \gls{DBMS} is a general-purpose software system that facilitates the processes of defining, constructing, manipulating, and sharing data - \citetitle{elmasri2000fundamentals}. \gls{DBMS}s can be categorized according to several criteria, such as the data model, number of users or distribution. This section focus on the data model.
-
-These are some of the data model types, according to \cite{elmasri2000fundamentals}:
-
-\begin{itemize}
-    \item The \textbf{relational data model} represents a database as a collection of tables,
-    where each table can be stored as a separate file;
-    \item The \textbf{document-based data model} is based on JSON (Java Script
-    Object Notation) and stores the data as documents, which somewhat resemble
-    complex objects;
-    \item The \textbf{column-based data model} stores the columns of rows clustered on disk pages for fast access and allow multiple versions of the data;
-    \item The \textbf{graph-based data model} stores objects as graph nodes and relationships among objects as directed graph edges;
-    \item The \textbf{key-value data model} associates a unique key with each value (which can be a record or object) and provides very fast access to a value given its key.
-\end{itemize}
-
-The requirements gathered unveil the need to use three different database' data models throughout the system: (i) relational, (ii) document-based and (iii) column-based data models. The following sections answer why these data models were needed and what technologies were chosen for each of them. A final section unveils an optional solution that was considered but ultimately not pursued.
+The requirements gathered unveil the need to use three different database data models throughout the system: (i) relational, (ii) document-based and (iii) column-based data models. The following sections answer why these data models were needed and what technologies were chosen for each of them. A final section unveils an optional solution that was considered but ultimately not pursued.
 
 \subsubsection{Relational Database Usage}
 \label{subsubsec:implementation:decisions:database:relational}
 
-This data model has a wide variety of usage in the industry. Some of the technologies that follow this data model are: (i) \citetitle{mysql}, (ii) \citetitle{postgressql} and (iii) \citetitle{mariadb}.
+This type of data, strict and with well-defined relations, can be found on most Bounded Concerns described in Section~\ref{subsec:design:domain:bounded_contexts} such as \nameref{subsubsec:design:domain:bounded_contexts:processor}, \nameref{subsubsec:design:domain:bounded_contexts:decoder}, \nameref{subsubsec:design:domain:bounded_contexts:device}, \nameref{subsubsec:design:domain:bounded_contexts:identity}, \nameref{subsubsec:design:domain:bounded_contexts:rule} and the Irrigation Zone/Device concepts of the \nameref{subsubsec:design:domain:bounded_contexts:irrigation} Concern.
 
-It is intended for strictly structured data with well defined interrelations. This type of data can be found on most Bounded Contexts described in Section~\ref{subsec:design:domain:bounded_contexts} such as \nameref{subsubsec:design:domain:bounded_contexts:processor}, \nameref{subsubsec:design:domain:bounded_contexts:decoder}, \nameref{subsubsec:design:domain:bounded_contexts:device}, \nameref{subsubsec:design:domain:bounded_contexts:identity}, \nameref{subsubsec:design:domain:bounded_contexts:rule} and the Irrigation Zone/Device concepts of the \nameref{subsubsec:design:domain:bounded_contexts:irrigation} Context.
+As such, this data model was adopted for the \textbf{Device Management Database}, \textbf{Data Decoder Database}, \textbf{Data Processor Database}, \textbf{Rule Management Database}, \textbf{Identity Management Database}, \textbf{Smart Irrigation Business Database} and \textbf{Notification Management Database} containers. The decision was based on the discussion in Section~\ref{par:stateofart:arch:infra:store:relational}.
 
-As such, this data model was adopted for the \textbf{Device Management Database}, \textbf{Data Decoder Database}, \textbf{Data Processor Database}, \textbf{Rule Management Database}, \textbf{Identity Management Database}, \textbf{Smart Irrigation Business Database} and \textbf{Notification Management Database} containers.
-
-The author had previous contact with all the cited \gls{DBMS}, and the decision to use \citetitle{postgressql} was taken based on the fact that, contrary to the other options, \citetitle{postgressql} supports a vast number of Data Types such as \gls{JSON}, Arrays, \gls{UUID}, and Ranges. \citetitle{postgressql}'s data model is an extension of the relation data model, named object-relational data model - \cite{elmasri2000fundamentals}. This data model supports various concepts such as objects, classes and inheritance and therefore can lead to entity models more expressive and close to the business ideas.
+The decision to use \citetitle{postgressql} was taken based on the fact that, contrary to the other options, \citetitle{postgressql} supports a vast number of Data Types such as \gls{JSON}, Arrays, \gls{UUID}, and Ranges. \citetitle{postgressql}'s data model is an extension of the relation data model, named object-relational data model - \cite{elmasri2000fundamentals}. This data model supports various concepts such as objects, classes and inheritance and therefore can lead to entity models more expressive and close to the business ideas.
 
 \subsubsection{Document-based Database Usage}
 \label{subsubsec:implementation:decisions:database:nosql}
 
-This data model rose from the increasing need to store and analyze unstructured data as stated by \cite{miloslavskaya2016big}.  Citing \cite{elmasri2000fundamentals}, a ``major difference between document-based systems versus object and object-relational systems (relational database systems) is that there is no requirement to specify a schema''.
+The type of features of this data model resembles the requirements and data stored by the Data Store container described in Section~\ref{subsec:design:system_scopes:data_flow_scope} and Figure~\ref{fig:design:architecture:platform:container:process:diagram:flow}. This container, intended to mimic a Data Lake\footnote{Massively scalable storage repository that holds a vast amount of raw data in its native format («as is») until it is needed, by \cite{miloslavskaya2016big}}, stores any type of data for future use.
 
-This type of requirements and data resembles the Data Store container described in Section~\ref{subsec:design:system_scopes:data_flow_scope} and Figure~\ref{fig:design:architecture:platform:container:process:diagram:flow}. This container, intended to mimic a Data Lake\footnote{Massively scalable storage repository that holds a vast amount of raw data in its native format («as is») until it is needed, by \cite{miloslavskaya2016big}}, stores any type of data for future use.
-
-As such, this data model was adopted for the \textbf{Data Store Database} container.
+As such, this data model was adopted for the \textbf{Data Store Database} container. The decision was based on the discussion in Section~\ref{par:stateofart:arch:infra:store:nosql}.
 
 The only technology considered, and therefore adopted, was \citetitle{mongodb} due to its vast community, excellent documentation and large number of libraries that ease the database management operations. \citetitle{mongodb} also supports replication and sharding. According to \cite{elmasri2000fundamentals}, these features are useful once a single node isn't capable of withstanding all data collected while providing fast access to it.
 
 \subsubsection{Column-based Database Usage}
 \label{subsubsec:implementation:decisions:database:time}
 
-This data model is used in applications that require large amounts of data storage, and is commonly named \textit{data warehouses}. According to \cite{dehdouh2015using}, a data warehouse  is ``designed according to a dimensional modelling which has for objective to observe facts through measures, also called indicators, according to the dimensions that represent the analysis axes''. Citing \cite{han2011survey}, these databases ``can maintain high-performance of data analysis and business intelligence processing''.
+The features mentioned in Section~\ref{par:stateofart:arch:infra:store:time} fit the requirements related to storing and reading vast amounts of device measures. As such, this database type was adopted for the \textbf{Fleet Management Database} and \textbf{Smart Irrigation Data Database} containers.
 
-These features fit the requirements related to storing and reading vast amounts of device measures. As such, it was adopter for the \textbf{Fleet Management Database} and \textbf{Smart Irrigation Data Database} containers.
-
-The author had no previous contact with this type of data model. Some of the technologies related to this concept are: (i) \citetitle{hbase}, (ii) \citetitle{cassandradb}, (iii) \citetitle{influxdb}, (iv) \citetitle{questdb}.
-
-According to \cite{george2011hbase} HBase is a ``distributed, persistent, strictly consistent storage system with near-optimal write and excellent read performance''. This database uses \gls{HDFS} as its file system, and so, it is built on top of Hadoop.
-HBase does not support a structured query language like \gls{SQL}, ``even though it's comprised of a set of standard tables with rows and columns, much like a traditional database'' (\cite{ibm-hbase}).
-
-CassandraDB is a distributed storage system for managing very large amounts of structured data spread out across many commodity servers, while providing highly available service with no single point of failure (\cite{lakshman2010cassandra}).
-It was developed internally by Facebook and then later open-sourced to the Apache Foundation. It doesn't support \gls{SQL}.
-
-According to \cite{naqvi2017time}, InfluxDB is an ``open-source schemaless \gls{TSDB} with optional closed-sourced components developed by InfluxData. It is written in Go programming language and it is optimized to handle time series data.'' It provides an SQL-like query language and also defines a new protocol for fast data ingestion (\cite{ilp}).
-
-QuestDB is a relational column-oriented database designed for time series and event data and entitles it self as the ``fastest open source time series database'' (\cite{questdb}).
-According to benchmarks (\cite{quest-bench}) preformed using the \gls{TSBS}, \cite{TSBS}, QuestDB ranks as the fastest option in the market.
-It has out-of-the-box support for SQL Postgres wire protocol, (thus integrating with \gls{JDBC}), can be easily deployed using a single Docker Image, and also supports the \gls{ILP}.
-
-The type of business this solution is tackling revolves around the capture and analysis of device readings, \gls{IoT}. So the notion of time has to be treated as a first class citizen. The measurements that constitute a time series are ordered on a timeline, which reveals information about underlying patterns.
+The type of business this solution tackles revolves around the capture and analysis of device readings. So the notion of time has to be treated as a first class citizen. The measurements that constitute a time series are ordered on a timeline, which reveals information about underlying patterns.
 
 As stated by \cite{naqvi2017time}, \gls{TSDB} ``can be used to efficiently store sensors and devices' data'' since, ``such technologies are generating large amount of data which is usually time-stamped''.
 
 With this requirements in hand, a column-based data model isn't enough. The technology adopted should also natively support time series to ease data analysis. As such, the \citetitle{hbase} and \citetitle{cassandradb} options were discarded.
 
 Between the two missing options, the author picked \citetitle{questdb} due to better support for \gls{SQL} though \gls{JDBC}. During the research of this two technologies no major downside was found for \citetitle{questdb} when compared to \citetitle{influxdb}.
+
+The author had no previous contact with this type of data model.
 
 \subsubsection{Graph-based Database Usage}
 \label{subsubsec:implementation:decisions:database:identity}
@@ -385,87 +351,87 @@ All of them support the necessary requirements, but some factors lead the author
 
 The details about \citetitle{nginx} adoption and configuration can be found in Section~\ref{subsec:implementation:description:nginx}.
 
-\subsection{Usage of Git as a version control system of the project}
-\label{subsec:implementation:decisions:git}
+% \subsection{Usage of Git as a version control system of the project}
+% \label{subsec:implementation:decisions:git}
 
-\citetitle{git} is a \gls{VCS}. What differentiates it from other
-systems such as \citetitle{mercurial} and \citetitle{bitkeeper} is its branching model. It is currently also the most widely used.
+% \citetitle{git} is a \gls{VCS}. What differentiates it from other
+% systems such as \citetitle{mercurial} and \citetitle{bitkeeper} is its branching model. It is currently also the most widely used.
 
-\citetitle{github} was the platform used to host the developed code. It offers private repositories with no additional costs. This platform also has other tools such as \textit{Github Issues} and \textit{Github Actions} that ease a developer's workflow.
+% \citetitle{github} was the platform used to host the developed code. It offers private repositories with no additional costs. This platform also has other tools such as \textit{Github Issues} and \textit{Github Actions} that ease a developer's workflow.
 
-A \gls{VCS} is indispensable in software development, this system allows developers to store the history of changes made to the code in an organized manner and simplifies the management of the software by the development team. This system was chosen over others because of the author was experienced with this software.
+% A \gls{VCS} is indispensable in software development, this system allows developers to store the history of changes made to the code in an organized manner and simplifies the management of the software by the development team. This system was chosen over others because of the author was experienced with this software.
 
-The development of the entire solution was made in two separated repositories, one for \textit{iot-core} and another for \textbf{Sensae Console}.
+% The development of the entire solution was made in two separated repositories, one for \textit{iot-core} and another for \textbf{Sensae Console}.
 
-The \textit{iot-core} repository had a simple branching model consisting only of a master branch.
+% The \textit{iot-core} repository had a simple branching model consisting only of a master branch.
 
-There was an extensive use of the branching feature in the repository of \textbf{Sensae Console}, following the model shown in Figure~\ref{fig:implementation:decisions:git:branch}. The author settled for the following: a master branch that matches the deployed version, a development branch where the various features are introduced until a new version is published on the master branch, several branches dedicated to fixing bugs (hotfix) and another several branches that introduce new features and improvements (feature \textit{x}).
+% There was an extensive use of the branching feature in the repository of \textbf{Sensae Console}, following the model shown in Figure~\ref{fig:implementation:decisions:git:branch}. The author settled for the following: a master branch that matches the deployed version, a development branch where the various features are introduced until a new version is published on the master branch, several branches dedicated to fixing bugs (hotfix) and another several branches that introduce new features and improvements (feature \textit{x}).
 
-\begin{figure}[H]
-    \centering
-    \resizebox{\columnwidth}{!}
-    {
-       \includegraphics{assets/figures/branching-model.png}
-    }
-    \caption[Branching Model]{Branching Model}
-    \label{fig:implementation:decisions:git:branch}
-\end{figure}
+% \begin{figure}[H]
+%     \centering
+%     \resizebox{\columnwidth}{!}
+%     {
+%        \includegraphics{assets/figures/branching-model.png}
+%     }
+%     \caption[Branching Model]{Branching Model}
+%     \label{fig:implementation:decisions:git:branch}
+% \end{figure}
 
-This model was adopted since the project was in an initial phase of development, in the future, a branching model with multiple releases, as detailed in Figure~\ref{fig:implementation:decisions:git:branch2}, is preferred. With this model one can release only the altered containers and not the entire system.
+% This model was adopted since the project was in an initial phase of development, in the future, a branching model with multiple releases, as detailed in Figure~\ref{fig:implementation:decisions:git:branch2}, is preferred. With this model one can release only the altered containers and not the entire system.
 
-\begin{figure}[H]
-    \centering
-    \resizebox{\columnwidth}{!}
-    {
-       \includegraphics{assets/figures/branching-model-2.png}
-    }
-    \caption[Future Branching Model]{Future Branching Model}
-    \label{fig:implementation:decisions:git:branch2}
-\end{figure}
+% \begin{figure}[H]
+%     \centering
+%     \resizebox{\columnwidth}{!}
+%     {
+%        \includegraphics{assets/figures/branching-model-2.png}
+%     }
+%     \caption[Future Branching Model]{Future Branching Model}
+%     \label{fig:implementation:decisions:git:branch2}
+% \end{figure}
 
-This is useful when using CI/CD pipelines to compile, package and deploy the various containers of the solution. If no changes have been made to \textit{X} Container there is no need to redo all the work previously done with it.
+% This is useful when using CI/CD pipelines to compile, package and deploy the various containers of the solution. If no changes have been made to \textit{X} Container there is no need to redo all the work previously done with it.
 
-The reason behind the monorepo approach for \textbf{Sensae Console} is that it allows frontend libraries to be shared without publishing somewhere. It is also much easier to keep track of the code in a monorepo since the solution is developed by a single developer.
+% The reason behind the monorepo approach for \textbf{Sensae Console} is that it allows frontend libraries to be shared without publishing somewhere. It is also much easier to keep track of the code in a monorepo since the solution is developed by a single developer.
 
-\subsection{Usage of Github Issues to track issues, bugs and new features}
-\label{subsec:implementation:decisions:issues}
+% \subsection{Usage of Github Issues to track issues, bugs and new features}
+% \label{subsec:implementation:decisions:issues}
 
-As described before, the code is hosted in \citetitle{github}. One of the services that this platform offers is \textit{Github Issues}. This tool helps to track and document the development process alongside with the code.
+% As described before, the code is hosted in \citetitle{github}. One of the services that this platform offers is \textit{Github Issues}. This tool helps to track and document the development process alongside with the code.
 
-This tool can be separated into two main views. A view is concerned about what issues, features and bugs are active in the project, Figure~\ref{fig:implementation:decisions:issues:board}, and the other is concerned with the current state of each issue, feature and bug, Figure~\ref{fig:implementation:decisions:issues:project}.
+% This tool can be separated into two main views. A view is concerned about what issues, features and bugs are active in the project, Figure~\ref{fig:implementation:decisions:issues:board}, and the other is concerned with the current state of each issue, feature and bug, Figure~\ref{fig:implementation:decisions:issues:project}.
 
-\begin{figure}[H]
-    \centering
-    \resizebox{\columnwidth}{!}
-    {
-       \includegraphics{assets/figures/github-2.png}
-    }
-    \caption[Github Issues]{Github Issues}
-    \label{fig:implementation:decisions:issues:board}
-\end{figure}
+% \begin{figure}[H]
+%     \centering
+%     \resizebox{\columnwidth}{!}
+%     {
+%        \includegraphics{assets/figures/github-2.png}
+%     }
+%     \caption[Github Issues]{Github Issues}
+%     \label{fig:implementation:decisions:issues:board}
+% \end{figure}
 
-Each issue has a list of tags that represent its scope and a defined milestone. With this tool, the team members can also discuss issues in depth.
+% Each issue has a list of tags that represent its scope and a defined milestone. With this tool, the team members can also discuss issues in depth.
 
-The issues presented in this page are then tracked in the \textit{project} page - Figure~\ref{fig:implementation:decisions:issues:project}. The author decided to divided the issues into 4 criteria:
+% The issues presented in this page are then tracked in the \textit{project} page - Figure~\ref{fig:implementation:decisions:issues:project}. The author decided to divided the issues into 4 criteria:
 
-\begin{itemize}
-    \item \textbf{To Do}: Issues that have been discussed and are to be completed in the near future;
-    \item \textbf{In Progress}: Issues that are currently under development and have an assigned feature branches;
-    \item \textbf{Done}: Issues that have been completed and have been integrated in the \textit{master} branch;
-    \item \textbf{Future}: Issues that have been purposed but have no clear deadline.
-\end{itemize}
+% \begin{itemize}
+%     \item \textbf{To Do}: Issues that have been discussed and are to be completed in the near future;
+%     \item \textbf{In Progress}: Issues that are currently under development and have an assigned feature branches;
+%     \item \textbf{Done}: Issues that have been completed and have been integrated in the \textit{master} branch;
+%     \item \textbf{Future}: Issues that have been purposed but have no clear deadline.
+% \end{itemize}
 
-\begin{figure}[H]
-    \centering
-    \resizebox{\columnwidth}{!}
-    {
-       \includegraphics{assets/figures/github.png}
-    }
-    \caption[Github Issues Project Board]{Github Issues Project Board}
-    \label{fig:implementation:decisions:issues:project}
-\end{figure}
+% \begin{figure}[H]
+%     \centering
+%     \resizebox{\columnwidth}{!}
+%     {
+%        \includegraphics{assets/figures/github.png}
+%     }
+%     \caption[Github Issues Project Board]{Github Issues Project Board}
+%     \label{fig:implementation:decisions:issues:project}
+% \end{figure}
 
-This view helps to define a simple project roadmap and track the overall state of issues, bugs and features in the project.
+% This view helps to define a simple project roadmap and track the overall state of issues, bugs and features in the project.
 
 \subsection{Usage of Github Actions for CI/CD}
 \label{subsec:implementation:decisions:actions}

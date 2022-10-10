@@ -150,14 +150,65 @@ In theory, this creates a self sustained economy that can provide to everyone a 
 
 This network, as an example, gives local farmers in remote locations the possibility to install a smart irrigation system without paying excruciating fees to an \gls{ISP} for satellite or 4G coverage.
 
-This project's business idea is to utilize this low-cost network to offer \gls{IoT}-based services to small-to-medium size organizations.
-Therefore, the solution to develop will, at least in the near future, focus on the \gls{IoT} Middleware provided by Helium.
+The company's business idea is to utilize this low-cost network to offer \gls{IoT}-based services to small-to-medium size organizations.
+Therefore, the solution to develop in this project will, at least in the near future, focus on the \gls{IoT} Middleware solution provided by Helium.
 
 Helium Console enables devices to connect to pre-configured, cloud-based applications or send data directly over HTTP or MQTT via Integrations.
 It currently supports two core integrations, HTTP and \gls{MQTT}, and multiple community integrations such as: (i) Helium Cargo, (ii) myDevices Cayenne, (iii) AWS IoT Core, (iv) Azure IoT Hub, (v) Azure IoT Central, (vi) Adafruit IO, (vii) Akenza, (viii) Datacake, (ix) Google Sheets, (x) Microshare, (xi) TagoIO, (xii) Ubidots \parencite{helium-integrations}. 
 
 \subsubsection{Data Storage}
 \label{subsubsec:stateofart:arch:infra:store}
+
+This section refers to how information is stored and managed across systems.
+
+A \gls{DBMS} is a general-purpose software system that facilitates the processes of defining, constructing, manipulating, and sharing data - \citetitle{elmasri2000fundamentals}. \gls{DBMS}s can be categorized according to several criteria, such as the data model, number of users or distribution. This section focus on the data model.
+
+These are some of the data model types, according to \cite{elmasri2000fundamentals}:
+
+\begin{itemize}
+    \item The \textbf{relational data model} represents a database as a collection of tables, where each table can be stored as a separate file;
+    \item The \textbf{document-based data model} is based on JSON (Java Script Object Notation) and stores the data as documents, which somewhat resemble complex objects;
+    \item The \textbf{column-based data model} stores the columns of rows clustered on disk pages for fast access and allow multiple versions of the data;
+    \item The \textbf{graph-based data model} stores objects as graph nodes and relationships among objects as directed graph edges;
+    \item The \textbf{key-value data model} associates a unique key with each value (which can be a record or object) and provides very fast access to a value given its key.
+\end{itemize}
+
+\paragraph{Relational Data Model}
+\label{par:stateofart:arch:infra:store:relational}
+%todo: main info
+This data model has a wide variety of usage in the industry. Some of the technologies that follow this data model are: (i) \citetitle{mysql}, (ii) \citetitle{postgressql} and (iii) \citetitle{mariadb}.
+
+It is intended for strictly structured data with well defined interrelations.
+
+\subsubsection{Document-based Data Model}
+\label{par:stateofart:arch:infra:store:nosql}
+%todo: main info
+This data model rose from the increasing need to store and analyze unstructured data as stated by \cite{miloslavskaya2016big}.  Citing \cite{elmasri2000fundamentals}, a ``major difference between document-based systems versus object and object-relational systems (relational database systems) is that there is no requirement to specify a schema''.
+
+\subsubsection{Column-based Data Model}
+\label{par:stateofart:arch:infra:store:time}
+
+This data model is used in applications that require large amounts of data storage, and is commonly named \textit{data warehouses}. According to \cite{dehdouh2015using}, a data warehouse  is ``designed according to a dimensional modelling which has for objective to observe facts through measures, also called indicators, according to the dimensions that represent the analysis axes''. Citing \cite{han2011survey}, these databases ``can maintain high-performance of data analysis and business intelligence processing''.
+
+Some of the technologies related to this concept are: (i) \citetitle{hbase}, (ii) \citetitle{cassandradb}, (iii) \citetitle{influxdb}, (iv) \citetitle{questdb}.
+
+According to \cite{george2011hbase} HBase is a ``distributed, persistent, strictly consistent storage system with near-optimal write and excellent read performance''. This database uses \gls{HDFS} as its file system, and so, it is built on top of Hadoop.
+HBase does not support a structured query language like \gls{SQL}, ``even though it's comprised of a set of standard tables with rows and columns, much like a traditional database'' (\cite{ibm-hbase}).
+
+CassandraDB is a distributed storage system for managing very large amounts of structured data spread out across many commodity servers, while providing highly available service with no single point of failure (\cite{lakshman2010cassandra}).
+It was developed internally by Facebook and then later open-sourced to the Apache Foundation. It doesn't support \gls{SQL}.
+
+According to \cite{naqvi2017time}, InfluxDB is an ``open-source schemaless \gls{TSDB} with optional closed-sourced components developed by InfluxData. It is written in Go programming language and it is optimized to handle time series data.'' It provides an SQL-like query language and also defines a new protocol for fast data ingestion (\cite{ilp}).
+
+QuestDB is a relational column-oriented database designed for time series and event data and entitles it self as the ``fastest open source time series database'' (\cite{questdb}).
+According to benchmarks (\cite{quest-bench}) preformed using the \gls{TSBS}, \cite{TSBS}, QuestDB ranks as the fastest option in the market.
+It has out-of-the-box support for SQL Postgres wire protocol, (thus integrating with \gls{JDBC}), can be easily deployed using a single Docker Image, and also supports the \gls{ILP}.
+
+\subsubsection{Graph-based Data Model}
+\label{par:stateofart:arch:infra:store:graph}
+
+\subsubsection{Key-Value Data Model}
+\label{par:stateofart:arch:infra:store:key}
 
 \subsubsection{Rule Engine}
 \label{subsubsec:stateofart:arch:infra:rule}

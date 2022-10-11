@@ -163,7 +163,7 @@ This section refers to how information is stored and managed across systems.
 
 A \gls{DBMS} is a general-purpose software system that facilitates the processes of defining, constructing, manipulating, and sharing data - \citetitle{elmasri2000fundamentals}. \gls{DBMS}s can be categorized according to several criteria, such as the data model, number of users or distribution. This section focus on the data model.
 
-These are some of the data model types, according to \cite{elmasri2000fundamentals}:
+These are the most common data models, as per \cite{elmasri2000fundamentals}:
 
 \begin{itemize}
     \item The \textbf{relational data model} represents a database as a collection of tables, where each table can be stored as a separate file;
@@ -178,12 +178,13 @@ The following sections briefly discuss these data models.
 \paragraph{Relational Data Model}
 \label{par:stateofart:arch:infra:store:relational}
 
-This data model has a wide variety of usage in the industry. It relies on a ``schema to define exactly and unambiguously all the relationships of interest to the users'' \parencite{zaniolo1981design}. Therefore, it excels to represent concrete concepts within a business domain. According to \cite{jatana2012survey} almost all relational databases use \gls{SQL} to access and modify the data stored in the database. ``\gls{SQL} consists of a set of facilities for defining, accessing and otherwise managing data'' \parencite{date1989guide}. The reliability of a database model is checked with the help of ACID properties: \textbf{A}tomicity, \textbf{C}onsistency, \textbf{I}solation, \textbf{D}urability.
+This data model has a wide variety of usage in the industry. It relies on a ``schema to define exactly and unambiguously all the relationships of interest to the users'' \parencite{zaniolo1981design}. Therefore, it excels to represent concrete concepts within a business domain. According to \cite{jatana2012survey} almost all relational databases use \gls{SQL} to access and modify the data stored in the database. ``\gls{SQL} consists of a set of facilities for defining, accessing and otherwise managing data'' \parencite{date1989guide}. 
+
+The reliability of a database model is checked with the help of ACID properties: \textbf{A}tomicity, \textbf{C}onsistency, \textbf{I}solation, \textbf{D}urability.
 
 Some of the technologies that follow this data model are: (i) \citetitle{mysql}, (ii) \citetitle{postgressql} and (iii) \citetitle{oracledb}.
 These are all ACID compliant and follow the SQL standard.
 
-According to \cite{jatana2012survey}, this type of databases do not support high scalability, 
 This data model is intended for strictly structured data with well defined interrelations.
 
 \paragraph{Document-based Data Model}
@@ -192,12 +193,13 @@ This data model is intended for strictly structured data with well defined inter
 This data model rose from the increasing need to store and analyze unstructured data as stated by \cite{miloslavskaya2016big}.  Citing \cite{elmasri2000fundamentals}, a ``major difference between document-based systems versus object and object-relational systems (relational database systems) is that there is no requirement to specify a schema''.
 
 This data model, and all other mentioned below have some key differences when compared with the \nameref{par:stateofart:arch:infra:store:relational}.
-Databases with this data model usually don't adder to the \gls{SQL} standard since there is no define notion of the data structure. Instead they follow the BASE acronym: \textbf{B}asically \textbf{A}vailable, \textbf{S}oft State and \textbf{E}ventually Consistent.
+Databases with this data model usually don't adder to the \gls{SQL} standard since there is no define notion of the data structure. And, they follow the BASE acronym: \textbf{B}asically \textbf{A}vailable, \textbf{S}oft State and \textbf{E}ventually Consistent, instead of the ACID properties.
 
 Some of the technologies that follow this data model are: \citetitle{mongodb} and \citetitle{firestore}.
 
 \citetitle{mongodb} is open source and has a ``flexible document data model along with support for ad-hoc queries, secondary indexing, and real-time aggregations to provide powerful ways to access and analyze data'' \parencite{mongodb}.
-Contrary to the \citetitle{mongodb}, \citetitle{firestore} is a close source service provided by google.
+
+Contrary to \citetitle{mongodb}, \citetitle{firestore} is a close source service developed by Google to offer a simple to use database service that can be accessed via a \gls{SDK} for Android and IOS.
 
 \paragraph{Column-based Data Model}
 \label{par:stateofart:arch:infra:store:time}
@@ -221,7 +223,7 @@ It has out-of-the-box support for SQL Postgres wire protocol, (thus integrating 
 \paragraph{Graph-based Data Model}
 \label{par:stateofart:arch:infra:store:graph}
 
-According to \cite{angles2008survey}, the databases that follow this data model can be characterized as:
+According to \cite{angles2008survey}, the databases that follow this data model can be characterized by the following principles:
 
 \begin{itemize}
     \item ``Data and/or the schema are represented by graphs, or by data structures generalizing the notion of graph (hypergraphs or hypernodes)'';
@@ -229,7 +231,7 @@ According to \cite{angles2008survey}, the databases that follow this data model 
     \item ``Integrity constraints enforce data consistency. These constraints can be grouped in schema-instance consistency, identity and referential integrity, and functional and inclusion dependencies''.
 \end{itemize}
 
-These databases flourish when the importance of the information relies on the relations more or equal than on the entities, e.g. biology, Web mining and semantic Web, social networking and recommendation engines \parencite{angles2012comparison, miller2013graph}.
+These databases flourish when the importance of the information relies on the relations more or equal than on the entities, e.g. biology, Web mining, semantic Web, social networking and recommendation engines \parencite{angles2012comparison, miller2013graph}.
 
 Some of the technologies related to this concept are: (i) \citetitle{neo4j}, (ii) \citetitle{dgraph}.
 
@@ -252,7 +254,7 @@ Rule Engines have a wide use in \gls{IoT} Systems according to \cite{LUO2021220,
 
 According to \cite{rules-waylay}, most of the IoT platforms on the market today have a rules engine based on forward chaining algorithms, such as Redhat Drools, Cumulocity, Eclipse Smart Home (discontinued), AWS rule engine, Thingsboard and others.
 
-These systems are often categorized as \gls{IFP} Systems, as per \cite{cugola2012processing}.
+Rule Engines are often also categorized as \gls{IFP} Systems, as per \cite{cugola2012processing}.
 The following diagram, Figure~\ref{fig:stateofart:arch:infra:rule:ifp}, represents them.
 
 \begin{figure}[H]
@@ -266,7 +268,7 @@ The following diagram, Figure~\ref{fig:stateofart:arch:infra:rule:ifp}, represen
 \end{figure}
 
 Some Rule Engine can support a Flow-based programing, a term invented by \cite{morrison1994flow}. Flow-based programing refers to the use of a visualization technique that allows users without coding experience to understand, create and alter programs by manipulating graphical blocks that represent program
-components or functionalities \cite{morrison2010flow}. A fine example of this is \cite{node-red}. This tool is widely used in \gls{IoT} \parencite{10.1145/3448891.3448938}.
+components or functionalities \parencite{morrison2010flow}. A fine example of this is \citetitleyear{node-red}. This tool is widely used in \gls{IoT} \parencite{10.1145/3448891.3448938}.
 
 As for the other tool mentioned:
 
@@ -274,11 +276,11 @@ Cumulocity is an \gls{IoT} platform that allows users to define business operati
 
 \citetitle{drools} is a ``business-rule management system with a forward-chaining and backward-chaining inference-based rules engine, allowing fast and reliable evaluation of business rules and complex event processing''. The operation logic is implemented in the Drools Rule Language.
 
-AWS Rule Engine service is coupled with \citetitle{aws-iot}, the operation logic is implemented according to a json-schema where one can define what triggers an action, via an \gls{SQL} statement processed against an \gls{MQTT} topic and define a set of actions, e.g. send a message to \citetitle{kafka}, store data in \citetitle{dynamodb}, send a POST request to and endpoint, and others \parencite{aws-rules}.
+AWS Rule Engine service is coupled with \citetitle{aws-iot}, the operation logic is implemented according to a json-schema where one can define what triggers an action, via an \gls{SQL} statement processed against an \gls{MQTT} topic, and define a set of actions, e.g. send a message to \citetitle{kafka}, store data in \citetitle{dynamodb}, send a POST request to and endpoint, and others \parencite{aws-rules}.
 
-Thingsboard offers a rule engine based on \cite{node-red}, according to their documentation in \citetitleyear{thingsboar-rules}.
+Thingsboard offers a rule engine based on \citetitle{node-red}, according to their documentation in \citetitleyear{thingsboar-rules}.
 
-Stream Processing rule engines such as \cite{storm}, \cite{spark} and \cite{flink} can also fit in this category but were not investigated.
+Stream Processing rule engines such as \citetitleyear{storm}, \citetitleyear{spark} and \citetitleyear{flink} can also fit in this category but were not investigated.
 
 \subsection{Platforms}
 \label{subsec:stateofart:arch:platforms}

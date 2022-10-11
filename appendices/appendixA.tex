@@ -1,7 +1,11 @@
 \chapter{Data Unit - Shared Model Schema}
 \label{AppendixA}
 
-This schema represents the Shared Model Schema of a processed Data Unit as of \textit{iot-core} package version \textit{0.1.20}.
+This schema represents the Shared Model Schema of a Data Unit as of \textit{iot-core} package version \textit{0.1.20}.
+
+Due to the lack of standards, this model and the represented measures are possibly incomplete. As the \gls{IoT} landscape evolves and defines stricter and well-known standards for sensor measurements and device parameters representation, the \textit{iot-core} package must adhere to them and be able to translate between the supported representations.
+
+The version that is currently in development, \textit{0.2.0}, is planed to support \cite{RFC8428}. The reason behind the delayed support for it, steams from the lack of open-source \textit{Java} libraries related to \textit{SenML}, the unfamiliarity of the author with the standard till early April 2022, and the fast paced development of the solution required to meet costumers' needs. 
 
 \begin{lstlisting}[style=json, caption=Data Unit - Shared Model Schema, label={code:AppendixA:schema}]
 {

@@ -35,15 +35,15 @@ The solution designed can be divided in three main scopes as disclosed in Figure
    \label{fig:design:system_scopes:scopes}
 \end{figure}
 
-The \textbf{Sensae Console} is composed by two scopes, \textbf{Configuration Scope} and \textbf{Data Flow Scope}. These scopes are static and always available in any installation. They answer core/common functionalities of any \gls{IoT}-based platform.
+The \textbf{Sensae Console} is composed by two scopes, \textbf{Configuration Scope} and \textbf{Data Flow Scope}. These scopes are static and always available in any installation. They answer core/common functionalities of any \gls{IoT}-based platform. \textbf{Sensae Console} is similar to the "Smart City Platform" in the proposed architecture for Smart Cities (\nameref{subsubsec:stateofart:arch:p2413}) or the "Event Processing and Analytics Layer" of \nameref{subsubsec:stateofart:arch:wso2}.
 
-The \textbf{External Services Scope} is where actual business cases concerns are tackled. This scope is dynamic, meaning that an installation can have different types of external services depending on the costumer needs. The requested \gls{PoC}s belong to this scope.
+The \textbf{External Services Scope} is where actual business cases concerns are tackled. This scope is dynamic, meaning that an installation can have different types of external services depending on the costumer needs. The requested \gls{PoC}s belong to this scope. This scope is analogous to the "Embedded IoT Applications" in \nameref{subsubsec:stateofart:arch:sat} or the "Application Layer" in the proposed architecture for Smart Cities (\nameref{subsubsec:stateofart:arch:p2413}).
 
 The \textbf{Configuration Scope} refers to the configuration and visualization of internal processes/concerns, such as: (i) data decoders, (ii) data mappers (iii) device inventory, (iv) warning rule scenarios definition and (v) device ownership - related to the \textbf{Data Flow Scope}. It is also possible to manage users' access and permissions in the \textbf{Configuration Scope}.
 
 The \textbf{Data Flow Scope} acts as a pipeline where raw data - device uplink - goes through various stages till it is sanitized and ready to be supplied to the \textbf{External Services Scope}. The \textbf{Data Flow Scope} is where internal processes occur, such as: (i) data transformation, (ii) data enrichment, (iii) data validation, (iv) data ownership clarification and (v) alert dispatching. It behaves according to what is defined in the \textbf{Configuration Scope}.
 
-The \textbf{External Services Scope} is comprised of services that present and act according to the sanitized data and alerts that were supplied to them. These services applicability range from (i) smart irrigation, (ii) fleet management, (iii) fire detention, (iv) physical security access monitoring, (v) air quality monitoring and anything else deemed interesting. The services currently developed are smart irrigation, fleet management and notification management. These will be addressed throughout this and the \nameref{chap:implementation} chapter.
+The \textbf{External Services Scope} is comprised of services that present and act according to the sanitized data and alerts that were supplied to them. These services applicability range from (i) smart irrigation, (ii) fleet management, (iii) fire detection, (iv) physical security access monitoring, (v) air quality monitoring and anything else deemed interesting. The services currently developed are smart irrigation, fleet management and notification management. These will be addressed throughout this and the \nameref{chap:implementation} chapter.
 
 \subsection{Configuration Scope}
 \label{subsec:design:system_scopes:configuration_scope}
@@ -120,7 +120,7 @@ Just like plugins, services in this scope are validate and attached to the final
 \section{Architectural Design}
 \label{sec:design:architecture}
 
-In order to describe the system in detail at the architectural level, an approach based on the combination of two models, C4 (\cite{c4model-site}) and 4+1 (\cite{4plus1model}) will be followed.
+In order to describe the system in detail at the architectural level, an approach based on the combination of two models, C4 \parencite{c4model-site} and 4+1 \parencite{4plus1model} will be followed.
 
 The 4+1 View Model, proposes the description of the system through complementary views, thus allowing to separately analyze the requirements of various software stakeholders, such as users, system administrators, project managers, architects, and programmers.
 
@@ -383,7 +383,7 @@ The system/container initialization, presented in Figure~\ref{fig:design:archite
 \end{figure}
 
 Not all containers are displayed in this diagram for brevity reasons.
-The system relies heavily in the Pub/Sub (\cite{pubsub}) pattern to communicate internally via a message broker. In this scenario the first step in a container life cycle is to subscribe to the information that it needs as presented in the diagram above.
+The system relies heavily in the Pub/Sub \parencite{pubsub} pattern to communicate internally via a message broker. In this scenario the first step in a container life cycle is to subscribe to the information that it needs as presented in the diagram above.
 
 Certain containers need the entire state related to their concern to function. So, after subscribing to the needed information, they notify the system that they have entered an \textit{init state} for a specific concern. This triggers the creation of new events to help that container to reach a \textit{ready state}. An example of this interaction is presented in the following diagram, Figure~\ref{fig:design:architecture:platform:container:process:diagram:ready}, this only occurs in the Internal Topic.
 
@@ -1255,7 +1255,6 @@ The \textit{X Concern Flow} Container would use event sourcing to reach the curr
 
 The main drawback of this approach is that the container can't keep just the needed portion of configurations without recreating the entire state though event sourcing.
 
-
 \section{Domain}
 \label{sec:design:domain}
 
@@ -1299,7 +1298,7 @@ This concepts are referenced across the document.
 
 The shared model is comprised of concepts that transverse the entire \textbf{Sensae Console} business model, and by extension any \textbf{External Service}. Therefore, it is built as a library, \textit{iot-core}, that can be used by entities that rely on the exchange of information with/inside \textbf{Sensae Console}. It can be seen as a domain that focus on defining the protocol of exchange of information between the various entities of the system.
 
-The intent behind this Shared Model is to alleviate one of the issues related to distributed systems - heterogeneity in data formats (\cite{nadiminti2006distributed}) - and to provide a simple \gls{SDK} for third-parties to develop new external services that interact with \textbf{Sensae Console}. It can be seen as an explicit schema. According to \cite{explicitsharedmodel}, ``any implementation of event-based communication between a producer and consumer that lacks an explicit predefined schema will inevitably end up relying on an implicit schema. Implicit data contracts are brittle and susceptible to uncontrolled change, which can cause much undue hardship to downstream consumers.''
+The intent behind this Shared Model is to alleviate one of the issues related to distributed systems - heterogeneity in data formats \parencite{nadiminti2006distributed} - and to provide a simple \gls{SDK} for third-parties to develop new external services that interact with \textbf{Sensae Console}. It can be seen as an explicit schema. According to \cite{explicitsharedmodel}, ``any implementation of event-based communication between a producer and consumer that lacks an explicit predefined schema will inevitably end up relying on an implicit schema. Implicit data contracts are brittle and susceptible to uncontrolled change, which can cause much undue hardship to downstream consumers.''
 
 According to \cite{integration}, ``while we have historically drawn up our project plans and costs around the boxes — the digital products we are introducing — the lines are the hidden and often primary driver of organizational tech debt. They are the reason that things just take longer now than they used to.'' The \textit{'lines'} in this solution are a first class citizen and, instead of just linking the system together, they act as the pillars that shape the entire ecosystem.
 
@@ -1494,7 +1493,7 @@ As a brief description:
 \begin{itemize}
    \item \textit{RoutingKeys} is the concept referenced in Figure~\ref{fig:design:domain:shared_model:messsage:diagram} and represents a collection of different \textit{RoutingKeyOption}s;
    \item There are currently 4 types of \textit{RoutingKeys}, one for each \textbf{Topic} (according to \nameref{subsec:design:domain:taxonomy});
-   \item To ensure that the various containers in \textbf{Sensae Console} understand each other, a \textit{ProtocolVersionOptions} is provided. This concept follows the Semantic Versioning Specification 2.0 (\cite{semver}) an is assembled according to the version of \textit{iot-core} imported by the container;
+   \item To ensure that the various containers in \textbf{Sensae Console} understand each other, a \textit{ProtocolVersionOptions} is provided. This concept follows the Semantic Versioning Specification 2.0 \parencite{semver} an is assembled according to the version of \textit{iot-core} imported by the container;
    \item There are multiple \textit{RoutingKey} types not displayed in the diagram for brevity;
    \item The \textit{RoutingKeysBuilder} implements the \textit{Builder} pattern and its single responsibility is to validate and create \textit{RoutingKeys};
    \item A \textit{RoutingKeyOption} can have the value \textit{any}, if the \textit{RoutingKeysBuilderOptions} has the value \textit{CONSUMER}. This provides a 'relaxed' mode, for containers that consume/subscribe to messages and a 'strict' mode, where all \textit{RoutingKey} must be specified, for containers that supply/publish messages;

@@ -1,28 +1,29 @@
 \chapter{State of the Art}
 \label{chap:stateofart}
 
-This chapter introduces a modest introduction to the \gls{IoT} landscape. Focusing first on technologies, solutions and the architectural context surrounding them and later the various business areas where \gls{IoT} is required.
+This chapter introduces a modest introduction to the \gls{IoT} landscape, focusing first on technologies, solutions and the architectural context surrounding them and later the various business areas where \gls{IoT} is used.
 The intent of this chapter is to introduce the reader to the subjects related to this work.
 
-\section{Internet of Things}
-\label{sec:stateofart:iot}
+The core objective of this project is the development of an \gls{IoT} platform. Therefore this chapter will not focus on the physical side of the business (installation, deployment, onboarding and management of devices and \gls{IoT} gateways). 
+%\section{Internet of Things}
+%\label{sec:stateofart:iot}
 
 %todo
-This section has provided a short overview of IoT devices and systems. It is not designed to be comprehensive or even extensive, but simply to provide enough background to support the discussion of requirements and capabilities below.
+%This section has provided a short overview of IoT devices and systems. It is not designed to be comprehensive or even extensive, but simply to provide enough background to support the discussion of requirements and capabilities below.
 
 \section{IoT Architectural Context}
 \label{sec:stateofart:arch}
 
 This section focus on the landscape of services, solutions, tools, terms and technologies that are related to \gls{IoT}.
-It starts by dividing the concepts in three distinct categories:
+It starts by dividing them in three distinct categories:
 
 \begin{itemize}
     \item \nameref{subsec:stateofart:arch:infra}: concepts that don't answer any specific business case but are common or even a requirement for most \gls{IoT} related projects; 
-    \item \nameref{subsec:stateofart:arch:platforms}: concepts that support and ease the creation of \gls{IoT} projects but are not a necessity;
-    \item \nameref{subsec:stateofart:arch:solutions}: concepts that answer specific business cases.
+    \item \nameref{subsec:stateofart:arch:platforms}: tools that support and ease the creation of \gls{IoT} projects but are not a necessity;
+    \item \nameref{subsec:stateofart:arch:solutions}: solutions that answer specific business cases.
 \end{itemize}
 
-After these categories are explored, some \nameref{subsec:stateofart:arch:ref} are presented and correlated with some of the concepts mentioned before.
+After these categories are explored, some \nameref{subsec:stateofart:arch:ref} are presented.
 
 \subsection{Infrastructure} % Integration?
 \label{subsec:stateofart:arch:infra}
@@ -98,7 +99,7 @@ According to \cite{10.1145/3093742.3093908} the unique features of Kafka are: (i
 \subsubsection{IoT Middleware}
 \label{subsubsec:stateofart:arch:infra:middleware}
 
-The term \gls{IoT} Middleware in this work referes to platforms/solutions that offer or focus on three main features:
+The term \gls{IoT} Middleware in this work referes to services/solutions that offer or focus on three main features:
 
 \begin{itemize}
     \item Device Management: device onboarding, maintenance, updates and monitoring;
@@ -106,19 +107,21 @@ The term \gls{IoT} Middleware in this work referes to platforms/solutions that o
     \item Device Control: offer an \gls{API} to send commands to devices. 
 \end{itemize}
 
-These platforms handle the lower-layers communication protocols such as: (i) RFID, (ii) Bluetooth/BLE, (iii) LoRa and LoRaWAN, (iv) SigFox, (v) ZigBee, (vi) Thread, (vii) EnOcean, (viii) ANT, (ix) GPRS/2G/3G/4G/5G cellular, (x) Wi-Fi \parencite{DIAS2022100529}.
+These solutions handle the lower-layers communication protocols such as: (i) RFID, (ii) Bluetooth/BLE, (iii) LoRa and LoRaWAN, (iv) SigFox, (v) ZigBee, (vi) Thread, (vii) EnOcean, (viii) ANT, (ix) GPRS/2G/3G/4G/5G cellular, (x) Wi-Fi \parencite{DIAS2022100529}.
 
-The article \citetitleyear{DIAS2022100529} argues that due to a lack of standards a designer can't objectively choose from one or another protocol when developing \gls{IoT} Systems. These platforms have the benefit of abstracting these lower-layers communication details and provide \gls{API}s that provision all data gathered with high-layer communication protocols like (i) HTTP, (ii) \gls{MQTT}, (iii) \gls{AMQP}, (iv) CoAP, (v) XMPP, (vi) LwM2M, (vii) LLAP, (viii) UPnP \parencite{DIAS2022100529}.
+The article \citetitleyear{DIAS2022100529} argues that due to a lack of standards a designer can't objectively choose from one or another protocol when developing \gls{IoT} Systems. These solutions have the benefit of abstracting these lower-layers communication details and provide \gls{API}s that provision all data gathered with high-layer communication protocols like (i) HTTP, (ii) \gls{MQTT}, (iii) \gls{AMQP}, (iv) CoAP, (v) XMPP, (vi) LwM2M, (vii) LLAP, (viii) UPnP \parencite{DIAS2022100529}.
 
-The platforms that will be briefly mentioned are:
+The services that will be briefly mentioned are:
 
 \begin{itemize}
     \item \nameref{par:stateofart:arch:infra:middleware:ttn};
     \item \nameref{par:stateofart:arch:infra:middleware:azure};
+    % \item \nameref{par:stateofart:arch:infra:middleware:aws};
+    % \item \nameref{par:stateofart:arch:infra:middleware:google};
     \item \nameref{par:stateofart:arch:infra:middleware:helium}.
 \end{itemize}
 
-This project focus mostly on \nameref{par:stateofart:arch:infra:middleware:helium} since it controls the lower-layers communication with the company's installed devices (via the community's installed hotspots).
+This project focus mostly on \nameref{par:stateofart:arch:infra:middleware:helium} since it controls the lower-layers communication with the company's installed devices.
 
 \paragraph{The Things Stack}
 \label{par:stateofart:arch:infra:middleware:ttn}
@@ -137,6 +140,16 @@ The company maintains an open-source version of their platform. According to \ci
 According to \cite{azure-hub} data can also be routed to different services for further processing, it is possible to route data to: azure storage containers, event hubs, service bus queues and services bus topics. According to \cite{azure-hub-amqp}, it is also possible to subscribe to an \gls{AMQP} endpoint to receive the device measures sent to \gls{IoT} Hub. Azure IoT Hub also integrates with Azure Event Grid that allows one to register an HTTP endpoint for Azure Event Grid to dispatch events to, in this case, device measures.
 
 According to \citetitleyear{azure-gartner}, Azure is a leading \gls{IoT} Platform.
+
+% \paragraph{AWS IoT Core}
+% \label{par:stateofart:arch:infra:middleware:aws}
+
+% AWS IoT Core can be seen as a \gls{PaaS} solution that allows for device management, enables easy data storage (in \citetitle{dynamodb} and S3) and uses rules to interact with other AWS services and also external ones. Communication between the platform and the devices is made using \gls{MQTT} topics \parencite{pierleoni2019amazon}.
+
+% \paragraph{Google IoT Cloud}
+% \label{par:stateofart:arch:infra:middleware:google}
+
+% Google IoT Cloud is also a \gls{PaaS} solution similar to \nameref{par:stateofart:arch:infra:middleware:aws}. According to \cite{pierleoni2019amazon}, it is possible to define custom metadata for a device with an arbitrary user-defined blob of data, something that Azure and AWS don't support.
 
 \paragraph{Helium Console}
 \label{par:stateofart:arch:infra:middleware:helium}
@@ -193,7 +206,7 @@ This data model is intended for strictly structured data with well defined inter
 This data model rose from the increasing need to store and analyze unstructured data as stated by \cite{miloslavskaya2016big}.  Citing \cite{elmasri2000fundamentals}, a ``major difference between document-based systems versus object and object-relational systems (relational database systems) is that there is no requirement to specify a schema''.
 
 This data model, and all other mentioned below have some key differences when compared with the \nameref{par:stateofart:arch:infra:store:relational}.
-Databases with this data model usually don't adder to the \gls{SQL} standard since there is no define notion of the data structure. And, they follow the BASE acronym: \textbf{B}asically \textbf{A}vailable, \textbf{S}oft State and \textbf{E}ventually Consistent, instead of the ACID properties.
+Databases with this data model usually don't adhere to the \gls{SQL} standard since there is no define notion of the data structure. And, they follow the BASE acronym: \textbf{B}asically \textbf{A}vailable, \textbf{S}oft State and \textbf{E}ventually Consistent, instead of the ACID properties.
 
 Some of the technologies that follow this data model are: \citetitle{mongodb} and \citetitle{firestore}.
 
@@ -285,11 +298,19 @@ Stream Processing rule engines such as \citetitleyear{storm}, \citetitleyear{spa
 \subsection{Platforms}
 \label{subsec:stateofart:arch:platforms}
 
-Things Board
+The platforms described here provide a Mashup-based development environment. According to \cite{DIAS2022100529}, ``mashup tools are solutions that allow developers to construct application and systems in a component-based fashion (e.g. Widgets) or Web service composition (e.g. REST APIs)''.
 
-TagoIO
+These platforms enable someone with close to no programing knowledge to design dashboards that present data in various manners, however ``these approaches commonly have limitations and unaddressed challenges, such as not capturing the full software development life-cycle, having large-scale limitations and suffering from leaky abstractions'' \parencite{DIAS2022100529}.
 
-DataCake
+ThingsBoard, DataCake and TagoIO are some examples of these platforms.
+
+ThingsBoard is ``an open-source IoT platform for data collection, processing, visualization, and device management'' \parencite{thingsboard}. Some of its features are: (i) devices, assets and customers provisioning with the possibility to define relations between them, (ii) device and assets data collection and visualization, (iii) rule engine to trigger alarms, (iv) device control via remote procedure calls, (v) enables the design dynamic and responsive dashboards and present device or asset telemetry and insights to customers, (vi) use-case specific features using customizable rule chains and (vii) device data can be pushed to other systems.
+This platform provides several pre-made solutions like: (i) Smart Energy, (ii) Smart Farming, (iii) Fleet Tracking, (iv) Smart Metering, (v) Environment Monitoring, (vi) Smart Office, (vii) Water Metering, and (viii) Smart Retail.
+
+DataCake is a ``multi-purpose, low-code \gls{IoT} platform that requires no programming skills and minimal time to create custom \gls{IoT} applications that can be brought into a white label \gls{IoT} solution at the push of a button'' \parencite{datacake}.
+This platform provides several pre-made solutions like: (i) Welding Fume Monitoring, (ii) Urban Air Quality, (iii) Industrial Gas Supply, (iv) Air Quality Monitoring, (v) Climate Monitoring, (vi) Cryogenics Monitoring, (vii) CO2 Monitoring, (viii) Water Level and Flood Monitoring and (ix) Industrial \gls{IoT}.
+
+TagoIO ``offers the tools for a business to manage devices, store data, run analytics, and integrate services. It combines everything with an easy-to-use application and user management system'' \parencite{tagoio}. Its features are: (i) possibility to connect to any device, (ii) enables the design of custom dashboards, (iii) easy data management, (iv) can run custom analysis written in Javascript, (v) custom defined dispatch of SMS, notifications and e-mails and (vi) possibility to tailor the \gls{UI} to the company's desire (e.g. logo and color). Contrary to the other mentioned platforms, the author thinks that the pre-made solutions are much more lackluster and device-centered instead of business-case centered.
 
 \subsection{Solutions}
 \label{subsec:stateofart:arch:solutions}
@@ -299,8 +320,20 @@ The objective of this section is to simply introduce the major features of the s
 
 The business cases addressed here are the ones this project attempts to answer.
 
-\subsubsection{Indoor Fire Detention}
+\subsubsection{Indoor Fire Detection}
 \label{subsubsec:stateofart:arch:solutions:fire}
+
+This section mentions some Indoor Fire Detention systems discussed in academia. The benefits of this business case are: (i) increased security against fire outbreaks, (ii) reduced fire detection times and (iii) automated alert dispatch to relevant authorities.  
+
+\cite{listyorini2018prototype} introduces a prototype that relies on \gls{IoT} and fuzzy logic to detect fires. In the experiment, a device that captures temperature and the light source wavelength, closely monitors a specific place (maximum distance of 60cm from the fire) where the fire simulation takes place. The device sends the measures collected to the cloud to be analyzed by an algorithm that relies on fuzzy logic to reduce false positives. The prototype was able to detect "real fires" and ignore small fire sources such as cigarettes, lighters, and matches. 
+
+\cite{saeed2018iot} proposes the use of a wireless sensor network to support fire detention sensor in smart homes. The experiment used smoke sensors, gas detectors and heat sensors to detect changes in the home. It considered that each division would have 3 sensors installed. In order to detect a fire, two measures would have to surpass the thresholds defined for their division. The proposal was able to detect all fires.
+
+\cite{wu2021multi} proposes a multi-sensor data fusion method based on a back propagation neural network. The study used temperature, smoke and CO measures to detect a fire. The study indicates that the method used can reduce the fire detection time by 32\%.
+
+\cite{mohammed2021computer} proposes the use of computer vision technology for fire-detection. A \gls{CCT} camera monitors the house and streams the data collected to a server. The server then processes the images received, three algorithms were explored: color detection, moving object detection and flicker detection.
+
+As presented here, this business case is being tackled from various angles with no clear and definitive answer to the problem. \cite{article-fire} argues that conventional methods are not as robust and dynamic as video-based image processing methods.
 
 \subsubsection{Smart Irrigation}
 \label{subsubsec:stateofart:arch:solutions:irrigation}
@@ -308,8 +341,6 @@ The business cases addressed here are the ones this project attempts to answer.
 This section mentions some Smart Irrigation Solutions discussed by \cite{OBAIDEEN2022100124}.
 
 According to \cite{8372905} a Smart Irrigation System offers the following benefits: (i) Community Farming, (ii) Safety Control and Fraud Prevention, (iii) Competitive Advantages, (iv) Wealth Creation and Distributions, (v) Cost Reduction and Wastage, (vi) Operational Efficiency, (vii) Awareness and (ix) Asset Management.
-
-As for the solutions:
 
 WaterBit provides a ``secured wireless connectivity to its autonomous irrigation solution, allowing management and control of local irrigation'' \parencite{OBAIDEEN2022100124}. WaterBit gathers soil moisture levels measured every few minutes and presents theses measures via a mobile-friendly application where farmers can control the irrigation system.
 
@@ -323,8 +354,6 @@ AgirSens is a dynamic irrigation scheduling system based on IoT for efficient wa
 \label{subsubsec:stateofart:arch:solutions:fleet}
 
 This section focus on some Fleet Management and Asset Tracking solutions. No relevant papers were found regarding the use of \gls{IoT} in Fleet Management or Asset Tracking solutions, therefore the solutions here presented were gathered by the author based on the quality of information available regarding their company's business model, iot devices used and features offered.
-
-As for the solutions:
 
 Verizon Connect is a Fleet Management solution that provides it's own sensors/devices, platform and application under a subscription \parencite{verizon-iot}.
 A team from Verizon installs the devices in the fleet according to the specification and access to the platform is given. This is an Hassle-free solution but the costs associated with it can be high. Since Verizon is a telecommunications conglomerate the protocols used to transport measures from devices to their platform is GPRS/2G/3G/4G/5G cellular.
@@ -658,7 +687,7 @@ This section introduced the reader to the technological landscape of \gls{IoT}. 
 \section{Business Areas}
 \label{sec:stateofart:areas}
 
-Even though there's no concise structure, it is obvious that the \gls{IoT} technologies can be used in a broad range of areas/sectors. According to \cite{nivzetic2019smart}, the most valuable areas are: Smart Cities, Industrial \gls{IoT}, Connected Health and Smart Homes. The general market division of IoT technologies is presented in Figure~\ref{fig:iot-areas}.
+Even though there's no concise structure, it is obvious that the \gls{IoT} technologies can be used in a broad range of areas/sectors. As per \cite{nivzetic2019smart}, the most valuable areas are: Smart Cities, Industrial \gls{IoT}, Connected Health and Smart Homes. The general market division of IoT technologies is presented in Figure~\ref{fig:iot-areas}.
 
 \begin{figure}[H]
     \centering
@@ -671,7 +700,7 @@ Even though there's no concise structure, it is obvious that the \gls{IoT} techn
 
 From another point of view, and according to \cite{7073822}, the sectors \gls{IoT} is related to are: Energy, Smart City, Transportation, Smart Home, Environment, Supply Chain, and Health Care.
 
-According to (\cite{6851114}) these are the main application fields for \gls{IoT} in China: industry, smart agriculture, smart logistics, intelligent transportation, smart grids, smart environmental protection, smart safety, smart medical and smart home.
+According to \cite{6851114} these are the main application fields for \gls{IoT} in China: industry, smart agriculture, smart logistics, intelligent transportation, smart grids, smart environmental protection, smart safety, smart medical and smart home.
 
 Even though this work focus mostly on Smart Cities other areas are also be described. Each of this areas incorporate several interconnected use cases that are briefly described in the following segments.
 
@@ -693,7 +722,7 @@ The Smart Cities sector includes numerous use cases related to public safety, th
     \item Water Quality Monitoring: real-time monitoring of water conditions such as pH levels, percentage of salts and other elements that can threaten the public health.
 \end{itemize}
 
-Apart from these use cases, others are arising, such as smart parking (\cite{GOAP201841}), smart irrigation (\cite{7562735}) and waste management (\cite{7972276}).
+Apart from these use cases, others are arising, such as smart parking \parencite{GOAP201841}, smart irrigation \parencite{7562735} and waste management \parencite{7972276}.
 \begin{itemize}
     \item Smart parking provides a simple method to the community of knowing the available parking spots, which, alone, lowers the carbon footprint and traffic congestions in cities.
 
@@ -707,15 +736,15 @@ All this use cases refine the efficiency of the municipal workforce and help the
 \subsection{Industry}
 \label{subsec:stateofart:areas:industry}
 
-According to \cite{iiot}, ``the Industrial \gls{IoT} provides a way to get better visibility and insight into the company's operations and assets", therefore this leads to ``operational efficiency gains and accelerated productivity, which results in reduced unplanned downtime and optimized efficiency, and thereby profits"".
-It is comprised of several use cases (\cite{iiot-cases}) such as:
+According to \cite{iiot}, ``the Industrial \gls{IoT} provides a way to get better visibility and insight into the company's operations and assets", therefore this leads to ``operational efficiency gains and accelerated productivity, which results in reduced unplanned downtime and optimized efficiency, and thereby profits''.
+It is comprised of several use cases \parencite{iiot-cases} such as:
 
 \begin{itemize}
-    \item Predictive Maintenance: real-time monitoring of equipment conditions and applied data analytics can help a company to significantly decrease operational expenditures. ``Other potential advantages include increased equipment lifetime, increased plant safety and fewer accidents with negative environmental impact"" (\cite{iiot-cases});
-    \item Smart metering: real-time monitoring of energy, water or natural gas consumption of a building can reduce operating expenses by managing manual operations remotely, reduce energy theft and improve forecasting and streamline power-consumption (\cite{metering-sierra});
-    \item Asset tracking: real-time monitoring of resources helps "to easily locate and monitor key assets, along the supply chain (e.g. raw materials, final products and containers) to optimize logistics, maintain inventory levels, prevent quality issues and detect theft" (\cite{iiot-cases}).
+    \item Predictive Maintenance: real-time monitoring of equipment conditions and applied data analytics can help a company to significantly decrease operational expenditures. ``Other potential advantages include increased equipment lifetime, increased plant safety and fewer accidents with negative environmental impact'' \parencite{iiot-cases};
+    \item Smart metering: real-time monitoring of energy, water or natural gas consumption of a building can reduce operating expenses by managing manual operations remotely, reduce energy theft and improve forecasting and streamline power-consumption \parencite{metering-sierra};
+    \item Asset tracking: real-time monitoring of resources helps "to easily locate and monitor key assets, along the supply chain (e.g. raw materials, final products and containers) to optimize logistics, maintain inventory levels, prevent quality issues and detect theft" \parencite{iiot-cases}.
     \item Connected vehicles: computer-enhanced vehicles that automate many normal driving tasks can lower crash rates, and help decreasing the number of vehicles a company needs to function.
-    \item Fleet management: real-time monitoring of vehicles location and conditions can help ``improving efficiency and productivity while reducing overall transportation and staff costs"" (\cite{iiot-cases}).
+    \item Fleet management: real-time monitoring of vehicles location and conditions can help ``improving efficiency and productivity while reducing overall transportation and staff costs'' \parencite{iiot-cases}.
 \end{itemize}
 
 As we can see from the list above, the Industrial \gls{IoT} sector is focused on business efficiency and staff safety, which, as a side effect, brings environmental benefits.
@@ -724,7 +753,7 @@ As we can see from the list above, the Industrial \gls{IoT} sector is focused on
 \label{subsec:stateofart:areas:healthcare}
 
 According to \cite{FIROUZI2018583} new opportunities are now arising as a result of fast-paced expansion in the areas of the \gls{IoT} and Big Data for healthcare industries. People across the globe have begun to adopt wearable biosensors, whose data is feed into the new emerging individualized health applications.
-This sector incorporates numerous use cases (\cite{iot-healthcare}) such as:
+This sector incorporates numerous use cases \parencite{iot-healthcare} such as:
 
 \begin{itemize}
     \item Remote Healthcare Monitoring: real-time monitoring of a patient conditions such as pulse rate and heartbeat can prevent unwanted deaths;
@@ -732,12 +761,12 @@ This sector incorporates numerous use cases (\cite{iot-healthcare}) such as:
     \item Employee health management: real-time monitoring of employee's state can predict burnouts and increase a workforce productivity;
 \end{itemize}
 
-The benefits these use cases provide are a more convenient lifestyle, improvement of one life's quality, reduction in costs and increased survival rates of patients (\cite{iot-healthcare}).
+The benefits these use cases provide are a more convenient lifestyle, improvement of one life's quality, reduction in costs and increased survival rates of patients \parencite{iot-healthcare}.
 
 \subsection{Smart Homes}
 \label{subsec:stateofart:areas:home}
 
-Visions of smart homes have long caught the attention of researchers and considerable effort has been put toward enabling home automation. However, these technologies have not been widely adopted despite being available for over three decades (\cite{iot-smarthomes}).
+Visions of smart homes have long caught the attention of researchers and considerable effort has been put toward enabling home automation. However, these technologies have not been widely adopted despite being available for over three decades \parencite{iot-smarthomes}.
 Based on \cite{smarthome-review} most home automation services offer the following use cases:
 
 \begin{itemize}
@@ -747,7 +776,7 @@ Based on \cite{smarthome-review} most home automation services offer the followi
     \item Device Automation: smart systems can turn the lights off when no one is home, open the door when an identified person arrives and must more, improving the overall comfort of the residents.
 \end{itemize}
 
-A smart home delivers various benefits such as reducing energy waste, comfort, allowing remote control of the house, monitoring of elderly patients and easy communication with health institutions (\cite{smarthome-review}).
+A smart home delivers various benefits such as reducing energy waste, comfort, allowing remote control of the house, monitoring of elderly patients and easy communication with health institutions \parencite{smarthome-review}.
 
 \subsection{Open Challenges}
 \label{subsec:stateofart:arch:challenges}
@@ -756,7 +785,7 @@ Even though it seems \gls{IoT} is the obvious next step for the industry, health
 
 One of the big challenges ahead of everyone is related with antiquated ideas, tools and processes still in use today.
 Each of the use cases above mentioned require a big shift in how a company works since it demands a modernization of the organization infrastructure.
-\cite{tapscott2006wikinomics}, explained that ``In an age where mass collaboration can reshape an industry overnight, the old hierarchical ways of organizing work and innovation do not afford the level of agility, creativity, and connectivity that companies require to remain competitive in today's environment"".
+\cite{tapscott2006wikinomics}, explained that ``In an age where mass collaboration can reshape an industry overnight, the old hierarchical ways of organizing work and innovation do not afford the level of agility, creativity, and connectivity that companies require to remain competitive in today's environment''.
 
 According to \cite{7073822} this are the most important challenges regarding \gls{IoT} applications:
 

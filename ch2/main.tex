@@ -186,7 +186,7 @@ These are all ACID compliant and follow the SQL standard.
 According to \cite{jatana2012survey}, this type of databases do not support high scalability, 
 This data model is intended for strictly structured data with well defined interrelations.
 
-\subsubsection{Document-based Data Model}
+\paragraph{Document-based Data Model}
 \label{par:stateofart:arch:infra:store:nosql}
 
 This data model rose from the increasing need to store and analyze unstructured data as stated by \cite{miloslavskaya2016big}.  Citing \cite{elmasri2000fundamentals}, a ``major difference between document-based systems versus object and object-relational systems (relational database systems) is that there is no requirement to specify a schema''.
@@ -199,7 +199,7 @@ Some of the technologies that follow this data model are: \citetitle{mongodb} an
 \citetitle{mongodb} is open source and has a ``flexible document data model along with support for ad-hoc queries, secondary indexing, and real-time aggregations to provide powerful ways to access and analyze data'' \parencite{mongodb}.
 Contrary to the \citetitle{mongodb}, \citetitle{firestore} is a close source service provided by google.
 
-\subsubsection{Column-based Data Model}
+\paragraph{Column-based Data Model}
 \label{par:stateofart:arch:infra:store:time}
 
 This data model is used in applications that require large amounts of data storage, and is commonly named \textit{data warehouses}. According to \cite{dehdouh2015using}, a data warehouse  is ``designed according to a dimensional modelling which has for objective to observe facts through measures, also called indicators, according to the dimensions that represent the analysis axes''. Citing \cite{han2011survey}, these databases ``can maintain high-performance of data analysis and business intelligence processing''.
@@ -218,7 +218,7 @@ QuestDB is a relational column-oriented database designed for time series and ev
 According to benchmarks \parencite{quest-bench} preformed using the \gls{TSBS}, \cite{TSBS}, QuestDB ranks as the fastest option in the market.
 It has out-of-the-box support for SQL Postgres wire protocol, (thus integrating with \citetitle{postgressql} client libraries), can be easily deployed using a single Docker Image, and also supports the \gls{ILP}.
 
-\subsubsection{Graph-based Data Model}
+\paragraph{Graph-based Data Model}
 \label{par:stateofart:arch:infra:store:graph}
 
 According to \cite{angles2008survey}, the databases that follow this data model can be characterized as:
@@ -233,7 +233,7 @@ These databases flourish when the importance of the information relies on the re
 
 Some of the technologies related to this concept are: (i) \citetitle{neo4j}, (ii) \citetitle{dgraph}.
 
-\subsubsection{Key-Value Data Model}
+\paragraph{Key-Value Data Model}
 \label{par:stateofart:arch:infra:store:key}
 
 Databases that follow this data model have their data represented as simple key and value relations. Citing \cite{pokorny2011nosql}, ``A key uniquely identifies a value (typically string, but also a pointer, where the value is stored) and this value can be structured or completely unstructured (typically BLOB). The approach key-value reminds simple abstractions as file systems or hash tables (DHT), which enables efficient lookups''.
@@ -247,6 +247,39 @@ When compared with \citetitle{dynamodb}, \citetitle{redis} has a must more compe
 \subsubsection{Rule Engine}
 \label{subsubsec:stateofart:arch:infra:rule}
 
+\cite{CHISHOLM20041} defines a rule engine as a ``program that uses rules to reach conclusions from facts (premises)''. These systems help to externalize business logic from the application code, in this area they provide the means to react based on the measures gathered. 
+Rule Engines have a wide use in \gls{IoT} Systems according to \cite{LUO2021220, Milenkovic2020, 8938723}.
+
+According to \cite{rules-waylay}, most of the IoT platforms on the market today have a rules engine based on forward chaining algorithms, such as Redhat Drools, Cumulocity, Eclipse Smart Home (discontinued), AWS rule engine, Thingsboard and others.
+
+These systems are often categorized as \gls{IFP} Systems, as per \cite{cugola2012processing}.
+The following diagram, Figure~\ref{fig:stateofart:arch:infra:rule:ifp}, represents them.
+
+\begin{figure}[H]
+   \centering
+  \resizebox{\columnwidth}{!}
+  {
+     \input{assets/diagrams/design/domain/ifp-system.latex}
+  }
+  \caption[High-Level View of a \gls{IFP} System]{High-Level View of a \gls{IFP} System}
+  \label{fig:stateofart:arch:infra:rule:ifp}
+\end{figure}
+
+Some Rule Engine can support a Flow-based programing, a term invented by \cite{morrison1994flow}. Flow-based programing refers to the use of a visualization technique that allows users without coding experience to understand, create and alter programs by manipulating graphical blocks that represent program
+components or functionalities \cite{morrison2010flow}. A fine example of this is \cite{node-red}. This tool is widely used in \gls{IoT} \parencite{10.1145/3448891.3448938}.
+
+As for the other tool mentioned:
+
+Cumulocity is an \gls{IoT} platform that allows users to define business operations for immediate processing of incoming data from devices or other data sources. As per \cite{cumulocity}, the operation logic is implemented in Apama's Event Processing Language (EPL).
+
+\citetitle{drools} is a ``business-rule management system with a forward-chaining and backward-chaining inference-based rules engine, allowing fast and reliable evaluation of business rules and complex event processing''. The operation logic is implemented in the Drools Rule Language.
+
+AWS Rule Engine service is coupled with \citetitle{aws-iot}, the operation logic is implemented according to a json-schema where one can define what triggers an action, via an \gls{SQL} statement processed against an \gls{MQTT} topic and define a set of actions, e.g. send a message to \citetitle{kafka}, store data in \citetitle{dynamodb}, send a POST request to and endpoint, and others \parencite{aws-rules}.
+
+Thingsboard offers a rule engine based on \cite{node-red}, according to their documentation in \citetitleyear{thingsboar-rules}.
+
+Stream Processing rule engines such as \cite{storm}, \cite{spark} and \cite{flink} can also fit in this category but were not investigated.
+
 \subsection{Platforms}
 \label{subsec:stateofart:arch:platforms}
 
@@ -255,8 +288,6 @@ Things Board
 TagoIO
 
 DataCake
-
-Node-red
 
 \subsection{Solutions}
 \label{subsec:stateofart:arch:solutions}

@@ -1793,21 +1793,9 @@ Ultimately, what defines a user role is the domain he/she belongs to. Even if an
 
 The \textbf{Rule Management} concern refers to rule scenarios.
 
-The purpose of this concern is to provide a high-level language that can analyze a stream of \textbf{Data Unit}s, identify abnormal occurrences, and output \textbf{Alert}s base on them. This systems are usually categorized as \gls{IFP} Systems, according to \cite{cugola2012processing}.
+The purpose of this concern is to provide a high-level language that can analyze a stream of \textbf{Data Unit}s, identify abnormal occurrences, and output \textbf{Alert}s base on them.
 
-The following diagram, Figure~\ref{fig:design:domain:bounded_contexts:rule:ifp}, represents this systems.
-
-\begin{figure}[H]
-   \centering
-  \resizebox{\columnwidth}{!}
-  {
-     \input{assets/diagrams/design/domain/ifp-system.latex}
-  }
-  \caption[High-Level View of a \gls{IFP} System]{High-Level View of a \gls{IFP} System}
-  \label{fig:design:domain:bounded_contexts:rule:ifp}
-\end{figure}
-
-In this concern, the input data are \textbf{Data Unit}s and the output data are the \textbf{Alert}s. This concern is involved on how \textit{rules} are defined. The diagram in Figure~\ref{fig:design:domain:bounded_contexts:rule:diagram} displays the noteworthy concepts.
+In this concern, and according to Figure~\ref{fig:stateofart:arch:infra:rule:ifp} in Section~\ref{subsubsec:stateofart:arch:infra:rule}, the input data are \textbf{Data Unit}s and the output data are the \textbf{Alert}s. This concern is involved on how \textit{rules} are defined. The diagram in Figure~\ref{fig:design:domain:bounded_contexts:rule:diagram} displays the noteworthy concepts.
 
 \begin{figure}[H]
    \centering
@@ -1890,7 +1878,7 @@ An irrigation zone is an area intended to function as an isolated environment th
 
 \begin{figure}[H]
    \centering
-  \resizebox{\columnwidth}{!}
+  \resizebox{0.7\columnwidth}{!}
   {
      \input{assets/diagrams/design/domain/smart-irrigation-model-2.latex}
   }

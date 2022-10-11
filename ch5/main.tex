@@ -258,10 +258,11 @@ Queries that revolve around graph concepts such as: select parent node, select c
 
 This section refers to the bounded context of \textbf{Rule Management}. As mentioned before, the purpose of this context is to provide a high-level language that can analyze a stream of Data Units and output alerts base on them. The technology adopted was \citetitle{drools}.
 
-\citetitle{drools} is an open-source rule engine widely used in the industry [\cite{droolsindustry}]. The features that stud out from other rule engines are:
+\citetitle{drools} is a rule engine widely used in the industry \parencite{droolsindustry}. The features that stud out from other rule engines mentioned in \ref{subsubsec:stateofart:arch:infra:rule}:
 
 \begin{itemize}
-    \item Supports for sliding windows of time;
+    \item Open-source license;
+    \item Support for sliding windows of time;
     \item It is also a \gls{CEP} System;
     \item Integrates with the \textit{iot-core} package since it is also written in \textit{Java};
     \item Can be used as a standalone application or an embedded component of another application;

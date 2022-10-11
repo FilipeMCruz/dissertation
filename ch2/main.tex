@@ -177,15 +177,27 @@ The following sections briefly discuss these data models.
 
 \paragraph{Relational Data Model}
 \label{par:stateofart:arch:infra:store:relational}
-%todo: main info
-This data model has a wide variety of usage in the industry. Some of the technologies that follow this data model are: (i) \citetitle{mysql}, (ii) \citetitle{postgressql} and (iii) \citetitle{mariadb}.
 
-It is intended for strictly structured data with well defined interrelations.
+This data model has a wide variety of usage in the industry. It relies on a ``schema to define exactly and unambiguously all the relationships of interest to the users'' \parencite{zaniolo1981design}. Therefore, it excels to represent concrete concepts within a business domain. According to \cite{jatana2012survey} almost all relational databases use \gls{SQL} to access and modify the data stored in the database. ``\gls{SQL} consists of a set of facilities for defining, accessing and otherwise managing data'' \parencite{date1989guide}. The reliability of a database model is checked with the help of ACID properties: \textbf{A}tomicity, \textbf{C}onsistency, \textbf{I}solation, \textbf{D}urability.
+
+Some of the technologies that follow this data model are: (i) \citetitle{mysql}, (ii) \citetitle{postgressql} and (iii) \citetitle{oracledb}.
+These are all ACID compliant and follow the SQL standard.
+
+According to \cite{jatana2012survey}, this type of databases do not support high scalability, 
+This data model is intended for strictly structured data with well defined interrelations.
 
 \subsubsection{Document-based Data Model}
 \label{par:stateofart:arch:infra:store:nosql}
-%todo: main info
+
 This data model rose from the increasing need to store and analyze unstructured data as stated by \cite{miloslavskaya2016big}.  Citing \cite{elmasri2000fundamentals}, a ``major difference between document-based systems versus object and object-relational systems (relational database systems) is that there is no requirement to specify a schema''.
+
+This data model, and all other mentioned below have some key differences when compared with the \nameref{par:stateofart:arch:infra:store:relational}.
+Databases with this data model usually don't adder to the \gls{SQL} standard since there is no define notion of the data structure. Instead they follow the BASE acronym: \textbf{B}asically \textbf{A}vailable, \textbf{S}oft State and \textbf{E}ventually Consistent.
+
+Some of the technologies that follow this data model are: \citetitle{mongodb} and \citetitle{firestore}.
+
+\citetitle{mongodb} is open source and has a ``flexible document data model along with support for ad-hoc queries, secondary indexing, and real-time aggregations to provide powerful ways to access and analyze data'' \parencite{mongodb}.
+Contrary to the \citetitle{mongodb}, \citetitle{firestore} is a close source service provided by google.
 
 \subsubsection{Column-based Data Model}
 \label{par:stateofart:arch:infra:store:time}
@@ -195,22 +207,42 @@ This data model is used in applications that require large amounts of data stora
 Some of the technologies related to this concept are: (i) \citetitle{hbase}, (ii) \citetitle{cassandradb}, (iii) \citetitle{influxdb}, (iv) \citetitle{questdb}.
 
 According to \cite{george2011hbase} HBase is a ``distributed, persistent, strictly consistent storage system with near-optimal write and excellent read performance''. This database uses \gls{HDFS} as its file system, and so, it is built on top of Hadoop.
-HBase does not support a structured query language like \gls{SQL}, ``even though it's comprised of a set of standard tables with rows and columns, much like a traditional database'' (\cite{ibm-hbase}).
+HBase does not support a structured query language like \gls{SQL}, ``even though it's comprised of a set of standard tables with rows and columns, much like a traditional database'' \parencite{ibm-hbase}.
 
-CassandraDB is a distributed storage system for managing very large amounts of structured data spread out across many commodity servers, while providing highly available service with no single point of failure (\cite{lakshman2010cassandra}).
+CassandraDB is a distributed storage system for managing very large amounts of structured data spread out across many commodity servers, while providing highly available service with no single point of failure \parencite{lakshman2010cassandra}.
 It was developed internally by Facebook and then later open-sourced to the Apache Foundation. It doesn't support \gls{SQL}.
 
-According to \cite{naqvi2017time}, InfluxDB is an ``open-source schemaless \gls{TSDB} with optional closed-sourced components developed by InfluxData. It is written in Go programming language and it is optimized to handle time series data.'' It provides an SQL-like query language and also defines a new protocol for fast data ingestion (\cite{ilp}).
+According to \cite{naqvi2017time}, InfluxDB is an ``open-source schemaless \gls{TSDB} with optional closed-sourced components developed by InfluxData. It is written in Go programming language and it is optimized to handle time series data.'' It provides an SQL-like query language and also defines a new protocol for fast data ingestion \parencite{ilp}.
 
-QuestDB is a relational column-oriented database designed for time series and event data and entitles it self as the ``fastest open source time series database'' (\cite{questdb}).
-According to benchmarks (\cite{quest-bench}) preformed using the \gls{TSBS}, \cite{TSBS}, QuestDB ranks as the fastest option in the market.
+QuestDB is a relational column-oriented database designed for time series and event data and entitles it self as the ``fastest open source time series database'' \parencite{questdb}.
+According to benchmarks \parencite{quest-bench} preformed using the \gls{TSBS}, \cite{TSBS}, QuestDB ranks as the fastest option in the market.
 It has out-of-the-box support for SQL Postgres wire protocol, (thus integrating with \citetitle{postgressql} client libraries), can be easily deployed using a single Docker Image, and also supports the \gls{ILP}.
 
 \subsubsection{Graph-based Data Model}
 \label{par:stateofart:arch:infra:store:graph}
 
+According to \cite{angles2008survey}, the databases that follow this data model can be characterized as:
+
+\begin{itemize}
+    \item ``Data and/or the schema are represented by graphs, or by data structures generalizing the notion of graph (hypergraphs or hypernodes)'';
+    \item ``Data manipulation is expressed by graph transformations, or by operations whose main primitives are on graph features like paths, neighborhoods, subgraphs, graph patterns, connectivity, and graph statistics'';
+    \item ``Integrity constraints enforce data consistency. These constraints can be grouped in schema-instance consistency, identity and referential integrity, and functional and inclusion dependencies''.
+\end{itemize}
+
+These databases flourish when the importance of the information relies on the relations more or equal than on the entities, e.g. biology, Web mining and semantic Web, social networking and recommendation engines \parencite{angles2012comparison, miller2013graph}.
+
+Some of the technologies related to this concept are: (i) \citetitle{neo4j}, (ii) \citetitle{dgraph}.
+
 \subsubsection{Key-Value Data Model}
 \label{par:stateofart:arch:infra:store:key}
+
+Databases that follow this data model have their data represented as simple key and value relations. Citing \cite{pokorny2011nosql}, ``A key uniquely identifies a value (typically string, but also a pointer, where the value is stored) and this value can be structured or completely unstructured (typically BLOB). The approach key-value reminds simple abstractions as file systems or hash tables (DHT), which enables efficient lookups''.
+
+Some of the technologies related to this concept are: (i) \citetitle{dynamodb}, (ii) \citetitle{redis}.
+
+According to \cite{decandia2007dynamo} `` Dynamo has a simple key/value interface, is highly available with a clearly defined consistency window, is efficient in its resource usage, and has a simple scale out scheme to address growth in data set size or request rates''.
+
+When compared with \citetitle{dynamodb}, \citetitle{redis} has a must more compelling feature, its license. \citetitle{redis} is an ``open source, in-memory data store used by millions of developers as a database, cache, streaming engine, and message broker'' \parencite{redis}.
 
 \subsubsection{Rule Engine}
 \label{subsubsec:stateofart:arch:infra:rule}

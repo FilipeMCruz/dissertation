@@ -156,10 +156,10 @@ According to \citetitleyear{azure-gartner}, Azure is a leading \gls{IoT} Platfor
 
 \citetitleyear{helium} is a new \gls{IoT} Platform. This platform's business model is fairly different from the ones mentioned before. Besides the platform itself, the company also maintains an open-source blockchain designed to power \gls{IoT} devices with wireless connectivity. Helium technology enables communication between devices and the internet by promoting the expansion of a new network operated by common people.
 
-According to \cite{helium-wp}, `` Powering the Helium network is a blockchain with a native protocol token incentivizing a two-sided marketplace between coverage providers and coverage consumers''. Coverage providers install in their homes an \gls{IoT} gateway, Hotspot, that provides wide-area LoRaWAN coverage to the area surrounding it. Coverage consumers, e.g. \gls{IoT} devices, connect to this LoRaWAN network and send the gathered measures to the Hotspot. The Hotspot them routes the measures to the cloud in exchange for a transport fee, paid by the owner of the \gls{IoT} device.
+According to \cite{helium-wp}, `` Powering the Helium network is a blockchain with a native protocol token incentivizing a two-sided marketplace between coverage providers and coverage consumers''. Coverage providers install in their homes an \gls{IoT} gateway, Hotspot, that provides wide-area LoRaWAN coverage to the area surrounding it. Coverage consumers, e.g. \gls{IoT} devices, connect to this LoRaWAN network and send the gathered measures to the Hotspot. The Hotspot then routes the measures to the cloud in exchange for a transport fee, paid by the owner of the \gls{IoT} device.
 The fee corresponds to a token that can be traded for dollars, bitcoin or any other available commodity on online exchanges.
 
-In theory, this creates a self sustained economy that can provide to everyone a cheap and open communication layer for \gls{IoT} devices that is backed by open standards, and, provide a consistent income to those who what to support the network. The \textit{Helium Explorer Page}\footnote{\href {https://explorer.helium.com/}{link to Helium Explorer Page}} documents the number and location of each Hotspot, current there are almost a million of \gls{IoT} gateways installed throughout the world. Europe, USA and China are the regions with better network coverage.
+In theory, this creates a self sustained economy that can provide to everyone a cheap and open communication layer for \gls{IoT} devices that is backed by open standards, and, provide a consistent income to those who want to support the network. The \textit{Helium Explorer Page}\footnote{\href {https://explorer.helium.com/}{link to Helium Explorer Page}} documents the number and location of each Hotspot, current there are almost a million of \gls{IoT} gateways installed throughout the world. Europe, USA and China are the regions with better network coverage.
 
 This network, as an example, gives local farmers in remote locations the possibility to install a smart irrigation system without paying excruciating fees to an \gls{ISP} for satellite or 4G coverage.
 
@@ -168,6 +168,12 @@ Therefore, the solution to develop in this project will, at least in the near fu
 
 Helium Console enables devices to connect to pre-configured, cloud-based applications or send data directly over HTTP or MQTT via Integrations.
 It currently supports two core integrations, HTTP and \gls{MQTT}, and multiple community integrations such as: (i) Helium Cargo, (ii) myDevices Cayenne, (iii) AWS IoT Core, (iv) Azure IoT Hub, (v) Azure IoT Central, (vi) Adafruit IO, (vii) Akenza, (viii) Datacake, (ix) Google Sheets, (x) Microshare, (xi) TagoIO, (xii) Ubidots \parencite{helium-integrations}. 
+
+
+\paragraph{Summary}
+\label{par:stateofart:arch:infra:middleware:summary}
+
+?????
 
 \subsubsection{Data Storage}
 \label{subsubsec:stateofart:arch:infra:store}
@@ -259,10 +265,16 @@ According to \cite{decandia2007dynamo} `` Dynamo has a simple key/value interfac
 
 When compared with \citetitle{dynamodb}, \citetitle{redis} has a must more compelling feature, its license. \citetitle{redis} is an ``open source, in-memory data store used by millions of developers as a database, cache, streaming engine, and message broker'' \parencite{redis}.
 
+\paragraph{Summary}
+\label{par:stateofart:arch:infra:store:summary}
+
+?????
+
+
 \subsubsection{Rule Engine}
 \label{subsubsec:stateofart:arch:infra:rule}
 
-\cite{CHISHOLM20041} defines a rule engine as a ``program that uses rules to reach conclusions from facts (premises)''. These systems help to externalize business logic from the application code, in this area they provide the means to react based on the measures gathered. 
+\cite{CHISHOLM20041} defines a rule engine as a ``program that uses rules to reach conclusions from facts (premises)''. These systems help to externalize business logic from the application code. In this area they are intended to provide the means to react based on the measures gathered. 
 Rule Engines have a wide use in \gls{IoT} Systems according to \cite{LUO2021220, Milenkovic2020, 8938723}.
 
 According to \cite{rules-waylay}, most of the IoT platforms on the market today have a rules engine based on forward chaining algorithms, such as Redhat Drools, Cumulocity, Eclipse Smart Home (discontinued), AWS rule engine, Thingsboard and others.
@@ -280,7 +292,7 @@ The following diagram, Figure~\ref{fig:stateofart:arch:infra:rule:ifp}, represen
   \label{fig:stateofart:arch:infra:rule:ifp}
 \end{figure}
 
-Some Rule Engine can support a Flow-based programing, a term invented by \cite{morrison1994flow}. Flow-based programing refers to the use of a visualization technique that allows users without coding experience to understand, create and alter programs by manipulating graphical blocks that represent program
+Some Rule Engine can support a Flow-based programing, a term coined by \cite{morrison1994flow}. Flow-based programing refers to the use of a visualization technique that allows users without coding experience to understand, create and alter programs by manipulating graphical blocks that represent program
 components or functionalities \parencite{morrison2010flow}. A fine example of this is \citetitleyear{node-red}. This tool is widely used in \gls{IoT} \parencite{10.1145/3448891.3448938}.
 
 As for the other tool mentioned:
@@ -324,6 +336,13 @@ This platform provides several pre-made solutions like: (i) Welding Fume Monitor
 TagoIO ``offers the tools for a business to manage devices, store data, run analytics, and integrate services. It combines everything with an easy-to-use application and user management system'' \parencite{tagoio}. Its features are: (i) possibility to connect to any device, (ii) enables the design of custom dashboards, (iii) easy data management, (iv) can run custom analysis written in Javascript, (v) custom defined dispatch of SMS, notifications and e-mails and (vi) possibility to tailor the \gls{UI} to the company's desire (e.g. logo and color). 
 
 Contrary to the other mentioned platforms, the author thinks that the pre-made solutions are much more lackluster and device-centered instead of business-case centered and therefore weren't mentioned.
+
+
+\paragraph{Summary}
+\label{subsubsec:stateofart:arch:platforms:summary}
+
+????
+
 
 \subsection{Solutions}
 \label{subsec:stateofart:arch:solutions}
@@ -387,6 +406,13 @@ LocaTrack is a platform for Asset Tracking built by Safecube \parencite{safecube
 According to \cite{safecube-azure}, LocaTrack uses SigFox for lower-level communication and Azure IoT Hub to collect the location of tracked assets.
 
 Finally, TrackPac is a service for asset tracking \parencite{trackpac}. This service offers an application that presents real-time location data, battery data and geofence alerts of the managed assets. By using LoRaWAN (provided by Helium, the same network used in this project) for lower-level communication it promises a service ten times cheaper than the ones that require 4G. This service works with LoRaWAN class A trackers and does not enforce the use of any proprietary, close-source devices even though it recommends the use of Browan Tabs Object Locator, Digital Matter Oyster3 or Abeeway Micro. 
+
+
+\subsubsection{Summary}
+\label{subsubsec:stateofart:arch:solutions:summary}
+
+???
+
 
 \subsection{Reference Architectures}
 \label{subsec:stateofart:arch:ref}

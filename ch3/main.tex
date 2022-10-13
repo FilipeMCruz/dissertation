@@ -14,9 +14,9 @@ The definitive business cases to develop changed various times during the projec
 These business cases can be vaguely characterized according to the following organization's needs:
 
 \begin{itemize}
-    \item \textbf{Hosting Options}: Should the solution be deployed in the organization' server farm or in the cloud;
-    \item \textbf{Physical Resources}: Should the organization share an instance of the solution with others or not;
-    \item \textbf{Data Access}: Does the organization wants to provide their data to the public;
+    \item \textbf{Deployment Environment}: Should the solution be deployed on-premise or in the cloud;
+    \item \textbf{Multi-Tenancy}: Should the organization share an instance of the solution with others or not (according \cite{multi});
+    \item \textbf{Data Shareability}: Does the organization wants to provide their data to the public (according to \cite{pra2.2017.14505401085});
     \item \textbf{Information Access and Visualization}: Where and how to present and serve information. Present information visually in the costumer organization platform, directly in this solution or via other means such as a simple \gls{API}, SMS, or email.
 \end{itemize}
 
@@ -24,19 +24,20 @@ These business cases can be vaguely characterized according to the following org
     \caption[Summary of the main requirements of the requested business cases]{Summary of the main requirements of the requested business cases}
     \label{tab:requirements:servicerequests}
     \centering
+    \small
     \begin{tabular}{@{}ccllll@{}}
     \toprule
     \textbf{Org} &
       \textbf{Business Case} &
-      \textbf{\begin{tabular}[c]{@{}l@{}}Hosting\\ Option\end{tabular}} &
-      \textbf{\begin{tabular}[c]{@{}l@{}}Physical \\ Resources\end{tabular}} &
-      \textbf{\begin{tabular}[c]{@{}l@{}}Data \\ Access\end{tabular}} &
+      \textbf{\begin{tabular}[c]{@{}l@{}}Deployment\\Environment\end{tabular}} &
+      \textbf{\begin{tabular}[c]{@{}l@{}}Multi-\\Tenancy\end{tabular}} &
+      \textbf{\begin{tabular}[c]{@{}l@{}}Data \\Shareability\end{tabular}} &
       \textbf{\begin{tabular}[c]{@{}l@{}}Information \\ Access and \\Visualization\end{tabular}} \\ \midrule
-    \multirow{5}{*}{A} & Fleet Management           & On-Site & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6}
-                       & Smart Irrigation           & On-Site & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6}
-                       & Smart Parking              & On-Site & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6}
-                       & Indoor Fire Detention      & On-Site & Dedicated & Private & SMS and Email      \\ \cmidrule(l){2-6}
-                       & Public Health Surveillance & On-Site & Dedicated & Public  & Sensae Console     \\ \midrule
+    \multirow{5}{*}{A} & Fleet Management           & On-Premise & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6}
+                       & Smart Irrigation           & On-Premise & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6}
+                       & Smart Parking              & On-Premise & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6}
+                       & Indoor Fire Detention      & On-Premise & Dedicated & Private & SMS and Email      \\ \cmidrule(l){2-6}
+                       & Public Health Surveillance & On-Premise & Dedicated & Public  & Sensae Console     \\ \midrule
     B                  & Fleet Management           & Cloud      & Dedicated & Private & Org B Platform     \\ \midrule
     \multirow{3}{*}{C} & Smart Irrigation           & Cloud      & Shared    & Private & Sensae Console     \\ \cmidrule(l){2-6}
                        & Indoor Fire Detention      & Cloud      & Shared    & Private & SMS and Email      \\ \cmidrule(l){2-6}
@@ -118,12 +119,12 @@ Even though the first four groups of operations belong to the Manager role, they
 The purpose of a Costumer is to manage his/her own organizations.
 The following list documents the universal functional requirements related to this role:
 
-\begin{itemize}
+\begin{enumerate}
     \item A Costumer must be able to create and remove a department under his/her organization;
     \item A Costumer must be able to define the permissions for all other Costumers in a department under his/her organization;
     \item A Costumer must be able to assign and move another Costumer from/to a department under his/her organization;
     \item A Costumer must be able to move a sensor from one department to another department under his/hers organization.
-\end{itemize}
+\end{enumerate}
 
 \subsection{External Services}
 \label{subsec:requirements:functional:services}
@@ -141,12 +142,12 @@ Within a simple Fleet Management business case the major utilities a Costumer ca
 
 The following list documents the key functional requirements of this business case as prescribed by the third parties:
 
-\begin{itemize}
+\begin{enumerate}
     \item A Costumer must be able to track in real-time a vehicle location and motion status;
     \item A Costumer must be able to see the itineraries of a vehicle in defined time span;
     \item A Costumer must be able to see where, when and for how long a vehicle was parked;
-    \item A Costumer must be able to see the traveled distance of a vehicle, in a defined timespan.
-\end{itemize}
+    \item A Costumer must be able to see the traveled distance of a vehicle, in a defined time span.
+\end{enumerate}
 
 This business case' concepts are discussed with more detail in Section~\ref{subsubsec:design:domain:bounded_contexts:fleet}.
 
@@ -155,10 +156,9 @@ This business case' concepts are discussed with more detail in Section~\ref{subs
 
 An Indoor Fire Detention system usual main objective is to trigger an alarm when precarious conditions are meet. As a first milestone, both companies, A and C, requested a simple alarm system with no other features. Features such as data retention, data visualization and continuous camera vigilance were later requested. As such, the only requirement related to this business case is:
 
-\begin{itemize}
+\begin{enumerate}
     \item A Costumer must be able to receive alerts regarding critical conditions that may indicate a fire outbreak, either via SMS or email.
-\end{itemize}
-
+\end{enumerate}
 
 \subsubsection{Smart Irrigation}
 \label{subsubsec:requirements:functional:services:irrigation}
@@ -167,12 +167,12 @@ Within a Smart Irrigation business case the major utilities a Costumer can benef
 
 The following list documents the key functional requirements related to this business case as prescribed by the third parties:
 
-\begin{itemize}
+\begin{enumerate}
     \item A Costumer must be able to manage his/her garden's information;
     \item A Costumer must be able to track a gardens' conditions in real-time;
     \item A Costumer must be able to see past conditions of a garden;
     \item A Costumer must be able to activate and deactivate the irrigation system remotely.
-\end{itemize}
+\end{enumerate}
 
 The concepts surrounding this business case are discussed with more detail in Section~\ref{subsubsec:design:domain:bounded_contexts:irrigation}.
 
@@ -191,7 +191,7 @@ Each category's requirements are presented in the following sections.
 
 Regarding the Functionality category, the following requirements were identified:
 
-\begin{itemize}
+\begin{enumerate}
     \item User Authentication: Apart from the Anonymous Users, everyone else must be authenticated to use the system;
     \item User Authorization: Everyone only has access to what his/her permissions cover, the system shall provide different access permissions to information (UNI.067);
     \item Data Exposure Control: Users have control how their data is exposed to (shared with) other users (UNI.002);
@@ -207,7 +207,7 @@ Regarding the Functionality category, the following requirements were identified
     \item Data Filtering: The system shall be able to filter erroneous sensor data (e.g. GPS location coordinates of a land vehicle appearing in the middle of the ocean;
     \item Real-time Alerts: The system must notify the interested clients in real time of any alarm triggered by custom rules;
     \item Real-Time Information: Any change to the system must be notified to the client in real-time without resorting to techniques like automatic/manual polling. This includes new sensor data, changes to virtual devices, alarms/rules definitions, decoders and anything else deemed important.
-\end{itemize}
+\end{enumerate}
 
 \subsection{Usability Requirements}
 \label{subsec:requirements:non_functional:usability}
@@ -219,37 +219,37 @@ Since this project is a greenfield and is still in the early stages of conceptio
 
 The Reliability category has the following requirements:
 
-\begin{itemize}
+\begin{enumerate}
     \item The system must validate all user inputs, denying code injection according to \cite{top10};
     \item The system must be able to recover from a failure state such as a crash in the system or any system component;
     \item The system shall provide availability through resilience (UNI.064);
     \item The system must identify or protect itself against compatibility errors due to versions mismatches between the system and third-party scripts or components, e.g. a valid rule in the system version 1 may not be compatible with the system version 2; if that is the case the system should inform the Costumer and not use the rule.
-\end{itemize}
+\end{enumerate}
 
 \subsection{Performance Requirements}
 \label{subsec:requirements:non_functional:performance}
 
 Even though this work is in its early stages of development, the Performance of the system is a priority. The requirements specified for this category are:
 
-\begin{itemize}
+\begin{enumerate}
     \item When a new and valid device data is received, the system should make this information available to any user within 2 seconds in 90\% of the cases. The time for the information to be presented should never exceed 5 seconds unless the network connection is broken (in which case the user should be notified);
     \item When an alarm is triggered, the system should dispatch the alarm within 10 seconds in 90\% of the cases;
     \item Concurrent Utilization: The system must be able to be used by various users at the same time;
     \item High Data Ingestion: The system must be able to successfully process, evaluate and store device data with a throughput of at least 5000 data units per minute.
-\end{itemize}
+\end{enumerate}
 
 \subsection{Supportability Requirements}
 \label{subsec:requirements:non_functional:supportability}
 
 In the Supportability category the following requirements were identified:
 
-\begin{itemize}
+\begin{enumerate}
     \item The system must be highly configurable so that support for any type of device, specially payload decoding, can be added without the need for restarting/rebuilding it;
     \item The system must be agnostic to cloud computing platforms and be independent of any service provided by cloud computing platforms. This ensures that it can be deployed on-site or on a single cloud computing platform;
     \item The system must provide simple methods to integrate external services that answer new business cases without the need to rebuilding it;
     \item The system shall be extensible for future technologies (UNI.093);
     \item The system must attempt to be agnostic to \gls{IoT} middleware platforms, being able to exchange data with most of them without the need to restarting/rebuilding it. At least \citetitle{helium} has to be supported.
-\end{itemize}
+\end{enumerate}
 
 \subsection{Design Requirements}
 \label{subsec:requirements:non_functional:design}
@@ -279,30 +279,30 @@ In the Implementation category, the system's shall provide a \gls{SPA} to end us
 
 In the Interface category, the following requirements for \textbf{Sensae Console} were identified:
 
-\begin{itemize}
+\begin{enumerate}
     \item The system shall require user authentication via OpenID Connect Protocol offered by any Identity Provider;
     \item The system shall support the dispatch of downlinks to devices using, at least, the \citetitle{helium};
     \item The system shall support the ingestion of uplinks from devices using, at least, the \citetitle{helium}.
-\end{itemize}
+\end{enumerate}
 
 As for the \textbf{External Services}:
 
-\begin{itemize}
+\begin{enumerate}
     \item The Indoor Fire Retention related External Service shall support the dispatch of emails using \gls{SMTP};
     \item The Indoor Fire Retention related External Service shall support the dispatch of messages using \gls{SMS}.
-\end{itemize}
+\end{enumerate}
 
 \subsection{Physical Requirements}
 \label{subsec:requirements:non_functional:physical}
 
 In the Physical category, the following requirements were identified:
 
-\begin{itemize}
+\begin{enumerate}
     \item The system must be publicly available under a single \gls{FQDN};
     \item The system shall be deployed in machines running a Linux kernel;
     \item The various system components shall be containerized using docker;
     \item The various system components shall be orchestrated using docker-compose or kubernetes.
-\end{itemize}
+\end{enumerate}
 
 \section{Synopsis}
 \label{subsec:requirements:synopsis}

@@ -4,12 +4,7 @@
 This chapter introduces a modest introduction to the \gls{IoT} landscape, focusing first on technologies, solutions and the architectural context surrounding them and later the various business areas where \gls{IoT} is used.
 The intent of this chapter is to introduce the reader to the subjects related to this work.
 
-The core objective of this project is the development of an \gls{IoT} platform. Therefore this chapter will not focus on the physical side of the business (installation, deployment, onboarding and management of devices and \gls{IoT} gateways). 
-%\section{Internet of Things}
-%\label{sec:stateofart:iot}
-
-%todo
-%This section has provided a short overview of IoT devices and systems. It is not designed to be comprehensive or even extensive, but simply to provide enough background to support the discussion of requirements and capabilities below.
+The core objective of this project is the development of an \gls{IoT} platform. Therefore this chapter will not focus on the physical side of the business (installation, deployment, onboarding and management of devices and \gls{IoT} gateways).
 
 \section{IoT Architectural Context}
 \label{sec:stateofart:arch}
@@ -116,8 +111,6 @@ The services that will be briefly mentioned are:
 \begin{itemize}
     \item \nameref{par:stateofart:arch:infra:middleware:ttn};
     \item \nameref{par:stateofart:arch:infra:middleware:azure};
-    % \item \nameref{par:stateofart:arch:infra:middleware:aws};
-    % \item \nameref{par:stateofart:arch:infra:middleware:google};
     \item \nameref{par:stateofart:arch:infra:middleware:helium}.
 \end{itemize}
 
@@ -141,16 +134,6 @@ According to \cite{azure-hub} data can also be routed to different services for 
 
 According to \citetitleyear{azure-gartner}, Azure is a leading \gls{IoT} Platform.
 
-% \paragraph{AWS IoT Core}
-% \label{par:stateofart:arch:infra:middleware:aws}
-
-% AWS IoT Core can be seen as a \gls{PaaS} solution that allows for device management, enables easy data storage (in \citetitle{dynamodb} and S3) and uses rules to interact with other AWS services and also external ones. Communication between the platform and the devices is made using \gls{MQTT} topics \parencite{pierleoni2019amazon}.
-
-% \paragraph{Google IoT Cloud}
-% \label{par:stateofart:arch:infra:middleware:google}
-
-% Google IoT Cloud is also a \gls{PaaS} solution similar to \nameref{par:stateofart:arch:infra:middleware:aws}. According to \cite{pierleoni2019amazon}, it is possible to define custom metadata for a device with an arbitrary user-defined blob of data, something that Azure and AWS don't support.
-
 \paragraph{Helium Console}
 \label{par:stateofart:arch:infra:middleware:helium}
 
@@ -169,11 +152,18 @@ Therefore, the solution to develop in this project will, at least in the near fu
 Helium Console enables devices to connect to pre-configured, cloud-based applications or send data directly over HTTP or MQTT via Integrations.
 It currently supports two core integrations, HTTP and \gls{MQTT}, and multiple community integrations such as: (i) Helium Cargo, (ii) myDevices Cayenne, (iii) AWS IoT Core, (iv) Azure IoT Hub, (v) Azure IoT Central, (vi) Adafruit IO, (vii) Akenza, (viii) Datacake, (ix) Google Sheets, (x) Microshare, (xi) TagoIO, (xii) Ubidots \parencite{helium-integrations}. 
 
-
 \paragraph{Summary}
 \label{par:stateofart:arch:infra:middleware:summary}
 
-?????
+This section mentioned three \gls{IoT} middlewares, each with their distinctive characteristics:
+
+\begin{itemize}
+    \item The Things Stack: an open-source solution;
+    \item Azure IoT Hub: a widely used cloud service;
+    \item Helium: the solution that this project is required to adopt first.
+\end{itemize}
+
+Next, various Data Storage solutions will be discussed.
 
 \subsubsection{Data Storage}
 \label{subsubsec:stateofart:arch:infra:store}
@@ -268,8 +258,9 @@ When compared with \citetitle{dynamodb}, \citetitle{redis} has a must more compe
 \paragraph{Summary}
 \label{par:stateofart:arch:infra:store:summary}
 
-?????
+This section tackled most types of databases available. It became clear that the \nameref{par:stateofart:arch:infra:store:time} is tailored for \gls{IoT}, due to the large amounts of data it can ingest in short amount of time. The focus on time series analysis by some solutions is also deemed important since sensor data is always interconnected to the time it was collected.
 
+In the next section, the concept of Rule Engines, and their benefits for \gls{IoT}, will be introduced.
 
 \subsubsection{Rule Engine}
 \label{subsubsec:stateofart:arch:infra:rule}
@@ -312,8 +303,6 @@ Stream Processing rule engines such as \citetitleyear{storm}, \citetitleyear{spa
 
 The platforms described here provide a Mashup-based development environment. According to \cite{DIAS2022100529}, ``mashup tools are solutions that allow developers to construct application and systems in a component-based fashion (e.g. Widgets) or Web service composition (e.g. REST APIs)''.
 
-These platforms enable someone with close to no programing knowledge to design dashboards that present data in various manners, however ``these approaches commonly have limitations and unaddressed challenges, such as not capturing the full software development life-cycle, having large-scale limitations and suffering from leaky abstractions'' \parencite{DIAS2022100529}.
-
 ThingsBoard, DataCake and TagoIO are some examples of these platforms.
 
 \subsubsection{ThingsBoard}
@@ -337,12 +326,15 @@ TagoIO ``offers the tools for a business to manage devices, store data, run anal
 
 Contrary to the other mentioned platforms, the author thinks that the pre-made solutions are much more lackluster and device-centered instead of business-case centered and therefore weren't mentioned.
 
-
 \paragraph{Summary}
 \label{subsubsec:stateofart:arch:platforms:summary}
 
-????
+This section indicated some of the platforms built to ease the creation of business case focused applications that rely on \gls{IoT} data via a Mashup-based development.
+These platforms enable someone with close to no programing knowledge to design dashboards that present data in various manners, however ``these approaches commonly have limitations and unaddressed challenges, such as not capturing the full software development life-cycle, having large-scale limitations and suffering from leaky abstractions'' \parencite{DIAS2022100529}.
 
+The intent behind this section is to provide some context to what the market as to offer for those who want to build \gls{IoT} applications with ease.
+
+Next, some solutions focused on specific business cases will be presented.
 
 \subsection{Solutions}
 \label{subsec:stateofart:arch:solutions}
@@ -407,12 +399,12 @@ According to \cite{safecube-azure}, LocaTrack uses SigFox for lower-level commun
 
 Finally, TrackPac is a service for asset tracking \parencite{trackpac}. This service offers an application that presents real-time location data, battery data and geofence alerts of the managed assets. By using LoRaWAN (provided by Helium, the same network used in this project) for lower-level communication it promises a service ten times cheaper than the ones that require 4G. This service works with LoRaWAN class A trackers and does not enforce the use of any proprietary, close-source devices even though it recommends the use of Browan Tabs Object Locator, Digital Matter Oyster3 or Abeeway Micro. 
 
-
 \subsubsection{Summary}
 \label{subsubsec:stateofart:arch:solutions:summary}
 
-???
+This section referenced some solutions found in academia and the market. Their descriptions alluded to how narrow-scoped \gls{IoT} solutions tend to be, commonly requiring specific devices and cloud platforms to operate.
 
+Next, some reference architectures for \gls{IoT} will be introduced. These, among many things, intend to address the interoperability problems described above by introducing a common interpretation and vocabulary to the \gls{IoT} landscape.
 
 \subsection{Reference Architectures}
 \label{subsec:stateofart:arch:ref}

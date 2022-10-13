@@ -13,7 +13,7 @@
 \draw[pstyle0] (637pt,69pt) rectangle (641pt,71pt);
 \draw[pstyle0] (637pt,73pt) rectangle (641pt,75pt);
 \node at (287.4308pt,75pt)[below right,color=black]{\textit{\guillemotleft Container\guillemotright }};
-\node at (255.3498pt,94.0679pt)[below right,color=black]{\textbf{Device Ownership}};
+\node at (255.3498pt,94.0679pt)[below right,color=black]{\textbf{Device Commander}};
 \draw[pstyle1] (33.5pt,127pt) -- (160.4694pt,127pt) -- (169.9694pt,152.0679pt) -- (632.5pt,152.0679pt) -- (635pt,386.5pt) -- (33.5pt,389pt) -- (31pt,129.5pt);
 \draw[pstyle1] (31pt,152.0679pt) -- (169.9694pt,152.0679pt);
 \node at (35pt,129pt)[below right,color=black]{\textbf{Infrastructure}};

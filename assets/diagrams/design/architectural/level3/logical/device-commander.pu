@@ -5,7 +5,7 @@
 interface "AMQP API" as INGRESS_API
 interface "REST API" as REST_API
 
-component "Device Ownership" <<Container>> {
+component "Device Commander" <<Container>> {
     component "Domain" as DOM <<Component>>
     component "Application" as APP <<Component>>
     folder "Infrastructure" as INFRA {

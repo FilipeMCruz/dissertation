@@ -166,7 +166,7 @@ The logical view of the system is introduced here, complete but not detailed, in
 \begin{figure}[H]
    \centering
    \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level1/logical-view.pdf}
-   \caption[Context Level - Logical View Diagram]{Context Level - Logical View Diagram}
+   \caption[Solution - Context Level - Logical View Diagram]{Solution - Context Level - Logical View Diagram}
    \label{fig:design:architecture:context:logical:diagram}
 \end{figure}
 
@@ -186,7 +186,7 @@ Next is the physical view (Figure~\ref{fig:design:architecture:context:physical:
 \begin{figure}[H]
    \centering
    \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level1/physical-view.pdf}
-   \caption[Context Level - Physical View Diagram]{Context Level - Physical View Diagram}
+   \caption[Solution - Context Level - Physical View Diagram]{Solution - Context Level - Physical View Diagram}
    \label{fig:design:architecture:context:physical:diagram}
 \end{figure}
 
@@ -344,7 +344,7 @@ The system/container initialization, presented in Figure~\ref{fig:design:archite
 \begin{figure}[H]
    \centering
    \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/process/container-init.pdf}
-   \caption[Container Level - System/Container Initialization - Process View Diagram]{Container Level - System/Container Initialization - Process View Diagram}
+   \caption[System/Container Initialization - Part 1 - Container Level - Process View Diagram]{System/Container Initialization - Part 1 - Container Level - Process View Diagram}
    \label{fig:design:architecture:platform:container:process:diagram:init}
 \end{figure}
 
@@ -356,7 +356,7 @@ Certain containers need the entire state related to their concern to function. S
 \begin{figure}[H]
    \centering
    \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/process/container-ready.pdf}
-   \caption[Container Level - System/Container Initialization - Part 2 - Process View Diagram]{Container Level - System/Container Initialization - Part 2 - Process View Diagram}
+   \caption[System/Container Initialization - Part 2 - Container Level - Process View Diagram]{System/Container Initialization - Part 2 - Container Level - Process View Diagram}
    \label{fig:design:architecture:platform:container:process:diagram:ready}
 \end{figure}
 
@@ -369,7 +369,7 @@ The following diagram in Figure~\ref{fig:design:architecture:platform:container:
 \begin{figure}[H]
    \centering
    \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level2/process/data-flow-scope.pdf}
-   \caption[Container Level - Data Flow - Diagram]{Container Level - Data Flow - Diagram}
+   \caption[Data Flow - Container Level - Diagram]{Data Flow - Container Level - Diagram}
    \label{fig:design:architecture:platform:container:process:diagram:flow}
 \end{figure}
 
@@ -378,7 +378,7 @@ Most of these containers have just a portion of their concern's state and may be
 \begin{figure}
    \centering
    \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level2/process/data-decoder-flow-1.pdf}
-   \caption[Container Level - Data Decoder Operation part 1 - Process View Diagram]{Container Level - Data Decoder Operation Part 1 - Process View Diagram}
+   \caption[Data Decoder Operation - Part 1 - Container Level - Process View Diagram]{Data Decoder Operation - Part 1 - Container Level - Process View Diagram}
    \label{fig:design:architecture:platform:container:process:diagram:decoder:1}
 \end{figure}
 
@@ -389,7 +389,7 @@ The diagram in Figure~\ref{fig:design:architecture:platform:container:process:di
 \begin{figure}[H]
    \centering
    \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level2/process/data-decoder-flow-2.pdf}
-   \caption[Container Level - Data Decoder Operation Part 2 - Process View Diagram]{Container Level - Data Decoder Operation Part 2 - Process View Diagram}
+   \caption[Data Decoder Operation - Part 2 - Container Level - Process View Diagram]{Data Decoder Operation - Part 2 - Container Level - Process View Diagram}
    \label{fig:design:architecture:platform:container:process:diagram:decoder:2}
 \end{figure}
 
@@ -411,7 +411,7 @@ The next diagrams, in Figure~\ref{fig:design:architecture:platform:container:pro
 \begin{figure}
    \centering
    \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level2/process/consult-data-processor.pdf}
-   \caption[Container Level - Consult Data Processors - Process View Diagram]{Container Level - Consult Data Processors - Process View Diagram}
+   \caption[Consult Data Processors - Container Level - Process View Diagram]{Consult Data Processors - Container Level - Process View Diagram}
    \label{fig:design:architecture:platform:container:process:diagram:processor}
 \end{figure}
 
@@ -420,7 +420,7 @@ The diagram presented above represents a simple consult of data mappers, as we c
 \begin{figure}
    \centering
    \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level2/process/edit-device-management.pdf}
-   \caption[Container Level - Edit Device Information - Process View Diagram]{Container Level - Edit Device Information - Process View Diagram}
+   \caption[Edit Device Information - Container Level - Process View Diagram]{Edit Device Information - Container Level - Process View Diagram}
    \label{fig:design:architecture:platform:container:process:diagram:device}
 \end{figure}
 
@@ -451,7 +451,7 @@ The system verifies the identity of a user based on the authentication performed
 \begin{figure}
    \centering
    \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/process/user-authentication.pdf}
-   \caption[Container Level - User Authentication - Process View Diagram]{Container Level - User Authentication - Process View Diagram}
+   \caption[User Authentication - Container Level - Process View Diagram]{User Authentication - Container Level - Process View Diagram}
    \label{fig:design:architecture:platform:container:process:diagram:authentication}
 \end{figure}
 
@@ -461,7 +461,7 @@ The user identity and credentials validation are assured by an external identity
 \begin{figure}[H]
    \centering
    \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level2/process/user-authorization.pdf}
-   \caption[Container Level - User Authorization - Process View Diagram]{Container Level - User Authorization - Process View Diagram}
+   \caption[User Authorization - Container Level - Process View Diagram]{User Authorization - Container Level - Process View Diagram}
    \label{fig:design:architecture:platform:container:process:diagram:authorization}
 \end{figure}
 
@@ -487,7 +487,7 @@ Each backend service container is mapped to its own individual package. The Data
 \begin{figure}[H]
    \centering
    \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/development/backend.pdf}
-   \caption[Container Level - Backend Services - Implementation View Diagram]{Container Level - Backend Services - Implementation View Diagram}
+   \caption[Container Level - Implementation View Diagram]{Backend Services - Container Level - Implementation View Diagram}
    \label{fig:design:architecture:platform:container:development:backend}
 \end{figure}
 
@@ -498,7 +498,7 @@ No database service has been developed, only configured. The Message Broker also
 \begin{figure}[H]
    \centering
    \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/development/database.pdf}
-   \caption[Container Level - Database Services - Implementation View Diagram]{Container Level - Database Services - Implementation View Diagram}
+   \caption[Database Services - Container Level - Implementation View Diagram]{Database Services - Container Level - Implementation View Diagram}
    \label{fig:design:architecture:platform:container:development:database}
 \end{figure}
 
@@ -509,7 +509,7 @@ Each frontend service is divided between the \textit{apps} package and \textit{l
 \begin{figure}[H]
    \centering
    \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/development/frontend.pdf}
-   \caption[Container Level - Frontend Services - Implementation View Diagram]{Container Level - Frontend Services - Implementation View Diagram}
+   \caption[Frontend Services - Container Level - Implementation View Diagram]{Frontend Services - Container Level - Implementation View Diagram}
    \label{fig:design:architecture:platform:container:development:frontend}
 \end{figure}
 
@@ -568,7 +568,7 @@ In order to provide live information to the user, the Fleet Management service (
 \begin{figure}[H]
    \centering
    \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/process/device-live-location.pdf}
-   \caption[Container Level - Consult Device Live Location via Fleet Management - Process View Diagram]{Container Level - Consult Device Live Location via Fleet Management - Process View Diagram}
+   \caption[Consult Device Live Location - Container Level - Process View Diagram]{Consult Device Live Location - Container Level - Process View Diagram}
    \label{fig:design:architecture:container:process:diagram:fleet}
 \end{figure}
 
@@ -593,7 +593,7 @@ As a brief description this diagram describes what happens when an alert is disp
 \begin{figure}[H]
    \centering
    \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/process/notification-dispatch.pdf}
-   \caption[Container Level - Receive notification via Notification Management - Process View Diagram]{Container Level - Receive notification via Notification Management - Process View Diagram}
+   \caption[Receive Notification - Container Level - Process View Diagram]{Receive Notification - Container Level - Process View Diagram}
    \label{fig:design:architecture:container:process:diagram:notification}
 \end{figure}
 
@@ -616,7 +616,7 @@ Certain types of alerts are also collected by Smart Irrigation Backend to automa
 \begin{figure}[H]
    \centering
    \includegraphics[page=1,width=0.9\columnwidth]{assets/diagrams/design/architectural/level2/process/smart-irrigation.pdf}
-   \caption[Container Level - Valve Activation Process via Smart Irrigation - Process View Diagram]{Container Level - Valve Activation Process via Smart Irrigation - Process View Diagram}
+   \caption[Valve Activation Process - Container Level - Process View Diagram]{Valve Activation - Container Level - Process View Diagram}
    \label{fig:design:architecture:container:process:diagram:irrigation}
 \end{figure}
 
@@ -899,7 +899,7 @@ The data model represents the \textbf{Data Unit} that \textbf{Sensae Console} is
 \begin{figure}[H]
    \centering
    \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/domain/shared-model.pdf}
-  \caption[Shared Model]{Shared Model}
+  \caption[Canonical Model - Data Unit]{Canonical Model - Data Unit}
   \label{fig:design:domain:shared_model:data:diagram}
 \end{figure}
 
@@ -1037,7 +1037,7 @@ The diagram present in Figure~\ref{fig:design:domain:shared_model:messsage:diagr
 \begin{figure}[H]
    \centering
    \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/domain/message-envelop-model.pdf}
-  \caption[Message Envelop Model]{Message Envelop Model}
+  \caption[Canonical Model - Message Envelop Model]{Canonical Model - Message Envelop Model}
   \label{fig:design:domain:shared_model:messsage:diagram}
 \end{figure}
 
@@ -1062,7 +1062,7 @@ The diagram presented in Figure~\ref{fig:design:domain:shared_model:routing:diag
 \begin{figure}[H]
    \centering
   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/domain/routing-model.pdf}
-  \caption[Routing Model]{Routing Model}
+  \caption[Canonical Model - Routing]{Canonical Model - Routing}
   \label{fig:design:domain:shared_model:routing:diagram}
 \end{figure}
 

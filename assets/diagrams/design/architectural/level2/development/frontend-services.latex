@@ -2,7 +2,6 @@
 \definecolor{plantucolor0000}{RGB}{0,0,0}
 \definecolor{plantucolor0001}{RGB}{241,241,241}
 \definecolor{plantucolor0002}{RGB}{24,24,24}
-\tikzsetnextfilename{design-architectural-level2-development-frontend-services}
 \begin{tikzpicture}[yscale=-1
 ,pstyle0/.style={color=black,line width=1.5pt}
 ,pstyle1/.style={color=plantucolor0002,fill=plantucolor0001,line width=0.5pt}

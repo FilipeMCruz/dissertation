@@ -3,7 +3,6 @@
 \definecolor{plantucolor0001}{RGB}{24,24,24}
 \definecolor{plantucolor0002}{RGB}{226,226,240}
 \definecolor{plantucolor0003}{RGB}{0,0,0}
-\tikzsetnextfilename{design-architectural-level2-process-consult-data-processor}
 \begin{tikzpicture}[font=\Large,font=\Large,yscale=-1
 ,pstyle0/.style={color=plantucolor0001,fill=white,line width=1.0pt}
 ,pstyle1/.style={color=plantucolor0001,line width=0.5pt,dash pattern=on 5.0pt off 5.0pt}

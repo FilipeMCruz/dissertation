@@ -5,7 +5,6 @@
 \definecolor{plantucolor0003}{RGB}{0,0,0}
 \definecolor{plantucolor0004}{RGB}{173,209,178}
 \definecolor{plantucolor0005}{RGB}{180,167,229}
-\tikzsetnextfilename{design-domain-message-envelop-model}
 \begin{tikzpicture}[font=\Large,yscale=-1
 ,pstyle0/.style={color=plantucolor0001,fill=plantucolor0000,line width=0.5pt}
 ,pstyle2/.style={color=plantucolor0001,line width=0.5pt}

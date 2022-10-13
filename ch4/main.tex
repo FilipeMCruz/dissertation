@@ -217,15 +217,17 @@ The Sections~\nameref{subsec:design:architecture:platform} and \nameref{subsec:d
 \subsection{Platform - Sensae Console}
 \label{subsec:design:architecture:platform}
 
-This section will explore the internals of \textbf{Sensae Console} from an architectural point of view. It discusses the C4 containers level.
-The C4 component level can be consulted in Appendix~\ref{appendix:design:architecture:platform:components}.
+This section will explore the internals of \textbf{Sensae Console} from an architectural point of view. It discusses the C4 containers and components levels.
+
+\subsubsection{C4 Level 2 - Containers}
+\label{subsubsec:design:architecture:platform:containers}
 
 The C4 level 2 introduces the reader to the various containers that compose the platform. In this section all relevant views will be presented according to the alternative in use or idealized for the system. In the Section~\ref{sec:design:alternatives} other alternatives are discussed.
 
 The description of this level of abstraction begins with a logical view.
 
-\subsubsection{Container Level - Logical View}
-\label{subsubsec:design:architecture:platform:logical}
+\paragraph{Container Level - Logical View}
+\label{par:design:architecture:platform:container:logical}
 
 In order to support the functional requirements identified (Section~\ref{sec:requirements:functional}), and knowing that \textbf{Sensae Console} will serve multiple users with different levels of access to the managed information, the various business concepts were segregated from the user interaction. The configuration management also had to be separated from the data pipeline, knowing that \textbf{Sensae Console} will process a high volume of device measures.
 
@@ -247,6 +249,7 @@ As seen in the diagram:
    \item The Data Relayer and Data Gateway are responsible for exposing an \gls{API} for data ingestion and publish the ingested data in the system through the Message Broker;
    \item The Data Validator applies simple filters to incoming data, for example, measures that report a soil moisture of 120\% as marked as incorrect.
 \end{itemize}
+% se não mudar mais nada tentar ter o diagrama logo a seguir a isto
 
 \begin{sidewaysfigure}
    \centering
@@ -358,8 +361,8 @@ As the diagrams above presented, all communication between backend containers of
 
 In the following section the internal communication of the system is clarified.
 
-\subsubsection{Container Level - Process View}
-\label{subsubsec:design:architecture:platform:process}
+\paragraph{Container Level - Process View}
+\label{par:design:architecture:platform:container:process}
 
 In this section, several use cases (according to some functional requirements identified in Section~\ref{sec:requirements:functional}) are presented through sequence diagrams, in order to introduce the reader to the interactions that occur between the various containers of the \textbf{Sensae Console}.
 
@@ -522,8 +525,8 @@ The user identity and credentials validation are assured by an external identity
 
 In this diagram the expected behavior for any pair of frontend and backend containers in \textbf{Configuration Scope} (and \textbf{External Services}, when served from the \textbf{UI Aggregator}) is presented. Each frontend displays only the actions and information that the user permissions allow. The user permissions are once again verified in the backend to secure the system against malicious accesses. Other alternatives related to authentication and authorization are presented in the Section~\ref{subsec:design:alternatives:auth}.
 
-\subsubsection{Container Level - Implementation View}
-\label{subsubsec:design:architecture:platform:development}
+\paragraph{Container Level - Implementation View}
+\label{par:design:architecture:platform:container:development}
 
 Each container mentioned in the Section~\ref{par:design:architecture:platform:container:logical} is developed inside the same package, \textit{sensae-console}. The following diagrams presents how containers are mapped to packages.
 
@@ -569,8 +572,8 @@ Database services are organized according to the diagram in Figure~\ref{fig:desi
 
 No database service has been developed, only configured. The Message Broker also has no package in the project since it didn't need any configuration and wasn't developed.
 
-\subsubsection{Container Level - Physical View}
-\label{subsubsec:design:architecture:platform:physical}
+\paragraph{Container Level - Physical View}
+\label{par:design:architecture:platform:container:physical}
 
 Next is the physical view, intended to familiarize the reader with the idealized production environment. Each container that composes the system is containerized via \textit{Docker} so that orchestration software like \textit{Docker Compose}, \textit{Docker Swarm}, \textit{Kubernetes} and \textit{OpenShift} can be used to ease the operation phase.
 
@@ -579,6 +582,235 @@ The production environment is orchestrated using \textit{Docker Compose} running
 Each Container represented in Section~\ref{par:design:architecture:platform:container:logical} is mapped to a container in this view. Following the \citetitle{dbperservice}, each logical database also corresponds to a physical database.
 
 In the future, if the need arises, the \textbf{Sensae Console} should be orchestrated with \textit{Kubernetes} or \textit{OpenShift}. This would allow the solution to auto-scale, multiplying the containers under excessive load.
+
+\paragraph{Container Level - Synopsis}
+\label{par:design:architecture:platform:container:synopsis}
+
+The container level introduces the reader to the internals of \textbf{Sensae Console}. Each container is introduced and the interactions between them are explored.
+In the following section, Section~\ref{subsubsec:design:architecture:platform:components}, the developed containers are presented with a granularity of level 3 (in the C4 model).
+
+\subsubsection{C4 Level 3 - Components}
+\label{subsubsec:design:architecture:platform:components}
+
+The component level describes the internals of a specific container. A container is made up of a number of components, each with well-defined responsibilities. In the following diagrams the dependencies between the various components will also be presented.
+
+Most developed containers share the same architecture and will therefore be addressed as groups of containers.
+
+The physical view will not be presented since all relevant details have been addressed above.
+
+\paragraph{Components Level - Logical View}
+\label{par:design:architecture:platform:components:logical}
+
+The architectures used in the various developed containers can be condensate into 3 types with minor variations:
+
+\begin{itemize}
+   \item \textbf{Frontend Architecture}: used on all Configuration scope frontend containers;
+   \item \textbf{Configuration Backend Architecture}: used on all Configuration scope backend containers;
+   \item \textbf{Data Flow Architecture}: used on most Data Flow scope containers.
+\end{itemize}
+
+Starting with the Frontend Architecture used, it was decided to maintain two distinct domains (Model and DTOS) in order to meet the \gls{SRP} (high cohesion) and to lower the coupling between the information displayed in the UI and the data sent/received by the container. This segmentation led to the addition of the Mapper component, which has the responsibility of converting the data (DTOS component) into information (Model component) and vice-versa. The Auth component indicates what backend resources the user has access to, by decoding the \textit{access token}, and the Utils component has several methods commonly used to process backend requests. These two components are reused in all frontend containers, including the ones related to the External Services.
+
+As an example, the logical view of the Data Decoder Frontend is presented in Figure~\ref{fig:design:architecture:platform:component:logical:diagram:decoder}.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{0.7\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/architectural/level3/logical/data-decoder-frontend.latex}
+   }
+   \caption[Component Level - Data Decoder Frontend - Logical View Diagram]{Component Level - Data Decoder Frontend - Logical View Diagram}
+   \label{fig:design:architecture:platform:component:logical:diagram:decoder}
+\end{figure}
+
+This architecture is used on the containers: (i) Device Management Frontend, (ii) Data Decoder Frontend, (iii) Data Processor Frontend, (iv) Rule Management Frontend. The UI Aggregator has a simpler architecture them the other frontend containers, it is comprised by a Presentation component that depends on the Auth component to handle user authentication and authorization.
+
+Next, the Configuration Backend Architecture is discussed. It is based on the Onion Architecture, an architecture pattern that ``emphasizes separation of concerns throughout the system'' and ``leads to more maintainable applications'' \parencite{onion}.
+
+As an example the logical view of the Device Management Backend is presented in Figure~\ref{fig:design:architecture:platform:component:logical:diagram:device}.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{0.8\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/architectural/level3/logical/device-management-backend.latex}
+   }
+   \caption[Component Level - Device Management Backend - Logical View Diagram]{Component Level - Device Management Backend - Logical View Diagram}
+   \label{fig:design:architecture:platform:component:logical:diagram:device}
+\end{figure}
+
+This architecture is used on the containers: (i) Device Management Backend, (ii) Data Decoder Backend, (iii) Data Processor Backend, (iv) Rule Management Backend, (v) Identity Management Backend.
+
+The following table, Table~\ref{tab:design:architecture:platform:components:logical:backend}, discusses each component responsibilities.
+
+\begin{table}[H]
+   \centering
+   \caption{Configuration Backend components responsibilities}
+   \label{tab:design:architecture:platform:components:logical:backend}
+   \begin{tabular}{@{}cl@{}}
+   \toprule
+   \textbf{Component}               & \textbf{Responsibilities}                                            \\ \midrule
+   Infrastructure &
+     \begin{tabular}[c]{@{}l@{}}- Enclose components that manage the Input/Output\\ operations required by the container.\end{tabular} \\ \midrule
+   Endpoint &
+     \begin{tabular}[c]{@{}l@{}}- Enclose components that are used by external\\ containers to interact with the container.\end{tabular} \\ \midrule
+   \multirow{2}{*}{AMQP} &
+     - Define how to consume and publish events in the Message Broker; \\
+    &
+     \begin{tabular}[c]{@{}l@{}}- Delegate the handling of events received to \\ specific Application processes.\end{tabular} \\ \midrule
+   \multirow{2}{*}{GraphQl}         &
+     \begin{tabular}[c]{@{}l@{}} - Define the interface to be consumed by the \\ frontend and external Systems;  \end{tabular} \\
+                                    & - Delegate external requests made to specific Application processes.\\ \midrule
+   Persistence &
+     \begin{tabular}[c]{@{}l@{}}- Enclose components that interface with \\ containers responsible for persisting data.\end{tabular} \\ \midrule
+   Postgres                         & - Interact with a database to persist and query data.                \\ \midrule
+   \multirow{4}{*}{Application}     & - Represent the application processes;                               \\
+    &
+     \begin{tabular}[c]{@{}l@{}}- Ensure the propagation of events related to the\\ process in question, requiring this responsibility to AMQP;\end{tabular} \\
+    &
+     \begin{tabular}[c]{@{}l@{}}- Ensure the execution of the process in question,\\ requiring this responsibility to Domain Services;\end{tabular} \\
+                                    & - Enforce user authorization.                                        \\ \midrule
+   \multirow{3}{*}{Domain Services} & - Represent business processes;                                      \\
+                                    & - Interact with the Domain;                                  \\
+    &
+     \begin{tabular}[c]{@{}l@{}}- Ensure the persistence of the data in question,\\ requiring this responsibility to the Persistence.\end{tabular} \\ \midrule
+   \multirow{2}{*}{Domain}          & - Represent de business rules and concepts;                          \\
+                                    & - Manage the system information.                                    \\ \bottomrule
+   \end{tabular}
+\end{table}
+
+Finally the architecture used in containers related to the Data Flow Scope is presented. It is based on a simplified version of the Onion Architecture since the intrinsic processes of these containers are much simpler.
+
+As an example the logical view of the Device Ownership Backend is presented in Figure~\ref{fig:design:architecture:platform:component:logical:diagram:ownership}.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/architectural/level3/logical/device-ownership-backend.latex}
+   }
+   \caption[Component Level - Device Ownership Backend - Logical View Diagram]{Component Level - Device Ownership Backend - Logical View Diagram}
+   \label{fig:design:architecture:platform:component:logical:diagram:ownership}
+\end{figure}
+
+This architecture is used on the containers: (i) Device Management Flow Backend, (ii) Data Decoder Flow Backend, (iii) Data Processor Flow Backend, (iv) Device Ownership Backend. The responsibilities of the components inside AMQP are:
+
+\begin{itemize}
+   \item Internal: responsible for communicating with the system via internal topic;
+   \item Ingress: responsible for consuming events/messages coming from data, alert or command topics;
+   \item Egress: responsible for publishing events/messages to the data or alert topics.
+\end{itemize}
+
+The Memory component is responsible for caching unhandled data units and other information relevant for each context. This component is not present in Data Validator Backend and Alert Dispatcher Backend since they don't need to store context information to function.
+
+The Data Gateway, Device Commander and Data Store backend containers have architectures that derive from this one and can be consulted in Appendix ~\ref{AppendixC}.
+
+\paragraph{Components Level - Process View}
+\label{par:design:architecture:platform:components:process}
+
+In this section some internal process deemed relevant are presented through sequence diagrams in order to familiarize the reader with the interactions that occur between components inside a container.
+
+The internal processes that will be evaluated are:
+
+\begin{itemize}
+   \item Process Data Unit in Device Management Flow Backend;
+   \item Deploy Draft Rule Scenarios in Rule Management Backend.
+\end{itemize}
+
+This processes have been chosen in order to introduce the reader to specific operations not yet explored in this chapter.
+
+The first process to explore is meant to clarify how a Data Unit sent by a Controller (devices that collect and report measures of various sensors) is processed inside the Device Management Flow Backend. As explained in the \nameref{subsubsec:design:domain:bounded_contexts:device} Section, Data Units sent by a Controller are partitioned into various Data Units. The following diagram, Figure~\ref{fig:design:architecture:platform:component:process:diagram:device}, details this process.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/architectural/level3/process/device-management-flow-backend.latex}
+   }
+   \caption[Component Level - Process Data Unit in Device Management Flow Backend - Process View Diagram]{Component Level - Process Data Unit in Device Management Flow Backend - Process View Diagram}
+   \label{fig:design:architecture:platform:component:process:diagram:device}
+\end{figure}
+
+As presented in the diagram:
+
+\begin{itemize}
+   \item As soon as the message dto arrives, it is mapped to the \textit{iot-core} data unit model - step \textbf{2} - this model is used inside every Data Flow container. Before publishing the data unit it is mapped to the dto once again - step \textbf{15} and \textbf{22}. This conversion happens with any other event published and consumed in the system;
+   \item If the device information is found, a \textit{ping} notification for that device is sent - steps \textbf{6} to \textbf{8}, otherwise an \textit{unknown} notification would be sent and the container would store the data unit in the Memory component and process it when possible;
+   \item For each sub device of the controller, a new data unit with that device measures is published in the system - steps \textbf{19} to \textbf{23};
+\end{itemize}
+
+Next, the process of deploying draft rule scenarios is described.
+Draft scenarios exist since adding, removing or changing a rule scenario in Alert Dispatcher Backend requires the entire data set to be removed. This procedure can lead to alerts not being dispatched. The next diagram, Figure~\ref{fig:design:architecture:platform:component:process:diagram:rule}, tackles this concern.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/architectural/level3/process/rule-management-backend.latex}
+   }
+   \caption[Component Level - Deploy Draft Rule Scenarios in Rule Management Backend - Process View Diagram]{Component Level - Deploy Draft Rule Scenarios in Rule Management Backend - Process View Diagram}
+   \label{fig:design:architecture:platform:component:process:diagram:rule}
+\end{figure}
+
+As seen in the diagram, to mitigate the number of lost alerts, new rule scenarios are published at best every 30 minutes - step \textbf{1} - and only if any change was made - step \textbf{17} and \textbf{18}.
+
+\paragraph{Components Level - Implementation View}
+\label{par:design:architecture:platform:components:development}
+
+The implementation view of each container can also be condensate in the same 3 distinct types presented in the Section \nameref{par:design:architecture:platform:components:logical}.
+
+The next diagrams, Figure~\ref{fig:design:architecture:platform:component:development:diagram:decoder}, Figure~\ref{fig:design:architecture:platform:component:development:diagram:device} and Figure~\ref{fig:design:architecture:platform:component:development:diagram:ownership} describe this view at the components level.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/architectural/level3/development/data-decoder-frontend.latex}
+   }
+   \caption[Component Level - Data Decoder Frontend - Implementation View Diagram]{Component Level - Data Decoder Frontend - Implementation View Diagram}
+   \label{fig:design:architecture:platform:component:development:diagram:decoder}
+\end{figure}
+
+The packages presented correspond to the components described in the logical view (Figure~\ref{fig:design:architecture:platform:component:logical:diagram:decoder}). Since the names given in both views are different, the following list maps the logical view into the implementation view:
+
+\begin{itemize}
+   \item \textit{components} package corresponds to the \textit{Presentation} component;
+   \item \textit{auth} package corresponds to the \textit{Auth} component;
+   \item \textit{core} package corresponds to the \textit{Utils} component;
+   \item \textit{dtos} package corresponds to the \textit{DTOS} component;
+   \item \textit{mappers} package corresponds to the \textit{Mappers} component;
+   \item \textit{model} package corresponds to the \textit{Model} component;
+   \item \textit{services} package corresponds to the \textit{Services} component.
+\end{itemize}
+
+\begin{figure}[H]
+   \centering
+   \resizebox{0.8\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/architectural/level3/development/device-management-backend.latex}
+   }
+   \caption[Component Level - Device Management Backend - Implementation View Diagram]{Component Level - Device Management Backend - Implementation View Diagram}
+   \label{fig:design:architecture:platform:component:development:diagram:device}
+\end{figure}
+
+The packages presented correspond to the components described in the logical view (Figure~\ref{fig:design:architecture:platform:component:logical:diagram:device}). The names given in both views differ only on the case used.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{0.8\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/architectural/level3/development/device-ownership-backend.latex}
+   }
+   \caption[Component Level - Device Ownership Backend - Implementation View Diagram]{Component Level - Device Ownership Backend - Implementation View Diagram}
+   \label{fig:design:architecture:platform:component:development:diagram:ownership}
+\end{figure}
+
+The packages presented correspond to the components described in the logical view (Figure~\ref{fig:design:architecture:platform:component:logical:diagram:ownership}). The names given in both views differ only on the case used.
+
+\subsubsection{Platform - Synopsis}
+\label{par:design:architecture:platform:synopsis}
+
+This section presented the architecture used in the \textbf{Sensae Console} platform and each developed container, how software is organized and how some internal process are executed inside this platform and containers. The \gls{PoC}s developed are discussed in the following section.
 
 \subsection{Solutions - External Services}
 \label{subsec:design:architecture:solutions}
@@ -596,7 +828,7 @@ Some of the similarities shared between the architecture of all services are:
 
 Even though it isn't required, the \textbf{UI Aggregator} can be configured to consume the \gls{UI} and \gls{API} belonging to each External Services. By doing so, the complete solution, \gls{UI} and \gls{API} can be presented under a single \gls{FQDN}. This view can be seen in Appendix~\ref{AppendixB}.
 
-For brevity reasons the C4 level 3 of the solutions will not be discussed, the architecture of most containers follows what was discussed in Appendix~\ref{appendix:design:architecture:platform:components}. The frontend containers behave exactly as the ones designed for the platform and most backend containers follow the same ideas behind the Configuration Backend Architecture for containers in the platform. The architectures that diverge a bit can be consulted in Appendix~\ref{AppendixC2}.
+For brevity reasons the C4 level 3 of the solutions will not be discussed, the architecture of most containers follows what was discussed in the \nameref{par:design:architecture:platform:components:logical} Section. The frontend containers behave exactly as the ones designed for the platform and most backend containers follow the same ideas behind the Configuration Backend Architecture for containers in the platform. The architectures that diverge a bit can be consulted in Appendix~\ref{AppendixC2}. The process and implementation views of each service is also very similar to the ones exposed in Section~\ref{subsubsec:design:architecture:platform:components}.
 
 \subsubsection{Fleet Management}
 \label{subsubsec:design:architecture:solutions:fleet}
@@ -710,8 +942,6 @@ In the following section, alternatives to what was designed and developed across
 
 This section tackles important alternatives that were proposed and discussed during the design and development of the system but were discarded in detriment for the approaches presented in the \nameref{sec:design:architecture}.
 
-More alternatives are discussed in the appendix: (i) User Authentication/Authorization in Appendix~\ref{appendix:design:alternatives:auth}
-
 \subsection{Backend Segregation}
 \label{subsec:design:alternatives:backend}
 
@@ -780,6 +1010,106 @@ The non-functional requirements discussed in Section~\ref{sec:requirements:non_f
 The Microfrontends Architecture when applied to this project has the same oversights, assumptions and perceptions that lead to the decision taken in the \nameref{subsec:design:alternatives:backend} Section. As such, the decision was to drop the design and development of a single frontend in favor of a Microfrontends Architecture.
 
 Ultimately this decision, coupled with the Backend Segregation decision made, enforces a business model that follows \gls{OCP} and simplifies the adoption of this solution by third parties.
+
+\subsection{User Authentication/Authorization}
+\label{subsec:design:alternatives:auth}
+
+User Authentication/Authorization is an important aspect of the solution. During the requirements elicitation, mentioned in Section~\ref{subsec:requirements:functional:roles}, it was clear that several different levels of permissions had to be given to Tenants. These levels of permissions also had to be managed by someone. As such, users had to be authenticated in the system and all accesses had to be authorized.
+
+Four approaches were considered:
+
+\begin{itemize}
+   \item \nameref{subsubsec:design:alternatives:auth:internalauth};
+   \item \nameref{subsubsec:design:alternatives:auth:externalauth};
+   \item \nameref{subsubsec:design:alternatives:auth:externalauthinternalpermission};
+   \item \nameref{subsubsec:design:alternatives:auth:externalauthinternaloauth}.
+\end{itemize}
+
+The fourth option was the approach taken.
+
+\subsubsection{Internal Authentication Server}
+\label{subsubsec:design:alternatives:auth:internalauth}
+
+By creating an Internal Authentication Server we could have a normal, private and controlled user authentication/authorization flow in the environment. Both user credentials and permissions would be managed internally.
+
+The following diagram, Figure~\ref{fig:design:alternatives:auth:internalauth:diagram},presents the normal environment flow for this alternative.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/alternatives/auth/alternative1.latex}
+   }
+   \caption[User Authentication/Authorization - Internal Authentication Server Alternative - Sequence Diagram]{User Authentication/Authorization - Internal Authentication Server Alternative - Sequence Diagram}
+   \label{fig:design:alternatives:auth:internalauth:diagram}
+\end{figure}
+
+This alternative introduces the need to internally secure user credentials and other sensitive information from data breaches. It would also require each user to register in sensae with a new account credentials. For this reasons this alternative was discarded.
+
+\subsubsection{External Authentication Server}
+\label{subsubsec:design:alternatives:auth:externalauth}
+
+By using an External Authentication Server there would be no need to store user credentials or permissions. This services are commonly identified as \gls{CIAM} solutions. According to \cite{ciam} these solutions include features such as ``self-service for registration, password and consent management, profile generation and management, authentication and authorization into applications, identity repositories, reporting and analytics, APIs and SDKs for mobile applications, and social identity registration and login''.
+
+The following diagram, Figure~\ref{fig:design:alternatives:auth:externalauth:diagram}, presents the normal environment flow for this alternative.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/alternatives/auth/alternative2.latex}
+   }
+   \caption[User Authentication/Authorization - External Authorization Server Alternative - Sequence Diagram]{User Authentication/Authorization - External Authorization Server Alternative - Sequence Diagram}
+   \label{fig:design:alternatives:auth:externalauth:diagram}
+\end{figure}
+
+This approach would create a strong dependency to the \gls{CIAM} solution used since all user credentials and authorization level would have to be managed by the \gls{CIAM} solution.
+Some of this services are: (i) \citetitle{auth0id}, (ii) \citetitle{googleid}, (iii) \citetitle{oktaid}, (iv) \citetitle{amazonid} and (v) \citetitle{azureid}.
+
+The platform Auth0 was tested and is capable of answering all of this project's requirements.
+
+As stated before, the dependency created would force the environment to always be coupled to the chosen \gls{CIAM} solution. For this reason this alternative was discarded.
+
+\subsubsection{External Authentication Server with Internal Authorization Server}
+\label{subsubsec:design:alternatives:auth:externalauthinternalpermission}
+
+By using an External Authentication Server there would be no need to store user credentials, the user authorization aspects would then be managed internally via and \textit{Authorization Server}.
+
+The following diagram, Figure~\ref{fig:design:alternatives:auth:externalauthinternalpermission:diagram}, presents the normal environment flow for this alternative.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \input{assets/diagrams/design/alternatives/auth/alternative3.latex}
+   }
+   \caption[User Authentication/Authorization - External Authentication Server with Internal Authorization Server Alternative - Sequence Diagram]{User Authentication/Authorization - External Authentication Server with Internal Authorization Server Alternative - Sequence Diagram}
+   \label{fig:design:alternatives:auth:externalauthinternalpermission:diagram}
+\end{figure}
+
+This approach would create a dependency to the \gls{CIAM} solution used and presented in the second alternative.
+
+This dependency is less severe compared with the second alternative since all authorization aspects would be managed internally.
+This approach would require any backend to query the \textit{Authorization Server} for user permissions so that it could verify if the user was authorized to preform the requested action or not. This would therefore linger down the performance of the system since each action would have to be verified in a single container: the \textit{Authorization Server}.
+
+\subsubsection{External Authentication Server with Internal Oauth2 Server}
+\label{subsubsec:design:alternatives:auth:externalauthinternaloauth}
+
+By using an external Authorization Server there would be no need to store user credentials. An internal Oauth2 Server would remove the direct dependency to the \textit{Permissions Server} presented in the third alternative.
+
+This alternative is introduced in Figure~\ref{fig:design:architecture:platform:container:process:diagram:authentication} and Figure~\ref{fig:design:architecture:platform:container:process:diagram:authorization} where the Internal Oauth2 Server is the Identity Management Backend.
+
+This approach would create a dependency to the \gls{CIAM} solution used and presented in the second alternative. This dependency is less severe compared with the second alternative since all user permissions would be managed internally.
+This approach would require the system to create and refresh \textit{access tokens} based on the \textit{id token} received by the external \gls{CIAM} solution. Contrary to the third alternative it would not create excessive pressure in a specific container.
+
+This approach also allows the system to easily integrate with more than one \gls{CIAM} solution while managing user permissions in a single place. The \gls{CIAM} solutions that \textbf{Sensae Console} is integrated with are:
+
+\begin{itemize}
+   \item Google Identity Platform: for common individuals that want to use the system, since almost everyone has a google account;
+   \item Azure Active Directory: for companies and organizations since most use Office 365 services internally.
+\end{itemize}
+
+Due to the reasons presented above, this was the adopted approach.
 
 \subsection{Data Flow Pipeline}
 \label{subsec:design:alternatives:flow}

@@ -4,7 +4,6 @@
 \definecolor{plantucolor0002}{RGB}{0,0,0}
 \definecolor{plantucolor0003}{RGB}{226,226,240}
 \definecolor{plantucolor0004}{RGB}{238,238,238}
-\tikzsetnextfilename{design-architectural-level2-process-data-decoder-flow-2}
 \begin{tikzpicture}[font=\Large,yscale=-1
 ,pstyle0/.style={color=plantucolor0001,fill=white,line width=1.0pt}
 ,pstyle1/.style={color=black,line width=1.5pt}

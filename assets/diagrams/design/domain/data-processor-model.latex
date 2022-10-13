@@ -5,7 +5,6 @@
 \definecolor{plantucolor0003}{RGB}{0,0,0}
 \definecolor{plantucolor0004}{RGB}{169,220,223}
 \definecolor{plantucolor0005}{RGB}{235,147,127}
-\tikzsetnextfilename{design-domain-data-processor-model}
 \begin{tikzpicture}[font=\Large,yscale=-1
 ,pstyle0/.style={color=plantucolor0001,fill=plantucolor0000,line width=0.5pt}
 ,pstyle1/.style={color=plantucolor0001,fill=plantucolor0002,line width=1.0pt}

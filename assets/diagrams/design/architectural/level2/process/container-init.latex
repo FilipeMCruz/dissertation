@@ -4,7 +4,6 @@
 \definecolor{plantucolor0002}{RGB}{168,0,54}
 \definecolor{plantucolor0003}{RGB}{226,226,240}
 \definecolor{plantucolor0004}{RGB}{0,0,0}
-\tikzsetnextfilename{design-architectural-level2-process-container-init}
 \begin{tikzpicture}[font=\Large,yscale=-1
 ,pstyle0/.style={color=white,fill=white,line width=1.0pt}
 ,pstyle1/.style={color=plantucolor0001,line width=1.0pt}

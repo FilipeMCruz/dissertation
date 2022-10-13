@@ -3,6 +3,7 @@
 \definecolor{plantucolor0001}{RGB}{24,24,24}
 \definecolor{plantucolor0002}{RGB}{173,209,178}
 \definecolor{plantucolor0003}{RGB}{0,0,0}
+\tikzsetnextfilename{design-domain-fleet-management-model}
 \begin{tikzpicture}[yscale=-1
 ,pstyle0/.style={color=plantucolor0001,fill=plantucolor0000,line width=0.5pt}
 ,pstyle1/.style={color=plantucolor0001,fill=plantucolor0002,line width=1.0pt}

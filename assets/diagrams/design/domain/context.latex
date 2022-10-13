@@ -7,6 +7,7 @@
 \definecolor{plantucolor0005}{RGB}{153,153,153}
 \definecolor{plantucolor0006}{RGB}{138,138,138}
 \definecolor{plantucolor0007}{RGB}{102,102,102}
+\tikzsetnextfilename{design-domain-context}
 \begin{tikzpicture}[yscale=-1
 ,pstyle0/.style={color=plantucolor0001,fill=plantucolor0000,line width=0.5pt}
 ,pstyle2/.style={color=plantucolor0006,fill=plantucolor0005,line width=0.5pt}

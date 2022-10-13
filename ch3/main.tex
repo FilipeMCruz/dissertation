@@ -33,16 +33,16 @@ These business cases can be vaguely characterized according to the following org
       \textbf{\begin{tabular}[c]{@{}l@{}}Multi-\\Tenancy\end{tabular}} &
       \textbf{\begin{tabular}[c]{@{}l@{}}Data \\Shareability\end{tabular}} &
       \textbf{\begin{tabular}[c]{@{}l@{}}Information \\ Access and \\Visualization\end{tabular}} \\ \midrule
-    \multirow{5}{*}{A} & Fleet Management           & On-Premise & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6}
-                       & Smart Irrigation           & On-Premise & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6}
-                       & Smart Parking              & On-Premise & Dedicated & Private & Sensae Console     \\ \cmidrule(l){2-6}
-                       & Indoor Fire Detention      & On-Premise & Dedicated & Private & SMS and Email      \\ \cmidrule(l){2-6}
-                       & Public Health Surveillance & On-Premise & Dedicated & Public  & Sensae Console     \\ \midrule
-    B                  & Fleet Management           & Cloud      & Dedicated & Private & Org B Platform     \\ \midrule
-    \multirow{3}{*}{C} & Smart Irrigation           & Cloud      & Shared    & Private & Sensae Console     \\ \cmidrule(l){2-6}
-                       & Indoor Fire Detention      & Cloud      & Shared    & Private & SMS and Email      \\ \cmidrule(l){2-6}
-                       & Chicken Farm Monitoring    & Cloud      & Shared    & Private & Sensae Console     \\ \midrule
-    D                  & Smart Irrigation           & Cloud      & Shared    & Private & Sensae Console     \\ \bottomrule
+    \multirow{5}{*}{A} & Fleet Management           & On-Premise & Multi-Tenant & Private & Sensae Console     \\ \cmidrule(l){2-6}
+                       & Smart Irrigation           & On-Premise & Multi-Tenant & Private & Sensae Console     \\ \cmidrule(l){2-6}
+                       & Smart Parking              & On-Premise & Multi-Tenant & Private & Sensae Console     \\ \cmidrule(l){2-6}
+                       & Indoor Fire Detention      & On-Premise & Multi-Tenant & Private & SMS and Email      \\ \cmidrule(l){2-6}
+                       & Public Health Surveillance & On-Premise & Multi-Tenant & Public  & Sensae Console     \\ \midrule
+    B                  & Fleet Management           & Cloud      & Multi-Tenant & Private & Org B Platform     \\ \midrule
+    \multirow{3}{*}{C} & Smart Irrigation           & Cloud      & Single-Tenant    & Private & Sensae Console     \\ \cmidrule(l){2-6}
+                       & Indoor Fire Detention      & Cloud      & Single-Tenant    & Private & SMS and Email      \\ \cmidrule(l){2-6}
+                       & Chicken Farm Monitoring    & Cloud      & Single-Tenant    & Private & Sensae Console     \\ \midrule
+    D                  & Smart Irrigation           & Cloud      & Single-Tenant    & Private & Sensae Console     \\ \bottomrule
     \end{tabular}
 \end{table}
 
@@ -194,7 +194,7 @@ Regarding the Functionality category, the following requirements were identified
 \begin{enumerate}
     \item User Authentication: Apart from the Anonymous Users, everyone else must be authenticated to use the system;
     \item User Authorization: Everyone only has access to what his/her permissions cover, the system shall provide different access permissions to information (UNI.067);
-    \item Data Exposure Control: Users have control how their data is exposed to (shared with) other users (UNI.002);
+    \item Data Exposure Control: Users have control how their data is exposed to (Single-Tenant with) other users (UNI.002);
     \item Communication: The system shall support event-based, periodic, and/or autonomous communication (UNI.005);
     \item Autonomicity: The system shall enable autonomous goal-driven (task-driven) collaboration between devices or services (UNI.010);
     \item Data parameterization: The system shall provide a resolution infrastructure for naming, addressing and assignment of virtual entities and services (UNI.030);
@@ -229,7 +229,7 @@ The Reliability category has the following requirements:
 \subsection{Performance Requirements}
 \label{subsec:requirements:non_functional:performance}
 
-Even though this work is in its early stages of development, the Performance of the system is a priority. The requirements specified for this category are:
+Even though this work is in its early stages of development, the performance of the system is a priority. For single-tenant instances, the requirements specified for this category are:
 
 \begin{enumerate}
     \item When a new and valid device data is received, the system should make this information available to any user within 2 seconds in 90\% of the cases. The time for the information to be presented should never exceed 5 seconds unless the network connection is broken (in which case the user should be notified);

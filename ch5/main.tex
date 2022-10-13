@@ -20,14 +20,10 @@ The following list unveils the most relevant technical decisions for \textbf{Sen
     \item \nameref{subsec:implementation:decisions:database};
     \item \nameref{subsec:implementation:decisions:drools};
     \item \nameref{subsec:implementation:decisions:js};
-    \item \nameref{subsec:implementation:decisions:docker};
-    \item \nameref{subsec:implementation:decisions:compose};
-    \item \nameref{subsec:implementation:decisions:nginx};
-    %\item \nameref{subsec:implementation:decisions:git};
-    %\item \nameref{subsec:implementation:decisions:issues};
     \item \nameref{subsec:implementation:decisions:actions};
-    \item \nameref{subsec:implementation:decisions:maven};
 \end{itemize}
+
+The Containerization and Orchestration of services via Docker and Docker Compose is discussed in Appendix~\ref{appendix:docker}.
 
 \subsection{Backend Technologies Usage throughout the Solution}
 \label{subsec:implementation:decisions:backend}
@@ -209,10 +205,12 @@ This section refers to how information is stored across the system and follows t
 
 The requirements gathered unveil the need to use three different database data models throughout the system: (i) relational, (ii) document-based and (iii) column-based data models. The following sections answer why these data models were needed and what technologies were chosen for each of them. A final section unveils an optional solution that was considered but ultimately not pursued.
 
+Appendix~\ref{appendix:implementation:description:database} presents details related to how these databases are configured.
+
 \subsubsection{Relational Database Usage}
 \label{subsubsec:implementation:decisions:database:relational}
 
-This type of data, strict and with well-defined relations, can be found on most Bounded Concerns described in Section~\ref{subsec:design:domain:bounded_contexts} such as \nameref{subsubsec:design:domain:bounded_contexts:processor}, \nameref{subsubsec:design:domain:bounded_contexts:decoder}, \nameref{subsubsec:design:domain:bounded_contexts:device}, \nameref{subsubsec:design:domain:bounded_contexts:identity}, \nameref{subsubsec:design:domain:bounded_contexts:rule} and the Irrigation Zone/Device concepts of the \nameref{subsubsec:design:domain:bounded_contexts:irrigation} Concern.
+This type of data, strict and with well-defined relations, can be found on most Bounded Concerns described in Appendixes~\ref{appendix:design:domain:bounded_contexts} (related to Section~\ref{subsec:design:architecture:platform}) and~\ref{appendix:design:domain:services_contexts} (related to Section~\ref{subsec:design:architecture:solutions}).
 
 As such, this data model was adopted for the \textbf{Device Management Database}, \textbf{Data Decoder Database}, \textbf{Data Processor Database}, \textbf{Rule Management Database}, \textbf{Identity Management Database}, \textbf{Smart Irrigation Business Database} and \textbf{Notification Management Database} containers. The decision was based on the discussion in Section~\ref{par:stateofart:arch:infra:store:relational}.
 
@@ -280,159 +278,6 @@ This section refers to the bounded context of \textbf{Data Decoder}. As mentione
 \textit{Javascript} is a high level language with an enormous community and is widely used in the industry. Another big reason behind this decision is that a lot of companies producing \gls{IoT} devices provide open-source decoders written in \textit{Javascript}, such as \href{https://github.com/Milesight-IoT/SensorDecoders}{Milesight} \footnote{\href {https://github.com/Milesight-IoT/SensorDecoders}{github.com/Milesight-IoT/SensorDecoders}}, \href{https://github.com/SensationalSystems}{SensationalSystems} \footnote{\href {https://github.com/SensationalSystems}{github.com/SensationalSystems}} and \href{https://github.com/helium/console-decoders}{Helium}, \footnote{\href {https://github.com/helium/console-decoders}{github.com/helium/console-decoders}}. This makes it easy and straightforward to integrate new decoders in \textbf{Sensae Console}.
 
 The Section~\ref{subsec:implementation:description:decoder} details how one can write decoders.
-
-\subsection{Containerization of services via Docker}
-\label{subsec:implementation:decisions:docker}
-
-This section describes how the final product is packaged into containers.
-
-As stated in \citetitleyear{dockerinit}, Docker acts as an intermediary layer between the application to be deployed and the operating system where it will be deployed, ensuring that the developed software has the same behavior regardless of the system. The dependencies of the solution do not have to be present in the system, it is only necessary to install the Docker tool in the \gls{OS}.
-
-This tool thus makes it possible to lower the coupling between the \gls{OS} and the software to be deployed.
-
-With regards for this solution, each container defined in Section~\ref{sec:design:architecture} is mapped into a docker container.
-A container is often compared to a virtual machine running on a hypervisor or \gls{OS}, but it has a much lower resource consumption, since only the application runs and not not all the processes inherent to an \gls{OS} as described by \cite{bernstein2014containers}.
-
-The Figure~\ref{fig:implementation:decisions:docker:contvsvm} compares a \gls{VM} and Container-based deployments.
-
-\begin{figure}[H]
-    \centering
-    \resizebox{0.7\columnwidth}{!}
-    {
-       \includegraphics{assets/figures/vmvscontainer.png}
-    }
-    \caption[Comparison of VM and Container-based deployments]{Comparison of VM (a) and Container-based (b) deployments by \cite{bernstein2014containers}}
-    \label{fig:implementation:decisions:docker:contvsvm}
-\end{figure}
-
-The system is thus represented as a collection of containers that communicate with each other and the outside through standard protocols such as HTTP or \gls{AMQP}.
-
-The production environment can thus be quickly replicated on another machine in case of a failure disaster or a overwhelming number of interaction with the server.
-
-Details about service containerization can be found in Section~\ref{subsec:implementation:description:docker}.
-
-\subsection{Orchestration of services via Docker Compose}
-\label{subsec:implementation:decisions:compose}
-
-This section describes how the final product is orchestrated using Docker Compose.
-
-As stated in the article \citetitleyear{dockercompose}, ``Compose is a tool for defining and running multi-container Docker applications''.
-
-Currently a single node is capable of handling the traffic generated by all the managed devices and costumers. Due to this, it was decided to use a docker compose in production inserted of tools like Kubernetes (that can ease the process of autoscaling individual containers).
-
-The solution's orchestration is defined in a \textit{YAML} file and then started with a single command. To improve security, only the needed container ports are exposed. To ensure data integrity throughout service disruptions, persistence data is mapped to folder in the \gls{OS}. To ensure an easy management of the environment, configurations are kept in the \gls{OS} and fetched by each container once they start.
-
-The details about the solution orchestration can be found in Section~\ref{subsec:implementation:description:compose}.
-
-\subsection{Usage of Nginx as a web server and reverse proxy}
-\label{subsec:implementation:decisions:nginx}
-
-To serve the frontend pages and redirect requests made to backend containers, the following technologies were analyzed:
-
-\begin{itemize}
-    \item \citetitle{nginx};
-    \item \citetitle{apachehttp};
-    \item \citetitle{lighttpd}.
-\end{itemize}
-
-All of them support the necessary requirements, but some factors lead the author to pick Nginx over the others, the following table, Table~\ref{tab:implementation:decisions:nginx:compare}, describes this criteria.
-
-\begin{table}[H]
-    \caption{Technologies Comparison - Reverse Proxy Web Server}
-    \label{tab:implementation:decisions:nginx:compare}
-    \centering
-    \begin{tabular}{@{}clll@{}}
-    \toprule
-    \textbf{Criteria/Technology} & \textbf{Nginx} & \textbf{Apache HTTP Server} & \textbf{Lighttpd} \\ \midrule
-    Resource Consumption      & low  & high      & medium \\ \midrule
-    Community Size            & high & very high & medium \\ \midrule
-    Familiarity with the tool & high & low       & low    \\ \bottomrule
-    \end{tabular}
-\end{table}
-
-The details about \citetitle{nginx} adoption and configuration can be found in Section~\ref{subsec:implementation:description:nginx}.
-
-% \subsection{Usage of Git as a version control system of the project}
-% \label{subsec:implementation:decisions:git}
-
-% \citetitle{git} is a \gls{VCS}. What differentiates it from other
-% systems such as \citetitle{mercurial} and \citetitle{bitkeeper} is its branching model. It is currently also the most widely used.
-
-% \citetitle{github} was the platform used to host the developed code. It offers private repositories with no additional costs. This platform also has other tools such as \textit{Github Issues} and \textit{Github Actions} that ease a developer's workflow.
-
-% A \gls{VCS} is indispensable in software development, this system allows developers to store the history of changes made to the code in an organized manner and simplifies the management of the software by the development team. This system was chosen over others because of the author was experienced with this software.
-
-% The development of the entire solution was made in two separated repositories, one for \textit{iot-core} and another for \textbf{Sensae Console}.
-
-% The \textit{iot-core} repository had a simple branching model consisting only of a master branch.
-
-% There was an extensive use of the branching feature in the repository of \textbf{Sensae Console}, following the model shown in Figure~\ref{fig:implementation:decisions:git:branch}. The author settled for the following: a master branch that matches the deployed version, a development branch where the various features are introduced until a new version is published on the master branch, several branches dedicated to fixing bugs (hotfix) and another several branches that introduce new features and improvements (feature \textit{x}).
-
-% \begin{figure}[H]
-%     \centering
-%     \resizebox{\columnwidth}{!}
-%     {
-%        \includegraphics{assets/figures/branching-model.png}
-%     }
-%     \caption[Branching Model]{Branching Model}
-%     \label{fig:implementation:decisions:git:branch}
-% \end{figure}
-
-% This model was adopted since the project was in an initial phase of development, in the future, a branching model with multiple releases, as detailed in Figure~\ref{fig:implementation:decisions:git:branch2}, is preferred. With this model one can release only the altered containers and not the entire system.
-
-% \begin{figure}[H]
-%     \centering
-%     \resizebox{\columnwidth}{!}
-%     {
-%        \includegraphics{assets/figures/branching-model-2.png}
-%     }
-%     \caption[Future Branching Model]{Future Branching Model}
-%     \label{fig:implementation:decisions:git:branch2}
-% \end{figure}
-
-% This is useful when using CI/CD pipelines to compile, package and deploy the various containers of the solution. If no changes have been made to \textit{X} Container there is no need to redo all the work previously done with it.
-
-% The reason behind the monorepo approach for \textbf{Sensae Console} is that it allows frontend libraries to be shared without publishing somewhere. It is also much easier to keep track of the code in a monorepo since the solution is developed by a single developer.
-
-% \subsection{Usage of Github Issues to track issues, bugs and new features}
-% \label{subsec:implementation:decisions:issues}
-
-% As described before, the code is hosted in \citetitle{github}. One of the services that this platform offers is \textit{Github Issues}. This tool helps to track and document the development process alongside with the code.
-
-% This tool can be separated into two main views. A view is concerned about what issues, features and bugs are active in the project, Figure~\ref{fig:implementation:decisions:issues:board}, and the other is concerned with the current state of each issue, feature and bug, Figure~\ref{fig:implementation:decisions:issues:project}.
-
-% \begin{figure}[H]
-%     \centering
-%     \resizebox{\columnwidth}{!}
-%     {
-%        \includegraphics{assets/figures/github-2.png}
-%     }
-%     \caption[Github Issues]{Github Issues}
-%     \label{fig:implementation:decisions:issues:board}
-% \end{figure}
-
-% Each issue has a list of tags that represent its scope and a defined milestone. With this tool, the team members can also discuss issues in depth.
-
-% The issues presented in this page are then tracked in the \textit{project} page - Figure~\ref{fig:implementation:decisions:issues:project}. The author decided to divided the issues into 4 criteria:
-
-% \begin{itemize}
-%     \item \textbf{To Do}: Issues that have been discussed and are to be completed in the near future;
-%     \item \textbf{In Progress}: Issues that are currently under development and have an assigned feature branches;
-%     \item \textbf{Done}: Issues that have been completed and have been integrated in the \textit{master} branch;
-%     \item \textbf{Future}: Issues that have been purposed but have no clear deadline.
-% \end{itemize}
-
-% \begin{figure}[H]
-%     \centering
-%     \resizebox{\columnwidth}{!}
-%     {
-%        \includegraphics{assets/figures/github.png}
-%     }
-%     \caption[Github Issues Project Board]{Github Issues Project Board}
-%     \label{fig:implementation:decisions:issues:project}
-% \end{figure}
-
-% This view helps to define a simple project roadmap and track the overall state of issues, bugs and features in the project.
 
 \subsection{Usage of Github Actions for CI/CD}
 \label{subsec:implementation:decisions:actions}
@@ -570,17 +415,6 @@ It runs the following steps:
     \item Shutdown the test environment.
 \end{itemize}
 
-\subsection{Usage of Maven Repository to host Open-Source Code}
-\label{subsec:implementation:decisions:maven}
-
-As stated in the previous section \textit{iot-core} is delivered to an artifact repository. Since the intent of this package is to be used by any one interested on integrating his/her tool with \textbf{Sensae Console}, the artifact repository has to be publicly available.
-
-The Maven Central repository was the chosen one, since the \textit{maven} and \textit{gradle} tools use it, by default, to fetch dependencies.
-
-According to the article \citetitle{centralreq} by \cite{centralreq}, to publish an artifact to maven central, a couple of additions have to be made in the \textit{pom.xml} of the project namely: (i) Supply Javadoc and Sources, (ii) Provide Files Checksums, (iii) Sign Files with GPG/PGP, (iv) Sufficient Metadata, (v) Correct Coordinates, (vi) Project Name, Description and URL, (vii) License Information, (vii) Developer Information, (viii) SCM Information.
-
-In the Appendix~\ref{AppendixE} Appendix the full \textit{pom.xml} is presented.
-
 \section{Technical Description}
 \label{sec:implementation:description}
 
@@ -595,11 +429,6 @@ It describes the following topics:
     \item \nameref{subsec:implementation:description:ingestion};
     \item \nameref{subsec:implementation:description:rule};
     \item \nameref{subsec:implementation:description:decoder};
-    \item \nameref{subsec:implementation:description:database};
-    \item \nameref{subsec:implementation:description:docker};
-    \item \nameref{subsec:implementation:description:compose};
-    \item \nameref{subsec:implementation:description:nginx};
-    \item \nameref{subsec:implementation:description:config};
     \item \nameref{subsec:implementation:description:services};
     \item \nameref{subsec:implementation:description:sensor};
 \end{itemize}
@@ -744,26 +573,13 @@ The first Code Sample presents the beginning of the rule scenario, where imports
 
 \begin{lstlisting}[style=drools, caption=Rule Scenario Example - Part 1, label={code:implementation:description:rule:sample1}]
 package rules.project.two;
-
-import pt.sharespot.iot.core.data.model.data.DataUnitReadingsDTO;
-import pt.sharespot.iot.core.data.model.DataUnitDTO;
-import pt.sharespot.iot.core.data.model.device.records. DeviceRecordEntryDTO;
-import pt.sharespot.iot.core.data.model.properties.PropertyName;
-import pt.sharespot.iot.core.alert.model.AlertBuilder;
-import pt.sharespot.iot.core.alert.model.CorrelationDataBuilder;
-import pt.sharespot.iot.core.alert.model.AlertLevel;
-import java.util.List;
-import java.util.UUID;
-
+//imports (hidden for brevity)
 global pt.sharespot.iot.core.alert.model.AlertDispatcherService dispatcher;
-
-dialect "mvel"
 
 declare StoveSensor
     @role( event )
     deviceId : UUID
 end
-
 declare StoveSensorData
     @role( event )
     deviceId : UUID
@@ -773,9 +589,8 @@ declare StoveSensorData
 end
 \end{lstlisting}
 
-As we can see, from line \textbf{3} to \textbf{9}, classes from \textit{iot-core} are imported into the scenario.
-At line \textbf{13} the interface that defines how an alert can be sent is imported for later use.
-From line \textbf{17} to \textbf{28} two facts are declared, this can later be used as simple \textit{Java} POJOs. A fact defined with the \textit{event} role means that it occurred at a specific time (upon creation) and can be used for \gls{CEP}.
+As we can see, at line \textbf{3} the interface that defines how an alert can be sent is imported for later use.
+From line \textbf{5} to \textbf{15} two facts are declared, this can later be used as simple \textit{Java} POJOs. A fact defined with the \textit{event} role means that it occurred at a specific time (upon creation) and can be used for \gls{CEP}.
 
 The following code sample presents a simple rule to store \textit{StoveSensorData} facts in the working memory of \citetitle{drools}.
 
@@ -837,7 +652,7 @@ rule "Dispatch Stove Alarm - Dry Soil Scenario - Project #002"
 end
 \end{lstlisting}
 
-As we can see this rule matches when the same device reports measures of air humidity higher than 50\% and temperature lower then 26 ºC for more than 11 minutes.
+As we can see this rule matches when the same device reports measures of air humidity higher than 50\% and temperature lower then 26 Celsius degrees for more than 11 minutes.
 
 Once it matches an Alert is dispatched using the referenced dispatcher in Code Sample~\ref{code:implementation:description:rule:sample1}. The Alert can be created using the builder pattern.
 
@@ -871,35 +686,7 @@ const decodePayload = (payload, port) =>
     ({"0": decoder(base64ToHex(payload), port)});
 
 const base64ToHex = (() => {
-    const values = [], output = [];
-
-    return function base64ToHex(txt) {
-        if (output.length <= 0) populateLookups();
-        const result = [];
-        let v1, v2, v3, v4;
-        for (let i = 0, len = txt.length; i < len; i += 4) {
-            v1 = values[txt.charCodeAt(i)];
-            v2 = values[txt.charCodeAt(i + 1)];
-            v3 = values[txt.charCodeAt(i + 2)];
-            v4 = values[txt.charCodeAt(i + 3)];
-            result.push(
-                parseInt(output[(v1 << 2) | (v2 >> 4)], 16),
-                parseInt(output[((v2 & 15) << 4) | (v3 >> 2)], 16),
-                parseInt(output[((v3 & 3) << 6) | v4], 16)
-            );
-        }
-        if (v4 === 64) result.splice(v3 === 64 ? -2 : -1);
-        return result;
-    };
-    function populateLookups() {
-        const keys =
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijkl mnopqrstuvwxyz0123456789+/=";
-        for (let i = 0; i < 256; i++) {
-            output.push(("0" + i.toString(16)).slice(-2));
-            values.push(0);
-        }
-        for (let i = 0; i < 65; i++) values[keys.charCodeAt(i)] = i;
-    }
+    //hidden for bevity
 })();
 
 function decoder(bytes, port) {
@@ -944,391 +731,6 @@ const convert = dataUnit => ({
 \end{lstlisting}
 
 As we can see, this code sample decodes an EM300-TH \textbf{Data Unit}. The function \textit{convert} is the one mentioned in the guidelines, it assigns values such as \textit{id}, \textit{name}, \textit{reported\_at}, \textit{downlink\_url}, \textit{uuid} to its correct place and calls the function \textit{decodePayload} to gather the device measures. The \textit{decodePayload} stores every measure in the \textit{controller} key - value \textit{0}. The function \textit{base64ToHex} is the function that reads a Base 64 string and transforms it into a Hex Array - to reduce bandwidth the device normally encodes and sends data as a base 64 string. The function \textit{decoder}, \textit{readInt16LE} and \textit{readUInt16LE} were adapted from the TTN decoder\footnote{\href {https://www.milesight-iot.com/lorawan/sensor/em300-th}{Milesight EM300-TH Decoder}} of this device.
-
-\subsection{Sensae Console Database Configuration}
-\label{subsec:implementation:description:database}
-
-The solution designed relies on various databases, and as discussed in Section~\ref{subsubsec:implementation:decisions:database:relational} some are relational databases. \citetitle{postgressql} and most databases of this data-model type require a database schema. For this solution the schema of each database is defined in a \textit{sql} file that is executed at the start of the database, only if no data is found.
-
-Further database schema migrations are preformed using custom \gls{SQL} scripts when needed. In the future, once more instance of \textbf{Sensae Console} are deployed, the use of liquidbase or flyway is preferred.
-
-The following Code Sample~\ref{code:implementation:description:database:file} exemplifies the content of this scripts.
-
-\begin{lstlisting}[language=SQL, caption=Initialization Script Segment for Data Processor Database, label={code:implementation:description:database:file}]
-create table if not exists public.transformation
-(
-    persistence_id bigint generated by default as identity
-        primary key,
-    device_type    varchar(255)
-        constraint unique_type_constrain
-            unique
-);
-
-create table if not exists public.property_transformation
-(
-    persistence_id                bigint generated by default as identity (maxvalue 2147483647)
-        primary key,
-    value                         integer           not null,
-    old_path                      varchar(255),
-    transformation_persistence_id bigint
-        constraint ref_transformation_constrain
-            references public.transformation,
-    sub_sensor_id                 integer default 0 not null
-);
-\end{lstlisting}
-
-This script defines two simple tables, \textit{transformation} and \textit{property\_transformation}, following the concepts defined in Section~\ref{subsubsec:design:domain:bounded_contexts:processor}.
-
-Apart from the schema, the \textbf{Identity Management Database} also requires the following bootstrap data, as implied in \nameref{subsubsec:design:domain:bounded_contexts:identity} Bounded Context Section:
-
-\begin{itemize}
-    \item Root domain;
-    \item Public domain;
-    \item Unallocated Root domain;
-    \item Anonymous Tenant account;
-    \item Admin Tenant account;
-\end{itemize}
-
-This data is inserted using the following function, Code Sample~\ref{code:implementation:description:database:function}:
-
-\begin{lstlisting}[language=SQL, caption=Bootstrap function for Identity Management Database, label={code:implementation:description:database:function}]
-CREATE FUNCTION public.init_domains ()
-RETURNS varchar(255) AS $root_oid$
-    DECLARE
-        root_oid varchar(255) := gen_random_uuid();
-        public_oid varchar(255) := gen_random_uuid();
-        unallocated_oid varchar(255) := gen_random_uuid();
-    BEGIN
-        INSERT INTO public.domain (name, oid, path)
-        VALUES ('root', root_oid, ARRAY[root_oid]);
-        INSERT INTO public.domain (name, oid, path)
-        VALUES ('public', public_oid, ARRAY[root_oid, public_oid]);
-        INSERT INTO public.domain (name, oid, path)
-        VALUES ('unallocated', unallocated_oid, ARRAY[root_oid, unallocated_oid]);
-        INSERT INTO public.tenant (name, oid, phone_number, email, domains)
-        VALUES ('Anonymous', gen_random_uuid(), '', '', ARRAY[public_oid]);
-        INSERT INTO public.tenant (name, oid, phone_number, email, domains)
-        VALUES ('Admin', gen_random_uuid(), '', '$SENSAE_ADMIN_EMAIL', ARRAY[root_oid]);
-        RETURN root_oid;
-    END;
-$root_oid$ LANGUAGE plpgsql;
-
-select public.init_domains();
-
-DROP FUNCTION public.init_domains;
-\end{lstlisting}
-
-This function starts by declaring three \gls{UUID} - lines \textbf{4} to \textbf{6} - that will later be used to populate the domain's \textit{path} and the tenant's \textit{domains} - lines \textbf{7} to \textbf{17}. In the end the function is executed and then removed to ensure that it isn't executed again.
-
-In line \textbf{17}, the variable \textbf{\$SENSAE\_ADMIN\_EMAIL} is replace by a valid email before building the database container with the full script. This variable configuration is discussed in the Section~\ref{subsec:implementation:description:config}.
-
-\subsection{Sensae Console Containerization}
-\label{subsec:implementation:description:docker}
-
-The section describes how \textbf{Sensae Console} is containerized with docker.
-As explained in Section~\ref{subsec:implementation:decisions:docker}, the author choose to containerize the solution.
-
-The following Code Samples describe how each container mentioned during the Design Chapter are packaged. To simplify, only three distinct samples will be presented.
-
-The first sample, Listing~\ref{code:implementation:description:docker:frontend}, refers to UI Aggregator and is similar to all other frontend containers.
-
-\begin{lstlisting}[caption=Dockerfile for UI Aggregator Frontend, label={code:implementation:description:docker:frontend}]
-FROM node:18-alpine AS build
-WORKDIR /workspace
-COPY package.json ./
-COPY . .
-RUN npm install
-RUN npm run nx build ui-aggregator --omit=dev
-
-FROM nginx:1.23.1
-COPY apps/ui-aggregator/nginx/nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /workspace/dist/apps/ui-aggregator /usr/share/nginx/html
-\end{lstlisting}
-
-This Dockerfile contains two stages to reduce the size of the final image. The first stage, lines \textbf{1} to \textbf{6}, builds the project. The second one, containing only \citetitle{nginx} and the code that was previously built, is used to serve the UI Aggregator Frontend and route requests. The \citetitle{nginx} configuration file at line \textbf{9} is discussed in the \ref{subsec:implementation:description:nginx} Section.
-
-The second sample, Listing~\ref{code:implementation:description:docker:spring}, refers to \textbf{Fleet Management Backend} and is similar to all backend containers in the Configuration Scope or External Services.
-
-\begin{lstlisting}[caption=Dockerfile for Fleet Management Backend, label={code:implementation:description:docker:spring}]
-FROM maven:3.8.5-openjdk-18 AS build
-WORKDIR /app
-# copy all pom.xml to pull only external dependencies
-COPY application/pom.xml application/pom.xml
-COPY domain/pom.xml domain/pom.xml
-COPY infrastructure/boot/pom.xml infrastructure/boot/pom.xml
-COPY infrastructure/endpoint/pom.xml infrastructure/endpoint/pom.xml
-COPY infrastructure/persistence/pom.xml infrastructure/persistence/pom.xml
-COPY infrastructure/persistence/questdb/pom.xml infrastructure/persistence/questdb/pom.xml
-COPY infrastructure/endpoint/graphql/pom.xml infrastructure/endpoint/graphql/pom.xml
-COPY infrastructure/endpoint/amqp/pom.xml infrastructure/endpoint/amqp/pom.xml
-COPY infrastructure/pom.xml infrastructure/pom.xml
-COPY pom.xml pom.xml
-# build all external dependencies
-RUN mvn -B -e -C org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -DexcludeArtifactIds=fleet-management-backend,application,domain,infrastructure,endpoint,graphql,boot,amqp,questdb
-
-COPY . .
-RUN mvn clean package
-
-FROM openjdk:17
-WORKDIR /app
-COPY --from=build /app/infrastructure/boot/target/fleet-management-backend.war /app
-CMD ["java", "-jar", "fleet-management-backend.war"]
-\end{lstlisting}
-
-This sample also presents a multi-stage Dockerfile. The first stage, line \textbf{1} to \textbf{18} builds the project with Maven. All \textit{pom.xml} files and dependencies are added first to reduce build time during development, since these change less that the code written. The second stage is the one that runs the  service. It only contains the \gls{JDK} and the compiled application.
-
-The third sample, Listing~\ref{code:implementation:description:docker:quarkus}, refers to \textbf{Device Commander} and is similar to all backend containers in the Data Flow Scope.
-
-\begin{lstlisting}[caption=Dockerfile for Device Commander, label={code:implementation:description:docker:quarkus}]
-FROM quay.io/quarkus/ubi-quarkus-native-image:22.1-java17 AS build
-COPY --chown=quarkus:quarkus mvnw /code/mvnw
-COPY --chown=quarkus:quarkus .mvn /code/.mvn
-COPY --chown=quarkus:quarkus pom.xml /code/
-USER quarkus
-WORKDIR /code
-RUN ./mvnw -B org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline
-COPY src /code/src
-RUN ./mvnw package -Pnative
-
-FROM quay.io/quarkus/quarkus-micro-image:1.0
-WORKDIR /work/
-COPY --from=build /code/target/runner /work/application
-
-# set up permissions for user `1001`
-RUN chmod 775 /work /work/application \
-    && chown -R 1001 /work \
-    && chmod -R "g+rwX" /work \
-    && chown -R 1001:root /work
-
-EXPOSE 8080
-USER 1001
-
-CMD ["./application", "-Dquarkus.http.host=0.0.0.0"]
-\end{lstlisting}
-
-This sample, once again, is also a multi-stage Dockerfile. It was adapted from the one generated by \citetitle{quarkus} when setting up the application. In the first stage the application is built with a \citetitle{graalvm} native-image - lines \textbf{1} to \textbf{9}. This allows the image to run without \gls{JVM}. The second stage runs the service after setting user permissions, so that the process doesn't run as root, at lines \textbf{17} to \textbf{20}.
-
-\subsection{Sensae Console Orchestration}
-\label{subsec:implementation:description:compose}
-
-As described in Section~\ref{par:design:architecture:platform:container:physical}, \citetitle{dockercompose} was the tool used to orchestrate the whole solution, the \textbf{Sensae Console} and External Services. This tool consumes a configuration file to know what containers, and their configurations, are needed. The complete configuration file for production is vast, a summarized version will be presented containing only the \textbf{Data Processor} Context' related containers.
-
-\begin{lstlisting}[style=yaml, caption=Docker Compose Configuration File for Production, label={code:implementation:description:compose:file}]
-services:
-  data-processor-frontend:
-    build:
-      dockerfile: docker/data-processor-frontend/Dockerfile
-      context: frontend-services
-    image: data-processor-frontend
-    volumes:
-      - /etc/letsencrypt:/etc/letsencrypt/
-      - /etc/nginx/ssl:/etc/nginx/ssl/
-    networks:
-      - sensae-network
-    ports:
-      - 443
-    depends_on:
-      - data-processor-master-backend
-  data-processor-master-backend:
-    build: backend-services/data-processor-master-backend
-    image: data-processor-master-backend
-    volumes:
-      - ./secrets/keys:/etc/ssh/app
-    environment:
-      spring_profiles_active: prod
-    env_file:
-      - ./secrets/prod/data-processor-master-backend.env
-    networks:
-      - sensae-network
-    ports:
-      - 8080
-  data-processor-database:
-    build: databases/data-processor-database
-    container_name: data-processor-database
-    env_file:
-      - ./secrets/prod/data-processor-database.env
-    networks:
-      - sensae-network
-    ports:
-      - 5482:5432
-    volumes:
-      - ./databases-data/prod/data-processor-database:/var/lib/postgresql/data/
-  data-processor-flow:
-    build: backend-services/data-processor-flow
-    image: sensae/data-processor-flow
-    env_file:
-        - ./secrets/prod/data-processor-flow.env
-    networks:
-        - sensae-network
-networks:
-  sensae-network:
-\end{lstlisting}
-
-The following conclusions can be observed:
-
-\begin{itemize}
-    \item This context, similar to other contexts, is composed by four containers, a Frontend - \textit{data-processor-frontend}, a Configuration Backend - \textit{data-processor-master-backend}, a Database - \textit{data-processor-database}, and a Data Flow Backend - \textit{data-processor-flow};
-    \item All services communicate in the same network - \textit{sensae-network};
-    \item All services have instructions on how to build them;
-    \item Various configuration files are loaded, e.g. in lines \textbf{19} to \textbf{20} and \textbf{28} to \textbf{31}, this files content will be discussed in the \nameref{subsec:implementation:description:config} Section;
-    \item The Frontend has two volumes mapped, one loads the \textit{letsencrypt} configuration file for \citetitle{nginx} and the other loads the SSL certificate - lines \textbf{7} to \textbf{9}.
-    \item The Configuration Backend needs to validate the authentication tokens received, for that, it has access to the public key that pairs the private key used to created then in \textbf{Identity Management Backend} - line \textbf{19} - \textbf{20};
-    \item The database exposes a port to the host so that it can be managed remotely - lines \textbf{36} to \textbf{37};
-    \item The database maps its data to a directory in the host, so that data is persisted between server restarts - lines \textbf{38} to \textbf{39};
-    \item The Data Flow container doesn't need to expose any port since it only exchanges information with the message broker;
-\end{itemize}
-
-\subsection{Sensae Console Reverse Proxy Configuration}
-\label{subsec:implementation:description:nginx}
-
-This section reveals how \citetitle{nginx} is configured for all frontend containers in the solution. As an example, the Listing~\ref{code:implementation:description:nginx:irrig}, describes the \textbf{Smart Irrigation Frontend}.
-
-\begin{lstlisting}[caption=Configuration File for Production Environment, label={code:implementation:description:nginx:irrig}]
-server {
-
-    server_name localhost;
-
-    listen 443 ssl;
-
-    ssl_certificate /etc/nginx/ssl/nginx.crt;
-    ssl_certificate_key /etc/nginx/ssl/nginx.key;
-
-    root        /usr/share/nginx/html;
-
-    index       index.html index.htm;
-
-    include /etc/letsencrypt/options-ssl-nginx.conf;
-
-    location ~ .*remoteEntry.js$ {
-        expires -1;
-        add_header 'Cache-Control' 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0';
-    }
-
-    location /smart-irrigation/graphql {
-        proxy_pass http://smart-irrigation-backend:8080/graphql;
-        proxy_set_header x-forwarded-prefix /smart-irrigation/graphql;
-        proxy_set_header Host $host;
-        proxy_set_header x-forwarded-host $host;
-        proxy_redirect off;
-        proxy_set_header x-forwarded-port 443;
-        proxy_set_header x-forwarded-proto https;
-    }
-
-    location /smart-irrigation/subscriptions {
-        proxy_pass http://smart-irrigation-backend:8080/subscriptions;
-        proxy_set_header x-forwarded-prefix /smart-irrigation/subscriptions;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "Upgrade";
-        proxy_set_header Host $host;
-        proxy_read_timeout 6000;
-        proxy_send_timeout 6000;
-        proxy_redirect off;
-        proxy_set_header x-forwarded-port 443;
-        proxy_set_header x-forwarded-proto https;
-    }
-
-    location / {
-        try_files $uri $uri/ /index.html;
-    }
-
-    if ($scheme != "https") {
-        return 301 https://$host$request_uri;
-    } # managed by Certbot
-}
-\end{lstlisting}
-
-The following conclusions can be inferred:
-
-\begin{itemize}
-    \item It only exposes the HTTPS port - line \textbf{4} and lines \textbf{49} to \textbf{51};
-    \item It loads the SSL certificates mapped in the \citetitle{dockercompose} file - lines \textbf{7} and \textbf{8};
-    \item It uses the \textit{letsencrypt} configuration - line \textbf{14};
-    \item The \textit{remoteEntry} file, responsible for providing the entry point to the service in a Micro Frontend environment, is never cached in the client browser since it points to the current compiled version of the service. If this file is cached, the updated version of a micro frontend, can only be accessed by the client browser once the local cache is cleaned up - lines \textbf{16} to \textbf{19};
-    \item The \citetitle{graphql} endpoint is defined as a reverse proxy endpoint. Requests made to \textit{/smart-irrigation/graphql} are routed to \textit{http://smart-irrigation-backend:8080/graphql}. It doesn't use a secure connection, HTTPS, since this communication already happens inside the docker network where man in the middle attacks are disregarded - lines \textbf{21} to \textbf{29};
-    \item The \citetitle{graphql} subscription endpoint is also defined, this type of connection, \textit{Websocket}, requires the use of HTTP version 1.1 and the two Headers presented at lines \textbf{34} to \textbf{36};
-    \item All other requests are handled in lines \textbf{45} to \textbf{47}.
-\end{itemize}
-
-\subsection{Sensae Console Configuration Files}
-\label{subsec:implementation:description:config}
-
-This section describes how a \textbf{Sensae Console} and External Services are configured. One of the problems that arise from a microservice architecture is how to maintain all configurations for each container developed and configured. Following the \citetitle{confcentral}, all configurations are defined via configuration files that support three environments: \textit{dev}, \textit{test} and \textit{prod}.
-
-This configurations are defined, for each environment, in a single file. This file, Listing~\ref{code:implementation:description:config:file}, has the following structure:
-
-\begin{lstlisting}[language=bash, style=bash, caption=Configuration File for Production Environment, label={code:implementation:description:config:file}]
-export SENSAE_MAPBOX_ACCESS_TOKEN=
-export SENSAE_MAPBOX_SIMPLE_STYLE=
-export SENSAE_MAPBOX_SATELLITE_STYLE=
-export SENSAE_BROKER_USERNAME=
-export SENSAE_BROKER_PASSWORD=
-export SENSAE_COMMON_DATABASE_PASSWORD=
-export SENSAE_DATA_STORE_USER_PASSWORD=
-export SENSAE_DATA_STORE_ROOT_PASSWORD=
-export SENSAE_AUTH_PATH_PUB_KEY=
-export SENSAE_AUTH_PATH_PRIV_KEY=
-export SENSAE_AUTH_ISSUER=
-export SENSAE_AUTH_AUDIENCE=
-export SENSAE_DATA_AUTH_KEY=
-export SENSAE_AUTH_EXTERNAL_MICROSOFT_AUDIENCE=
-export SENSAE_AUTH_EXTERNAL_GOOGLE_AUDIENCE=
-export SENSAE_SMS_TWILIO_ACCOUNT_SID=
-export SENSAE_SMS_TWILIO_AUTH_TOKEN=
-export SENSAE_SMS_SENDER_NUMBER=
-export SENSAE_SMS_ACTIVATE=
-export SENSAE_EMAIL_SENDER_ACCOUNT=
-export SENSAE_EMAIL_SUBJECT=
-export SENSAE_EMAIL_SENDER_PASSWORD=
-export SENSAE_EMAIL_SMTP_HOST=
-export SENSAE_EMAIL_SMTP_PORT=
-export SENSAE_EMAIL_ACTIVATE=
-export SENSAE_PROD_PUBLIC_DOMAIN=
-export SENSAE_ADMIN_EMAIL=
-\end{lstlisting}
-
-This file variables are then passed on to each container's environment configuration file with the help of a script. The Code Sample~\ref{code:implementation:description:config:script} sheds a light on how the script propagates the configurations.
-
-\begin{lstlisting}[language=bash, style=bash, caption=Configuration Propagation Script, label={code:implementation:description:config:script}]
-#!/usr/bin/sh
-
-ROOT_DIR=$(git rev-parse --show-toplevel)
-
-cd "$ROOT_DIR"/project || exit
-
-. ./secrets/prod.conf
-
-SECRET_BACK=secrets/templates/prod/backend-services
-SECRET_FRONT=secrets/templates/prod/frontend-services
-SECRET_DB=secrets/templates/prod/databases
-
-BACK_PREFIX=secrets/prod
-FRONT_PREFIX=frontend-services/apps
-FRONT_SUFFIX=src/environments/environment.prod.ts
-
-envsubst < $SECRET_BACK/alert-dispatcher-backend.env > \
-     $BACK_PREFIX/alert-dispatcher-backend.env
-# and all other backend services
-envsubst < $SECRET_BACK/data-validator.env >
-     $BACK_PREFIX/data-validator.env
-
-envsubst < $SECRET_FRONT/device-management-frontend.ts > \
- $FRONT_PREFIX/device-management-frontend/$FRONT_SUFFIX
-# and all other frontend services
-envsubst < $SECRET_FRONT/ui-aggregator.ts > \
- $FRONT_PREFIX/ui-aggregator/$FRONT_SUFFIX
-
-envsubst < secrets/templates/prod/message-broker/message-broker.env > \
- $BACK_PREFIX/message-broker.env
-
-envsubst < $SECRET_DB/data-decoder-database.env > \
- $BACK_PREFIX/data-decoder-database.env
-# and all other databases
-envsubst < $SECRET_DB/rule-management-database.env > \
- $BACK_PREFIX/rule-management-database.env
-\end{lstlisting}
-
-In the future, as more isolated deployments are made, a tool such as \citetitle{vault} should be integrated in the solution.
 
 \subsection{Solutions - External Services}
 \label{subsec:implementation:description:services}
@@ -1400,19 +802,9 @@ Virtually any device can be integrated, via \citetitle{helium}, with \textbf{Sen
 
 The Figure~\ref{fig:implementation:description:sensor:integration} presents an example of the custom integration for the EM300-TH Device.
 
-\begin{figure}[H]
-    \centering
-    \resizebox{\columnwidth}{!}
-    {
-       \includegraphics{assets/figures/sensor/integration.png}
-    }
-    \caption[Helium Custom Integration Page]{Helium Custom Integration Page}
-    \label{fig:implementation:description:sensor:integration}
-\end{figure}
-
 Finally, in the \citetitle{helium} flows page, connect the registered device to the custom integration.
 
-This method will require the user to register the endpoint with the \textit{encoded} type and write a \textbf{Data Decoder} in \textbf{Sensae Console} to translate the payload sent by the device though \citetitle{helium}.
+This method will require the user to register the endpoint with the \textit{encoded} type and write a \textbf{Data Decoder} in \textbf{Sensae Console} to translate the payload sent by the device through \citetitle{helium}.
 
 If the user intends to use the \textbf{Data Processor}, he/she needs to:
 
@@ -1423,6 +815,16 @@ If the user intends to use the \textbf{Data Processor}, he/she needs to:
     \item Link the device to the \textit{Function} in \citetitle{helium};
     \item Link the \textit{Function} to the custom integration;
 \end{itemize}
+
+\begin{figure}
+    \centering
+    \resizebox{\columnwidth}{!}
+    {
+       \includegraphics{assets/figures/sensor/integration.png}
+    }
+    \caption[Helium Custom Integration Page]{Helium Custom Integration Page}
+    \label{fig:implementation:description:sensor:integration}
+\end{figure}
 
 \section{Testing}
 \label{sec:implementation:testing}

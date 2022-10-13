@@ -25,6 +25,10 @@ Scopes are derived from the major system responsibilities of the solution as a w
 
 The solution designed can be divided in three main scopes as disclosed in Figure~\ref{fig:design:system_scopes:scopes}.
 
+The \textbf{Sensae Console} is composed by two scopes, \textbf{Configuration Scope} and \textbf{Data Flow Scope}. These scopes are static and always available in any installation. They answer core/common functionalities of any \gls{IoT}-based platform. \textbf{Sensae Console} is similar to the "Smart City Platform" in the proposed architecture for Smart Cities (\nameref{subsubsec:stateofart:arch:p2413}) or the "Event Processing and Analytics Layer" of \nameref{subsubsec:stateofart:arch:wso2}.
+
+The \textbf{External Services Scope} is where actual business cases concerns are tackled. This scope is dynamic, meaning that an installation can have different types of external services depending on the costumer needs. The requested \gls{PoC}s belong to this scope. This scope is analogous to the "Embedded IoT Applications" in \nameref{subsubsec:stateofart:arch:sat} or the "Application Layer" in the proposed architecture for Smart Cities (\nameref{subsubsec:stateofart:arch:p2413}).
+
 \begin{figure}[H]
     \centering
    \resizebox{\columnwidth}{!}
@@ -34,10 +38,6 @@ The solution designed can be divided in three main scopes as disclosed in Figure
    \caption[System Scopes]{System Scopes}
    \label{fig:design:system_scopes:scopes}
 \end{figure}
-
-The \textbf{Sensae Console} is composed by two scopes, \textbf{Configuration Scope} and \textbf{Data Flow Scope}. These scopes are static and always available in any installation. They answer core/common functionalities of any \gls{IoT}-based platform. \textbf{Sensae Console} is similar to the "Smart City Platform" in the proposed architecture for Smart Cities (\nameref{subsubsec:stateofart:arch:p2413}) or the "Event Processing and Analytics Layer" of \nameref{subsubsec:stateofart:arch:wso2}.
-
-The \textbf{External Services Scope} is where actual business cases concerns are tackled. This scope is dynamic, meaning that an installation can have different types of external services depending on the costumer needs. The requested \gls{PoC}s belong to this scope. This scope is analogous to the "Embedded IoT Applications" in \nameref{subsubsec:stateofart:arch:sat} or the "Application Layer" in the proposed architecture for Smart Cities (\nameref{subsubsec:stateofart:arch:p2413}).
 
 The \textbf{Configuration Scope} refers to the configuration and visualization of internal processes/concerns, such as: (i) data decoders, (ii) data mappers (iii) device inventory, (iv) warning rule scenarios definition and (v) device ownership - related to the \textbf{Data Flow Scope}. It is also possible to manage users' access and permissions in the \textbf{Configuration Scope}.
 
@@ -183,7 +183,7 @@ Both of the \textit{systems} provide an \gls{API} for automated management/contr
 % mudar isto de sitio
 As mentioned before in Section~\ref{subsubsec:requirements:functional:services:fire} there is a need to integrate the final product with an Email and SMS dispatch service.
 
-The reason that lead to the use of external authentication/identity services, as required in Section~\ref{subsec:requirements:non_functional:interface}, is further discussed in the Section~\ref{subsec:design:alternatives:auth}.
+The reason that lead to the use of external authentication/identity services, as required in Section~\ref{subsec:requirements:non_functional:interface}, is further discussed in Appendix~\ref{appendix:design:alternatives:auth}.
 
 \subsubsection{Context Level - Physical View}
 \label{subsubsec:design:architecture:context:physical}
@@ -219,7 +219,6 @@ The Sections~\nameref{subsec:design:architecture:platform} and \nameref{subsec:d
 
 This section will explore the internals of \textbf{Sensae Console} from an architectural point of view. It discusses the C4 container level.
 The C4 component level is discussed in Appendix~\ref{appendix:design:architecture:platform:components}.
-
 
 The C4 level 2 introduces the reader to the various containers that compose the platform. In this section all relevant views will be presented according to the alternative in use or idealized for the system. In the Section~\ref{sec:design:alternatives} other alternatives are discussed.
 
@@ -281,7 +280,7 @@ The Data Processor concern group is presented in Figure~\ref{fig:design:architec
 
 \begin{figure}[H]
    \centering
-   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/logical/data-processor-context.pdf}
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level2/logical/data-processor-context.pdf}
    \caption[Data Processor - Container Level - Logical View Diagram]{Data Processor - Container Level - Logical View Diagram}
    \label{fig:design:architecture:platform:containers:logical:processor}
 \end{figure}
@@ -292,7 +291,7 @@ The Data Decoder concern group is presented in Figure~\ref{fig:design:architectu
 
 \begin{figure}[H]
    \centering
-   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/logical/data-decoder-context.pdf}
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level2/logical/data-decoder-context.pdf}
    \caption[Data Decoder - Container Level - Logical View Diagram]{Data Decoder - Container Level - Logical View Diagram}
    \label{fig:design:architecture:platform:containers:logical:decoder}
 \end{figure}
@@ -303,7 +302,7 @@ The Device Management concern group is presented in Figure~\ref{fig:design:archi
 
 \begin{figure}[H]
    \centering
-   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/logical/device-management-context.pdf}
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level2/logical/device-management-context.pdf}
    \caption[Device Management - Container Level - Logical View Diagram]{Device Management - Container Level - Logical View Diagram}
    \label{fig:design:architecture:platform:containers:logical:device}
 \end{figure}
@@ -317,7 +316,7 @@ The Rule Management concern group is presented in Figure~\ref{fig:design:archite
 
 \begin{figure}[H]
    \centering
-   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/logical/rule-management-context.pdf}
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level2/logical/rule-management-context.pdf}
    \caption[Rule Management - Container Level - Logical View Diagram]{Rule Management - Container Level - Logical View Diagram}
    \label{fig:design:architecture:platform:containers:logical:rule}
 \end{figure}
@@ -328,9 +327,9 @@ The Alert Dispatcher is responsible for publishing alerts based on the rule scen
 
 The Identity Management concern group is presented in Figure~\ref{fig:design:architecture:platform:containers:logical:identity}.
 
-\begin{figure}[H]
+\begin{figure}
    \centering
-   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/logical/identity-management-context.pdf}
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level2/logical/identity-management-context.pdf}
    \caption[Identity Management - Container Level - Logical View Diagram]{Identity Management - Container Level - Logical View Diagram}
    \label{fig:design:architecture:platform:containers:logical:identity}
 \end{figure}
@@ -379,23 +378,23 @@ The following diagram in Figure~\ref{fig:design:architecture:platform:container:
 
 \begin{figure}[H]
    \centering
-   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/process/data-flow-scope.pdf}
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level2/process/data-flow-scope.pdf}
    \caption[Container Level - Data Flow - Diagram]{Container Level - Data Flow - Diagram}
    \label{fig:design:architecture:platform:container:process:diagram:flow}
 \end{figure}
 
 Most of these containers have just a portion of their concern's state and may be unable to preform the needed operation on some Data Units. The following diagrams, Figure~\ref{fig:design:architecture:platform:container:process:diagram:decoder:1} and Figure~\ref{fig:design:architecture:platform:container:process:diagram:decoder:2}, addresses how state is managed in Data Decoder Flow Backend and most \textbf{Data Flow Scope} containers.
 
-\begin{figure}[H]
+\begin{figure}
    \centering
    \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level2/process/data-decoder-flow-1.pdf}
    \caption[Container Level - Data Decoder Operation part 1 - Process View Diagram]{Container Level - Data Decoder Operation Part 1 - Process View Diagram}
    \label{fig:design:architecture:platform:container:process:diagram:decoder:1}
 \end{figure}
 
-As we can see, the Data Decoder Flow Backend, upon receiving a Data Unit, can preform two operations, depending on whether or not the script is available: decode the Data Unit and notify that the script was used or store the Data Unit and notify that a script for an unknown device type is needed.
+As we can see, in Figure~\ref{fig:design:architecture:platform:container:process:diagram:decoder:1}, the Data Decoder Flow Backend, upon receiving a Data Unit, can preform two operations, depending on whether or not the script is available: decode the Data Unit and notify that the script was used or store the Data Unit and notify that a script for an unknown device type is needed.
 
-The next diagram describes what happens when a message with a decoder is published (using the \textit{OperationType} Info mentioned in Section~\ref{subsubsec:design:domain:shared_model:routing}).
+The diagram in Figure~\ref{fig:design:architecture:platform:container:process:diagram:decoder:2} describes what happens when a message with a decoder is published (using the \textit{OperationType} Info mentioned in Section~\ref{subsubsec:design:domain:shared_model:routing}).
 
 \begin{figure}[H]
    \centering
@@ -404,7 +403,7 @@ The next diagram describes what happens when a message with a decoder is publish
    \label{fig:design:architecture:platform:container:process:diagram:decoder:2}
 \end{figure}
 
-As we can see Data Decoder Flow Backend, upon receiving an info regarding a data decoder, searches for unhandled Data Units and processes them.
+As we can see, Figure~\ref{fig:design:architecture:platform:container:process:diagram:decoder:2}, Data Decoder Flow Backend, upon receiving an info regarding a data decoder, searches for unhandled Data Units and processes them.
 To minimize the memory in use, a data decoder has to be continually used in order for it to remain in cache. As seen in step \textbf{2.2}, if \textit{X} hours pass since the last time a decoder was used it is evicted from the container internal state.
 
 The operations described here for the Data Decoder Flow Backend are replicated in the following concerns/containers:
@@ -419,7 +418,7 @@ As described before, containers that belong to the \textbf{Data Flow Scope} oper
 
 The next diagrams, in Figure~\ref{fig:design:architecture:platform:container:process:diagram:processor} and Figure~\ref{fig:design:architecture:platform:container:process:diagram:device} present some of the common operations that happen in that scope.
 
-\begin{figure}[H]
+\begin{figure}
    \centering
    \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level2/process/consult-data-processor.pdf}
    \caption[Container Level - Consult Data Processors - Process View Diagram]{Container Level - Consult Data Processors - Process View Diagram}
@@ -428,7 +427,7 @@ The next diagrams, in Figure~\ref{fig:design:architecture:platform:container:pro
 
 The diagram presented above represents a simple consult of data mappers, as we can see, only the Data Processor Context in the Configuration Scope is invoked. When a change to the state is made in any Context of the Configuration Scope, events are published. The next diagram, Figure~\ref{fig:design:architecture:platform:container:process:diagram:device} displays an example of this occurrence.
 
-\begin{figure}[H]
+\begin{figure}
    \centering
    \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level2/process/edit-device-management.pdf}
    \caption[Container Level - Edit Device Information - Process View Diagram]{Container Level - Edit Device Information - Process View Diagram}
@@ -455,11 +454,11 @@ There are three containers that subscribe to this specific type of event:
    \item \textbf{Identity Management Backend}: so that information related to the device changed is presented according to the latest update. This container maintains local copies of all devices names to present to the user without needing to request Device Management for that information every time.
 \end{itemize}
 
-The step \textbf{1.3} in the last two diagrams references user permissions but there is no mention of how this permissions are associated to the user. In the next diagrams - Figure~\ref{fig:design:architecture:platform:container:process:diagram:authentication} and Figure~\ref{fig:design:architecture:platform:container:process:diagram:authorization} - authentication and authorization in the \textbf{Sensae Console} are addressed, other approaches are discussed in the \nameref{subsec:design:alternatives:auth} Section.
+The step \textbf{1.3} in the last two diagrams references user permissions but there is no mention of how this permissions are associated to the user. In the next diagrams - Figure~\ref{fig:design:architecture:platform:container:process:diagram:authentication} and Figure~\ref{fig:design:architecture:platform:container:process:diagram:authorization} - authentication and authorization in the \textbf{Sensae Console} are addressed, other approaches are discussed in Appendix~\ref{appendix:design:alternatives:auth}.
 
 The system verifies the identity of a user based on the authentication performed by an external \gls{CIAM} solution using OpenID Connect 1.0, \cite{openid}, an identity layer on top of the OAuth 2.0 protocol. According to \cite{oauth} OAuth2.0 ``enables a third-party application to obtain limited access to an HTTP service''. In this situation the Frontend of \textbf{Sensae Console} is the third-party application and the HTTP service is any of the \textbf{Sensae Console} backend services.
 
-\begin{figure}[H]
+\begin{figure}
    \centering
    \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/process/user-authentication.pdf}
    \caption[Container Level - User Authentication - Process View Diagram]{Container Level - User Authentication - Process View Diagram}
@@ -476,7 +475,7 @@ The user identity and credentials validation are assured by an external identity
    \label{fig:design:architecture:platform:container:process:diagram:authorization}
 \end{figure}
 
-In this diagram the expected behavior for any pair of frontend and backend containers in \textbf{Configuration Scope} (and \textbf{External Services}, when served from the \textbf{UI Aggregator}) is presented. Each frontend displays only the actions and information that the user permissions allow. The user permissions are once again verified in the backend to secure the system against malicious accesses. Other alternatives related to authentication and authorization are presented in the Section~\ref{subsec:design:alternatives:auth}.
+In this diagram the expected behavior for any pair of frontend and backend containers in \textbf{Configuration Scope} (and \textbf{External Services}, when served from the \textbf{UI Aggregator}) is presented. Each frontend displays only the actions and information that the user permissions allow. The user permissions are once again verified in the backend to secure the system against malicious accesses. Other alternatives related to authentication and authorization are presented in  Appendix~\ref{appendix:design:alternatives:auth}.
 
 \subsubsection{Container Level - Implementation View}
 \label{par:design:architecture:platform:container:development}
@@ -566,14 +565,14 @@ This service is composed by a simple three layers architecture. The details rela
 
 Next, to better understand the internal processes of this service, Figure~\ref{fig:design:architecture:container:process:diagram:fleet} presents how a user can see the current location of a device. Authentication details are omitted for brevity reasons.
 
+In order to provide live information to the user, the Fleet Management service (and all other \textbf{External Services}) relies on \textit{WebSockets}. A bidirectional channel is created between the frontend and backend so that data can be sent directly from the backend to the frontend as we can see in the step \textbf{2.5}. Fist the frontend must subscribe to new information with a valid \textit{access token} - steps \textbf{1.2} to \textbf{1.6} - then this channel is maintained till the user leaves the page. Once the user leaves the page the subscription is closed in the frontend and subsequently in the backend - steps \textbf{3.2} to \textbf{3.5}.
+
 \begin{figure}[H]
    \centering
    \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/process/device-live-location.pdf}
    \caption[Container Level - Consult Device Live Location via Fleet Management - Process View Diagram]{Container Level - Consult Device Live Location via Fleet Management - Process View Diagram}
    \label{fig:design:architecture:container:process:diagram:fleet}
 \end{figure}
-
-In order to provide live information to the user, the Fleet Management service (and all other \textbf{External Services}) relies on \textit{WebSockets}. A bidirectional channel is created between the frontend and backend so that data can be sent directly from the backend to the frontend as we can see in the step \textbf{2.5}. Fist the frontend must subscribe to new information with a valid \textit{access token} - steps \textbf{1.2} to \textbf{1.6} - then this channel is maintained till the user leaves the page. Once the user leaves the page the subscription is closed in the frontend and subsequently in the backend - steps \textbf{3.2} to \textbf{3.5}.
 
 \subsubsection{Notification Management}
 \label{subsubsec:design:architecture:solutions:notification}
@@ -591,6 +590,8 @@ This service is composed by a simple three layers architecture and has a separat
 
 The next diagram in Figure~\ref{fig:design:architecture:container:process:diagram:notification} describes how a user receives notifications via several different delivery channels. For brevity reasons the subscription process is omitted.
 
+As a brief description this diagram describes what happens when an alert is dispatched inside \textbf{Sensae Console}. An alert is created in Alert Dispatcher Backend, flows though Device Ownership Backend to be enriched with the domains that own it and is then collected by, at least, the Notification Management Service. Notification Management Backend deliveries alerts in the form of \gls{UI} notifications - step \textbf{2.5} and \textbf{2.6} - and stores this alert as a notification for later use - step \textbf{2.3}. Notification Dispatcher Backend deliveries alerts in the form of Emails - step \textbf{3.4} - and SMS - step \textbf{3.7}.
+
 \begin{figure}[H]
    \centering
    \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/process/notification-dispatch.pdf}
@@ -598,12 +599,14 @@ The next diagram in Figure~\ref{fig:design:architecture:container:process:diagra
    \label{fig:design:architecture:container:process:diagram:notification}
 \end{figure}
 
-As a brief description this diagram describes what happens when an alert is dispatched inside \textbf{Sensae Console}. An alert is created in Alert Dispatcher Backend, flows though Device Ownership Backend to be enriched with the domains that own it and is then collected by, at least, the Notification Management Service. Notification Management Backend deliveries alerts in the form of \gls{UI} notifications - step \textbf{2.5} and \textbf{2.6} - and stores this alert as a notification for later use - step \textbf{2.3}. Notification Dispatcher Backend deliveries alerts in the form of Emails - step \textbf{3.4} - and SMS - step \textbf{3.7}.
-
 \subsubsection{Smart Irrigation}
 \label{subsubsec:design:architecture:solutions:irrigation}
 
 The logical view of the Smart Irrigation service is presented in Figure~\ref{fig:design:architecture:solutions:containers:logical:irrigation}.
+
+This service is composed by a three layers architecture, the \textbf{Data Layer} is divided in two databases, one responsible for storing device measures and another responsible for storing information regarding the Irrigation Zones and device information. The details related to this service are discussed in Section~\ref{subsubsec:design:domain:bounded_contexts:irrigation}.
+
+Certain types of alerts are also collected by Smart Irrigation Backend to automatically control conditions inside an irrigation zone. In the next diagram, Figure \ref{fig:design:architecture:container:process:diagram:irrigation}, this process is presented.
 
 \begin{figure}[H]
    \centering
@@ -612,13 +615,9 @@ The logical view of the Smart Irrigation service is presented in Figure~\ref{fig
    \label{fig:design:architecture:solutions:containers:logical:irrigation}
 \end{figure}
 
-This service is composed by a three layers architecture, the \textbf{Data Layer} is divided in two databases, one responsible for storing device measures and another responsible for storing information regarding the Irrigation Zones and device information. The details related to this service are discussed in Section~\ref{subsubsec:design:domain:bounded_contexts:irrigation}.
-
-Certain types of alerts are also collected by Smart Irrigation Backend to automatically control conditions inside an irrigation zone. In the next diagram, Figure \ref{fig:design:architecture:container:process:diagram:irrigation}, this process is presented.
-
 \begin{figure}[H]
    \centering
-   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/process/smart-irrigation.pdf}
+   \includegraphics[page=1,width=0.9\columnwidth]{assets/diagrams/design/architectural/level2/process/smart-irrigation.pdf}
    \caption[Container Level - Valve Activation Process via Smart Irrigation - Process View Diagram]{Container Level - Valve Activation Process via Smart Irrigation - Process View Diagram}
    \label{fig:design:architecture:container:process:diagram:irrigation}
 \end{figure}
@@ -643,6 +642,8 @@ In the following section, alternatives to what was designed and developed across
 \label{sec:design:alternatives}
 
 This section tackles important alternatives that were proposed and discussed during the design and development of the system but were discarded in detriment for the approaches presented in the \nameref{sec:design:architecture}.
+
+More alternatives are discussed in the appendixes, namely User Authentication, in Appendix~\ref{appendix:design:alternatives:auth}.
 
 \subsection{Backend Segregation}
 \label{subsec:design:alternatives:backend}
@@ -713,97 +714,6 @@ The Microfrontends Architecture when applied to this project has the same oversi
 
 Ultimately this decision, coupled with the Backend Segregation decision made, enforces a business model that follows \gls{OCP} and simplifies the adoption of this solution by third parties.
 
-\subsection{User Authentication/Authorization}
-\label{subsec:design:alternatives:auth}
-
-User Authentication/Authorization is an important aspect of the solution. During the requirements elicitation, mentioned in Section~\ref{subsec:requirements:functional:roles}, it was clear that several different levels of permissions had to be given to Tenants. These levels of permissions also had to be managed by someone. As such, users had to be authenticated in the system and all accesses had to be authorized.
-
-Four approaches were considered:
-
-\begin{itemize}
-   \item \nameref{subsubsec:design:alternatives:auth:internalauth};
-   \item \nameref{subsubsec:design:alternatives:auth:externalauth};
-   \item \nameref{subsubsec:design:alternatives:auth:externalauthinternalpermission};
-   \item \nameref{subsubsec:design:alternatives:auth:externalauthinternaloauth}.
-\end{itemize}
-
-The fourth option was the approach taken.
-
-\subsubsection{Internal Authentication Server}
-\label{subsubsec:design:alternatives:auth:internalauth}
-
-By creating an Internal Authentication Server we could have a normal, private and controlled user authentication/authorization flow in the environment. Both user credentials and permissions would be managed internally.
-
-The following diagram, Figure~\ref{fig:design:alternatives:auth:internalauth:diagram},presents the normal environment flow for this alternative.
-
-\begin{figure}[H]
-   \centering
-   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/alternatives/auth/alternative1.pdf}
-   \caption[User Authentication/Authorization - Internal Authentication Server Alternative - Sequence Diagram]{User Authentication/Authorization - Internal Authentication Server Alternative - Sequence Diagram}
-   \label{fig:design:alternatives:auth:internalauth:diagram}
-\end{figure}
-
-This alternative introduces the need to internally secure user credentials and other sensitive information from data breaches. It would also require each user to register in sensae with a new account credentials. For this reasons this alternative was discarded.
-
-\subsubsection{External Authentication Server}
-\label{subsubsec:design:alternatives:auth:externalauth}
-
-By using an External Authentication Server there would be no need to store user credentials or permissions. This services are commonly identified as \gls{CIAM} solutions. According to \cite{ciam} these solutions include features such as ``self-service for registration, password and consent management, profile generation and management, authentication and authorization into applications, identity repositories, reporting and analytics, APIs and SDKs for mobile applications, and social identity registration and login''.
-
-The following diagram, Figure~\ref{fig:design:alternatives:auth:externalauth:diagram}, presents the normal environment flow for this alternative.
-
-\begin{figure}[H]
-   \centering
-   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/alternatives/auth/alternative2.pdf}
-   \caption[User Authentication/Authorization - External Authorization Server Alternative - Sequence Diagram]{User Authentication/Authorization - External Authorization Server Alternative - Sequence Diagram}
-   \label{fig:design:alternatives:auth:externalauth:diagram}
-\end{figure}
-
-This approach would create a strong dependency to the \gls{CIAM} solution used since all user credentials and authorization level would have to be managed by the \gls{CIAM} solution.
-Some of this services are: (i) \citetitle{auth0id}, (ii) \citetitle{googleid}, (iii) \citetitle{oktaid}, (iv) \citetitle{amazonid} and (v) \citetitle{azureid}.
-
-The platform Auth0 was tested and is capable of answering all of this project's requirements.
-
-As stated before, the dependency created would force the environment to always be coupled to the chosen \gls{CIAM} solution. For this reason this alternative was discarded.
-
-\subsubsection{External Authentication Server with Internal Authorization Server}
-\label{subsubsec:design:alternatives:auth:externalauthinternalpermission}
-
-By using an External Authentication Server there would be no need to store user credentials, the user authorization aspects would then be managed internally via and \textit{Authorization Server}.
-
-The following diagram, Figure~\ref{fig:design:alternatives:auth:externalauthinternalpermission:diagram}, presents the normal environment flow for this alternative.
-
-\begin{figure}[H]
-   \centering
-   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/alternatives/auth/alternative3.pdf}
-   \caption[User Authentication/Authorization - External Authentication Server with Internal Authorization Server Alternative - Sequence Diagram]{User Authentication/Authorization - External Authentication Server with Internal Authorization Server Alternative - Sequence Diagram}
-   \label{fig:design:alternatives:auth:externalauthinternalpermission:diagram}
-\end{figure}
-
-This approach would create a dependency to the \gls{CIAM} solution used and presented in the second alternative.
-
-This dependency is less severe compared with the second alternative since all authorization aspects would be managed internally.
-This approach would require any backend to query the \textit{Authorization Server} for user permissions so that it could verify if the user was authorized to preform the requested action or not. This would therefore linger down the performance of the system since each action would have to be verified in a single container: the \textit{Authorization Server}.
-
-\subsubsection{External Authentication Server with Internal Oauth2 Server}
-\label{subsubsec:design:alternatives:auth:externalauthinternaloauth}
-
-By using an external Authorization Server there would be no need to store user credentials. An internal Oauth2 Server would remove the direct dependency to the \textit{Permissions Server} presented in the third alternative.
-
-This alternative is introduced in Figure~\ref{fig:design:architecture:platform:container:process:diagram:authentication} and Figure~\ref{fig:design:architecture:platform:container:process:diagram:authorization} where the Internal Oauth2 Server is the Identity Management Backend.
-
-This approach would create a dependency to the \gls{CIAM} solution used and presented in the second alternative. This dependency is less severe compared with the second alternative since all user permissions would be managed internally.
-This approach would require the system to create and refresh \textit{access tokens} based on the \textit{id token} received by the external \gls{CIAM} solution. Contrary to the third alternative it would not create excessive pressure in a specific container.
-
-This approach also allows the system to easily integrate with more than one \gls{CIAM} solution while managing user permissions in a single place. The \gls{CIAM} solutions that \textbf{Sensae Console} is integrated with are:
-
-\begin{itemize}
-   \item Google Identity Platform: for common individuals that want to use the system, since almost everyone has a google account;
-   \item Azure Active Directory: for companies and organizations since most use Office 365 services internally.
-\end{itemize}
-
-Due to the reasons presented above, this was the adopted approach.
-
 \subsection{Data Flow Pipeline}
 \label{subsec:design:alternatives:flow}
 
@@ -847,7 +757,7 @@ This option ensures that the Data Flow Containers are kept updated by giving the
 
 \begin{figure}[H]
    \centering
-   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/alternatives/internal/alternative1.pdf}
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/alternatives/internal/alternative1.pdf}
    \caption[Internal Communication - First Option - Logical View Diagram]{Internal Communication - First Option - Logical View Diagram}
    \label{fig:design:alternatives:internal:first:diagram}
 \end{figure}
@@ -872,7 +782,7 @@ This option ensures that the Data Flow Containers are kept updated querying info
 
 \begin{figure}[H]
    \centering
-   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/alternatives/internal/alternative2.pdf}
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/alternatives/internal/alternative2.pdf}
    \caption[Internal Communication - Second Option - Logical View Diagram]{Internal Communication - Second Option - Logical View Diagram}
    \label{fig:design:alternatives:internal:second:diagram}
 \end{figure}
@@ -888,7 +798,7 @@ This option ensures that the Data Flow Containers are kept updated by allowing t
 
 \begin{figure}[H]
    \centering
-   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/alternatives/internal/alternative3.pdf}
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/alternatives/internal/alternative3.pdf}
    \caption[Internal Communication - Third Option - Logical View Diagram]{Internal Communication - Third Option - Logical View Diagram}
    \label{fig:design:alternatives:internal:third:diagram}
 \end{figure}
@@ -907,7 +817,7 @@ This option ensures that the Data Flow Containers are kept updated by allowing t
 
 \begin{figure}[H]
    \centering
-   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/alternatives/internal/alternative4.pdf}
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/alternatives/internal/alternative4.pdf}
    \caption[Internal Communication - Fourth Option - Logical View Diagram]{Internal Communication - Fourth Option - Logical View Diagram}
    \label{fig:design:alternatives:internal:fourth:diagram}
 \end{figure}
@@ -924,7 +834,7 @@ This option ensures that the Data Flow Containers are kept updated by allowing t
 
 \begin{figure}[H]
    \centering
-   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/alternatives/internal/alternative5.pdf}
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/alternatives/internal/alternative5.pdf}
    \caption[Internal Communication - Fifth Option - Logical View Diagram]{Internal Communication - Fifth Option - Logical View Diagram}
    \label{fig:design:alternatives:internal:fifth:diagram}
 \end{figure}
@@ -933,12 +843,13 @@ The \textit{X Concern Flow} Container would use event sourcing to reach the curr
 
 The main drawback of this approach is that the container can't keep just the needed portion of configurations without recreating the entire state though event sourcing.
 
-\section{Domain}
+\section{Canonical Model}
 \label{sec:design:domain}
 
 This solution's domain model will be discussed here. The idea behind this section is to introduce core business concepts to the reader and explain how they map to the ones refereed before. To represent this ideas the \gls{UML} notation is used.
 
-This section is split into four pieces: (i) taxonomy, (ii) shared model, (iii) sensae console concerns and (iv) external services.
+This section is split into two pieces: (i) taxonomy and (ii) model.
+The various domains inside \textbf{Sensae Console} and \textbf{External Services} are discussed in Appendix~\ref{appendix:design:domain:bounded_contexts} and \ref{appendix:design:domain:services_contexts}, respectively.
 
 \subsection{Taxonomy}
 \label{subsec:design:domain:taxonomy}
@@ -971,10 +882,10 @@ Currently the \textbf{Topic}s that flow in the system are:
 
 This concepts are referenced across the document.
 
-\subsection{Shared Model}
+\subsection{Model}
 \label{subsec:design:domain:shared_model}
 
-The shared model is comprised of concepts that transverse the entire \textbf{Sensae Console} business model, and by extension any \textbf{External Service}. Therefore, it is built as a library, \textit{iot-core}, that can be used by entities that rely on the exchange of information with/inside \textbf{Sensae Console}. It can be seen as a domain that focus on defining the protocol of exchange of information between the various entities of the system.
+The canonical model is comprised of concepts that transverse the entire \textbf{Sensae Console} business model, and by extension any \textbf{External Service}. Therefore, it is built as a library, \textit{iot-core}, that can be used by entities that rely on the exchange of information with/inside \textbf{Sensae Console}. It can be seen as a domain that focus on defining the protocol of exchange of information between the various entities of the system.
 
 The intent behind this Shared Model is to alleviate one of the issues related to distributed systems - heterogeneity in data formats \parencite{nadiminti2006distributed} - and to provide a simple \gls{SDK} for third-parties to develop new external services that interact with \textbf{Sensae Console}. It can be seen as an explicit schema. According to \cite{explicitsharedmodel}, ``any implementation of event-based communication between a producer and consumer that lacks an explicit predefined schema will inevitably end up relying on an implicit schema. Implicit data contracts are brittle and susceptible to uncontrolled change, which can cause much undue hardship to downstream consumers.''
 
@@ -1008,6 +919,8 @@ As a brief description:
 \end{itemize}
 
 As explained, \textit{Measures} contains various data types. Currently the supported types are presented in the Table~\ref{tab:design:domain:shared_model:data:data_types}. The team involved in this project decided what data types were needed to support based on the requested \gls{PoC}s and the purchased sensors. In the future more data types are expected to be included in the model.
+
+The full json-like model schema can be found in Appendix~\ref{AppendixA}.
 
 \begin{landscape}
    \begin{longtable}{cllll}
@@ -1116,8 +1029,6 @@ As explained, \textit{Measures} contains various data types. Currently the suppo
    \end{longtable}
 \end{landscape}
 
-The full json-like model schema can be found in Appendix~\ref{AppendixA}.
-
 \subsubsection{Message Envelop Model}
 \label{subsubsec:design:domain:shared_model:message}
 
@@ -1127,7 +1038,7 @@ The diagram present in Figure~\ref{fig:design:domain:shared_model:messsage:diagr
 
 \begin{figure}[H]
    \centering
-   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/domain/message-envelop-model.pdf}
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/domain/message-envelop-model.pdf}
   \caption[Message Envelop Model]{Message Envelop Model}
   \label{fig:design:domain:shared_model:messsage:diagram}
 \end{figure}
@@ -1150,7 +1061,7 @@ The routing model refers to how information can be routed through the system bas
 
 The diagram present in Figure~\ref{fig:design:domain:shared_model:routing:diagram} details this model.
 
-\begin{figure}[H]
+\begin{figure}
    \centering
   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/domain/routing-model.pdf}
   \caption[Routing Model]{Routing Model}
@@ -1170,6 +1081,40 @@ As a brief description:
 \end{itemize}
 
 In the Table~\ref{tab:design:domain:shared_model:routing} all currently used \textit{RoutingKey} are presented.
+
+The routing key \textit{OperationType} from the \textbf{Internal} topic can have the following values:
+
+\begin{itemize}
+   \item \textbf{Sync}: message contains the current state of the related \textit{ContextType}, used to populate a container's state;
+   \item \textbf{Info}: message contains information about an entry of the related \textit{ContextType}, e.g. entry X in context Y was removed;
+   \item \textbf{Unknown}: message contains entry of the related \textit{ContextType} that the container that published the message can't identify;
+   \item \textbf{Init}: message to notify that a container has initiated and needs the current state of the related \textit{ContextType} to be ready;
+   \item \textbf{Ping}: message to notify that an entry of the related \textit{ContextType} was used, e.g. entry X in context Y was just used.
+\end{itemize}
+
+The \textit{ContextType}, used to identity what piece of the state is referenced, can currently have the following values: (i) \textit{Data Processor}, (ii) \textit{Data Decoder}, (iii) \textit{Device Information}, (iv) \textit{Device Identity}, (v) \textit{Tenant Identity}, (vi) \textit{Addressee Configuration} and (vii) \textit{Rule Management}.
+
+Routing keys help to strengthen the boundaries that a container is expected to have. As an example, an external service related to Waste Management would subscribe to the \textit{Data Topic} with the following \textit{Routing Keys}:
+
+\begin{itemize}
+   \item \textit{Info Type Options}: PROCESSED;
+   \item \textit{Channel Options}: 'wasteManagement';
+   \item \textit{Data Legitimacy Options}: CORRECT;
+   \item \textit{GPS Data Options}: WITH;
+   \item \textit{Occupation Data Options}: WITH;
+   \item \textit{Records Options}: WITH;
+   \item \textit{Ownership Options}: WITH;
+\end{itemize}
+
+And would, for example, subscribe to the \textit{Alert Topic} with the following \textit{Routing Keys}:
+
+\begin{itemize}
+   \item \textit{Alert Category Options}: 'wasteManagement';
+   \item \textit{Alert SubCategory Options}: 'garbageFull';
+   \item \textit{Ownership Options}: WITH;
+\end{itemize}
+
+As expected, the structure and semantics of the information subscribed to are known upfront with the help of the package \textit{iot-core}. The services developed and their pre-defined boundaries regarding data types consumed are detailed in Section~\ref{subsec:implementation:description:services}.
 
 \begin{landscape}
    \begin{longtable}{cll}
@@ -1241,331 +1186,6 @@ In the Table~\ref{tab:design:domain:shared_model:routing} all currently used \te
    \footnotetext[2]{related to the explored Data Types}
 \end{landscape}
 
-The routing key \textit{OperationType} from the \textbf{Internal} topic can have the following values:
-
-\begin{itemize}
-   \item \textbf{Sync}: message contains the current state of the related \textit{ContextType}, used to populate a container's state;
-   \item \textbf{Info}: message contains information about an entry of the related \textit{ContextType}, e.g. entry X in context Y was removed;
-   \item \textbf{Unknown}: message contains entry of the related \textit{ContextType} that the container that published the message can't identify;
-   \item \textbf{Init}: message to notify that a container has initiated and needs the current state of the related \textit{ContextType} to be ready;
-   \item \textbf{Ping}: message to notify that an entry of the related \textit{ContextType} was used, e.g. entry X in context Y was just used.
-\end{itemize}
-
-The \textit{ContextType}, used to identity what piece of the state is referenced, can currently have the following values: (i) \textit{Data Processor}, (ii) \textit{Data Decoder}, (iii) \textit{Device Information}, (iv) \textit{Device Identity}, (v) \textit{Tenant Identity}, (vi) \textit{Addressee Configuration} and (vii) \textit{Rule Management}.
-
-Routing keys help to strengthen the boundaries that a container is expected to have. As an example, an external service related to Waste Management would subscribe to the \textit{Data Topic} with the following \textit{Routing Keys}:
-
-\begin{itemize}
-   \item \textit{Info Type Options}: PROCESSED;
-   \item \textit{Channel Options}: 'wasteManagement';
-   \item \textit{Data Legitimacy Options}: CORRECT;
-   \item \textit{GPS Data Options}: WITH;
-   \item \textit{Occupation Data Options}: WITH;
-   \item \textit{Records Options}: WITH;
-   \item \textit{Ownership Options}: WITH;
-\end{itemize}
-
-And would, for example, subscribe to the \textit{Alert Topic} with the following \textit{Routing Keys}:
-
-\begin{itemize}
-   \item \textit{Alert Category Options}: 'wasteManagement';
-   \item \textit{Alert SubCategory Options}: 'garbageFull';
-   \item \textit{Ownership Options}: WITH;
-\end{itemize}
-
-As expected, the structure and semantics of the information subscribed to are known upfront with the help of the package \textit{iot-core}. The services developed and their pre-defined boundaries regarding data types consumed are detailed in Section~\ref{subsec:implementation:description:services}.
-
-\subsection{Sensae Console}
-\label{subsec:design:domain:bounded_contexts}
-
-The \textbf{Bounded Context} concept, defined by \cite{evans2014domain}, refers to an unified model - with well-defined boundaries and internally consistent - that is, a single piece in a larger system composed by various bounded contexts.
-
-The concept \textbf{Bounded Concern} refereed in this section draws inspiration from the one coined by \cite{evans2014domain}, without the notion of Aggregates, Value Objects, Aggregate Root and other \gls{DDD} concepts. It is here to simply characterize the various models of the system that, when isolated, can be more clearly interpreted and understood by the reader.
-
-For \textbf{Sensae Console}, each bounded concern can be pictured as a core business process of the system, it is composed by the following:
-
-\begin{itemize}
-   \item Data Processor;
-   \item Data Decoder;
-   \item Device Management;
-   \item Identity Management;
-   \item Rule Management.
-\end{itemize}
-
-Each of this concerns will be briefly addressed in the following sections.
-
-\subsubsection{Data Processor}
-\label{subsubsec:design:domain:bounded_contexts:processor}
-
-The \textbf{Data Processor} concern refers to simple data mappers that translate inbound information to \textbf{Data Unit}s, discussed in Section~\ref{subsubsec:design:domain:shared_model:data}.
-
-The received information must be \textit{decoded}, meaning that the inbound information simply has a different structure than \textbf{Data Unit}.
-
-The diagram in Figure~\ref{fig:design:domain:bounded_contexts:processor:diagram} displays the noteworthy concepts in this concern.
-
-\begin{figure}[H]
-   \centering
-  \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/domain/data-processor-model.pdf}
-  \caption[Data Processor Concern Model]{Data Processor Concern Model}
-  \label{fig:design:domain:bounded_contexts:processor:diagram}
-\end{figure}
-
-As a brief description:
-
-\begin{itemize}
-   \item \textbf{DataMapper}, the root entity in this concern is identified by a \textbf{DeviceTypeId} and has various instructions to map properties from the inbound information to a \textbf{Data Unit} properties;
-   \item \textbf{DeviceTypeId} identifies the type of device that can be processed by this data mapper. When a data unit's message is supplied to this concern the data mapper that has the \textbf{DeviceTypeId} equal to the message's \textit{Device Type Options} routing key (mentioned in Table~\ref{tab:design:domain:shared_model:routing}) is used to process that data unit;
-   \item \textbf{SubDeviceReference} represents a number that will be used later to reference a sub device when dealing with \textbf{Controller}s. For simple \textbf{Devices} the used and default value is \textit{0};
-   \item \textbf{PropertyName} has much more properties that haven't been presented for brevity.
-\end{itemize}
-
-As an example, consider the inbound information represented as a JSON document with the structure in the example \ref{code:design:domain:bounded_contexts:processor:json}. To map the \textit{temperature} value to the \textbf{TEMPERATURE\_CELSIUS} property of a \textbf{Data Unit}, the \textbf{EncodedDataPropertyPath} would be \textit{decoded.data[0].temperature}.
-
-\begin{lstlisting}[caption=Inbound Information Example, label={code:design:domain:bounded_contexts:processor:json}]
-{
-   "uuid": "de1a9d15-c018-4547-8453-87111cb4f81b",
-   "id": "d81e6e69-1955-48a1-a1dd-4c812c15ebac",
-   "time": 1657646955748,
-   "decoded": {
-      "data": [
-         {
-            "temperature": 18,
-         }
-      ]
-   }
-}
-\end{lstlisting}
-
-This process is simple since it expects the inbound information to be predisposed, but when working with \gls{IoT} Devices, to optimize the bandwidth used, it is common to send information encoded. The following section presents an alternative to this process.
-
-\subsubsection{Data Decoder}
-\label{subsubsec:design:domain:bounded_contexts:decoder}
-
-The \textbf{Data Decoder} concern refers to a more complex data mapper that translates inbound information to \textbf{Data Unit}s, discussed in Section~\ref{subsubsec:design:domain:shared_model:data}.
-It was created to deal with the limitations mentioned in Section~\ref{subsubsec:design:domain:bounded_contexts:processor}.
-
-The received information is usually \textit{encoded}, meaning that the inbound information is received as it was sent by the \textbf{Device}, commonly as a \textit{Base64} encoded string, that needs to be processed so that information can be extracted.
-
-The diagram in Figure~\ref{fig:design:domain:bounded_contexts:decoder:diagram} displays the noteworthy concepts in this concern.
-
-\begin{figure}[H]
-   \centering
-  \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/domain/data-decoder-model.pdf}
-  \caption[Data Decoder Concern Model]{Data Decoder Concern Model}
-  \label{fig:design:domain:bounded_contexts:decoder:diagram}
-\end{figure}
-
-As a brief description:
-
-\begin{itemize}
-   \item \textbf{DataDecoder}, the root entity in this concern is identified by a \textbf{DeviceTypeId} and has a \textbf{Script};
-   \item Currently, a \textbf{Script} can only be written in \textit{JavaScript} but in the future more languages like \textit{Python} or \textit{Groovy} can be added;
-   \item The \textbf{ScriptContent} contains the code that will run for each inbound information that matches the \textbf{DeviceTypeId}.
-\end{itemize}
-
-This process requires some knowledge of the \textit{Javascript} language but it's much more flexible than the \textbf{Data Processor} operation.
-
-\subsubsection{Device Management}
-\label{subsubsec:design:domain:bounded_contexts:device}
-
-The \textbf{Device Management} concern refers to the inventory of all registered \textbf{Device}s in the \textbf{Sensae Console}.
-
-The diagram in Figure~\ref{fig:design:domain:bounded_contexts:device:diagram} displays the noteworthy concepts in this concern.
-
-\begin{figure}[H]
-   \centering
-  \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/domain/device-management-model.pdf}
-  \caption[Device Management Concern Model]{Device Management Concern Model}
-  \label{fig:design:domain:bounded_contexts:device:diagram}
-\end{figure}
-
-As a brief description:
-
-\begin{itemize}
-   \item A \textbf{Device} is uniquely identified by a \textbf{DeviceId} and a \textbf{DeviceName}. It may have a \textbf{DeviceDownlink}, an URL used to send device commands to;
-   \item A \textbf{DeviceCommand} defines how to send a \textbf{Downlink} with a specific action;
-   \item A \textbf{DeviceStaticData} helps to define data such as the device location;
-   \item A \textbf{DeviceRecord} enriches the device information with anything deemed important. This can also help to group devices by projects, type of utility and others;
-   \item A \textbf{SubDevice} references another \textbf{Device} by its \textbf{DeviceId}. This, coupled with the concepts \textbf{SubDeviceMeasures} and \textbf{SubDeviceCommands} presented in Figure~\ref{fig:design:domain:shared_model:data:diagram} help to split a \textbf{Controller}'s \textbf{Data Unit} into various \textbf{Data Unit}, one for each referenced \textbf{SubDevice}.
-\end{itemize}
-
-\subsubsection{Identity Management}
-\label{subsubsec:design:domain:bounded_contexts:identity}
-
-The \textbf{Identity Management} is concerned with identifying \textbf{Tenant}s, defining their permissions and what \textbf{Device}s they own.
-To simplify this, a forth concept is introduced: \textbf{Domain}.
-
-The diagram in Figure~\ref{fig:design:domain:bounded_contexts:identity:diagram} displays the noteworthy concepts in this concern.
-
-\begin{figure}[H]
-   \centering
-  \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/domain/identity-management-model.pdf}
-  \caption[Identity Management Concern Model]{Identity Management Concern Model}
-  \label{fig:design:domain:bounded_contexts:identity:diagram}
-\end{figure}
-
-As a brief description:
-
-\begin{itemize}
-   \item A \textbf{Domain} is uniquely identified by a \textbf{DomainId} and can have a parent \textbf{Domain};
-   \item There's a root \textbf{Domain}, the only one that doesn't have a parent and has all the available permissions;
-   \item A \textbf{Tenant} has a \textbf{TenantName} and \textbf{TenantEmail}, unique \textbf{TenantId} and can have a \textbf{TenantPhoneNumber};
-   \item A special \textbf{Tenant}, Anonymous, exists by default to give access to users without an account in the platform;
-   \item A \textbf{Device} is uniquely identified by a \textbf{DeviceId};
-   \item The \textbf{PermissionType} has much more types that haven't been presented for brevity.
-\end{itemize}
-
-A \textbf{Domain} represents a department in a hierarchical organization. An organization is composed by several domains in a tree like structure as presented in Figure~\ref{fig:design:domain:bounded_contexts:identity:organization}.
-
-\begin{figure}[H]
-   \centering
-   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/domain/organization.pdf}
-  \caption[Domain Structure]{Domain Structure}
-  \label{fig:design:domain:bounded_contexts:identity:organization}
-\end{figure}
-
-Coupled with the figure above, there are other constrains:
-
-\begin{itemize}
-   \item A domain owns all devices in it and in his subdomains;
-   \item A domain can only inherit his parent domain permissions;
-   \item A tenant has all the domain permissions that he/she is registered in;
-   \item A tenant can only see the devices that the domains he/she is registered in has access to;
-   \item All \textit{Unallocated} domains have no permissions or devices and contain only tenants that are waiting to be assigned to a department or organization;
-   \item The creation of an \textit{Organization} (level 2 domain), triggers the creation of its \textit{Unallocated} domain;
-   \item The \textit{Public} domain can be accessed by any tenant, including those who are not authenticated in the system - with the Anonymous User account.
-\end{itemize}
-
-By default this concern contains the \textit{Root Organization} domain, the \textit{Root Organization}'s  \textit{Unallocated} domain and the \textit{Public} domain.
-
-Referring to the roles in Section~\ref{subsec:requirements:functional:roles}, a Manager belongs to the \textit{Root Organization}, any Costumer belongs to one or various \textit{Organization}s, and the Anonymous user belongs to the \textit{Public} domain.
-Ultimately, what defines a user role is the domain he/she belongs to. Even if an \textit{Organization} ends up having all available permissions it will not be able to control or access other \textit{Organization}'s device data or employees information.
-
-\subsubsection{Rule Management}
-\label{subsubsec:design:domain:bounded_contexts:rule}
-
-The \textbf{Rule Management} concern refers to rule scenarios.
-
-The purpose of this concern is to provide a high-level language that can analyze a stream of \textbf{Data Unit}s, identify abnormal occurrences, and output \textbf{Alert}s base on them.
-
-In this concern, and according to Figure~\ref{fig:stateofart:arch:infra:rule:ifp} in Section~\ref{subsubsec:stateofart:arch:infra:rule}, the input data are \textbf{Data Unit}s and the output data are the \textbf{Alert}s. This concern is involved on how \textit{rules} are defined. The diagram in Figure~\ref{fig:design:domain:bounded_contexts:rule:diagram} displays the noteworthy concepts.
-
-\begin{figure}[H]
-   \centering
-   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/domain/rule-management-model.pdf}
-  \caption[Rule Management Concern Model]{Rule Management Concern Model}
-  \label{fig:design:domain:bounded_contexts:rule:diagram}
-\end{figure}
-
-\subsection{External Services}
-\label{subsec:design:domain:services_contexts}
-
-The developed \gls{PoC}s are:
-
-\begin{itemize}
-      \item Smart Irrigation;
-      \item Fleet Management;
-      \item Notification Management.
-\end{itemize}
-
-Each of this services' models will be briefly addressed in the following sections. The shared model presented above defined the structure and semantic of incoming data. Each service then uses the shared model how they envision, in their specific practical and pragmatic fashion.
-
-\subsubsection{Fleet Management}
-\label{subsubsec:design:domain:bounded_contexts:fleet}
-
-The \textbf{Fleet Management} model simply refers to the past and current location of assets.
-
-The diagram in Figure~\ref{fig:design:domain:bounded_contexts:fleet:diagram} displays the noteworthy concepts related to this service.
-
-\begin{figure}[H]
-   \centering
-   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/domain/fleet-management-model.pdf}
-  \caption[Fleet Management Model]{Fleet Management Model}
-  \label{fig:design:domain:bounded_contexts:fleet:diagram}
-\end{figure}
-
-This was the first External Service built as a \gls{PoC}, it was intended to be straightforward. The model references \gls{GPS} readings and what device collected them.
-
-\subsubsection{Notification Management}
-\label{subsubsec:design:domain:bounded_contexts:notification}
-
-The \textbf{Notification Management} model refer to notifications and how/what types an addressee wants to receive. There are two main concepts in this service, a notification and an addressee.
-
-The diagram in Figure~\ref{fig:design:domain:bounded_contexts:notification:diagram} displays the noteworthy concepts related to this service.
-
-\begin{figure}[H]
-   \centering
-  \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/domain/notification-management-model.pdf}
-  \caption[Notification Management Model]{Notification Management Model}
-  \label{fig:design:domain:bounded_contexts:notification:diagram}
-\end{figure}
-
-As a brief description:
-
-\begin{itemize}
-   \item A \textbf{Notification} is a sanitized \textbf{Alert} that was captured with the intent to be presented or delivered to addressees, its identified by an \textbf{NotificationId};
-   \item An \textbf{Addressee} is someone that receives notifications based on his configurations and is identified by an \textbf{AddresseeId};
-   \item An \textbf{AddresseeConfiguration} defines for each type of notification - \textbf{ContentType} - what will be the delivery method - \textbf{DeliveryType};
-   \item A \textbf{DeliveryType} can be of four types: (i) present in SPA - \textbf{UI}, (ii) publish notification in SPA - \textbf{NOTIFICATION}, (iii) send an email - \textbf{EMAIL}, (iv) send an SMS - \textbf{SMS};
-   \item A \textbf{ContentType} is derived from the \textbf{Alert} Routing Keys mentioned in the Table~\ref{tab:design:domain:shared_model:routing} and defines the type of each \textbf{Notification};
-   \item To enforce accountability in the system, the notion of who read a specific notification and when was added - \textbf{NotificationRead}.
-\end{itemize}
-
-\subsubsection{Smart Irrigation}
-\label{subsubsec:design:domain:bounded_contexts:irrigation}
-
-The \textbf{Smart Irrigation} model refers to irrigation zones, sensors that read environmental conditions in this zones, valves and the associated readings. This concepts are divided in three diagrams presented below.
-
-The diagram in Figure~\ref{fig:design:domain:bounded_contexts:irrigation:diagram:garden} displays the noteworthy concepts related to irrigation zones.
-
-An irrigation zone is an area intended to function as an isolated environment that may or may not have valves or sensors.
-
-\begin{figure}[H]
-   \centering
-   \includegraphics[page=1,width=0.7\columnwidth]{assets/diagrams/design/domain/smart-irrigation-model-2.pdf}
-  \caption[Smart Irrigation Model - Irrigation Zone]{Smart Irrigation Model - Irrigation Zone}
-  \label{fig:design:domain:bounded_contexts:irrigation:diagram:garden}
-\end{figure}
-
-A sensor or valve belongs to an irrigation zone if it is inside the zone's \textbf{Area}.
-
-As presented in the following diagram, Figure~\ref{fig:design:domain:bounded_contexts:irrigation:diagram:device}, a sensor/valve can be represents by a \textbf{Device}.
-
-\begin{figure}[H]
-   \centering
-  \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/domain/smart-irrigation-model-3.pdf}
-  \caption[Smart Irrigation Model - Device]{Smart Irrigation Model - Device}
-  \label{fig:design:domain:bounded_contexts:irrigation:diagram:device}
-\end{figure}
-
-As a brief description:
-
-\begin{itemize}
-   \item The \textbf{RemoteControl} defines if a \textbf{Valve} can be controlled remotely. A valve can be controlled remotely only if two specific types of \textbf{Command}s (as defined in the \nameref{subsec:design:domain:shared_model}) are sent with the device's \textbf{Data Unit}: \textit{OpenValve} and \textit{CloseValve};
-   \item A \textbf{Device} is identified by its \textbf{DeviceId};
-   \item Each \textbf{Device} stores an history of all its changes such as name, location or metadata in \textbf{Content}, the same \textbf{LedgerEntry} is used as long as this values don't change;
-   \item There are three types of \textbf{Device}: (i) Green House Sensor, (ii) Park Sensor, (iii) Valve. Each of this types collect different measures discussed in Figure\ref{fig:design:domain:bounded_contexts:irrigation:diagram:reading}.
-\end{itemize}
-
-As mentioned above each type of device collects different readings. The following diagram, Figure\ref{fig:design:domain:bounded_contexts:irrigation:diagram:reading}, details this readings.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/domain/smart-irrigation-model-4.pdf}
-  \caption[Smart Irrigation Model - Reading]{Smart Irrigation Model - Reading}
-  \label{fig:design:domain:bounded_contexts:irrigation:diagram:reading}
-\end{figure}
-
-As a brief description:
-
-\begin{itemize}
-   \item A \textbf{Reading} is always identified by its \textbf{ReadingId} and is associated to the instant that it was captured by the \textbf{Device} - \textbf{ReportedTime};
-   \item A \textbf{ParkSensorReading} measures soil moisture and illuminance;
-   \item A \textbf{Valve} indicates if it is open or closed;
-   \item A \textbf{GreenHouseSensor} measures air humidity and air temperature.
-\end{itemize}
-
-The concepts in this last diagram are different from the concepts in the other two diagram since readings data is suppose to be immutable and ample as opposed to devices and irrigation zones where information should be mutable but with a negligible size compared with readings.
 \section{Synopsis}
 \label{sec:design:synopsis}
 

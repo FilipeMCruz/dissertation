@@ -273,7 +273,7 @@ The Section~\ref{subsec:implementation:description:rule} details how one can wri
 \subsection{Data Decoders Script Engine}
 \label{subsec:implementation:decisions:js}
 
-This section refers to the bounded concern of \textbf{Data Decoder}. As mentioned in Section~\ref{ubsubsec:design:domain:bounded_contexts:decoder}, the purpose of this concern is to translate inbound Data Units into a format and semantics that the system can understand. The technology adopted was \textit{Javascript}.
+This section refers to the bounded concern of \textbf{Data Decoder}. As mentioned in Section~\ref{subsubsec:design:domain:bounded_contexts:decoder}, the purpose of this concern is to translate inbound Data Units into a format and semantics that the system can understand. The technology adopted was \textit{Javascript}.
 
 \textit{Javascript} is a high level language with an enormous community and is widely used in the industry. Another big reason behind this decision is that a lot of companies producing \gls{IoT} devices provide open-source decoders written in \textit{Javascript}, such as \href{https://github.com/Milesight-IoT/SensorDecoders}{Milesight} \footnote{\href {https://github.com/Milesight-IoT/SensorDecoders}{github.com/Milesight-IoT/SensorDecoders}}, \href{https://github.com/SensationalSystems}{SensationalSystems} \footnote{\href {https://github.com/SensationalSystems}{github.com/SensationalSystems}} and \href{https://github.com/helium/console-decoders}{Helium}, \footnote{\href {https://github.com/helium/console-decoders}{github.com/helium/console-decoders}}. This makes it easy and straightforward to integrate new decoders in \textbf{Sensae Console}.
 

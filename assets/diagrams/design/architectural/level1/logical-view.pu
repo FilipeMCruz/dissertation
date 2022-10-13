@@ -6,7 +6,7 @@ skinparam componentStyle uml2
 skinparam packageStyle rectangle
 
 [Sensae Console] as S <<System>>
-[External Services] as EXTER <<System>>
+component "External Service [ i ]" as EXTER <<System>>
 
 () "Sensae UI" as UI
 () "Sensae Management\nAPI" as API

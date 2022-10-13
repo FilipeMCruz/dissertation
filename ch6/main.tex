@@ -20,15 +20,15 @@ Since the company and this project's solution were both in the early stages of c
 
 The objective of this evaluation is to determine the throughput limits of the entire solution (\textbf{Sensae Console} and \textbf{External Services}) regarding data ingestion, within the requirements detailed in Section~\ref{sec:requirements:non_functional}.
 
-Since the solution was designed to scale infinitely and handle high-levels of throughput, the performance of it in a multi-organization and shared infrastructure is undermined. The evaluation should instead focus on environments where resources are constrained.
+Since the solution was designed to scale infinitely and handle high-levels of throughput, the performance of it in a multi-tenant instance is undermined. The evaluation should instead focus on environments where resources are more constrained.
 
-Therefore, the performance of the solution will be tested against above-average usage conditions of small to medium organizations that require a dedicated infrastructure, either on-site or in the cloud.
+Therefore, the performance of the solution will be tested against above-average usage conditions of small to medium organizations that require a single-tenant instance, either on-site or in the cloud.
 
 This type of organizations encompass entities such as:
 
 \begin{itemize}
     \item Public Institutes: town councils, public transportation organizations, waste management departments and others;
-    \item Private owned business: chicken farms, greenhouse farms, goods transportation agencies, industrial warehouses, agriculture cooperatives and others;
+    \item Private owned business: chicken farms, greenhouse farms, goods transportation agencies, industrial warehouses, agriculture cooperatives and others.
 \end{itemize}
 
 The objective is to determine the platform limits of data ingestion, processing, storage and real-time supply within the desired requirements.
@@ -42,7 +42,7 @@ The approach taken to evaluate the solution was to send increasingly higher volu
 
 Given the type of organizations that require this deployment mode it is expected that the number of devices installed doesn't go beyond 500\footnote{500 devices in use by a single entity is expected to be a huge amount of devices for the realistic business needs of small/medium organizations}.
 
-The evaluation encompasses 4 test scenarios, one for the developed platform and one for each developed service: (i) Sensae Console, (ii) Fleet Management, (iii) Smart Irrigation, (iv) Notification Management.
+The evaluation encompasses 4 test scenarios, one for the platform and one for each external service: (i) Sensae Console, (ii) Fleet Management, (iii) Smart Irrigation, (iv) Notification Management.
 
 The performance tests use the \citetitle{k6} tool. This tool allows one to design performance tests entirely in \textit{Javascript}. An example of the scripts developed is presented in Appendix~\ref{AppendixF}. The \citetitle{k6} tool produces various metrics that are then analyzed using \textit{R}, an example of the analysis scripts developed is presented in Appendix~\ref{AppendixG}.
 
@@ -119,7 +119,7 @@ The results of each scenario will be presented in the next sections. The results
 \subsection{Sensae Console Experience Scenario}
 \label{subsec:evaluation:experiences:platform}
 
-This scenario focus on the platform developed. It mimics an hosting option that separates the External Services from the Sensae Console. The Table~\ref{tab:evaluation:experiences:platform:results} presents the results related to the time is takes for a Data Unit to be processed and supplied to a potential external service.
+This scenario focus on the platform developed. It mimics an hosting option that separates the External Services from the Sensae Console. The Table~\ref{tab:evaluation:experiences:platform:results} presents the results related to the time it takes for a Data Unit to be processed and supplied to a potential external service.
 
 \begin{table}[H]
     \caption{Results for the Sensae Console Scenario (in seconds)}
@@ -141,12 +141,12 @@ This scenario focus on the platform developed. It mimics an hosting option that 
 
 These results show that, a system focused only on processing and delivering Data Units to External Services, can successfully handle 125 Data Units per second while answering the defined requirements.
 
-The experience \textbf{H} had the measures supplied with a delay of 20 seconds on average, this results are far from the optimal response time defined in the requirements.
+The experience \textbf{H} had the measures supplied with a delay of 20 seconds on average, these results are far from the optimal response time defined in the requirements.
 
 \subsection{Fleet Management Experience Scenario}
 \label{subsec:evaluation:experiences:fleet}
 
-This scenario focus on the Fleet Management Service. The Table~\ref{tab:evaluation:experiences:fleet:results} presents the results related to the time is takes for a Data Unit to be processed and supplied as a measure to the user.
+This scenario focus on the Fleet Management Service. The Table~\ref{tab:evaluation:experiences:fleet:results} presents the results related to the time it takes for a Data Unit to be processed and supplied as a measure to the user.
 
 \begin{table}[H]
     \caption{Results for the Fleet Management Scenario (in seconds)}
@@ -170,12 +170,12 @@ These results show that, a system focused on the Fleet Management business case,
 
 The experience \textbf{H} had the measures supplied with a delay of 40 seconds on average, this results are far from the optimal response time defined in the requirements.
 
-Currently, the devices used in production for this business case send, at best, measures every minute, this means that the real number of devices is much higher than the one determined by this tests.
+Currently, the devices used in production for this business case send, at best, measures every minute, this means that the maximum number of devices concurrently communicating with the solution is much higher than the one determined by these tests.
 
 \subsection{Notification Management Experience Scenario}
 \label{subsec:evaluation:experiences:notification}
 
-This scenario focus on the Notification Management Service. The Table~\ref{tab:evaluation:experiences:notification:results} presents the results related to the time is takes for a Data Unit to be processed and trigger a new alert that is  supplied to the user as a notification.
+This scenario focus on the Notification Management Service. The Table~\ref{tab:evaluation:experiences:notification:results} presents the results related to the time it takes for a Data Unit to be processed and trigger a new alert that is  supplied to the user as a notification.
 
 In this experience it was simulated that an average of 10\% of the data units would produce an alert.
 
@@ -197,12 +197,12 @@ In this experience it was simulated that an average of 10\% of the data units wo
     \end{tabular}
 \end{table}
 
-The results captured in this experiences infer that this system can comfortably withstand a throughput of around 500 devices (each sending measures every 10 seconds) without undermining its overall behavior.
+The results captured in this experiences infer that this system can comfortably withstand a throughput of around 500 devices (each sending measures every 10 seconds) without undermining its overall behavior. This means that the platform can only process a maximum of 50 notification per second. 
 
 \subsection{Smart Irrigation Experience Scenario}
 \label{subsec:evaluation:experiences:irrigation}
 
-This scenario focus on the Smart Irrigation Service. The Table~\ref{tab:evaluation:experiences:irrigation:results} presents the results related to the time is takes for a Data Unit to be processed, stored and supplied as a measure to the user.
+This scenario focus on the Smart Irrigation Service. The Table~\ref{tab:evaluation:experiences:irrigation:results} presents the results related to the time it takes for a Data Unit to be processed, stored and supplied as a measure to the user.
 
 \begin{table}[H]
     \caption{Results for the Smart Irrigation Scenario (in seconds)}
@@ -226,20 +226,21 @@ These results show that, a system focused on the Smart Irrigation business case,
 
 The results captured in this experiences infer that this system can comfortably withstand a throughput of around 500 devices, each sending their measures every 10 seconds without undermining its overall behavior.
 
-Currently, the devices used in production for this business case send measures every 10 minutes, this means that the real number of devices is much higher than the one determine by this tests.
+Currently, the devices used in production for this business case send measures every 10 minutes, this means that the maximum number of devices concurrently communicating with the solution is much higher than the one determined by these tests.
 
 \section{Discussion of the overall results}
 \label{subsubsec:evaluation:overview}
 
-As seen by the experiences preformed the system was capable of answering the defined requirements.
+As seen by the experiences preformed the system was capable of answering the defined requirements in Section~\ref{subsec:requirements:non_functional:performance}.
 
-Apart from the results gathered it is important to mention the following findings:
+Apart from the results gathered it's important to mention the following findings:
 
 \begin{itemize}
     \item The system answered all HTTP requests within an average of 0.2 seconds;
     \item There was no visible performance discrepancy between the use of Data Decoders versus Data Processors;
     \item The bootstrapping of \textbf{Data Flow} Caches is noticeable in most experiences, specially the lighter ones. The first iteration usually takes the longer to be processed when the system is not overwhelmed;
     \item The system was always capable of storing all the measures and alerts;
+    \item The \gls{VM}'s RAM didn't surpassed 8GB of usage in any test but the CPU reported usages of 100\% under severe load (experiences \textbf{D}, \textbf{G}, \textbf{H}).
 \end{itemize}
 
 The experiences performed helped to determine the platform throughput limits but didn't indicated what components were underperforming and degrading the results.
@@ -250,10 +251,10 @@ Looking at the architecture the five logical bottlenecks are:
 
 \begin{itemize}
     \item The \nameref{subsec:implementation:description:ingestion} that collects requests (in the \textbf{Data Relayer} Container);
-    \item The databases in the \textbf{External Services} that store measures or notifications;
+    \item The process of filling the \textbf{Data Flow Scope} Caches with the information managed by the various containers in the \textbf{Configuration Scope};
     \item The \textbf{Message Broker} that routes data units through the system;
-    \item The Websocket implementation used by GraphQL to supply measures and notifications in the Backends of the \textbf{External Services};
-    \item The process of filling the \textbf{Data Flow Scope} Caches with the information managed by the various containers in the \textbf{Configuration Scope}.
+    \item The databases in the \textbf{External Services} that store measures or notifications;
+    \item The Websocket implementation used by GraphQL to supply measures and notifications in the Backends of the \textbf{External Services}.
 \end{itemize}
 
 \subsection{Data Ingestion Endpoint Performance}
@@ -261,7 +262,7 @@ Looking at the architecture the five logical bottlenecks are:
 
 In order to evaluate this piece of the system first the \textbf{H} experiences of each scenario are presented since they represent the higher throughput of all experiences preformed.
 
-This experiences yielded the following results:
+These experiences yielded the following results:
 
 \begin{table}[H]
     \caption{Data Ingestion Endpoint response time results (in milliseconds)}
@@ -277,7 +278,7 @@ This experiences yielded the following results:
     \end{tabular}
 \end{table}
 
-This results present a stable performance even under a high number of requests, apart from the maximum value obtained in scenario 4, a clear outlier, all requests were answered within a second.
+These results present a stable performance even under a high number of requests, apart from the maximum value obtained in scenario 4, a clear outlier, all requests were answered within a second.
 
 In order to find the amount of requests that would leave the system unresponsive more tests were performed, this tests only focused on the Data Ingestion Endpoint responses. The system was capable of ingesting around 600 requests per second before starting to drop requests.
 
@@ -320,7 +321,7 @@ As we can see the time taken to process or decode a data unit is very similar, t
 
 The experiences preformed clearly display the process mentioned during the \nameref{chap:design} Chapter in Figure~\ref{fig:design:architecture:platform:container:process:diagram:decoder:2}, about how the \textbf{Data Flow} state is maintained.
 
-In the following charts, Chart~\ref{fig:evaluation:overview:cache:chart:s2eB} and \ref{fig:evaluation:overview:cache:chart:s1eD}, it's possible to envision the various caches in the \textbf{Data Flow} being filled during the first iteration.
+In the following charts, Figures~\ref{fig:evaluation:overview:cache:chart:s2eB} and \ref{fig:evaluation:overview:cache:chart:s1eD}, it's possible to envision the various caches in the \textbf{Data Flow} Scope being filled during the first iteration.
 
 \begin{figure}[H]
     \centering
@@ -329,6 +330,11 @@ In the following charts, Chart~\ref{fig:evaluation:overview:cache:chart:s2eB} an
     \label{fig:evaluation:overview:cache:chart:s2eB}
  \end{figure}
 
+ In both charts the X axis represents time in seconds since the first request with a data unit was sent, the Y axis represents the time it took for the client to receive the corresponding measure. Each dot represents a data unit.
+ Each color represents the test iteration responsible for sending the data unit.
+ 
+ The chart in Figure~\ref{fig:evaluation:overview:cache:chart:s1eD} also shows that the system started to underperform around the 65 seconds mark. The \textbf{Data Flow} caches were already stable and therefore, under these experiences, it is plausible to say that this process doesn't cause the performance degradation seen in higher throughput experiences.
+
 \begin{figure}[H]
     \centering
     \includegraphics[page=1]{assets/charts/s1eD.pdf}
@@ -336,18 +342,13 @@ In the following charts, Chart~\ref{fig:evaluation:overview:cache:chart:s2eB} an
     \label{fig:evaluation:overview:cache:chart:s1eD}
 \end{figure}
 
-In both charts the X axis represents time in seconds since the first request with a data unit was sent, the Y axis represents the time it took for the client to receive the corresponding measure. Each dot represents a data unit.
-Each color represents the test iteration responsible for sending the data unit.
-
-The Chart~\ref{fig:evaluation:overview:cache:chart:s1eD} also that the system started to underperform around the 65 seconds mark. The \textbf{Data Flow} caches were already stable and therefore, under this experiences, it is plausible to say that this process doesn't cause the performance degradation seen in higher throughput experiences.
-
 \subsection{External Services Database Performance}
 \label{subsec:evaluation:overview:servicedatabase}
 
 Another important question is wether the performance degradation recorded is due to database access or not.
 
-The experiences performed were able to determine that this was in fact the case with the \textbf{Notification Management Database}, and, to an extent the \textbf{Smart Irrigation Business Database}. As explained in Section~\ref{subsec:implementation:decisions:database},the database used for this containers is \citetitle{postgressql}.
-This database, contrary to the one used in \textbf{Fleet Management Data Database} and \textbf{Smart Irrigation Data Database}, is not focused on High-throughput ingestion.
+The experiences performed were able to determine that this was in fact the case with the \textbf{Notification Management Database}, and, to an extent the \textbf{Smart Irrigation Business Database}. As explained in Section~\ref{subsec:implementation:decisions:database}, the database used for those containers is \citetitle{postgressql}.
+This database, contrary to the one used in \textbf{Fleet Management Data Database} and \textbf{Smart Irrigation Data Database}, is not focused on high-throughput ingestion.
 
 The following chart, Figure~\ref{fig:evaluation:overview:servicedatabase:chart:s4}, shows the discrepancy between storing and serving GPS locations with the \textbf{Fleet Management Backend}. The experiment was performed by mimicking 1500 devices, each sending 10 data units with an interval of around 10 seconds.
 
@@ -385,13 +386,13 @@ The experiences \textbf{H} of each scenario, and specially the one related to th
 
 The \nameref{subsec:implementation:description:ingestion} only becomes a bottleneck with a ridiculous amount of devices for a small/medium organization.
 
-If the \textbf{Data Flow} cache sizes are configured correctly, the process of filling them will hardly become a bottleneck, specially since it will be very rare to receive a high number of data units from new devices, decoders or processors that are not already cached.
+If the \textbf{Data Flow} cache sizes are configured correctly, the process of filling them will hardly become a bottleneck, specially since it will be very rare to receive a high number of data units from devices, decoders or processors that are not already cached.
 
 \section{Synopsis}
 \label{sec:evaluation:synopsis}
 
-This evaluation determined that, for the requirements defined in Section~\ref{subsec:requirements:non_functional:performance}, a type \textit{'e2-standard-4'} \gls{VM} instance in Google Cloud Platform was sufficient. The conducted analysis also helped to identify the most important bottlenecks to tackle in the future: (i) GraphQL Subscriptions, (ii) \citetitle{postgressql} Databases, (iii) Message Broker.
+This evaluation determined that, for the requirements defined in Section~\ref{subsec:requirements:non_functional:performance}, a type \textit{'e2-standard-4'} \gls{VM} instance in Google Cloud Platform is sufficient. The conducted analysis also helped to identify the most important bottlenecks to tackle in the future: (i) GraphQL Subscriptions, (ii) \citetitle{postgressql} Databases, (iii) Message Broker.
 
-The performance tests helped the company to understand the platform limits and how far the production environments are from reaching this limits.
+The performance tests helped the company to understand the platform limits and how far the production environments are from reaching those limits.
 
 Based on this evaluation, the work described before and the knowledge gathered during the project, the following chapter describes the author opinion regarding the solution.

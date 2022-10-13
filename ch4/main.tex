@@ -249,14 +249,10 @@ As seen in the diagram:
    \item The Data Relayer and Data Gateway are responsible for exposing an \gls{API} for data ingestion and publish the ingested data in the system through the Message Broker;
    \item The Data Validator applies simple filters to incoming data, for example, measures that report a soil moisture of 120\% as marked as incorrect.
 \end{itemize}
-% se não mudar mais nada tentar ter o diagrama logo a seguir a isto
 
 \begin{sidewaysfigure}
    \centering
-   \resizebox{0.8\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/architectural/level2/logical/contexts-v2.latex}
-   }
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level2/logical/contexts-v2.pdf}
    \caption[Sensae Console - Container Level - Logical View Diagram]{Sensae Console - Container Level - Logical View Diagram}
       \label{fig:design:architecture:platform:containers:logical:complete}
 \end{sidewaysfigure}
@@ -286,10 +282,7 @@ The Data Processor concern group is presented in Figure~\ref{fig:design:architec
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-       {
-       \input{assets/diagrams/design/architectural/level2/logical/data-processor-context.latex}
-       }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/logical/data-processor-context.pdf}
    \caption[Data Processor - Container Level - Logical View Diagram]{Data Processor - Container Level - Logical View Diagram}
    \label{fig:design:architecture:platform:containers:logical:processor}
 \end{figure}
@@ -300,10 +293,7 @@ The Data Decoder concern group is presented in Figure~\ref{fig:design:architectu
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-       {
-       \input{assets/diagrams/design/architectural/level2/logical/data-decoder-context.latex}
-       }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/logical/data-decoder-context.pdf}
    \caption[Data Decoder - Container Level - Logical View Diagram]{Data Decoder - Container Level - Logical View Diagram}
    \label{fig:design:architecture:platform:containers:logical:decoder}
 \end{figure}
@@ -314,10 +304,7 @@ The Device Management concern group is presented in Figure~\ref{fig:design:archi
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-       {
-       \input{assets/diagrams/design/architectural/level2/logical/device-management-context.latex}
-       }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/logical/device-management-context.pdf}
    \caption[Device Management - Container Level - Logical View Diagram]{Device Management - Container Level - Logical View Diagram}
    \label{fig:design:architecture:platform:containers:logical:device}
 \end{figure}
@@ -331,10 +318,7 @@ The Rule Management concern group is presented in Figure~\ref{fig:design:archite
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-       {
-       \input{assets/diagrams/design/architectural/level2/logical/rule-management-context.latex}
-       }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/logical/rule-management-context.pdf}
    \caption[Rule Management - Container Level - Logical View Diagram]{Rule Management - Container Level - Logical View Diagram}
    \label{fig:design:architecture:platform:containers:logical:rule}
 \end{figure}
@@ -347,10 +331,7 @@ The Identity Management concern group is presented in Figure~\ref{fig:design:arc
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-       {
-       \input{assets/diagrams/design/architectural/level2/logical/identity-management-context.latex}
-       }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/logical/identity-management-context.pdf}
    \caption[Identity Management - Container Level - Logical View Diagram]{Identity Management - Container Level - Logical View Diagram}
    \label{fig:design:architecture:platform:containers:logical:identity}
 \end{figure}
@@ -374,10 +355,7 @@ The system/container initialization, presented in Figure~\ref{fig:design:archite
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/architectural/level2/process/container-init.latex}
-   }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/process/container-init.pdf}
    \caption[Container Level - System/Container Initialization - Process View Diagram]{Container Level - System/Container Initialization - Process View Diagram}
    \label{fig:design:architecture:platform:container:process:diagram:init}
 \end{figure}
@@ -389,10 +367,7 @@ Certain containers need the entire state related to their concern to function. S
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/architectural/level2/process/container-ready.latex}
-   }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/process/container-ready.pdf}
    \caption[Container Level - System/Container Initialization - Part 2 - Process View Diagram]{Container Level - System/Container Initialization - Part 2 - Process View Diagram}
    \label{fig:design:architecture:platform:container:process:diagram:ready}
 \end{figure}
@@ -405,10 +380,7 @@ The following diagram in Figure~\ref{fig:design:architecture:platform:container:
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/architectural/level2/process/data-flow-scope.latex}
-   }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/process/data-flow-scope.pdf}
    \caption[Container Level - Data Flow - Diagram]{Container Level - Data Flow - Diagram}
    \label{fig:design:architecture:platform:container:process:diagram:flow}
 \end{figure}
@@ -417,10 +389,7 @@ Most of these containers have just a portion of their concern's state and may be
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/architectural/level2/process/data-decoder-flow-1.latex}
-   }
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level2/process/data-decoder-flow-1.pdf}
    \caption[Container Level - Data Decoder Operation part 1 - Process View Diagram]{Container Level - Data Decoder Operation Part 1 - Process View Diagram}
    \label{fig:design:architecture:platform:container:process:diagram:decoder:1}
 \end{figure}
@@ -431,10 +400,7 @@ The next diagram describes what happens when a message with a decoder is publish
 
 \begin{figure}[H]
    \centering
-   \resizebox{0.8\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/architectural/level2/process/data-decoder-flow-2.latex}
-   }
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level2/process/data-decoder-flow-2.pdf}
    \caption[Container Level - Data Decoder Operation Part 2 - Process View Diagram]{Container Level - Data Decoder Operation Part 2 - Process View Diagram}
    \label{fig:design:architecture:platform:container:process:diagram:decoder:2}
 \end{figure}
@@ -456,10 +422,7 @@ The next diagrams, in Figure~\ref{fig:design:architecture:platform:container:pro
 
 \begin{figure}[H]
    \centering
-   \resizebox{0.8\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/architectural/level2/process/consult-data-processor.latex}
-   }
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level2/process/consult-data-processor.pdf}
    \caption[Container Level - Consult Data Processors - Process View Diagram]{Container Level - Consult Data Processors - Process View Diagram}
    \label{fig:design:architecture:platform:container:process:diagram:processor}
 \end{figure}
@@ -468,10 +431,7 @@ The diagram presented above represents a simple consult of data mappers, as we c
 
 \begin{figure}[H]
    \centering
-   \resizebox{0.8\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/architectural/level2/process/edit-device-management.latex}
-   }
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level2/process/edit-device-management.pdf}
    \caption[Container Level - Edit Device Information - Process View Diagram]{Container Level - Edit Device Information - Process View Diagram}
    \label{fig:design:architecture:platform:container:process:diagram:device}
 \end{figure}
@@ -502,10 +462,7 @@ The system verifies the identity of a user based on the authentication performed
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/architectural/level2/process/user-authentication.latex}
-   }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/process/user-authentication.pdf}
    \caption[Container Level - User Authentication - Process View Diagram]{Container Level - User Authentication - Process View Diagram}
    \label{fig:design:architecture:platform:container:process:diagram:authentication}
 \end{figure}
@@ -515,10 +472,7 @@ The user identity and credentials validation are assured by an external identity
 
 \begin{figure}[H]
    \centering
-   \resizebox{0.8\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/architectural/level2/process/user-authorization.latex}
-   }
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level2/process/user-authorization.pdf}
    \caption[Container Level - User Authorization - Process View Diagram]{Container Level - User Authorization - Process View Diagram}
    \label{fig:design:architecture:platform:container:process:diagram:authorization}
 \end{figure}
@@ -534,10 +488,7 @@ Frontend services are organized according to the diagram in Figure~\ref{fig:desi
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/architectural/level2/development/frontend.latex}
-   }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/development/frontend.pdf}
    \caption[Container Level - Frontend Services - Implementation View Diagram]{Container Level - Frontend Services - Implementation View Diagram}
    \label{fig:design:architecture:platform:container:development:frontend}
 \end{figure}
@@ -548,10 +499,7 @@ Backend services are organized according to the diagram in Figure~\ref{fig:desig
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/architectural/level2/development/backend.latex}
-   }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/development/backend.pdf}
    \caption[Container Level - Backend Services - Implementation View Diagram]{Container Level - Backend Services - Implementation View Diagram}
    \label{fig:design:architecture:platform:container:development:backend}
 \end{figure}
@@ -562,10 +510,7 @@ Database services are organized according to the diagram in Figure~\ref{fig:desi
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/architectural/level2/development/database.latex}
-   }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/development/database.pdf}
    \caption[Container Level - Database Services - Implementation View Diagram]{Container Level - Database Services - Implementation View Diagram}
    \label{fig:design:architecture:platform:container:development:database}
 \end{figure}
@@ -615,10 +560,7 @@ As an example, the logical view of the Data Decoder Frontend is presented in Fig
 
 \begin{figure}[H]
    \centering
-   \resizebox{0.7\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/architectural/level3/logical/data-decoder-frontend.latex}
-   }
+   \includegraphics[page=1,width=0.7\columnwidth]{assets/diagrams/design/architectural/level3/logical/data-decoder-frontend.pdf}
    \caption[Component Level - Data Decoder Frontend - Logical View Diagram]{Component Level - Data Decoder Frontend - Logical View Diagram}
    \label{fig:design:architecture:platform:component:logical:diagram:decoder}
 \end{figure}
@@ -631,10 +573,7 @@ As an example the logical view of the Device Management Backend is presented in 
 
 \begin{figure}[H]
    \centering
-   \resizebox{0.8\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/architectural/level3/logical/device-management-backend.latex}
-   }
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level3/logical/device-management-backend.pdf}
    \caption[Component Level - Device Management Backend - Logical View Diagram]{Component Level - Device Management Backend - Logical View Diagram}
    \label{fig:design:architecture:platform:component:logical:diagram:device}
 \end{figure}
@@ -685,10 +624,7 @@ As an example the logical view of the Device Ownership Backend is presented in F
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/architectural/level3/logical/device-ownership-backend.latex}
-   }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level3/logical/device-ownership-backend.pdf}
    \caption[Component Level - Device Ownership Backend - Logical View Diagram]{Component Level - Device Ownership Backend - Logical View Diagram}
    \label{fig:design:architecture:platform:component:logical:diagram:ownership}
 \end{figure}
@@ -723,10 +659,7 @@ The first process to explore is meant to clarify how a Data Unit sent by a Contr
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/architectural/level3/process/device-management-flow-backend.latex}
-   }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level3/process/device-management-flow-backend.pdf}
    \caption[Component Level - Process Data Unit in Device Management Flow Backend - Process View Diagram]{Component Level - Process Data Unit in Device Management Flow Backend - Process View Diagram}
    \label{fig:design:architecture:platform:component:process:diagram:device}
 \end{figure}
@@ -744,10 +677,7 @@ Draft scenarios exist since adding, removing or changing a rule scenario in Aler
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/architectural/level3/process/rule-management-backend.latex}
-   }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level3/process/rule-management-backend.pdf}
    \caption[Component Level - Deploy Draft Rule Scenarios in Rule Management Backend - Process View Diagram]{Component Level - Deploy Draft Rule Scenarios in Rule Management Backend - Process View Diagram}
    \label{fig:design:architecture:platform:component:process:diagram:rule}
 \end{figure}
@@ -763,10 +693,7 @@ The next diagrams, Figure~\ref{fig:design:architecture:platform:component:develo
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/architectural/level3/development/data-decoder-frontend.latex}
-   }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level3/development/data-decoder-frontend.pdf}
    \caption[Component Level - Data Decoder Frontend - Implementation View Diagram]{Component Level - Data Decoder Frontend - Implementation View Diagram}
    \label{fig:design:architecture:platform:component:development:diagram:decoder}
 \end{figure}
@@ -785,10 +712,7 @@ The packages presented correspond to the components described in the logical vie
 
 \begin{figure}[H]
    \centering
-   \resizebox{0.8\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/architectural/level3/development/device-management-backend.latex}
-   }
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level3/development/device-management-backend.pdf}
    \caption[Component Level - Device Management Backend - Implementation View Diagram]{Component Level - Device Management Backend - Implementation View Diagram}
    \label{fig:design:architecture:platform:component:development:diagram:device}
 \end{figure}
@@ -797,10 +721,7 @@ The packages presented correspond to the components described in the logical vie
 
 \begin{figure}[H]
    \centering
-   \resizebox{0.8\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/architectural/level3/development/device-ownership-backend.latex}
-   }
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level3/development/device-ownership-backend.pdf}
    \caption[Component Level - Device Ownership Backend - Implementation View Diagram]{Component Level - Device Ownership Backend - Implementation View Diagram}
    \label{fig:design:architecture:platform:component:development:diagram:ownership}
 \end{figure}
@@ -837,10 +758,7 @@ The logical view of the Fleet Management service is presented in Figure~\ref{fig
 
 \begin{figure}[H]
    \centering
-   \resizebox{0.75\columnwidth}{!}
-       {
-       \input{assets/diagrams/design/architectural/level2/logical/fleet-management-context.latex}
-       }
+   \includegraphics[page=1,width=0.75\columnwidth]{assets/diagrams/design/architectural/level2/logical/fleet-management-context.pdf}
    \caption[Fleet Management - Container Level - Logical View Diagram]{Fleet Management - Container Level - Logical View Diagram}
    \label{fig:design:architecture:solutions:containers:logical:fleet}
 \end{figure}
@@ -851,10 +769,7 @@ Next, to better understand the internal processes of this service, Figure~\ref{f
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/architectural/level2/process/device-live-location.latex}
-   }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/process/device-live-location.pdf}
    \caption[Container Level - Consult Device Live Location via Fleet Management - Process View Diagram]{Container Level - Consult Device Live Location via Fleet Management - Process View Diagram}
    \label{fig:design:architecture:container:process:diagram:fleet}
 \end{figure}
@@ -868,10 +783,7 @@ The logical view of Notification Management service is presented in Figure~\ref{
 
 \begin{figure}[H]
    \centering
-   \resizebox{0.8\columnwidth}{!}
-       {
-       \input{assets/diagrams/design/architectural/level2/logical/notification-management-context.latex}
-       }
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level2/logical/notification-management-context.pdf}
    \caption[Notification Management - Container Level - Logical View Diagram]{Notification Management - Container Level - Logical View Diagram}
    \label{fig:design:architecture:solutions:containers:logical:noti}
 \end{figure}
@@ -882,10 +794,7 @@ The next diagram in Figure~\ref{fig:design:architecture:container:process:diagra
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/architectural/level2/process/notification-dispatch.latex}
-   }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/process/notification-dispatch.pdf}
    \caption[Container Level - Receive notification via Notification Management - Process View Diagram]{Container Level - Receive notification via Notification Management - Process View Diagram}
    \label{fig:design:architecture:container:process:diagram:notification}
 \end{figure}
@@ -899,10 +808,7 @@ The logical view of the Smart Irrigation service is presented in Figure~\ref{fig
 
 \begin{figure}[H]
    \centering
-   \resizebox{0.75\columnwidth}{!}
-       {
-       \input{assets/diagrams/design/architectural/level2/logical/smart-irrigation-context.latex}
-       }
+   \includegraphics[page=1,width=0.75\columnwidth]{assets/diagrams/design/architectural/level2/logical/smart-irrigation-context.pdf}
    \caption[Smart Irrigation - Container Level - Logical View Diagram]{Smart Irrigation - Container Level - Logical View Diagram}
    \label{fig:design:architecture:solutions:containers:logical:irrigation}
 \end{figure}
@@ -913,10 +819,7 @@ Certain types of alerts are also collected by Smart Irrigation Backend to automa
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/architectural/level2/process/smart-irrigation.latex}
-   }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/process/smart-irrigation.pdf}
    \caption[Container Level - Valve Activation Process via Smart Irrigation - Process View Diagram]{Container Level - Valve Activation Process via Smart Irrigation - Process View Diagram}
    \label{fig:design:architecture:container:process:diagram:irrigation}
 \end{figure}
@@ -1036,10 +939,7 @@ The following diagram, Figure~\ref{fig:design:alternatives:auth:internalauth:dia
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/alternatives/auth/alternative1.latex}
-   }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/alternatives/auth/alternative1.pdf}
    \caption[User Authentication/Authorization - Internal Authentication Server Alternative - Sequence Diagram]{User Authentication/Authorization - Internal Authentication Server Alternative - Sequence Diagram}
    \label{fig:design:alternatives:auth:internalauth:diagram}
 \end{figure}
@@ -1055,10 +955,7 @@ The following diagram, Figure~\ref{fig:design:alternatives:auth:externalauth:dia
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/alternatives/auth/alternative2.latex}
-   }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/alternatives/auth/alternative2.pdf}
    \caption[User Authentication/Authorization - External Authorization Server Alternative - Sequence Diagram]{User Authentication/Authorization - External Authorization Server Alternative - Sequence Diagram}
    \label{fig:design:alternatives:auth:externalauth:diagram}
 \end{figure}
@@ -1079,10 +976,7 @@ The following diagram, Figure~\ref{fig:design:alternatives:auth:externalauthinte
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/alternatives/auth/alternative3.latex}
-   }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/alternatives/auth/alternative3.pdf}
    \caption[User Authentication/Authorization - External Authentication Server with Internal Authorization Server Alternative - Sequence Diagram]{User Authentication/Authorization - External Authentication Server with Internal Authorization Server Alternative - Sequence Diagram}
    \label{fig:design:alternatives:auth:externalauthinternalpermission:diagram}
 \end{figure}
@@ -1154,10 +1048,7 @@ This option ensures that the Data Flow Containers are kept updated by giving the
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/alternatives/internal/alternative1.latex}
-   }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/alternatives/internal/alternative1.pdf}
    \caption[Internal Communication - First Option - Logical View Diagram]{Internal Communication - First Option - Logical View Diagram}
    \label{fig:design:alternatives:internal:first:diagram}
 \end{figure}
@@ -1182,10 +1073,7 @@ This option ensures that the Data Flow Containers are kept updated querying info
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/alternatives/internal/alternative2.latex}
-   }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/alternatives/internal/alternative2.pdf}
    \caption[Internal Communication - Second Option - Logical View Diagram]{Internal Communication - Second Option - Logical View Diagram}
    \label{fig:design:alternatives:internal:second:diagram}
 \end{figure}
@@ -1201,10 +1089,7 @@ This option ensures that the Data Flow Containers are kept updated by allowing t
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/alternatives/internal/alternative3.latex}
-   }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/alternatives/internal/alternative3.pdf}
    \caption[Internal Communication - Third Option - Logical View Diagram]{Internal Communication - Third Option - Logical View Diagram}
    \label{fig:design:alternatives:internal:third:diagram}
 \end{figure}
@@ -1223,10 +1108,7 @@ This option ensures that the Data Flow Containers are kept updated by allowing t
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/alternatives/internal/alternative4.latex}
-   }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/alternatives/internal/alternative4.pdf}
    \caption[Internal Communication - Fourth Option - Logical View Diagram]{Internal Communication - Fourth Option - Logical View Diagram}
    \label{fig:design:alternatives:internal:fourth:diagram}
 \end{figure}
@@ -1243,10 +1125,7 @@ This option ensures that the Data Flow Containers are kept updated by allowing t
 
 \begin{figure}[H]
    \centering
-   \resizebox{\columnwidth}{!}
-   {
-      \input{assets/diagrams/design/alternatives/internal/alternative5.latex}
-   }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/alternatives/internal/alternative5.pdf}
    \caption[Internal Communication - Fifth Option - Logical View Diagram]{Internal Communication - Fifth Option - Logical View Diagram}
    \label{fig:design:alternatives:internal:fifth:diagram}
 \end{figure}
@@ -1311,10 +1190,7 @@ The data model represents the \textbf{Data Unit} that \textbf{Sensae Console} is
 
 \begin{figure}[H]
    \centering
-  \resizebox{\columnwidth}{!}
-  {
-     \input{assets/diagrams/design/domain/shared-model.latex}
-  }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/domain/shared-model.pdf}
   \caption[Shared Model]{Shared Model}
   \label{fig:design:domain:shared_model:data:diagram}
 \end{figure}
@@ -1452,10 +1328,7 @@ The diagram present in Figure~\ref{fig:design:domain:shared_model:messsage:diagr
 
 \begin{figure}[H]
    \centering
-  \resizebox{\columnwidth}{!}
-  {
-     \input{assets/diagrams/design/domain/message-envelop-model.latex}
-  }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/domain/message-envelop-model.pdf}
   \caption[Message Envelop Model]{Message Envelop Model}
   \label{fig:design:domain:shared_model:messsage:diagram}
 \end{figure}
@@ -1480,10 +1353,7 @@ The diagram present in Figure~\ref{fig:design:domain:shared_model:routing:diagra
 
 \begin{figure}[H]
    \centering
-  \resizebox{\columnwidth}{!}
-  {
-     \input{assets/diagrams/design/domain/routing-model.latex}
-  }
+  \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/domain/routing-model.pdf}
   \caption[Routing Model]{Routing Model}
   \label{fig:design:domain:shared_model:routing:diagram}
 \end{figure}
@@ -1636,10 +1506,7 @@ The diagram in Figure~\ref{fig:design:domain:bounded_contexts:processor:diagram}
 
 \begin{figure}[H]
    \centering
-  \resizebox{\columnwidth}{!}
-  {
-     \input{assets/diagrams/design/domain/data-processor-model.latex}
-  }
+  \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/domain/data-processor-model.pdf}
   \caption[Data Processor Concern Model]{Data Processor Concern Model}
   \label{fig:design:domain:bounded_contexts:processor:diagram}
 \end{figure}
@@ -1684,10 +1551,7 @@ The diagram in Figure~\ref{fig:design:domain:bounded_contexts:decoder:diagram} d
 
 \begin{figure}[H]
    \centering
-  \resizebox{\columnwidth}{!}
-  {
-     \input{assets/diagrams/design/domain/data-decoder-model.latex}
-  }
+  \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/domain/data-decoder-model.pdf}
   \caption[Data Decoder Concern Model]{Data Decoder Concern Model}
   \label{fig:design:domain:bounded_contexts:decoder:diagram}
 \end{figure}
@@ -1711,10 +1575,7 @@ The diagram in Figure~\ref{fig:design:domain:bounded_contexts:device:diagram} di
 
 \begin{figure}[H]
    \centering
-  \resizebox{\columnwidth}{!}
-  {
-     \input{assets/diagrams/design/domain/device-management-model.latex}
-  }
+  \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/domain/device-management-model.pdf}
   \caption[Device Management Concern Model]{Device Management Concern Model}
   \label{fig:design:domain:bounded_contexts:device:diagram}
 \end{figure}
@@ -1739,10 +1600,7 @@ The diagram in Figure~\ref{fig:design:domain:bounded_contexts:identity:diagram} 
 
 \begin{figure}[H]
    \centering
-  \resizebox{\columnwidth}{!}
-  {
-     \input{assets/diagrams/design/domain/identity-management-model.latex}
-  }
+  \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/domain/identity-management-model.pdf}
   \caption[Identity Management Concern Model]{Identity Management Concern Model}
   \label{fig:design:domain:bounded_contexts:identity:diagram}
 \end{figure}
@@ -1762,10 +1620,7 @@ A \textbf{Domain} represents a department in a hierarchical organization. An org
 
 \begin{figure}[H]
    \centering
-  \resizebox{\columnwidth}{!}
-  {
-     \input{assets/diagrams/design/domain/organization.latex}
-  }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/domain/organization.pdf}
   \caption[Domain Structure]{Domain Structure}
   \label{fig:design:domain:bounded_contexts:identity:organization}
 \end{figure}
@@ -1798,10 +1653,7 @@ In this concern, and according to Figure~\ref{fig:stateofart:arch:infra:rule:ifp
 
 \begin{figure}[H]
    \centering
-  \resizebox{\columnwidth}{!}
-  {
-     \input{assets/diagrams/design/domain/rule-management-model.latex}
-  }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/domain/rule-management-model.pdf}
   \caption[Rule Management Concern Model]{Rule Management Concern Model}
   \label{fig:design:domain:bounded_contexts:rule:diagram}
 \end{figure}
@@ -1828,10 +1680,7 @@ The diagram in Figure~\ref{fig:design:domain:bounded_contexts:fleet:diagram} dis
 
 \begin{figure}[H]
    \centering
-  \resizebox{\columnwidth}{!}
-  {
-     \input{assets/diagrams/design/domain/fleet-management-model.latex}
-  }
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/domain/fleet-management-model.pdf}
   \caption[Fleet Management Model]{Fleet Management Model}
   \label{fig:design:domain:bounded_contexts:fleet:diagram}
 \end{figure}
@@ -1847,10 +1696,7 @@ The diagram in Figure~\ref{fig:design:domain:bounded_contexts:notification:diagr
 
 \begin{figure}[H]
    \centering
-  \resizebox{\columnwidth}{!}
-  {
-     \input{assets/diagrams/design/domain/notification-management-model.latex}
-  }
+  \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/domain/notification-management-model.pdf}
   \caption[Notification Management Model]{Notification Management Model}
   \label{fig:design:domain:bounded_contexts:notification:diagram}
 \end{figure}
@@ -1877,10 +1723,7 @@ An irrigation zone is an area intended to function as an isolated environment th
 
 \begin{figure}[H]
    \centering
-  \resizebox{0.7\columnwidth}{!}
-  {
-     \input{assets/diagrams/design/domain/smart-irrigation-model-2.latex}
-  }
+   \includegraphics[page=1,width=0.7\columnwidth]{assets/diagrams/design/domain/smart-irrigation-model-2.pdf}
   \caption[Smart Irrigation Model - Irrigation Zone]{Smart Irrigation Model - Irrigation Zone}
   \label{fig:design:domain:bounded_contexts:irrigation:diagram:garden}
 \end{figure}
@@ -1891,10 +1734,7 @@ As presented in the following diagram, Figure~\ref{fig:design:domain:bounded_con
 
 \begin{figure}[H]
    \centering
-  \resizebox{\columnwidth}{!}
-  {
-     \input{assets/diagrams/design/domain/smart-irrigation-model-3.latex}
-  }
+  \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/domain/smart-irrigation-model-3.pdf}
   \caption[Smart Irrigation Model - Device]{Smart Irrigation Model - Device}
   \label{fig:design:domain:bounded_contexts:irrigation:diagram:device}
 \end{figure}
@@ -1911,11 +1751,8 @@ As a brief description:
 As mentioned above each type of device collects different readings. The following diagram, Figure\ref{fig:design:domain:bounded_contexts:irrigation:diagram:reading}, details this readings.
 
 \begin{figure}[H]
-   \centering
-  \resizebox{\columnwidth}{!}
-  {
-     \input{assets/diagrams/design/domain/smart-irrigation-model-4.latex}
-  }
+  \centering
+  \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/domain/smart-irrigation-model-4.pdf}
   \caption[Smart Irrigation Model - Reading]{Smart Irrigation Model - Reading}
   \label{fig:design:domain:bounded_contexts:irrigation:diagram:reading}
 \end{figure}

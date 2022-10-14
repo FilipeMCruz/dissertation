@@ -180,19 +180,37 @@ The reason that lead to the use of external authentication/identity services, as
 
 \subsubsection{Context Level - Physical View}
 \label{subsubsec:design:architecture:context:physical}
-%TODO
+
 Next is the physical view (Figure~\ref{fig:design:architecture:context:physical:diagram}), intended to familiarize the reader with the environment where the solution runs.
 
 \begin{figure}[H]
    \centering
-   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level1/physical-view.pdf}
-   \caption[Solution - Context Level - Physical View Diagram]{Solution - Context Level - Physical View Diagram}
-   \label{fig:design:architecture:context:physical:diagram}
+   \begin{subfigure}[b]{0.45\textwidth}
+       \centering
+       \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level1/physical-view-multi-tenant.pdf}
+       \caption{Multi-Tenant\\ Instance}
+       \label{fig:design:architecture:context:physical:diagram:multi}
+   \end{subfigure}
+   \hfill
+   \begin{subfigure}[b]{0.45\textwidth}
+       \centering
+       \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level1/physical-view-single-tenant.pdf}
+       \caption{Single-Tenant\\ Instance}
+       \label{fig:design:architecture:context:physical:diagram:single}
+   \end{subfigure}
+      \caption[Solution - Context Level - Physical View Diagrams]{Solution - Context Level - Physical View Diagrams}
+      \label{fig:design:architecture:context:physical:diagram}
 \end{figure}
 
-The Identity Providers currently in use by the solution are \cite{googleid} and \cite{azureid} both of this platforms provide an OpenID Connect \gls{API}.
+There are two major options when deploying a new \textbf{Sensae Console}: (i) cloud and (ii) on-premise deployment.
+Each deployment can be a:
 
-The SMS dispatching service is the \textit{Twilio Platform}. The Email dispatching service is the \textit{Google Email Platform}. And finally, the only \gls{IoT} Middleware currently in use is \cite{helium}.
+\begin{itemize}
+   \item Multi-Tenant Instance (Figure~\ref{fig:design:architecture:context:physical:diagram:multi}): This deployment serves various costumers and therefore, all external services are developed and validated by the company to avoid interacting with services that may abuse the system in nefarious ways. Currently, for this type of instance, the Sensae Console and the External Services run in a single instance. The external services correspond to the \gls{PoC}s developed.
+   \item Single-Tenant Instance (Figure~\ref{fig:design:architecture:context:physical:diagram:single}): This deployment serves a single costumer, therefore he/she can connect custom external services that aren't validated or developed by the company. The two custom external services serve as an example of the freedom given to the costumer to interact with the system. 
+\end{itemize}
+
+The connections to external systems and interactions with users were hidden for brevity reasons. The reason for these two distinct deployment options derive from the discussion in Chapter~\ref{chap:requirements}.  
 
 \subsubsection{Context Level - Synopsis}
 \label{subsubsec:design:architecture:context:synopsis}
@@ -521,6 +539,17 @@ Next is the physical view, intended to familiarize the reader with the idealized
 The production environment is orchestrated using \textit{Docker Compose} running in a single node/server. This decision was taken after acknowledging that currently there is no need to scale the solution, a single node has been capable of handling all throughput.  The Appendix~\ref{appendix:docker} details how this was implemented.
 
 Each Container represented in Section~\ref{par:design:architecture:platform:container:logical} is mapped to a container in this view. Following the \citetitle{dbperservice}, each logical database also corresponds to a physical database.
+
+As an example, the physical view of the Rule Management Concern is presented in Figure~\ref{fig:design:architecture:platform:container:physical:rule}. The complete Sensae Console solution is not presented for brevity reasons.
+
+\begin{figure}[H]
+   \centering
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/physical/rule-management-context.pdf}
+   \caption[Rule Management - Container Level - Physical View Diagram]{Rule Management - Container Level - Physical View Diagram}
+   \label{fig:design:architecture:platform:container:physical:rule}
+\end{figure}
+
+The two \textit{Device}s presented correspond to a user's machine (localhost) and the server where Sensae Console is deployed (Ubuntu Server). The \textbf{UI Aggregator} and \textbf{Rule Management Frontend} are served by their corresponding Nginx WebServer, and all user-centered communications with \textbf{Sensae Console} are secured and conducted by the UI Aggregator Nginx WebServer.
 
 In the future, if the need arises, \textbf{Sensae Console} should be orchestrated with \textit{Kubernetes} or \textit{OpenShift}. This would allow the solution to auto-scale, multiplying the containers under excessive load.
 

@@ -1,0 +1,43 @@
+@startuml diagram
+
+left to right direction
+
+node ":localhost" <<Device>> {
+    node "Web Browser" <<Execution Environment>> as BROWSER {
+        artifact "Rule Management\nFrontend" <<Artifact>> as UI
+        artifact "UI Aggregator" <<Artifact>> as UI_UI
+    }
+}
+
+node "Ubuntu Server" <<Device>> {
+    node "Docker Environment" <<Execution Environment>> {
+        node "<b>:docker postgres</b>" <<Execution Environment>> as DB {
+            component "Rule Management\nDatabase" <<Container>>
+        }
+        node "<b>:docker java</b>" <<Execution Environment>> as BACK {
+            component "Rule Management\nBackend" <<Container>>
+        }
+        node "<b>:docker linux</b>" <<Execution Environment>> as FLOW {
+            component "Alert Dispatcher\nBackend" <<Container>>
+        }
+        node "<b>:docker rabbitmq</b>" <<Execution Environment>> as MB {
+            component "Message Broker" <<Container>>
+        }
+        node "<b>:docker nginx</b>" <<Execution Environment>>  as FRONT {
+            component "Nginx WebServer/\nProxy" <<Container>>
+            artifact "Rule Management\nFrontend" <<Artifact>>
+        }
+        node "<b>:docker nginx</b>" <<Execution Environment>>  as FRONT_UI {
+            component "Nginx WebServer/\nProxy" <<Container>> as D
+            artifact "UI Aggregator" <<Artifact>>
+        }
+        BACK -- DB : "<<protocol>>\npostgres"
+        BACK - MB : "<<protocol>>\nAMQP"
+        MB -- FLOW : "<<protocol>>\nAMQP"
+        FRONT -- BACK : "<<protocol>>\nHTTP"
+        FRONT_UI -- FRONT:  "<<protocol>>\nHTTP"
+    }
+}
+BROWSER -- FRONT_UI : "<<protocol>>\nHTTP/s"
+
+@enduml

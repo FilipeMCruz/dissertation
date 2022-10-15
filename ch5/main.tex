@@ -868,9 +868,7 @@ void ensureTransferWorksWithValidArrayPath() throws JsonProcessingException {
     var jsonNode = mapper.readTree("""
             {
                 "path": [
-                    {
-                        "prop": "viva"
-                    }
+                    {"prop": "viva"}
                 ]
             }
             """);
@@ -887,7 +885,7 @@ void ensureTransferWorksWithValidArrayPath() throws JsonProcessingException {
 
 The test presented in Listing~\ref{code:implementation:tests:unit2} verifies that a user with the appropriate permissions can fetch a decoder and the last time it was used. This test relies on database access to fetch decoders and access to an RSA file to verify the authenticity of the user's access token. Since this is a unit test and its responsibility is not to verify the solution integration, it mocks the classes that access the mentioned resources using the \citetitle{mockito}.
 
-This test only verifies the isolated behavior of the service \textit{DataDecoderCollectorService} - line \textbf{14}. Other classes - lines \textbf{5}, \textbf{8} and \textbf{11} - needed by the service, are mocked and then injected in it with the annotation \textit{@InjectMocks}.
+This test only verifies the isolated behavior of the service \textit{DataDecoderCollectorService} - line \textbf{14}. Other classes - lines \textbf{2}, \textbf{5}, \textbf{8} and \textbf{11} - needed by the service, are mocked and then injected in it with the annotation \textit{@InjectMocks}.
 
 \begin{lstlisting}[style=Java, caption=Unit Test - Data Decoder Backend Container, label={code:implementation:tests:unit2}]
 $$@Mock
@@ -951,7 +949,7 @@ describe('Device Command Unit Test', () => {
 
 This section, as an example, describes the integration tests preformed in the \textbf{Device Ownership Flow} Container and then moves on to \textbf{Notification Management Backend}.
 
-The tool used to ease the formulation of integration tests was \citetitle{testcontainers}. This tool uses docker to fabricate the needed environment where integration tests can run. It is responsible for automaticaly starting and shuting down the containers needed to performed this tests.
+The tool used to ease the formulation of integration tests was \citetitle{testcontainers}. This tool uses docker to fabricate the needed environment where integration tests can run. It is responsible for automatically starting and shuting down the containers needed to performed this tests.
 
 The code in Listing~\ref{code:implementation:tests:inte1} verifies that the message broker can be reached by \textbf{Device Ownership Flow}.
 
@@ -976,7 +974,8 @@ class DeviceInformationEmitterTest {
             .withContainerType(ContainerTypeOptions.IDENTITY_MANAGEMENT)
             .withContextType(ContextTypeOptions.DEVICE_IDENTITY)
             .withOperationType(OperationTypeOptions.UNKNOWN)
-            .build().orElseThrow();
+            .build()
+            .orElseThrow();
 
         var deviceId = DeviceId.of(UUID.randomUUID());
 
@@ -992,7 +991,7 @@ class DeviceInformationEmitterTest {
 
 In this example a \textit{RabbitMQ} instance, the only system that this container depends on, is started by the \citetitle{testcontainers} library before running the tests and shuted down once they end.
 
-The class tested is \textit{DeviceInformationEmitter}, line \textbf{5}. As we can see, a message is sent in line \textbf{25} and, as expected it is recieved in line \textbf{27}.
+The class tested is \textit{DeviceInformationEmitter}, line \textbf{5}. As we can see, a message is sent in line \textbf{26} and, as expected it is received in line \textbf{28}.
 
 The code in Listing~\ref{code:implementation:tests:inte2} verifies that the database can be reached by the \textbf{Notification Management Backend}.
 
@@ -1007,7 +1006,6 @@ public class NotificationRepositoryImplTest extends IntegrationTest {
         var single = Domains.single(DomainId.of(UUID.randomUUID()));
         var type = ContentType.of("a", "a", NotificationLevel.CRITICAL);
         var query = NotificationBasicQuery.of(single, List.of(type));
-
         Assertions.assertDoesNotThrow(() -> repository.find(query));
     }
 }
@@ -1034,20 +1032,13 @@ public class DatabaseContainerTest extends PostgreSQLContainer<DatabaseContainer
     }
 
     public static DatabaseContainerTest getInstance() {
-        if (container == null) {
-            container = new DatabaseContainerTest()
+        if (container == null)
+            container = new DatabaseContainerTest().withPassword("sa")
                 .withUsername("user")
-                .withPassword("sa")
                 .withEnv("POSTGRESQL_USER", "user")
                 .withEnv("POSTGRESQL_PASSWORD", "sa")
                 .withExposedPorts(PostgreSQLContainer.POSTGRESQL_PORT);
-        }
         return container;
-    }
-
-    $$@Override
-    public void stop() {
-        //do nothing, JVM handles shut down
     }
 }
 \end{lstlisting}
@@ -1295,11 +1286,9 @@ The Listing~\ref{code:implementation:tests:arch1} presents an example of the tes
 \begin{lstlisting}[style=Java, caption=Architectural Test - Onion Architecture - Device Management Backend, label={code:implementation:tests:arch1}]
 $$@AnalyzeClasses(packages = "pt.sensae.services")
 public class ApplicationArchitectureTest {
-
     $$@ArchTest
     static final ArchRule architecture = Architectures
-        .onionArchitecture()
-        .domainModels("..domain..")
+        .onionArchitecture().domainModels("..domain..")
         .domainServices("..domainservices..")
         .applicationServices("..application..")
         .adapter("amqp connector", "..amqp..")
@@ -1307,22 +1296,20 @@ public class ApplicationArchitectureTest {
         .adapter("postgres persistence", "..postgres..")
         .adapter("graphql endpoint", "..graphql..")
         .ignoreDependency(resideInAPackage("..boot.."), alwaysTrue());
-
+        
     $$@ArchTest
     static final ArchRule domainMustNotDependOnFrameworks =
         ArchRuleDefinition.noClasses().that()
             .resideInAnyPackage("..domain..")
-            .should()
-            .dependOnClassesThat()
+            .should().dependOnClassesThat()
             .haveNameMatching("org.springframework.")
-            .orShould()
-            .dependOnClassesThat()
+            .orShould().dependOnClassesThat()
             .haveNameMatching("javax.persistence.")
             .because("Domain should be free from dependencies");
 }
 \end{lstlisting}
 
-The test \textit{architecture} at lines \textbf{4} to \textbf{14} ensures that the onion architecture is followed. The test \textit{domainMustNotDependOnFrameworks} at lines \textbf{16} to \textbf{26} ensures that the domain and domain services components are free of dependencies.
+The test \textit{architecture} at lines \textbf{3} to \textbf{12} ensures that the onion architecture is followed. The test \textit{domainMustNotDependOnFrameworks} at lines \textbf{14} to \textbf{23} ensures that the domain and domain services components are free of dependencies.
 
 The Listing~\ref{code:implementation:tests:arch2} presents an example of the tests made for \textbf{Data Flow Scope}.
 

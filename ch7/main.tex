@@ -8,7 +8,7 @@ This work had two main objectives:
 
 \begin{itemize}
     \item Create a platform to ease the development of \gls{IoT} solutions;
-    \item Create \gls{PoC}s that tackled business cases related to \gls{IoT};
+    \item Create \gls{PoC}s that tackled business cases related to \gls{IoT}.
 \end{itemize}
 
 During this project's time span it was clear that the initial objectives were much more challenging and ambitious than envisioned given the time and resources available. The constant changes made to the requirements regarding the business cases lead to a lot of wasted time and resources. Nevertheless, the author focused on three business cases. They were addressed according to the requirements discussed during meetings with costumers. The developed \gls{PoC}s had a positive evaluation regarding their performance. Even though no factual survey was made, the costumers had favorable opinions regarding the Notification Management Service for Indoor Fire Detention and the Smart Irrigation Service for Greenhouse Humidity Control. It was also clear in Phase II, that most of the work needed to implement these \gls{PoC}s could be integrated in the platform, \textbf{Sensae Console}.
@@ -18,9 +18,13 @@ During this project's time span it was clear that the initial objectives were mu
 
 The developed \gls{PoC}s allowed, in the first phase of the project, to determine the various processes that most services needed to function. This assessment helped to define the most important functionalities \textbf{Sensae Console} had to provide.
 
-After developing the platform and integrating the \gls{PoC}s in it, its possible to infer that \textbf{Sensae Console} tackles the most crucial requirements and concerns in this area. The platform eases the integration with multiple \gls{IoT} Middlewares while providing ways to homogenize the data sent by virtually any device. The model envisioned to represent devices and their measures is far from being mature and complete but the author thinks the development of a separated, open-source library to handle it, paves the way for constant improvements. The library also facilitates the integration of new custom services with the platform. The rule engine, even though complex, also proved to be an important feature due to its flexibility. With it, and the notification management service, several business cases that don't require a \gls{UI} can be promptly addressed.
+After developing the platform and integrating the \gls{PoC}s in it, its possible to infer that \textbf{Sensae Console} tackles the most crucial requirements and concerns in this area. The platform eases the integration with multiple \gls{IoT} Middlewares while providing ways to homogenize the data sent by virtually any device.
 
-By decoupling the solution's architecture according to the various functionalities and responsibilities discussed it's possible to easily support the hosting requirements of most costumers. One can choose between integrating one or various frontends directly in their platform, create new frontends that consume the provided \gls{API} or use the complete \gls{UI} provided by the platform. The \gls{UI} Aggregator can also be configured to consume and serve custom made services with \gls{UI} or just an \gls{API}.
+The model envisioned to represent devices and their measures is far from being mature and complete, but the author thinks the development of a separated, open-source library to handle it, paves the way for constant improvements. The library also facilitates the integration of new custom services with the platform.
+
+The rule engine, even though complex, also proved to be an important feature due to its flexibility. With it, and the notification management service, several business cases that don't require a \gls{UI} can be promptly addressed.
+
+By decoupling the solution's architecture according to the various functionalities and discussed responsibilities it's possible to easily support the hosting requirements of most costumers. One can choose between integrating one or various frontends directly in their platform, create new frontends that consume the provided \gls{API} or use the complete \gls{UI} provided by the platform. The \gls{UI} Aggregator can also be configured to consume and serve custom made services with \gls{UI} or just an \gls{API}.
 
 Even though this project is still in its early phases, the work done here paves the way for a platform that is easy to maintain, improve and extend.
 
@@ -29,15 +33,17 @@ For these reasons, the author believes that the pivotal requirements of this pro
 \section{Unfulfilled Results}
 \label{sec:conclusion:unfulfilled}
 
-This project's initial requirements envisioned the creation of \gls{PoC}s for smart parking and public health condition monitoring for organization \textit{A}. Neither of these two were tackled due to time constrains and the service contracts being cancelled. The same organization that required these two solutions also required the generation of reports with several \gls{KPI} for their fleet management solution. The creation of these reports was once again postponed and not included in the final list of requirements for this project.
+This project's initial requirements envisioned the creation of \gls{PoC}s for smart parking and public health condition monitoring for organization \textit{A}. Neither of these two were tackled due to time constrains and the service contracts being cancelled. 
 
-The initial idea behind this project's proposal envisioned that the evaluation of the solution would be preformed by analyzing questionnaires handed to employees of the organization \textit{A}. Once again this objectives were not fulfilled due to the termination of contracts with the organization.
+The same organization that required these two solutions also required the generation of reports with several \gls{KPI} for their fleet management solution. The creation of these reports was once again postponed and not included in the final list of requirements for this project.
+
+The initial idea behind this project's proposal envisioned that the evaluation of the solution would be preformed by analyzing questionnaires handed to employees of the organization \textit{A}. Once again, this objective were not attained due to the termination of contracts with the organization.
 
 The requirements mentioned above were removed in April after it became clear that organization \textit{A} was not interested in pursuing further agreements.
 
 In retrospective, the initial proposal was ambitious and nearly impossible to fulfill given the time span of the project and the size of the team.
 
-With all this in mind, the author thinks that this project's requirements were partially addressed (details in Appendix~\ref{appendix:requirement}), nonetheless, the final solution proved itself to answer the most important requirements of the initial proposal.
+With all this in mind, the author thinks that this project's requirements were partially addressed (details in Appendix~\ref{appendix:requirement}). Nonetheless, the final solution proved itself to answer the most important requirements of the initial proposal.
 
 \section{Future Work}
 \label{sec:conclusion:future}
@@ -55,15 +61,15 @@ This project, and the solution it originated, still have a lot of ideas and feat
     \item Big Data analytics: Some of the most advanced features this platform could provide would be automatic analytics to help decision making and driving business decisions for costumers. This topic is beyond the knowledge of the author but is something increasingly important in the today's competitive world where every company is trying to squeeze the most value from available assets;
     \item IoT-A requirements compliance: The requirements gathered by \cite{iot-a} focus on may important features that this solution doesn't answer, such as UNI.027, UNI.047 UNI.239, UNI.094 and UNI.023 \parencite{iot-a};
     \item \citetitle{RFC8428} Standard compliance: The open-source library created should be able to translate between the model envisioned here and SenML;
-    \item Monetizing Policies: The revenue model needs to be discussed so that this solution can be monetized. Normally this platforms measure metrics such as MB of data stored, network bandwidth volume, number of devices registered and others to calculate the monthly bills of each costumer. To do so, one must first register and monetize the metrics related to each costumer and then incorporate a payment system in the platform.
+    \item Monetizing Policies: The revenue model needs to be discussed so that this solution can be monetized. Normally this platforms measure metrics such as \gls{MB} of data stored, network bandwidth volume, number of devices registered and others to calculate the monthly bills of each costumer. To do so, one must first register and monetize the metrics related to each costumer and then incorporate a payment system in the platform.
 \end{itemize}
 
-As seen by this list, creating a public, monetizable platform to ease the creation of \gls{IoT} Services is a complex and drawn-out process. Maintaining a service like this feels even more like an interminable task due to all the business cases surrounding \gls{IoT}.
+As seen by this list, creating a public, monetizable platform to ease the creation of \gls{IoT} Application/Services is a complex and drawn-out process. Maintaining a service like this feels even more like an interminable task due to all the business cases surrounding \gls{IoT}.
 
 \section{Synopsis}
 \label{sec:conclusion:synopsis}
 
-In summary the solution can be seen as a first and very important step to create an \gls{IoT} platform but it isn't ready to be sold as a service to third-parties. It is advised to keep developing the solution and services surrounding \gls{IoT} related business cases for at least another year while offering customers early access to the platform. Continuous costumers evaluations would help to guide the solution to the desired outcomes.
+In summary, the solution can be seen as a first and very important step to create an \gls{IoT} platform but it isn't ready to be sold as a service to third-parties. It is advised to keep developing the solution and services surrounding \gls{IoT} related business cases for at least another year while offering customers early access to the platform. Continuous costumers evaluations would help to guide the solution to the desired outcomes.
 
 Even though it is easy to envision the continuous development of this solution for the forthcoming years, without a solid product, costumers will start to cease their contracts. Without revenue streams it's expected that this solution will be abandoned and the company dissolved. In retrospective, the best approach for the problem in hands was not to build a platform from the ground up but to rely on open-source solutions or paid services.
 

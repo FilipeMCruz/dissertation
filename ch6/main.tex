@@ -345,7 +345,7 @@ In the following charts, Figures~\ref{fig:evaluation:overview:cache:chart:s2eB} 
 \subsection{External Services Database Performance}
 \label{subsec:evaluation:overview:servicedatabase}
 
-Another important question is wether the performance degradation recorded is due to database access or not.
+Another important question is whether the observed performance degradation is due to database access or not.
 
 The experiences performed were able to determine that this was in fact the case with the \textbf{Notification Management Database}, and, to an extent the \textbf{Smart Irrigation Business Database}. As explained in Section~\ref{subsec:implementation:decisions:database}, the database used for those containers is \citetitle{postgressql}.
 This database, contrary to the one used in \textbf{Fleet Management Data Database} and \textbf{Smart Irrigation Data Database}, is not focused on high-throughput ingestion.
@@ -384,7 +384,7 @@ The next bottleneck of the solution appears to be the \citetitle{postgressql} Da
 
 The experiences \textbf{H} of each scenario, and specially the one related to the platform, foresee that the \textbf{Message Broker} is the next logical bottleneck of the system.
 
-The \nameref{subsec:implementation:description:ingestion} only becomes a bottleneck with a ridiculous amount of devices for a small/medium organization.
+The \nameref{subsec:implementation:description:ingestion} only becomes a bottleneck with an enormous amount of devices for a small/medium organization.
 
 If the \textbf{Data Flow} cache sizes are configured correctly, the process of filling them will hardly become a bottleneck, specially since it will be very rare to receive a high number of data units from devices, decoders or processors that are not already cached.
 

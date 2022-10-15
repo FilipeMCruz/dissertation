@@ -206,7 +206,7 @@ There are two major options when deploying a new \textbf{Sensae Console}: (i) cl
 Each deployment can be a:
 
 \begin{itemize}
-   \item Multi-Tenant Instance (Figure~\ref{fig:design:architecture:context:physical:diagram:multi}): This deployment serves various costumers and therefore, all external services are developed and validated by the company to avoid interacting with services that may abuse the system in nefarious ways. Currently, for this type of instance, the Sensae Console and the External Services run in a single instance. The external services correspond to the \gls{PoC}s developed.
+   \item Multi-Tenant Instance (Figure~\ref{fig:design:architecture:context:physical:diagram:multi}): This deployment serves various costumers and therefore, all external services are developed and validated by the company to avoid interacting with services that may abuse the system in nefarious ways. Currently, for this type of instance, the Sensae Console and the External Services run in a single instance. The external services correspond to the developed \gls{PoC}s.
    \item Single-Tenant Instance (Figure~\ref{fig:design:architecture:context:physical:diagram:single}): This deployment serves a single costumer, therefore he/she can connect custom external services that aren't validated or developed by the company. The two custom external services serve as an example of the freedom given to the costumer to interact with the system. 
 \end{itemize}
 
@@ -665,7 +665,7 @@ The Smart Irrigation Backend subscribes to three types of \textit{Sub Category} 
 This section discussed the architecture used in the platform and developed \gls{PoC}s. It presented how some internal processes are handled by the system as a whole.
 In the following section, alternatives to what was designed and developed across the system are discussed.
 
-\section{Architectural Alternatives Discussed}
+\section{Architectural Alternatives}
 \label{sec:design:alternatives}
 
 This section tackles important alternatives that were proposed and discussed during the design and development of the system but were discarded in detriment for the approaches presented in the \nameref{sec:design:architecture}.

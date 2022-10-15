@@ -28,7 +28,6 @@
 \draw[pstyle0] (332.1849pt,340.5pt) ellipse (8pt and 8pt);
 \node at (253.0068pt,357.5pt)[below right,color=black]{Sensae API for};
 \node at (253.0068pt,376.5679pt)[below right,color=black]{Business Application};
-\draw[pstyle0] (67.1849pt,504.5pt) ellipse (8pt and 8pt);
 \node at (6pt,521.5pt)[below right,color=black]{IoT Middleware};
 \node at (6pt,540.5679pt)[below right,color=black]{Downlink};
 \node at (6pt,559.6358pt)[below right,color=black]{Rest API};
@@ -36,7 +35,6 @@
 \node at (179.1049pt,521.5pt)[below right,color=black]{Sensae Console};
 \node at (179.1049pt,540.5679pt)[below right,color=black]{Uplink};
 \node at (179.1049pt,559.6358pt)[below right,color=black]{Rest API};
-\draw[pstyle0] (88.1849pt,340.5pt) ellipse (8pt and 8pt);
 \node at (21.7498pt,357.5pt)[below right,color=black]{Identity Provider};
 \node at (21.7498pt,376.5679pt)[below right,color=black]{OpenID Connect};
 \node at (21.7498pt,395.6358pt)[below right,color=black]{API};
@@ -45,10 +43,8 @@
 \draw[pstyle0] (678.1849pt,195.5pt) ellipse (8pt and 8pt);
 \node at (599.0068pt,212.5pt)[below right,color=black]{Business Application};
 \node at (599.0068pt,231.5679pt)[below right,color=black]{API};
-\draw[pstyle0] (463.1849pt,504.5pt) ellipse (8pt and 8pt);
 \node at (399.5206pt,521.5pt)[below right,color=black]{SMS Dispatching};
 \node at (399.5206pt,540.5679pt)[below right,color=black]{Service API};
-\draw[pstyle0] (645.1849pt,504.5pt) ellipse (8pt and 8pt);
 \node at (576.2213pt,521.5pt)[below right,color=black]{Email Dispatching};
 \node at (576.2213pt,540.5679pt)[below right,color=black]{Service API};
 \draw[pstyle0] (290.3849pt,14pt) ellipse (8pt and 8pt);

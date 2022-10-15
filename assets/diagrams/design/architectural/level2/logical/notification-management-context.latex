@@ -58,9 +58,7 @@
 \draw[pstyle1] (624pt,309.5pt) ellipse (8pt and 8pt);
 \node at (541.221pt,326.5pt)[below right,color=black]{Sensae API for};
 \node at (541.221pt,345.5679pt)[below right,color=black]{Business Applications};
-\draw[pstyle1] (368pt,445pt) ellipse (8pt and 8pt);
 \node at (292.6182pt,462pt)[below right,color=black]{SMS Dispatcher API};
-\draw[pstyle1] (574pt,445pt) ellipse (8pt and 8pt);
 \node at (493.3149pt,462pt)[below right,color=black]{Email Dispatcher API};
 \draw[pstyle0] (297.86pt,171.67pt) ..controls (292.45pt,180.24pt) and (283.67pt,194.1pt) .. (276pt,206pt) ..controls (263.33pt,225.66pt) and (249.18pt,247.35pt) .. (237.16pt,265.69pt);
 \draw[pstyle0] (141pt,23.3pt) ..controls (141pt,41.33pt) and (141pt,85.19pt) .. (141pt,118.7pt);

@@ -131,14 +131,12 @@
 \node at (30.699pt,778.5pt)[below right,color=black]{Sensae Console};
 \node at (30.699pt,797.5679pt)[below right,color=black]{Uplink};
 \node at (30.699pt,816.6358pt)[below right,color=black]{Rest API};
-\draw[pstyle1] (1319.779pt,624pt) ellipse (8pt and 8pt);
 \node at (1288.5642pt,641pt)[below right,color=black]{OpenID};
 \node at (1288.5642pt,660.0679pt)[below right,color=black]{Connect};
 \node at (1288.5642pt,679.1358pt)[below right,color=black]{API};
 \draw[pstyle1] (88.779pt,908.5pt) ellipse (8pt and 8pt);
 \node at (6pt,925.5pt)[below right,color=black]{Sensae API for};
 \node at (6pt,944.5679pt)[below right,color=black]{Business Applications};
-\draw[pstyle1] (84.779pt,624pt) ellipse (8pt and 8pt);
 \node at (23.5941pt,641pt)[below right,color=black]{IoT Middleware};
 \node at (23.5941pt,660.0679pt)[below right,color=black]{Downlink};
 \node at (23.5941pt,679.1358pt)[below right,color=black]{Rest API};

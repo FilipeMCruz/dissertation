@@ -1,19 +1,19 @@
 \chapter{Evaluation}
 \label{chap:evaluation}
 
-This chapter intent is to describe the evaluations preformed against the solution. For that the following sections will tackle:
+This chapter's intent is to describe the evaluations preformed against the solution. For that, the following sections will tackle:
 
 \begin{itemize}
     \item Objectives and execution environment of this evaluation;
-    \item Approach applied to evaluate the software developed;
-    \item Drafted experiences and results collected;
-    \item Analysis of the results collected;
-    \item Observations taken from the analysis conducted.
+    \item Approach applied to evaluate the developed software;
+    \item Drafted experiences and collected results;
+    \item Analysis of the collected results;
+    \item Observations taken from the conducted analysis.
 \end{itemize}
 
 The expected behavior of the system according to functional requirements can be attested with deterministic tests presented in Section~\ref{sec:implementation:testing}. On the other hand, some non-functional requirements, such as performance and usability requirements, can't be deterministically attested with simple tests.
 
-Since the company and this project's solution were both in the early stages of conception no strick usability requirements were defined. The experiences here documented focus on the performance of the solution according to the points defined in Section~\ref{sec:requirements:non_functional}.
+Since the company and this project's solution were both in the early stages of conception, no strick usability requirements were defined. The experiences here documented focus on the performance of the solution according to the requirements defined in Section~\ref{sec:requirements:non_functional}.
 
 \section{Objectives}
 \label{sec:evaluation:objectives}
@@ -40,11 +40,11 @@ This evaluation also helps to understand what components are the first to degrad
 
 The approach taken to evaluate the solution was to send increasingly higher volumes of HTTP requests to the \nameref{subsec:implementation:description:ingestion} in order to determine the platform limits of healthy operation.
 
-Given the type of organizations that require this deployment mode it is expected that the number of devices installed doesn't go beyond 500\footnote{500 devices in use by a single entity is expected to be a huge amount of devices for the realistic business needs of small/medium organizations}.
+Given the type of organizations that require this deployment mode, it is expected that the number of devices installed doesn't go beyond 500\footnote{500 devices in use by a single entity is expected to be a huge amount of devices for the realistic business needs of small/medium organizations}.
 
 The evaluation encompasses 4 test scenarios, one for the platform and one for each external service: (i) Sensae Console, (ii) Fleet Management, (iii) Smart Irrigation, (iv) Notification Management.
 
-The performance tests use the \citetitle{k6} tool. This tool allows one to design performance tests entirely in \textit{Javascript}. An example of the scripts developed is presented in Appendix~\ref{AppendixF}. The \citetitle{k6} tool produces various metrics that are then analyzed using \textit{R}, an example of the analysis scripts developed is presented in Appendix~\ref{AppendixG}.
+The performance tests use the \citetitle{k6} tool. This tool allows one to design performance tests entirely in \textit{Javascript}. An example of the scripts developed is presented in Appendix~\ref{AppendixF}. The \citetitle{k6} tool produces various metrics that are then analyzed using \textit{R}. An example of the analysis scripts developed is presented in Appendix~\ref{AppendixG}.
 
 For simplicity, the solution was deployed in a \gls{VM} Instance of the Google Cloud Platform, type \textit{'e2-standard-4'}, with the following specs:
 
@@ -88,10 +88,10 @@ In order to focus on the raw performance of the system, the following conjecture
     \item All devices belong to the \textit{Public} Domain (this eases the process of authentication);
     \item No erroneous data will be sent, e.g. data units with unknown data decoders/processors/devices, incorrect measures or invalid structure;
     \item The default configuration regarding database connection pools, cache size, cache eviction policies and others is used;
-    \item Ten iterations of requests are sent in each experience, each iteration sends one Data Unit per Device;
+    \item Ten iterations of requests are sent in each experience, each iteration sends one Data Unit per Device.
 \end{itemize}
 
-The Table~\ref{tab:evaluation:experiences:summary} summarizes the experiences preformed.
+The Table~\ref{tab:evaluation:experiences:summary} summarizes the performed experiences.
 
 \begin{table}[H]
     \caption{Details about the experiences performed}
@@ -141,7 +141,7 @@ This scenario focus on the platform developed. It mimics an hosting option that 
 
 These results show that, a system focused only on processing and delivering Data Units to External Services, can successfully handle 125 Data Units per second while answering the defined requirements.
 
-The experience \textbf{H} had the measures supplied with a delay of 20 seconds on average, these results are far from the optimal response time defined in the requirements.
+The experience \textbf{H} had the measures supplied with a delay of 20 seconds on average. These results are far from the optimal response time defined in the requirements.
 
 \subsection{Fleet Management Experience Scenario}
 \label{subsec:evaluation:experiences:fleet}
@@ -168,14 +168,14 @@ This scenario focus on the Fleet Management Service. The Table~\ref{tab:evaluati
 
 These results show that, a system focused on the Fleet Management business case, can successfully handle 125 Data Units per second while answering the defined requirements.
 
-The experience \textbf{H} had the measures supplied with a delay of 40 seconds on average, this results are far from the optimal response time defined in the requirements.
+The experience \textbf{H} had the measures supplied with a delay of 40 seconds on average, These results are far from the optimal response time defined in the requirements.
 
 Currently, the devices used in production for this business case send, at best, measures every minute, this means that the maximum number of devices concurrently communicating with the solution is much higher than the one determined by these tests.
 
 \subsection{Notification Management Experience Scenario}
 \label{subsec:evaluation:experiences:notification}
 
-This scenario focus on the Notification Management Service. The Table~\ref{tab:evaluation:experiences:notification:results} presents the results related to the time it takes for a Data Unit to be processed and trigger a new alert that is  supplied to the user as a notification.
+This scenario focus on the Notification Management Service. The Table~\ref{tab:evaluation:experiences:notification:results} presents the results related to the time it takes for a Data Unit to be processed and trigger a new alert that is supplied to the user as a notification.
 
 In this experience it was simulated that an average of 10\% of the data units would produce an alert.
 
@@ -197,7 +197,7 @@ In this experience it was simulated that an average of 10\% of the data units wo
     \end{tabular}
 \end{table}
 
-The results captured in this experiences infer that this system can comfortably withstand a throughput of around 500 devices (each sending measures every 10 seconds) without undermining its overall behavior. This means that the platform can only process a maximum of 50 notification per second. 
+The results captured in this experiences allow inferring that this system can comfortably withstand a throughput of around 500 devices (each sending measures every 10 seconds) without undermining its overall behavior. This means that the platform can only process a maximum of 50 notification per second. 
 
 \subsection{Smart Irrigation Experience Scenario}
 \label{subsec:evaluation:experiences:irrigation}
@@ -226,7 +226,7 @@ These results show that, a system focused on the Smart Irrigation business case,
 
 The results captured in this experiences infer that this system can comfortably withstand a throughput of around 500 devices, each sending their measures every 10 seconds without undermining its overall behavior.
 
-Currently, the devices used in production for this business case send measures every 10 minutes, this means that the maximum number of devices concurrently communicating with the solution is much higher than the one determined by these tests.
+Currently, the devices used in production for this business case send measures every 10 minutes. This means that the maximum number of devices concurrently communicating with the solution is much higher than the one determined by these tests.
 
 \section{Discussion of the overall results}
 \label{subsubsec:evaluation:overview}

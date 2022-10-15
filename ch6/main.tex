@@ -321,26 +321,31 @@ As we can see in Table~\ref{tab:evaluation:overview:decoproc:results}, the time 
 
 The experiences preformed clearly display the process mentioned during the \nameref{chap:design} Chapter in Figure~\ref{fig:design:architecture:platform:container:process:diagram:decoder:2}, about how the \textbf{Data Flow} state is maintained.
 
-In the following charts, Figures~\ref{fig:evaluation:overview:cache:chart:s2eB} and \ref{fig:evaluation:overview:cache:chart:s1eD}, it's possible to envision the various caches in the \textbf{Data Flow} Scope being filled during the first iteration.
+In the following charts, Figure~\ref{fig:evaluation:overview:cache:chart}, it's possible to envision the various caches in the \textbf{Data Flow} Scope being filled during the first iteration.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[page=1]{assets/charts/s2eB.pdf}
-    \caption[Smart Irrigation Scenario - Experience B - Scatter Chart]{Smart Irrigation Scenario - Experience B - Scatter Chart}
-    \label{fig:evaluation:overview:cache:chart:s2eB}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[page=1,width=\columnwidth]{assets/charts/s2eB.pdf}
+        \caption[Smart Irrigation Scenario - Experience B]{Smart Irrigation Scenario - Experience B}
+        \label{fig:evaluation:overview:cache:chart:s2eB}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[page=1,width=\columnwidth]{assets/charts/s1eD.pdf}
+        \caption[Fleet Management Scenario - Experience D]{Fleet Management Scenario - Experience D}
+        \label{fig:evaluation:overview:cache:chart:s1eD}
+    \end{subfigure}
+       \caption[Data Flow Caching Process - Scatter Chart]{Caching Process - Scatter Chart}
+       \label{fig:evaluation:overview:cache:chart}
  \end{figure}
 
-In both charts (Figures~\ref{fig:evaluation:overview:cache:chart:s2eB} and \ref{fig:evaluation:overview:cache:chart:s1eD}) the X axis represents time in seconds since the first request with a data unit was sent, the Y axis represents the time it took for the client to receive the corresponding measure. Each dot represents a data unit.
+In both charts of Figure~\ref{fig:evaluation:overview:cache:chart} the X axis represents time in seconds since the first request with a data unit was sent, the Y axis represents the time it took for the client to receive the corresponding measure. Each dot represents a data unit.
 Each color represents the test iteration responsible for sending the data unit.
  
  The chart in Figure~\ref{fig:evaluation:overview:cache:chart:s1eD} also shows that the system started to underperform around the 65 seconds mark. The \textbf{Data Flow} caches were already stable and therefore, under these experiences, it is plausible to say that this process doesn't cause the performance degradation seen in higher throughput experiences.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[page=1]{assets/charts/s1eD.pdf}
-    \caption[Fleet Management Scenario - Experience D - Scatter Chart]{Fleet Management Scenario - Experience D - Scatter Chart}
-    \label{fig:evaluation:overview:cache:chart:s1eD}
-\end{figure}
 
 \subsection{Business Applications Database Performance}
 \label{subsec:evaluation:overview:servicedatabase}
@@ -356,7 +361,7 @@ The chart at figure~\ref{fig:evaluation:overview:servicedatabase:chart:s4} repre
 
 \begin{figure}[H]
     \centering
-    \includegraphics[page=1]{assets/charts/s4.pdf}
+    \includegraphics[page=1,width=0.7\columnwidth]{assets/charts/s4.pdf}
     \caption[Time Taken to Ingest, Store and Supply Measures - Line Chart]{Time Taken to Ingest, Store and Supply Measures - Line Chart}
     \label{fig:evaluation:overview:servicedatabase:chart:s4}
 \end{figure}

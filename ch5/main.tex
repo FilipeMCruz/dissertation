@@ -20,7 +20,7 @@ The following list unveils the most relevant technical decisions for \textbf{Sen
     \item \nameref{subsec:implementation:decisions:database};
     \item \nameref{subsec:implementation:decisions:drools};
     \item \nameref{subsec:implementation:decisions:js};
-    \item \nameref{subsec:implementation:decisions:actions};
+    \item \nameref{subsec:implementation:decisions:actions}.
 \end{itemize}
 
 The Containerization and Orchestration of services via Docker and Docker Compose, along the usage of Nginx to serve the \gls{UI} and \gls{API}, are discussed in Appendix~\ref{appendix:docker}.
@@ -32,8 +32,8 @@ The backend development is divided into three main areas:
 
 \begin{itemize}
     \item \textit{iot-core} package;
-    \item Data Flow Scope backend containers;
-    \item Service and Configuration Scope backend containers (named \nameref{subsubsec:implementation:decisions:backend:geral}).
+    \item \textbf{Data Flow Scope} backend containers;
+    \item \textbf{Configuration} and \textbf{Business Applications} Scope backend containers (named \nameref{subsubsec:implementation:decisions:backend:geral}).
 \end{itemize}
 
 In the following sub sections a brief description and justification of the technologies used is presented.
@@ -196,7 +196,7 @@ By leveraging these features, creating a basic \gls{SDK} in a new programming la
 
 Thrift's ``primary goal is to enable efficient and reliable communication across programming languages by abstracting the portions of each language that tend to require the most customization into a common library that is implemented in each language'' \parencite{thrift}.
 
-Ultimately \citetitle{proto} were chosen due to better documentation and community support.
+\citetitle{proto} were chosen due to better documentation and community support.
 
 \subsection{Database Usage throughout the Solution}
 \label{subsec:implementation:decisions:database}
@@ -359,7 +359,7 @@ jobs:
 Looking at Listing~\ref{code:implementation:decisions:actions:cisensae}, in lines \textbf{2} to \textbf{6}, one can see that the action is triggered every time a new commit is push to the \textit{dev} and \textit{master} branches.
 This action then proceeds to download and setup java and maven - lines \textbf{10} to \textbf{16}, and then node and npm - lines \textbf{17} to \textbf{20}. Finally it runs a script that tests the solution - line \textbf{23}. The script requires the displayed secrets to run some tests that will be discussed in the \nameref{sec:implementation:testing} Section.
 
-The mentioned script has the following structure - Code Sample~\ref{code:implementation:decisions:actions:testscript}.
+The mentioned script, Code Sample~\ref{code:implementation:decisions:actions:testscript}, was developed in \textit{Bash} and has the following structure.
 
 \begin{lstlisting}[language=bash, style=bash, caption=Sensae Console Test Suite Script, label={code:implementation:decisions:actions:testscript}]
 #!/bin/bash
@@ -418,8 +418,7 @@ It runs the following steps:
 \section{Technical Description}
 \label{sec:implementation:description}
 
-This section guides the reader through \textbf{Sensae Console} and \textbf{Business Applications} with a technical description of the various elements that are exposed to the final costumers and platform managers.
-
+This section guides the reader through \textbf{Sensae Console} and \textbf{Business Applications} with a technical description of the various elements that are exposed to costumers and managers.
 It describes the following topics:
 
 \begin{itemize}
@@ -462,7 +461,7 @@ From the page displayed in Figure~\ref{fig:implementation:description:ui:home}, 
     \label{fig:implementation:description:ui:device}
 \end{figure}
 
-From the page displayed in Figure~\ref{fig:implementation:description:ui:device} the user can see when was the last time the device interacted with the platform, create and delete devices and edit the details of each device according to the model presented in Section~\nameref{subsubsec:design:domain:bounded_contexts:device} of \nameref{appendix:design:domain:bounded_contexts} Appendix.
+From the page displayed in Figure~\ref{fig:implementation:description:ui:device} the user can see when was the last time a device interacted with the platform, create/delete devices and edit the details of each device according to the model presented in Section~\nameref{subsubsec:design:domain:bounded_contexts:device} of Appendix~\ref{appendix:design:domain:bounded_contexts}.
 
 From the home page (Figure~\ref{fig:implementation:description:ui:home}), if the UI Aggregator was configured to fetch business applications, one can access those applications' pages too, as an example the \textbf{Smart Irrigation Page} is displayed in Figure~\ref{fig:implementation:description:ui:smartirrigation}.
 This page presents a map where the user can see, search and create irrigation zones. Device measures are updated in real time via \textit{Websocket}s. The user can also see the irrigation zone details after clicking on it. From there it's possible to open/close valves an see the history of measures of each device.
@@ -477,14 +476,16 @@ This page presents a map where the user can see, search and create irrigation zo
     \label{fig:implementation:description:ui:smartirrigation}
 \end{figure}
 
-Other relevant pages are presented in the Appendix~\ref{AppendixD}, for Sensae Console, and Appendix~\ref{AppendixD2}, for the Solutions developed.
+Other relevant pages are presented in the Appendix~\ref{AppendixD}, for Sensae Console, and Appendix~\ref{AppendixD2}, for the Business Applications developed.
 
 \subsection{Sensae Console Custom Maps}
 \label{subsec:implementation:description:maps}
 
-This section describes how custom maps where built to fit the solution needs. Some costumers facilities were not present in the satellite view of \citetitle{googlemaps} or \citetitle{mapbox}. A custom map, with the missing facilities, was built using satellite images taken with a drone. The images where processed with \citetitle{arcgis} and transformed in \textit{.tiff} files that could be incorporated in the basic satellite layer of \citetitle{mapbox}.
+This section describes how custom maps where built to fit the solution needs. Some costumers facilities were not present in the satellite view of \citetitle{googlemaps} or \citetitle{mapbox}. A custom map, with the missing facilities, was built using satellite images taken with a drone. The images where processed with \citetitle{arcgis} and transformed in \textit{.tiff} files that could be incorporated in the underlying satellite layer of \citetitle{mapbox} using the \textit{Mapbox Studio} tool.
 
-The following image, Figure~\ref{fig:implementation:description:maps:irrig} presents the new map with the costumer facilities in a greener tone than the rest of the map. This map was used to display three greenhouses and a chicken farm that belong to a costumer. This map is currently in use by the Smart Irrigation Service.
+The following image, Figure~\ref{fig:implementation:description:maps:irrig}, presents the new map with one of the costumer's facilities in a greener tone than the rest of the map. This map was used to display three greenhouses and a chicken farm that belong to a costumer.
+
+This map is currently in use by the Smart Irrigation Business Application.
 
 \begin{figure}[H]
     \centering
@@ -496,14 +497,14 @@ The following image, Figure~\ref{fig:implementation:description:maps:irrig} pres
     \label{fig:implementation:description:maps:irrig}
 \end{figure}
 
-The road trajectory mismatch presented in the map (Figure~\ref{fig:implementation:description:maps:irrig}) could be reduced by taking pictures from more angles. \citetitle{arcgis} would create a better model with a wider pool of information.
+The road trajectory mismatch visible in the map (Figure~\ref{fig:implementation:description:maps:irrig}) can be reduced by taking pictures from more angles. The \citetitle{arcgis} tool would then be able to create a better model since it can work with a wider pool of information.
 
-\subsection{Sensae Console Backend API}
+\subsection{Sensae Console And Business Application Backend API}
 \label{subsec:implementation:description:api}
 
-The \textbf{Sensae Console} and \textbf{Business Applications} \gls{API}s are served as a \citetitle{graphql} \gls{API}, one for each configuration/service concern. These \gls{API}s are described with a schema.
+The \textbf{Sensae Console} and \textbf{Business Applications} \gls{API}s are all served as a \citetitle{graphql} \gls{API}, one for each configuration concern and business case. These \gls{API}s are described with a \citetitle{graphql} schema.
 
-As an example the Smart Irrigation \gls{API} is presented in the Code Sample~\ref{code:implementation:description:api:irrigation}.
+As an example the Smart Irrigation Business Application \gls{API} schema is presented in the Code Sample~\ref{code:implementation:description:api:irrigation}.
 
 \begin{lstlisting}[caption=Smart Irrigation API Schema, label={code:implementation:description:api:irrigation}]
 type Subscription {
@@ -597,11 +598,9 @@ The following code sample (Listing~\ref{code:implementation:description:rule:sam
 \begin{lstlisting}[style=drools, caption=Rule Scenario Example - Part 2, label={code:implementation:description:rule:sample2}]
 rule "Collect stove sensor data that belongs to Project #002"
     when
-        $d : DataUnitDTO(
-            getSensorData()
+        $d : DataUnitDTO(getSensorData()
             .hasProperty(PropertyName.AIR_HUMIDITY_RELATIVE_PERCENTAGE),
-            getSensorData()
-            .hasProperty(PropertyName.TEMPERATURE)
+            getSensorData().hasProperty(PropertyName.TEMPERATURE)
         )
         exists DeviceRecordEntryDTO(
             label == "Project" && content == "#002"
@@ -620,22 +619,21 @@ end
 As we can see the rule inListing~\ref{code:implementation:description:rule:sample2} is composed by two sections, the \textit{when} and \textit{then} sections. In the \textit{when} the following conditions are defined:
 
 \begin{itemize}
-    \item The captured DataUnitDTO has AIR HUMIDITY RELATIVE PERCENTAGE and TEMPERATURE measures - lines \textbf{3} to \textbf{8};
-    \item The capture DataUnitDTO has a record with a "Project" label and "\#002" content - lines \textbf{9} to \textbf{11};
-    \item The DataUnitDTO is not a duplicate fact in the working memory - line \textbf{12}.
+    \item The captured DataUnitDTO has AIR HUMIDITY RELATIVE PERCENTAGE and TEMPERATURE measures - lines \textbf{3} to \textbf{6};
+    \item The capture DataUnitDTO has a record with a "Project" label and "\#002" content - lines \textbf{7} to \textbf{9};
+    \item The DataUnitDTO is not a duplicate fact in the working memory - line \textbf{10}.
 \end{itemize}
 
-Once this conditions are meet a \textit{StoveSensorData} is created with all the needed information and then inserted into the working memory - lines \textbf{14} to \textbf{19}.
+Once these conditions are meet a \textit{StoveSensorData} is created with all the needed information and then inserted into the working memory - lines \textbf{12} to \textbf{17}.
 
-The following code sample (Listing~\ref{code:implementation:description:rule:sample3}) presents a simple rule to dispatch an \textbf{Alert} after some conditions are meet.
+The code sample in Listing~\ref{code:implementation:description:rule:sample3} presents a rule that dispatches an \textbf{Alert}.
 
 \begin{lstlisting}[style=drools, caption=Rule Scenario Example - Part 3, label={code:implementation:description:rule:sample3}]
 rule "Dispatch Stove Alarm - Dry Soil Scenario - Project #002"
     when
         $s : StoveSensorData(temperature > 26, humidity < 50)
         not(StoveSensorData(this != $s,
-                temperature < 26,
-                humidity > 50,
+                temperature < 26, humidity > 50,
                 this after[0s,11m] $s)
         )
     then
@@ -645,18 +643,16 @@ rule "Dispatch Stove Alarm - Dry Soil Scenario - Project #002"
                             .setDescription("Project #002 - Device "+ $s.deviceId +" detected low humidity/high temperature")
                             .setLevel(AlertLevel.ADVISORY)
                             .setContext(CorrelationDataBuilder.create()
-                                .setDeviceIds($s.deviceId)
-                                .setOther("Project #002")
-                                .build())
+                                .setDeviceIds($s.deviceId).build())
                             .build());
 end
 \end{lstlisting}
 
 As we can see the rule in Listing~\ref{code:implementation:description:rule:sample3} matches when the same device reports measures of air humidity higher than 50\% and temperature lower than 26 Celsius degrees for more than 11 minutes.
 
-Once the rule is matched, an Alert is dispatched using the referenced dispatcher in Code Sample~\ref{code:implementation:description:rule:sample1}. The Alert can be created using the builder pattern.
+Once the rule is matched, an \textbf{Alert} is dispatched using the referenced dispatcher in Code Sample~\ref{code:implementation:description:rule:sample1}. The alert can be created using the builder pattern.
 
-An Alert closely resembles a Notification from the \nameref{subsubsec:design:domain:bounded_contexts:notification} Concern  (Appendix~\ref{appendix:design:domain:services_contexts}). It also has a category (line \textbf{13}), a sub category (line \textbf{14}), a severity level (line \textbf{16}), and a description (line \textbf{15}).
+An \textbf{Alert} closely resembles a Notification from the \nameref{subsubsec:design:domain:bounded_contexts:notification} Concern  (Appendix~\ref{appendix:design:domain:services_contexts}). It also has a category (line \textbf{10}), a sub category (line \textbf{11}), a severity level (line \textbf{13}), and a description (line \textbf{12}).
 
 For an \textbf{Alert} to be sent at least the category and sub category parameters have to be set. By default the \textbf{INFORMATION} severity level is used.
 
@@ -1271,15 +1267,15 @@ describe('ui-aggregator', () => {
 });
 \end{lstlisting}
 
-The test in Listing~\ref{code:implementation:tests:e2e3} verifies that a user in the root domain can see all default domains in the \textbf{Identity Management Page}, as described in \nameref{subsubsec:design:domain:bounded_contexts:identity} Concern  (Appendix~\ref{appendix:design:domain:bounded_contexts}).
+The test in Listing~\ref{code:implementation:tests:e2e3} verifies that a manager can see all domains in the \textbf{Identity Management Page}, as described in \nameref{subsubsec:design:domain:bounded_contexts:identity} Concern Section (Appendix~\ref{appendix:design:domain:bounded_contexts}).
 
 \subsection{Architectural Tests}
 \label{subsec:implementation:tests:arch}
 
-This section presents some of the architectural tests of \textbf{Sensae Console}'s Containers. This tests are only performed in the backend containers.
+This section presents some of the architectural tests of \textbf{Sensae Console}'s Containers. These tests are only performed in the backend containers.
 As an example it will be displayed one test for the \textbf{Configuration / Business Applications Scope} and another for the \textbf{Data Flow Scope}.
 
-The tool used was ArchUnit, according to \cite{archunit}, it ``provides a variety of predefined governance rules codified as unit tests and allows architects to write specific tests that address modularity"".
+The tool used was ArchUnit, according to \cite{archunit}, it ``provides a variety of predefined governance rules codified as unit tests and allows architects to write specific tests that address modularity''.
 
 The Listing~\ref{code:implementation:tests:arch1} presents an example of the tests made for \textbf{Configuration / Business Applications Scope} backend containers.
 
@@ -1296,7 +1292,6 @@ public class ApplicationArchitectureTest {
         .adapter("postgres persistence", "..postgres..")
         .adapter("graphql endpoint", "..graphql..")
         .ignoreDependency(resideInAPackage("..boot.."), alwaysTrue());
-        
     $$@ArchTest
     static final ArchRule domainMustNotDependOnFrameworks =
         ArchRuleDefinition.noClasses().that()
@@ -1309,7 +1304,7 @@ public class ApplicationArchitectureTest {
 }
 \end{lstlisting}
 
-The test \textit{architecture} in Listing~\ref{code:implementation:tests:arch1}, at lines \textbf{3} to \textbf{12} ensures that the onion architecture is followed. The test \textit{domainMustNotDependOnFrameworks} at lines \textbf{14} to \textbf{23} ensures that the domain and domain services components are free of dependencies.
+The test \textit{architecture} in Listing~\ref{code:implementation:tests:arch1}, at lines \textbf{3} to \textbf{12} ensures that the onion architecture is followed. The test \textit{domainMustNotDependOnFrameworks} at lines \textbf{13} to \textbf{22} ensures that the domain and domain services components are free of dependencies.
 
 The Listing~\ref{code:implementation:tests:arch2} presents an example of the tests made for \textbf{Data Flow Scope}.
 
@@ -1345,7 +1340,7 @@ public class ArchitecturalTest {
 }
 \end{lstlisting}
 
-The test \textit{architecture} in Listing~\ref{code:implementation:tests:arch2}, at lines \textbf{4} to \textbf{12} ensures that, such as the previous test, the onion architecture is followed. The difference between the two is that this one allows empty components - line \textbf{12}, since the \textbf{Data Flow Scope} containers have no domain services. The test \textit{domainMustNotDependOnFrameworks} at lines \textbf{14} to \textbf{26} ensures that the domain component are free of dependencies.
+The test \textit{architecture} in Listing~\ref{code:implementation:tests:arch2}, at lines \textbf{4} to \textbf{14} ensures that, such as the previous tests (Listing~\ref{code:implementation:tests:arch1}), the onion architecture is followed. The difference between the two is that this one allows empty components - line \textbf{14}, since the \textbf{Data Flow Scope} containers have no domain services. The test \textit{domainMustNotDependOnFrameworks} at lines \textbf{16} to \textbf{28} ensures that the domain component are free of dependencies.
 
 \section{Synopsis}
 \label{sec:implementation:synopsis}

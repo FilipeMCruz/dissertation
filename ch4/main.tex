@@ -5,7 +5,7 @@ This chapter's goal is to describe the overall system design to the reader.
 
 The contents here presented corresponds to the final phase of the project, referenced as Phase IV in Section~\ref{sec:introduction:approach}. The conclusions and necessities gathered in each phase of the project lead to this outcome. 
 
-First, the system scopes will be introduced to present the reader a high-level picture of the system. After this, the system's architectural design will be presented and major decisions/alternatives are discussed. Then, a more detailed vision of the canonical data model (related to the \textit{Sensae API for Business Applications})is mentioned.
+First, the system scopes will be introduced to present the reader a high-level picture of the system. After this, the system's architectural design will be presented and major decisions/alternatives are discussed. Then, the Business Applications are discussed with regards to their architectural design.
 
 According to \cite{DIAS2022100529}, \gls{IoT} solutions, on a high-level, are commonly composed by three tiers:
 
@@ -41,6 +41,8 @@ The \textbf{Configuration Scope} in Figure~\ref{fig:design:system_scopes:scopes}
 The \textbf{Data Flow Scope} in Figure~\ref{fig:design:system_scopes:scopes} acts as a pipeline where raw data - device uplink - goes through various stages till it is sanitized and ready to be supplied to the \textbf{Business Applications Scope}. The \textbf{Data Flow Scope} is where internal processes occur, such as: (i) data transformation, (ii) data enrichment, (iii) data validation, (iv) data ownership clarification and (v) alert dispatching. It behaves according to what is defined in the \textbf{Configuration Scope}.
 
 The \textbf{Business Applications Scope} in Figure~\ref{fig:design:system_scopes:scopes} is comprised of services that present and act according to the sanitized data and alerts that were supplied to them. These services applicability range from (i) smart irrigation, (ii) fleet management, (iii) fire detection, (iv) physical security access monitoring, (v) air quality monitoring and anything else deemed interesting. The services currently developed are smart irrigation, fleet management and notification management. These will be addressed throughout this and the \nameref{chap:implementation} chapter.
+
+To promote a better understanding of this chapter, the most important terms are described later in the \nameref{subsec:design:domain:taxonomy} Section.
 
 \subsection{Configuration Scope}
 \label{subsec:design:system_scopes:configuration_scope}
@@ -110,11 +112,42 @@ The scope is comprised of services that consume data and publish commands to \te
    \item \textbf{Notification Management}: service to view and manage the delivery of triggered alerts.
 \end{itemize}
 
-Each service is bounded to what type of data receives and sends back to the \textbf{Data Flow Scope} as later detailed in the \nameref{subsec:implementation:description:services} Section. The type of data each service handles is enforces by the concepts discussed in Sections~\ref{subsec:design:domain:taxonomy} and \ref{subsec:design:domain:shared_model}.
+Each service is bounded to what type of data receives and sends back to the \textbf{Data Flow Scope} as later detailed in the \nameref{subsec:implementation:description:services} Section. The type of data each service handles is enforces by the concepts discussed in Sections~\ref{subsec:design:domain:taxonomy} and \ref{sec:design:domain}. Section~\ref{subsec:design:architecture:solutions} describes these applications architecture with more detail.
 
 Just like plugins, services in this scope are validated and attached to the final deployment by the entity that manages that specific instance. When working in a multi-tenant instance, custom business applications can't be properly verified and therefore their usage is denied.
 
-\section{Architectural Design}
+\subsection{Taxonomy}
+\label{subsec:design:domain:taxonomy}
+
+In order for the reader to better understand how the system operates, some concepts need to be better classified and explained:
+
+\begin{itemize}
+   \item \textbf{Device}: A device is a "Thing" that can collect data and submit it to \textbf{Sensae Console} via an external system though \textbf{Uplink}s (commonly refereed as a sensor). A device can also receive \textbf{Downlink}s and act base on what was received (commonly refereed as an actuator);
+   \item \textbf{Controller}: A controller is a \textbf{Device} that controls and aggregates data from various sub \textbf{Device}s;
+   \item \textbf{Records/Metadata}: Records, or Metadata are labels associated to a \textbf{Device} that help an organization to classify and add some information to the owned \textbf{Device}s;
+   \item \textbf{Downlink}: A downlink is a term commonly used in radio communications to denote the transmission from the network to the end user. In this case the network is the \textbf{Sensae Console} and the end user is a \textbf{Device};
+   \item \textbf{Uplink}: An uplink is the opposite of a \textbf{Downlink}, it's the transmission from a \textbf{Device} to the \textbf{Sensae Console};
+   \item \textbf{Data Unit}: A data unit represents the collected measures that are atomically submitted via an \textbf{Uplink} to the \textbf{Sensae Console}. This data should be, at least, enriched with an unique identifier of the \textbf{Uplink} and \textbf{Device} that sent it. The data unit can contain measures captured by various devices, in that case the device is identified as a Controller;
+   \item \textbf{Device Command}: A device command is an abstraction on top of a \textbf{Downlink}, intended to instruct a \textbf{Device} to execute a specific action. This devices are commonly identified as actuators. As an example, one could send a command to open or close a valve that is incorporated into a \textbf{Device};
+   \item \textbf{Decoder}: A decoder is a function that translates a \textbf{Data Unit} into something that \textbf{Sensae Console} understands;
+   \item \textbf{Domain}: A domain represents a department in a organization. An organization is composed of several domains structured in a tree like format;
+   \item \textbf{Tenant}: A tenant is a user that belongs to one or more \textbf{Domain}s and represents any of the roles discussed in Section~\ref{sec:requirements:functional};
+   \item \textbf{Alert}: A report about a detected condition based on the gather \textbf{Data Unit};
+   \item \textbf{Topic}: A Topic is a subcategory of the type of contents that are traded between the various entities of \textbf{Sensae Console} and the \textbf{Business Applications}.
+\end{itemize}
+
+Currently the \textbf{Topic}s that flow in the system are:
+
+\begin{itemize}
+   \item \textbf{Data}: This topic references the \textbf{Data Unit} concept and is intended to be processed by the \textbf{Data Flow Scope} and consumed by the \textbf{Business Applications};
+   \item \textbf{Command}: This topic references the \textbf{Device Command} concept and is intended to be used mainly by the \textbf{Business Applications};
+   \item \textbf{Alert}: This topic references the \textbf{Alert} concept and is intended to be consumed mainly by the \textbf{Business Applications};
+   \item \textbf{Internal}: This topic references the internal state maintained in the \textbf{Configuration Scope} and \textbf{Data Flow Scope}.
+\end{itemize}
+
+These concepts are referenced across the document.
+
+\section{Sensae Console - Architectural Design}
 \label{sec:design:architecture}
 
 In order to describe the system in detail at the architectural level, an approach based on the combination of two models, C4 \parencite{c4model-site} and 4+1 \parencite{4plus1model} will be followed.
@@ -150,12 +183,15 @@ To visually model/represent the ideas designed and alternatives considered, the 
 
 In the following sections only combinations of perspectives and levels deemed relevant for the design of the solution are presented.
 
+To better explain the internal communication of \textbf{Sensae Console}, and how the \gls{API} for Business Applications works, the Section~\ref{sec:design:domain} introduces the Canonical Model built to define the protocol for information exchange inside the system. This section does not represent any C4 Level 
+
 The C4 level 4, code, will not be exhibited.
 
 \subsection{C4 Level 1 - Context}
 \label{subsec:design:architecture:context}
 
 The context level aims at introducing the system as a whole. The external systems and users that communicate/interact with the system, \textbf{Sensae Console}, and solutions, \textbf{Business Applications} are demonstrated.
+\textbf{Business Applications} are briefly introduced here to better explain the reasons behind the architectural decisions taken, they are later discussed in Section~\ref{subsec:design:architecture:solutions}.
 Throughout this section the relevant C4 views of level 1 (context level) are presented.
 
 \subsubsection{Context Level - Logical View}
@@ -170,7 +206,7 @@ The logical view of the system is introduced here, complete but not detailed, in
    \label{fig:design:architecture:context:logical:diagram}
 \end{figure}
 
-The \textbf{Business Applications} in Figure~\ref{fig:design:architecture:context:logical:diagram} are represented as an independent collection of systems that consume the \textbf{Sensae Console} \gls{API}. This \gls{API} is responsible for streaming information such as device measures, device commands, alerts and internal state asynchronously. These concept's semantics and structure are enforced by a library, \textit{iot-core}, also developed and discussed in Section~\ref{subsec:design:domain:shared_model}.
+The \textbf{Business Applications} in Figure~\ref{fig:design:architecture:context:logical:diagram} are represented as an independent collection of systems that consume the \textbf{Sensae Console} \gls{API}. This \gls{API} is responsible for streaming information such as device measures, device commands, alerts and internal state asynchronously. These concept's semantics and structure are enforced by a library, \textit{iot-core}, also developed and discussed in Section~\ref{sec:design:domain}.
 
 All systems provide an \gls{API} for automated management/control and a \gls{UI} for ease of use and data visualization.
 
@@ -220,17 +256,18 @@ The context level introduces the reader to the bigger picture of the whole solut
 The process view was not represented since at this level the interactions between the system, actors and external systems, are too abstract to be relevant for the reader.
 The implementation view was also not represented since the \textbf{Sensae Console} and \textbf{Business Applications} were developed as a single project.
 
-The Sections~\nameref{subsec:design:architecture:platform} and \nameref{subsec:design:architecture:solutions} will dive into the internal of the \textbf{Sensae Console} and the solutions developed.
+The Section~\nameref{subsec:design:architecture:platform} will dive into the internals of the \textbf{Sensae Console}.
+The solutions developed are later discussed in Section~\ref{subsec:design:architecture:solutions}.
 
-\subsection{Platform - Sensae Console}
+\subsection{C4 Level 2 - Container}
 \label{subsec:design:architecture:platform}
 
-This section will explore the internals of \textbf{Sensae Console} from an architectural point of view. It discusses the C4 container level.
-The C4 component level is discussed in Appendix~\ref{appendix:design:architecture:platform:components}.
+This section will explore the internals of \textbf{Sensae Console} from an architectural point of view. It mainly discusses the C4 container level.
+The C4 Level 3 - Component is discussed in Appendix~\ref{appendix:design:architecture:platform:components}.
 
-The C4 level 2 introduces the reader to the various containers that compose the platform. In this section all relevant views will be presented according to the alternative in use or idealized for the system. In the Section~\ref{sec:design:alternatives} other alternatives are discussed.
+The C4 level 2 presents the various containers that compose the platform. In this section all relevant views will be presented according to the alternative in use or idealized for the system. In the Section~\ref{sec:design:alternatives} other alternatives are discussed.
 
-The description of this level of abstraction begins with a logical view.
+The description of this level of abstraction begins with the logical view.
 
 \subsubsection{Container Level - Logical View}
 \label{par:design:architecture:platform:container:logical}
@@ -495,7 +532,7 @@ The following diagrams are divided into:
 \begin{itemize}
    \item Backend Containers: Figure~\ref{fig:design:architecture:platform:container:development:backend};
    \item Database Containers: Figure~\ref{fig:design:architecture:platform:container:development:database};
-   \item Frontend Containers: Figure~\ref{fig:design:architecture:platform:container:development:frontend};
+   \item Frontend Containers: Figure~\ref{fig:design:architecture:platform:container:development:frontend}.
 \end{itemize}
 
 Backend services are organized according to the diagram in Figure~\ref{fig:design:architecture:platform:container:development:backend}.
@@ -553,372 +590,25 @@ The two \textit{Device}s presented correspond to a user's machine (localhost) an
 
 In the future, if the need arises, \textbf{Sensae Console} should be orchestrated with \textit{Kubernetes} or \textit{OpenShift}. This would allow the solution to auto-scale, multiplying the containers under excessive load.
 
-\subsubsection{Platform - Synopsis}
-\label{par:design:architecture:platform:synopsis}
+\subsubsection{Container Level - Synopsis}
+\label{par:design:architecture:platform:container:synopsis}
 
-This section presented the architecture used in the \textbf{Sensae Console} platform, how software is organized and how some internal process are executed inside this platform. The \gls{PoC}s developed are discussed in the following section.
+This section presented the \textbf{Sensae Console}'s C4 Level 2. Some concepts regarding how internal communication is achieved were introduced. The next section details these concepts.
 
-\subsection{Solutions - Business Applications}
-\label{subsec:design:architecture:solutions}
-
-This section will explore the details of each Business Application developed as a \gls{PoC} from an architectural point of view.
-Some of the similarities shared between the architecture of all services are:
-
-\begin{itemize}
-   \item All include a backend that exposes an \gls{API};
-   \item All include a frontend that exposes a \gls{UI};
-   \item All include at least a database that exposes an \gls{API} consumed solely by the service's backend;
-   \item Any communication with \textbf{Sensae Console} is preformed by consuming the Message Broker's \gls{API};
-   \item All follow the idea behind the separation of responsibilities seen in a three layer architecture.
-\end{itemize}
-
-Even though it isn't required, the \textbf{UI Aggregator} can be configured to consume the \gls{UI} and \gls{API} belonging to each Business Application. By doing so, the complete solution, \gls{UI} and \gls{API} can be presented under a single \gls{FQDN}. This view can be seen in Appendix~\ref{AppendixB}.
-
-For brevity reasons the C4 level 3 of the solutions will not be discussed, the architecture of most containers follows what was discussed in Appendix~\ref{appendix:design:architecture:platform:components} Section. The frontend containers behave exactly as the ones designed for the platform and most backend containers follow the same ideas behind the Configuration Backend Architecture for containers in the platform. The architectures that diverge a bit can be consulted in Appendix~\ref{AppendixC2}.
-
-\subsubsection{Fleet Management}
-\label{subsubsec:design:architecture:solutions:fleet}
-
-The logical view of the Fleet Management service is presented in Figure~\ref{fig:design:architecture:solutions:containers:logical:fleet}.
-
-This service is composed by a simple three layers architecture. The details related to this service are discussed in Section~\ref{subsubsec:design:domain:bounded_contexts:fleet}.
-
-\begin{figure}[H]
-   \centering
-   \includegraphics[page=1,width=0.75\columnwidth]{assets/diagrams/design/architectural/level2/logical/fleet-management-context.pdf}
-   \caption[Fleet Management - Container Level - Logical View Diagram]{Fleet Management - Container Level - Logical View Diagram}
-   \label{fig:design:architecture:solutions:containers:logical:fleet}
-\end{figure}
-
-Next, to better understand the internal processes of this service, Figure~\ref{fig:design:architecture:container:process:diagram:fleet} presents how a user can see the current location of a device. Authentication details are omitted for brevity reasons.
-
-In order to provide live information to the user, the Fleet Management service (and all other \textbf{Business Applications}) relies on \textit{WebSockets}. As seen in Figure~\ref{fig:design:architecture:container:process:diagram:fleet} a bidirectional channel is created between the frontend and backend so that data can be sent directly from the backend to the frontend as we can see in the step \textbf{2.5}. Fist the frontend must subscribe to new information with a valid \textit{access token} - steps \textbf{1.2} to \textbf{1.6} - then this channel is maintained till the user leaves the page. Once the user leaves the page the subscription is closed in the frontend and subsequently in the backend - steps \textbf{3.2} to \textbf{3.5}.
-
-\begin{figure}[H]
-   \centering
-   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/process/device-live-location.pdf}
-   \caption[Consult Device Live Location - Container Level - Process View Diagram]{Consult Device Live Location - Container Level - Process View Diagram}
-   \label{fig:design:architecture:container:process:diagram:fleet}
-\end{figure}
-
-\subsubsection{Notification Management}
-\label{subsubsec:design:architecture:solutions:notification}
-
-The logical view of Notification Management service is presented in Figure~\ref{fig:design:architecture:solutions:containers:logical:noti}.
-
-\begin{figure}[H]
-   \centering
-   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level2/logical/notification-management-context.pdf}
-   \caption[Notification Management - Container Level - Logical View Diagram]{Notification Management - Container Level - Logical View Diagram}
-   \label{fig:design:architecture:solutions:containers:logical:noti}
-\end{figure}
-
-This service is composed by a simple three layers architecture and has a separated container responsible for dispatching SMS and emails, the Notification Dispatcher Backend container. Information regarding the type of alerts each user is interested in are exchanged between the Backend and Dispatcher containers through the Message Broker. The details related to this service are discussed in Section~\ref{subsubsec:design:domain:bounded_contexts:notification}.
-
-The next diagram in Figure~\ref{fig:design:architecture:container:process:diagram:notification} describes how a user receives notifications via several different delivery channels. For brevity reasons the subscription process is omitted.
-
-As a brief description the diagram in Figure~\ref{fig:design:architecture:container:process:diagram:notification} describes what happens when an alert is dispatched inside \textbf{Sensae Console}. An alert is created in Alert Dispatcher Backend, flows though Device Ownership Backend to be enriched with the domains that own it and is then collected by, at least, the Notification Management Service. Notification Management Backend deliveries alerts in the form of \gls{UI} notifications - step \textbf{2.5} and \textbf{2.6} - and stores this alert as a notification for later use - step \textbf{2.3}. Notification Dispatcher Backend deliveries alerts in the form of Emails - step \textbf{3.4} - and SMS - step \textbf{3.7}.
-
-\begin{figure}[H]
-   \centering
-   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/process/notification-dispatch.pdf}
-   \caption[Receive Notification - Container Level - Process View Diagram]{Receive Notification - Container Level - Process View Diagram}
-   \label{fig:design:architecture:container:process:diagram:notification}
-\end{figure}
-
-\subsubsection{Smart Irrigation}
-\label{subsubsec:design:architecture:solutions:irrigation}
-
-The logical view of the Smart Irrigation service is presented in Figure~\ref{fig:design:architecture:solutions:containers:logical:irrigation}.
-
-This service is composed by a three layers architecture, the \textbf{Data Layer} is divided in two databases, one responsible for storing device measures and another responsible for storing information regarding the Irrigation Zones and device information. The details related to this service are discussed in Section~\ref{subsubsec:design:domain:bounded_contexts:irrigation}.
-
-Certain types of alerts are also collected by Smart Irrigation Backend to automatically control conditions inside an irrigation zone. The diagram in Figure \ref{fig:design:architecture:container:process:diagram:irrigation} presents this process.
-
-\begin{figure}[H]
-   \centering
-   \includegraphics[page=1,width=0.75\columnwidth]{assets/diagrams/design/architectural/level2/logical/smart-irrigation-context.pdf}
-   \caption[Smart Irrigation - Container Level - Logical View Diagram]{Smart Irrigation - Container Level - Logical View Diagram}
-   \label{fig:design:architecture:solutions:containers:logical:irrigation}
-\end{figure}
-
-\begin{figure}[H]
-   \centering
-   \includegraphics[page=1,width=0.9\columnwidth]{assets/diagrams/design/architectural/level2/process/smart-irrigation.pdf}
-   \caption[Valve Activation Process - Container Level - Process View Diagram]{Valve Activation - Container Level - Process View Diagram}
-   \label{fig:design:architecture:container:process:diagram:irrigation}
-\end{figure}
-
-The alerts created in \textbf{Sensae Console} are captured by \textbf{Business Applications}'s containers so that they can immediately act based on those alerts (Figure~\ref{fig:design:architecture:container:process:diagram:irrigation}).
-
-The Smart Irrigation Backend subscribes to three types of \textit{Sub Category} alerts, all with the same \textit{Category} - \textit{Smart Irrigation}:
-
-\begin{itemize}
-   \item \textbf{Damped Environment}: a valve needs to be closed;
-   \item \textbf{Dry Environment}: a valve needs to be open;
-   \item \textbf{Valve Open For Lengthy Period}: a valve needs to be close.
-\end{itemize}
-
-\subsection{Synopsis}
-\label{subsubsec:design:architecture:synopsis}
-
-This section discussed the architecture used in the platform and developed \gls{PoC}s. It presented how some internal processes are handled by the system as a whole.
-In the following section, alternatives to what was designed and developed across the system are discussed.
-
-\section{Architectural Alternatives}
-\label{sec:design:alternatives}
-
-This section tackles important alternatives that were proposed and discussed during the design and development of the system but were discarded in detriment for the approaches presented in the \nameref{sec:design:architecture}.
-
-More alternatives are discussed in the appendixes, namely User Authentication, in Appendix~\ref{appendix:design:alternatives:auth}.
-
-\subsection{Backend Segregation}
-\label{subsec:design:alternatives:backend}
-
-There are three main architectural approaches to this topic: Monolithic Backend - \cite{micromono} -, \gls{SOA} - \cite{ibmsoa} - or Microservices - \cite{martinmicro}. The first question regarding what to choose is whether to split the system in multiple units of work: Monolith vs the other two approaches.
-
-If the decision is to split the system, then an important question must be asked: how should one split the system? The system architecture depends on the answer given: a \gls{SOA} emphasizes the reuse of the system functionalities, \cite{ibmsoa}, while Micro Services emphasis the decoupling of the various system components - \cite{micromicro} - and can therefore introduce some functionality duplication as opposed to \gls{SOA} - \cite{soavsmicro}.
-
-But, to pick one of this architectures, the most important question to ask is: Why do i need architecture \textit{X}? To answer this, a set of the concerns deemed more important, with regards to this solution requirements, are discussed:
-
-\begin{itemize}
-   \item Time To Market: a \gls{MVP} should be available and ready to use as soon as possible;
-   \item Extensibility of the solution: it should be easy to extend the solution with new Business Applications;
-   \item Operation Cost: the solution has to be efficient to lower the infrastructure costs, tied to the system performance;
-   \item System performance: the solution has to be capable of processing high volumes of data efficiently, tied to the system performance.
-\end{itemize}
-
-The first concern, Time to Market, weights heavily in favor of the Monolith approach when developing a \gls{MVP}, \cite{atlassianmono}. This approach is simpler to develop, deploy and has less cognitive overhead when compared to the other two approaches.
-
-Regarding the extensibility of the solution, a Monolith is inherently rigid and hard to extend as the business evolves. This problem is inflated by the fact that the business model envisioned relies heavily on the creation of several Business Applications. On the order hand the \gls{SOA} and Microservices architecture are preferred since, due to their inherently decoupled nature, they are easier to extend using the interfaces they expose - \cite{microsoftmicro}.
-
-The last two concerns are related to the scalability of the solution. A Monolithic Backend can only be scaled up by increasing the resources - RAM, CPU, GPU and Dick Capacity - of the physical server where the solution is deployed, this is commonly referred as Vertical Scaling. A \gls{SOA} or Micro Service Backend Architecture, apart from the Vertical Scaling option, can also be scaled up by increasing the number of physical servers where the solution is deployed, this is commonly referred as Horizontal Scaling.
-
-Another option, that can be used with any architecture, is to deploy various independent instances of the same solution. Each instance would be assign to a set of costumers. This option is crucial and always possible once the business grows and starts to assist various customers.
-
-The following picture, Figure~\ref{fig:design:alternatives:auth:backend:scale}, summarizes how each architect scales, the \gls{SOA} behaves similarly to the microservices architecture presented.
-
-\begin{figure}[H]
-   \centering
-   \resizebox{\columnwidth}{!}
-   {
-      \includegraphics{assets/figures/microservices.png}
-   }
-   \caption[Monoliths and Microservices]{Monoliths and Microservices by \cite{martinmicro}}
-   \label{fig:design:alternatives:auth:backend:scale}
-\end{figure}
-
-The final decision was to follow an architecture based on Microservices, even tho this decision had several oversights:
-
-\begin{itemize}
-   \item Development Team size: microservices are commonly adopted by big companies where each team of developers is responsible for a subset of microservices. This lowers the friction between teams when developing and deploying the solution and is seen as a big reason to move to a microservice architecture. For this solution, a single developer is responsible for everything;
-   \item Time to Market: microservices need to interact with each other though the network. This added demand takes time to design and develop when compared to a monolith solution where communication is done via code;
-   \item A solution shouldn't start with a microservice architecture: a solution should migrate to microservices when it becomes too complex and hard to maintain, \cite{ibmmicro}.
-\end{itemize}
-
-The decision made was based on the following assumptions, perceptions and findings:
-
-\begin{itemize}
-   \item There are well defined boundaries between the various business processes that the project needs to support;
-   \item There is a perception that the solution will need to scale early on the road due to high volumes of \gls{IoT} data to process and store;
-   \item There are a high number of completely independent business applications to develop and deploy;
-   \item There are different types of costumers with diverse requirements regarding the deployment and development of the solution;
-   \item Each costumer is interested in their specific business case or cases and therefore requires different combinations of business applications.
-\end{itemize}
-
-\gls{SOA} was discarded since: ``Although the concept of a share-as-much-as-possible architecture solves issues associated with the duplication of business functionality, it also tends to lead to tightly coupled components and increases the overall risk associated with change''. \parencite{richards2015microservices}. Microservices are more easily extended when/if needed compared with \gls{SOA} since the focus is on loose coupling services and not highly reusable services.
-
-Despite this, the solution adopted some architecture decisions that are usually associated with \gls{SOA}, as an example a canonical data model (Section~\ref{subsec:design:domain:shared_model}) was created to ease the communication between services. This is something common in projects that follow \gls{SOA} according to \cite{cerny2017disambiguation}.
-
-\subsection{Frontend Segregation}
-\label{subsec:design:alternatives:frontend}
-
-This section tackles the need for segregating the frontend into various independent frontends - Microfrontends, \cite{microfrontends} - or to develop a single Frontend to answer the identified requirements.
-
-The non-functional requirements discussed in Section~\ref{sec:requirements:non_functional} enhance the need to develop a product that can be fully extensible and yet close for modifications, following the idea behind the \gls{OCP} (introduced by \cite{martin2003agile}). This need arises so that costumer entities can easily create new business applications without the need to alter any close source code that is produced internally.
-
-The Microfrontends Architecture when applied to this project has the same oversights, assumptions and perceptions that lead to the decision taken in the \nameref{subsec:design:alternatives:backend} Section. As such, the decision was to drop the design and development of a single frontend in favor of a Microfrontends Architecture.
-
-Ultimately this decision, coupled with the Backend Segregation decision made, enforces a business model that follows \gls{OCP} and simplifies the adoption of this solution by third parties.
-
-\subsection{Data Flow Pipeline}
-\label{subsec:design:alternatives:flow}
-
-This section debates how the various Data Flow Containers should communicate with each other.
-
-Synchronous communication, such as HTTP requests, was promptly discarded since there is no need for each Container to acknowledge the outcome of the Data Unit that it sent and this type of communication would linger the performance of the Data Flow Scope by creating chained requests, an anti pattern when using a Microservice Architecture \parencite{microsoftmicroanti}.
-
-According to \cite{microsoftasync}, there are two kinds of asynchronous messaging communication: single receiver message-based communication, and multiple receivers message-based communication. It is common to use both of this types in the same solution depending on the requirements. This type of communication is usually composed by the following participants:
-
-\begin{itemize}
-   \item Broker: responsible for establishing a communication channel between Receivers and Publishers;
-   \item Publishers: responsible for sending messages;
-   \item Receivers: responsible for consuming messages.
-\end{itemize}
-
-Looking at the Figure~\ref{fig:design:architecture:platform:container:process:diagram:flow} it appears that a simple \textit{single receiver message-based communication} would be sufficient but this approach isn't as flexible as other options. By following a \textit{multiple receivers message-based communication}, additional receivers can be added in the future without the need to modify the sender service. As an example, the Data Store container can be configured to consume any type of Data Unit without changing the containers that produce them.
-
-The final issue to discuss is whether Receivers should pull messages from the Broker (via pulling) or the Broker should push messages to Receivers. This topic is discussed in \citetitle{pubsubpushpull}, mentioned as Push vs Pull. Pushing messages to Receivers can overwhelm a receiver when its rate of consumption falls below the rate of production. The Pull approach offers Receivers the option to consume messages at the rate that they are capable of but can be wasteful in systems where messages are not abundant \parencite{pubsubpushpullrab}. The operations preformed in each Data Flow container are meant to be fast and simple, and as such, overwhelming a receiver was not taken into consideration. The Push approach was preferred since it theoretically enables faster reactions to new message compared to the Push approach.
-
-As such, it was decided that the Data Flow Pipeline would work based on the publish/subscribe pattern on top of asynchronous messaging communication. Messages would be published to a broker and then routed to consumers.
-
-\subsection{Internal Communication}
-\label{subsec:design:alternatives:internal}
-
-This section tackles how the Data Flow Scope should be kept up to date on the configurations made in the Configuration Scope. Five alternatives have been discussed:
-
-\begin{enumerate}
-   \item Data Flow Containers directly access the Database related to their concern;
-   \item Data Flow Containers request information to their concern's Configuration Scope Container via synchronous calls;
-   \item Data Flow Containers are feed updates to their concern configurations via asynchronous calls and store this information;
-   \item A shared, in memory, database is kept, Configuration Scope writes to it and Data Flow Scope queries information from it;
-   \item An append-only log is used to store configuration logs, the Configuration Scope writes to it and the Data Flow Scope can always read from it.
-\end{enumerate}
-
-The third option was the approach taken.
-
-\subsubsection{First Option}
-\label{subsubsec:design:alternatives:internal:first}
-
-This option ensures that the Data Flow Containers are kept updated by giving them direct access to the source of truth, the database. The logical view diagram in Figure~\ref{fig:design:alternatives:internal:first:diagram} describes how this option functions.
-
-\begin{figure}[H]
-   \centering
-   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/alternatives/internal/alternative1.pdf}
-   \caption[Internal Communication - First Option - Logical View Diagram]{Internal Communication - First Option - Logical View Diagram}
-   \label{fig:design:alternatives:internal:first:diagram}
-\end{figure}
-
-The approach in Figure~\ref{fig:design:alternatives:internal:first:diagram} ensures that the Message Broker is only used to transport Data Units, Alerts and Commands, alleviating it from an heavy responsibility.
-That responsibility is assigned to the \textit{X Concern Flow} Container and the \textit{X Concern Database} Container.
-This approach has several drawbacks such as:
-
-\begin{itemize}
-   \item The \textit{X Concern Flow} Container has full access to superfluous configuration details related to that context configuration;
-   \item The same database access has to be developed and maintained in two separated containers;
-   \item All database accesses are blocking calls by nature that would slow down the process;
-   \item Data Flow containers can't reliably cache information collected since there is no way to know when the corresponding information was updated. Meaning that every time a new message arrives the database has to be queried.
-\end{itemize}
-
-Due to this drawbacks this option was eventually dropped.
-
-\subsubsection{Second Option}
-\label{subsubsec:design:alternatives:internal:second}
-
-This option ensures that the Data Flow Containers are kept updated querying information from a \gls{REST} \gls{API} provided by the Configuration Containers. The logical view diagram in Figure~\ref{fig:design:alternatives:internal:second:diagram} describes how this option functions.
-
-\begin{figure}[H]
-   \centering
-   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/alternatives/internal/alternative2.pdf}
-   \caption[Internal Communication - Second Option - Logical View Diagram]{Internal Communication - Second Option - Logical View Diagram}
-   \label{fig:design:alternatives:internal:second:diagram}
-\end{figure}
-
-The approach in Figure~\ref{fig:design:alternatives:internal:second:diagram} doesn't suffer from all drawbacks stated for the first option but still requires a blocking call to the \textit{X Concern Backend} Container every time a new message arrives to the \textit{X Concern Flow} Container.
-
-It's an improvement of the first option but still has some serious drawbacks and therefore it was also abandoned.
-
-\subsubsection{Third Option}
-\label{subsubsec:design:alternatives:internal:third}
-
-This option ensures that the Data Flow Containers are kept updated by allowing them to subscribe to changes made in their concern's configuration. The logical view diagram in Figure~\ref{fig:design:alternatives:internal:third:diagram} describes how this option functions.
-
-\begin{figure}[H]
-   \centering
-   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/alternatives/internal/alternative3.pdf}
-   \caption[Internal Communication - Third Option - Logical View Diagram]{Internal Communication - Third Option - Logical View Diagram}
-   \label{fig:design:alternatives:internal:third:diagram}
-\end{figure}
-
-The major improvement of the approach in Figure~\ref{fig:design:alternatives:internal:third:diagram} when compared with the options above is that, since \textit{X Concern Flow} Container subscribes to configuration updates, it can reliably keep a cache with just the needed information (and not the entire concern configuration). This works since \textit{X Concern Flow} Containers can discard updates related to information that they currently don't use. Once the container needs that information, it can send an event requesting what it needs and that information arrives later as a normal update to the configuration.
-All \textit{X Concern Flow} external interactions also rely on asynchronous communication, ensuring a more robust performance.
-
-The main drawback to this option is that the \textit{Message Broker} becomes responsible for yet another communication topic inside the environment.
-
-Despite this drawback this is the option currently in use. The following options purpose alternatives to tackle this drawback.
-
-\subsubsection{Fourth Option}
-\label{subsubsec:design:alternatives:internal:fourth}
-
-This option ensures that the Data Flow Containers are kept updated by allowing them to query information from an \textit{Internal State Database}. This approach differs from the first option since the \textit{Internal State Database} is supposed to be a fast in memory database with only the needed information for Data Flow Containers to process Data Units, Alerts and Commands. The logical view diagram in Figure~\ref{fig:design:alternatives:internal:fourth:diagram} describes how this option functions.
-
-\begin{figure}[H]
-   \centering
-   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/alternatives/internal/alternative4.pdf}
-   \caption[Internal Communication - Fourth Option - Logical View Diagram]{Internal Communication - Fourth Option - Logical View Diagram}
-   \label{fig:design:alternatives:internal:fourth:diagram}
-\end{figure}
-
-The approach in Figure~\ref{fig:design:alternatives:internal:fourth:diagram} would remove the responsibly from the \textit{Message Broker} to maintaining the internal state updated in the Data Flow Scope.
-The \textit{Internal State Database} would in turn store information that \textit{X Content Flow} could query.
-
-The main drawbacks of this approach are the same stated in the second option, even tho they can be mitigated by leveraging technologies that tackle distributed caching problems.
-
-\subsubsection{Fifth Option}
-\label{subsubsec:design:alternatives:internal:fifth}
-
-This option ensures that the Data Flow Containers are kept updated by allowing them to subscribe to changes made in their concern's configuration. This option diverges from the third option since the event store would persist all updates to concerns configurations. The logical view diagram in Figure~\ref{fig:design:alternatives:internal:fifth:diagram} describes how this option functions.
-
-\begin{figure}[H]
-   \centering
-   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/alternatives/internal/alternative5.pdf}
-   \caption[Internal Communication - Fifth Option - Logical View Diagram]{Internal Communication - Fifth Option - Logical View Diagram}
-   \label{fig:design:alternatives:internal:fifth:diagram}
-\end{figure}
-
-The \textit{X Concern Flow} Container would use event sourcing to reach the current state of its concern configuration on start up and then cache this state internally. New events would then be sent automatically via subscription to keep the state up-to-date.
-
-The main drawback of the approach in Figure~\ref{fig:design:alternatives:internal:fifth:diagram} is that the container can't keep just the needed portion of configurations without recreating the entire state though event sourcing.
-
-\section{Canonical Model}
+\subsection{Canonical Model}
 \label{sec:design:domain}
 
-The idea behind this section is to introduce core communication concepts of \textbf{Sensae Console} to the reader. To represent this ideas the \gls{UML} notation is used.
-
-This section is split into two pieces: (i) taxonomy and (ii) model.
-The various domains inside \textbf{Sensae Console} and \textbf{Business Applications} are discussed in Appendix~\ref{appendix:design:domain:bounded_contexts} and \ref{appendix:design:domain:services_contexts}, respectively.
-
-\subsection{Taxonomy}
-\label{subsec:design:domain:taxonomy}
-
-In order for the reader to better understand how the system operates, some concepts need to be better classified and explained:
-
-\begin{itemize}
-   \item \textbf{Device}: A device is a "Thing" that can collect data and submit it to \textbf{Sensae Console} via an external system though \textbf{Uplink}s (commonly refereed as a sensor). A device can also receive \textbf{Downlink}s and act base on what was received (commonly refereed as an actuator);
-   \item \textbf{Controller}: A controller is a \textbf{Device} that controls and aggregates data from various sub \textbf{Device}s;
-   \item \textbf{Records/Metadata}: Records, or Metadata are labels associated to a \textbf{Device} that help an organization to classify and add some information to the owned \textbf{Device}s;
-   \item \textbf{Downlink}: A downlink is a term commonly used in radio communications to denote the transmission from the network to the end user. In this case the network is the \textbf{Sensae Console} and the end user is a \textbf{Device};
-   \item \textbf{Uplink}: An uplink is the opposite of a \textbf{Downlink}, it's the transmission from a \textbf{Device} to the \textbf{Sensae Console};
-   \item \textbf{Data Unit}: A data unit represents the collected measures that are atomically submitted via an \textbf{Uplink} to the \textbf{Sensae Console}. This data should be, at least, enriched with an unique identifier of the \textbf{Uplink} and \textbf{Device} that sent it. The data unit can contain measures captured by various devices, in that case the device is identified as a Controller;
-   \item \textbf{Device Command}: A device command is an abstraction on top of a \textbf{Downlink}, intended to instruct a \textbf{Device} to execute a specific action. This devices are commonly identified as actuators. As an example, one could send a command to open or close a valve that is incorporated into a \textbf{Device};
-   \item \textbf{Decoder}: A decoder is a function that translates a \textbf{Data Unit} into something that \textbf{Sensae Console} understands;
-   \item \textbf{Domain}: A domain represents a department in a organization. An organization is composed of several domains structured in a tree like format;
-   \item \textbf{Tenant}: A tenant is a user that belongs to one or more \textbf{Domain}s and represents any of the roles discussed in Section~\ref{sec:requirements:functional};
-   \item \textbf{Alert}: A report about a detected condition based on the gather \textbf{Data Unit};
-   \item \textbf{Topic}: A Topic is a subcategory of the type of contents that are traded between the various containers in the system.
-\end{itemize}
-
-Currently the \textbf{Topic}s that flow in the system are:
-
-\begin{itemize}
-   \item \textbf{Data}: This topic references the \textbf{Data Unit} concept and is intended to be processed by the \textbf{Data Flow Scope} and consumed by the \textbf{Business Applications};
-   \item \textbf{Command}: This topic references the \textbf{Device Command} concept and is intended to be used mainly by the \textbf{Business Applications};
-   \item \textbf{Alert}: This topic references the \textbf{Alert} concept and is intended to be consumed mainly by the \textbf{Business Applications};
-   \item \textbf{Internal}: This topic references the internal state maintained in the \textbf{Configuration Scope} and \textbf{Data Flow Scope}.
-\end{itemize}
-
-These concepts are referenced across the document.
-
-\subsection{Model}
-\label{subsec:design:domain:shared_model}
+The idea behind this section is to introduce core communication concepts of \textbf{Sensae Console} to the reader. To represent these ideas the \gls{UML} notation is used. This section is presented here, after the \nameref{subsec:design:architecture:platform} Section to support some terms introduced there but not fully explained. It does not correspond to any C4 Model Level. 
 
 The canonical model is comprised of concepts that transverse the entire \textbf{Sensae Console} business model, and by extension any \textbf{Business Application}. Therefore, it is built as a library, \textit{iot-core}, that can be used by entities that rely on the exchange of information with/inside \textbf{Sensae Console}. It can be seen as a domain that focus on defining the protocol of exchange of information between the various entities of the system.
 
-The intent behind this Shared Model is to alleviate one of the issues related to distributed systems - heterogeneity in data formats \parencite{nadiminti2006distributed} - and to provide a simple \gls{SDK} for third-parties to develop new business applications that interact with \textbf{Sensae Console}. It can be seen as an explicit schema. According to \cite{explicitsharedmodel}, ``any implementation of event-based communication between a producer and consumer that lacks an explicit predefined schema will inevitably end up relying on an implicit schema. Implicit data contracts are brittle and susceptible to uncontrolled change, which can cause much undue hardship to downstream consumers.''
+The intent behind this model is to alleviate one of the issues related to distributed systems - heterogeneity in data formats \parencite{nadiminti2006distributed} - and to provide a simple \gls{SDK} for third-parties to develop new business applications that interact with \textbf{Sensae Console}. It can be seen as an explicit schema. According to \cite{explicitsharedmodel}, ``any implementation of event-based communication between a producer and consumer that lacks an explicit predefined schema will inevitably end up relying on an implicit schema. Implicit data contracts are brittle and susceptible to uncontrolled change, which can cause much undue hardship to downstream consumers.''
 
 According to \cite{integration}, ``while we have historically drawn up our project plans and costs around the boxes — the digital products we are introducing — the lines are the hidden and often primary driver of organizational tech debt. They are the reason that things just take longer now than they used to.'' The \textit{'lines'} in this solution are a first class citizen and, instead of just linking the system together, they act as the pillars that shape the entire ecosystem.
 
 It is comprised of three big components: (i) data model, (ii) message envelop model, and (iii) routing model.
+
+The various domains inside \textbf{Sensae Console} and \textbf{Business Applications} are discussed in Appendix~\ref{appendix:design:domain:bounded_contexts} and \ref{appendix:design:domain:services_contexts}, respectively.
 
 \subsubsection{Data Model}
 \label{subsubsec:design:domain:shared_model:data}
@@ -1212,6 +902,325 @@ As expected, the structure and semantics of the information subscribed to are kn
    \footnotetext[1]{has three possible values: (i) UNDETERMINED, (ii) WITH, (iii) WITHOUT}
    \footnotetext[2]{related to the explored Data Types}
 \end{landscape}
+
+\subsection{Synopsis}
+\label{subsubsec:design:architecture:synopsis}
+
+This section discussed the architecture used in the platform. It presented how some internal processes are handled by the system as a whole with the help of the Canonical Model.
+In the following section, alternatives to what was designed and developed across the system are discussed.
+
+\section{Architectural Alternatives}
+\label{sec:design:alternatives}
+
+This section tackles important alternatives that were proposed and discussed during the design and development of the system but were discarded in detriment for the approaches presented in the \nameref{sec:design:architecture}.
+
+More alternatives are discussed in the appendixes, namely User Authentication, in Appendix~\ref{appendix:design:alternatives:auth}.
+
+\subsection{Backend Segregation}
+\label{subsec:design:alternatives:backend}
+
+There are three main architectural approaches to this topic: Monolithic Backend - \cite{micromono} -, \gls{SOA} - \cite{ibmsoa} - or Microservices - \cite{martinmicro}. The first question regarding what to choose is whether to split the system in multiple units of work: Monolith vs the other two approaches.
+
+If the decision is to split the system, then an important question must be asked: how should one split the system? The system architecture depends on the answer given: a \gls{SOA} emphasizes the reuse of the system functionalities, \cite{ibmsoa}, while Micro Services emphasis the decoupling of the various system components - \cite{micromicro} - and can therefore introduce some functionality duplication as opposed to \gls{SOA} - \cite{soavsmicro}.
+
+But, to pick one of this architectures, the most important question to ask is: Why do i need architecture \textit{X}? To answer this, a set of the concerns deemed more important, with regards to this solution requirements, are discussed:
+
+\begin{itemize}
+   \item Time To Market: a \gls{MVP} should be available and ready to use as soon as possible;
+   \item Extensibility of the solution: it should be easy to extend the solution with new Business Applications;
+   \item Operation Cost: the solution has to be efficient to lower the infrastructure costs, tied to the system performance;
+   \item System performance: the solution has to be capable of processing high volumes of data efficiently, tied to the system performance.
+\end{itemize}
+
+The first concern, Time to Market, weights heavily in favor of the Monolith approach when developing a \gls{MVP}, \cite{atlassianmono}. This approach is simpler to develop, deploy and has less cognitive overhead when compared to the other two approaches.
+
+Regarding the extensibility of the solution, a Monolith is inherently rigid and hard to extend as the business evolves. This problem is inflated by the fact that the business model envisioned relies heavily on the creation of several Business Applications. On the order hand the \gls{SOA} and Microservices architecture are preferred since, due to their inherently decoupled nature, they are easier to extend using the interfaces they expose - \cite{microsoftmicro}.
+
+The last two concerns are related to the scalability of the solution. A Monolithic Backend can only be scaled up by increasing the resources - RAM, CPU, GPU and Dick Capacity - of the physical server where the solution is deployed, this is commonly referred as Vertical Scaling. A \gls{SOA} or Micro Service Backend Architecture, apart from the Vertical Scaling option, can also be scaled up by increasing the number of physical servers where the solution is deployed, this is commonly referred as Horizontal Scaling.
+
+Another option, that can be used with any architecture, is to deploy various independent instances of the same solution. Each instance would be assign to a set of costumers. This option is crucial and always possible once the business grows and starts to assist various customers.
+
+The following picture, Figure~\ref{fig:design:alternatives:auth:backend:scale}, summarizes how each architect scales, the \gls{SOA} behaves similarly to the microservices architecture presented.
+
+\begin{figure}[H]
+   \centering
+   \resizebox{\columnwidth}{!}
+   {
+      \includegraphics{assets/figures/microservices.png}
+   }
+   \caption[Monoliths and Microservices]{Monoliths and Microservices by \cite{martinmicro}}
+   \label{fig:design:alternatives:auth:backend:scale}
+\end{figure}
+
+The final decision was to follow an architecture based on Microservices, even tho this decision had several oversights:
+
+\begin{itemize}
+   \item Development Team size: microservices are commonly adopted by big companies where each team of developers is responsible for a subset of microservices. This lowers the friction between teams when developing and deploying the solution and is seen as a big reason to move to a microservice architecture. For this solution, a single developer is responsible for everything;
+   \item Time to Market: microservices need to interact with each other though the network. This added demand takes time to design and develop when compared to a monolith solution where communication is done via code;
+   \item A solution shouldn't start with a microservice architecture: a solution should migrate to microservices when it becomes too complex and hard to maintain, \cite{ibmmicro}.
+\end{itemize}
+
+The decision made was based on the following assumptions, perceptions and findings:
+
+\begin{itemize}
+   \item There are well defined boundaries between the various business processes that the project needs to support;
+   \item There is a perception that the solution will need to scale early on the road due to high volumes of \gls{IoT} data to process and store;
+   \item There are a high number of completely independent business applications to develop and deploy;
+   \item There are different types of costumers with diverse requirements regarding the deployment and development of the solution;
+   \item Each costumer is interested in their specific business case or cases and therefore requires different combinations of business applications.
+\end{itemize}
+
+\gls{SOA} was discarded since: ``Although the concept of a share-as-much-as-possible architecture solves issues associated with the duplication of business functionality, it also tends to lead to tightly coupled components and increases the overall risk associated with change''. \parencite{richards2015microservices}. Microservices are more easily extended when/if needed compared with \gls{SOA} since the focus is on loose coupling services and not highly reusable services.
+
+Despite this, the solution adopted some architecture decisions that are usually associated with \gls{SOA}, as an example a canonical data model (Section~\ref{sec:design:domain}) was created to ease the communication between services. This is something common in projects that follow \gls{SOA} according to \cite{cerny2017disambiguation}.
+
+\subsection{Frontend Segregation}
+\label{subsec:design:alternatives:frontend}
+
+This section tackles the need for segregating the frontend into various independent frontends - Microfrontends, \cite{microfrontends} - or to develop a single Frontend to answer the identified requirements.
+
+The non-functional requirements discussed in Section~\ref{sec:requirements:non_functional} enhance the need to develop a product that can be fully extensible and yet close for modifications, following the idea behind the \gls{OCP} (introduced by \cite{martin2003agile}). This need arises so that costumer entities can easily create new business applications without the need to alter any close source code that is produced internally.
+
+The Microfrontends Architecture when applied to this project has the same oversights, assumptions and perceptions that lead to the decision taken in the \nameref{subsec:design:alternatives:backend} Section. As such, the decision was to drop the design and development of a single frontend in favor of a Microfrontends Architecture.
+
+Ultimately this decision, coupled with the Backend Segregation decision made, enforces a business model that follows \gls{OCP} and simplifies the adoption of this solution by third parties.
+
+\subsection{Data Flow Pipeline}
+\label{subsec:design:alternatives:flow}
+
+This section debates how the various Data Flow Containers should communicate with each other.
+
+Synchronous communication, such as HTTP requests, was promptly discarded since there is no need for each Container to acknowledge the outcome of the Data Unit that it sent and this type of communication would linger the performance of the Data Flow Scope by creating chained requests, an anti pattern when using a Microservice Architecture \parencite{microsoftmicroanti}.
+
+According to \cite{microsoftasync}, there are two kinds of asynchronous messaging communication: single receiver message-based communication, and multiple receivers message-based communication. It is common to use both of this types in the same solution depending on the requirements. This type of communication is usually composed by the following participants:
+
+\begin{itemize}
+   \item Broker: responsible for establishing a communication channel between Receivers and Publishers;
+   \item Publishers: responsible for sending messages;
+   \item Receivers: responsible for consuming messages.
+\end{itemize}
+
+Looking at the Figure~\ref{fig:design:architecture:platform:container:process:diagram:flow} it appears that a simple \textit{single receiver message-based communication} would be sufficient but this approach isn't as flexible as other options. By following a \textit{multiple receivers message-based communication}, additional receivers can be added in the future without the need to modify the sender service. As an example, the Data Store container can be configured to consume any type of Data Unit without changing the containers that produce them.
+
+The final issue to discuss is whether Receivers should pull messages from the Broker (via pulling) or the Broker should push messages to Receivers. This topic is discussed in \citetitle{pubsubpushpull}, mentioned as Push vs Pull. Pushing messages to Receivers can overwhelm a receiver when its rate of consumption falls below the rate of production. The Pull approach offers Receivers the option to consume messages at the rate that they are capable of but can be wasteful in systems where messages are not abundant \parencite{pubsubpushpullrab}. The operations preformed in each Data Flow container are meant to be fast and simple, and as such, overwhelming a receiver was not taken into consideration. The Push approach was preferred since it theoretically enables faster reactions to new message compared to the Push approach.
+
+As such, it was decided that the Data Flow Pipeline would work based on the publish/subscribe pattern on top of asynchronous messaging communication. Messages would be published to a broker and then routed to consumers.
+
+\subsection{Internal Communication}
+\label{subsec:design:alternatives:internal}
+
+This section tackles how the Data Flow Scope should be kept up to date on the configurations made in the Configuration Scope. Five alternatives have been discussed:
+
+\begin{enumerate}
+   \item Data Flow Containers directly access the Database related to their concern;
+   \item Data Flow Containers request information to their concern's Configuration Scope Container via synchronous calls;
+   \item Data Flow Containers are feed updates to their concern configurations via asynchronous calls and store this information;
+   \item A shared, in memory, database is kept, Configuration Scope writes to it and Data Flow Scope queries information from it;
+   \item An append-only log is used to store configuration logs, the Configuration Scope writes to it and the Data Flow Scope can always read from it.
+\end{enumerate}
+
+The third option was the approach taken.
+
+\subsubsection{First Option}
+\label{subsubsec:design:alternatives:internal:first}
+
+This option ensures that the Data Flow Containers are kept updated by giving them direct access to the source of truth, the database. The logical view diagram in Figure~\ref{fig:design:alternatives:internal:first:diagram} describes how this option functions.
+
+\begin{figure}[H]
+   \centering
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/alternatives/internal/alternative1.pdf}
+   \caption[Internal Communication - First Option - Logical View Diagram]{Internal Communication - First Option - Logical View Diagram}
+   \label{fig:design:alternatives:internal:first:diagram}
+\end{figure}
+
+The approach in Figure~\ref{fig:design:alternatives:internal:first:diagram} ensures that the Message Broker is only used to transport Data Units, Alerts and Commands, alleviating it from an heavy responsibility.
+That responsibility is assigned to the \textit{X Concern Flow} Container and the \textit{X Concern Database} Container.
+This approach has several drawbacks such as:
+
+\begin{itemize}
+   \item The \textit{X Concern Flow} Container has full access to superfluous configuration details related to that context configuration;
+   \item The same database access has to be developed and maintained in two separated containers;
+   \item All database accesses are blocking calls by nature that would slow down the process;
+   \item Data Flow containers can't reliably cache information collected since there is no way to know when the corresponding information was updated. Meaning that every time a new message arrives the database has to be queried.
+\end{itemize}
+
+Due to this drawbacks this option was eventually dropped.
+
+\subsubsection{Second Option}
+\label{subsubsec:design:alternatives:internal:second}
+
+This option ensures that the Data Flow Containers are kept updated querying information from a \gls{REST} \gls{API} provided by the Configuration Containers. The logical view diagram in Figure~\ref{fig:design:alternatives:internal:second:diagram} describes how this option functions.
+
+\begin{figure}[H]
+   \centering
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/alternatives/internal/alternative2.pdf}
+   \caption[Internal Communication - Second Option - Logical View Diagram]{Internal Communication - Second Option - Logical View Diagram}
+   \label{fig:design:alternatives:internal:second:diagram}
+\end{figure}
+
+The approach in Figure~\ref{fig:design:alternatives:internal:second:diagram} doesn't suffer from all drawbacks stated for the first option but still requires a blocking call to the \textit{X Concern Backend} Container every time a new message arrives to the \textit{X Concern Flow} Container.
+
+It's an improvement of the first option but still has some serious drawbacks and therefore it was also abandoned.
+
+\subsubsection{Third Option}
+\label{subsubsec:design:alternatives:internal:third}
+
+This option ensures that the Data Flow Containers are kept updated by allowing them to subscribe to changes made in their concern's configuration. The logical view diagram in Figure~\ref{fig:design:alternatives:internal:third:diagram} describes how this option functions.
+
+\begin{figure}[H]
+   \centering
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/alternatives/internal/alternative3.pdf}
+   \caption[Internal Communication - Third Option - Logical View Diagram]{Internal Communication - Third Option - Logical View Diagram}
+   \label{fig:design:alternatives:internal:third:diagram}
+\end{figure}
+
+The major improvement of the approach in Figure~\ref{fig:design:alternatives:internal:third:diagram} when compared with the options above is that, since \textit{X Concern Flow} Container subscribes to configuration updates, it can reliably keep a cache with just the needed information (and not the entire concern configuration). This works since \textit{X Concern Flow} Containers can discard updates related to information that they currently don't use. Once the container needs that information, it can send an event requesting what it needs and that information arrives later as a normal update to the configuration.
+All \textit{X Concern Flow} external interactions also rely on asynchronous communication, ensuring a more robust performance.
+
+The main drawback to this option is that the \textit{Message Broker} becomes responsible for yet another communication topic inside the environment.
+
+Despite this drawback this is the option currently in use. The following options purpose alternatives to tackle this drawback.
+
+\subsubsection{Fourth Option}
+\label{subsubsec:design:alternatives:internal:fourth}
+
+This option ensures that the Data Flow Containers are kept updated by allowing them to query information from an \textit{Internal State Database}. This approach differs from the first option since the \textit{Internal State Database} is supposed to be a fast in memory database with only the needed information for Data Flow Containers to process Data Units, Alerts and Commands. The logical view diagram in Figure~\ref{fig:design:alternatives:internal:fourth:diagram} describes how this option functions.
+
+\begin{figure}[H]
+   \centering
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/alternatives/internal/alternative4.pdf}
+   \caption[Internal Communication - Fourth Option - Logical View Diagram]{Internal Communication - Fourth Option - Logical View Diagram}
+   \label{fig:design:alternatives:internal:fourth:diagram}
+\end{figure}
+
+The approach in Figure~\ref{fig:design:alternatives:internal:fourth:diagram} would remove the responsibly from the \textit{Message Broker} to maintaining the internal state updated in the Data Flow Scope.
+The \textit{Internal State Database} would in turn store information that \textit{X Content Flow} could query.
+
+The main drawbacks of this approach are the same stated in the second option, even tho they can be mitigated by leveraging technologies that tackle distributed caching problems.
+
+\subsubsection{Fifth Option}
+\label{subsubsec:design:alternatives:internal:fifth}
+
+This option ensures that the Data Flow Containers are kept updated by allowing them to subscribe to changes made in their concern's configuration. This option diverges from the third option since the event store would persist all updates to concerns configurations. The logical view diagram in Figure~\ref{fig:design:alternatives:internal:fifth:diagram} describes how this option functions.
+
+\begin{figure}[H]
+   \centering
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/alternatives/internal/alternative5.pdf}
+   \caption[Internal Communication - Fifth Option - Logical View Diagram]{Internal Communication - Fifth Option - Logical View Diagram}
+   \label{fig:design:alternatives:internal:fifth:diagram}
+\end{figure}
+
+The \textit{X Concern Flow} Container would use event sourcing to reach the current state of its concern configuration on start up and then cache this state internally. New events would then be sent automatically via subscription to keep the state up-to-date.
+
+The main drawback of the approach in Figure~\ref{fig:design:alternatives:internal:fifth:diagram} is that the container can't keep just the needed portion of configurations without recreating the entire state though event sourcing.
+
+\subsection{Synopsis}
+\label{subsubsec:design:alternatives:synopsis}
+
+This section presented the most important architectural decisions that lead to this project's solution, \textbf{Sensae Console}. The next section presents the architectural design of the developed \textbf{Business Applications}.
+
+\section{Business Applications - Architectural Design}
+\label{subsec:design:architecture:solutions}
+
+This section will explore the details of each Business Application developed as a \gls{PoC} from an architectural point of view.
+The description will follow the same methodology of the \nameref{sec:design:architecture} Section.
+Most concepts regarding the C4 Level 1 - Context were already described in Section~\ref{subsec:design:architecture:context}, therefore this section focus on the C4 Level 2 - Container.
+Some of the similarities shared between the architecture of all services are:
+
+\begin{itemize}
+   \item All include a backend that exposes an \gls{API};
+   \item All include a frontend that exposes a \gls{UI};
+   \item All include at least a database that exposes an \gls{API} consumed solely by the service's backend;
+   \item Any communication with \textbf{Sensae Console} is preformed by consuming the Message Broker's \gls{API};
+   \item All follow the idea behind the separation of responsibilities seen in a three layer architecture.
+\end{itemize}
+
+Even though it isn't required, the \textbf{UI Aggregator} can be configured to consume the \gls{UI} and \gls{API} belonging to each Business Application. By doing so, the complete solution, \gls{UI} and \gls{API} can be presented under a single \gls{FQDN}. This view can be seen in Appendix~\ref{AppendixB}.
+
+For brevity reasons the C4 level 3 of the solutions will not be discussed, the architecture of most containers follows what was discussed in Appendix~\ref{appendix:design:architecture:platform:components} Section. The frontend containers behave exactly as the ones designed for the platform and most backend containers follow the same ideas behind the Configuration Backend Architecture for containers in the platform. The architectures that diverge a bit can be consulted in Appendix~\ref{AppendixC2}.
+
+\subsection{Fleet Management}
+\label{subsubsec:design:architecture:solutions:fleet}
+
+The logical view of the Fleet Management service is presented in Figure~\ref{fig:design:architecture:solutions:containers:logical:fleet}.
+
+This service is composed by a simple three layers architecture. The details related to this service are discussed in Section~\ref{subsubsec:design:domain:bounded_contexts:fleet}.
+
+\begin{figure}[H]
+   \centering
+   \includegraphics[page=1,width=0.75\columnwidth]{assets/diagrams/design/architectural/level2/logical/fleet-management-context.pdf}
+   \caption[Fleet Management - Container Level - Logical View Diagram]{Fleet Management - Container Level - Logical View Diagram}
+   \label{fig:design:architecture:solutions:containers:logical:fleet}
+\end{figure}
+
+Next, to better understand the internal processes of this service, Figure~\ref{fig:design:architecture:container:process:diagram:fleet} presents how a user can see the current location of a device. Authentication details are omitted for brevity reasons.
+
+In order to provide live information to the user, the Fleet Management service (and all other \textbf{Business Applications}) relies on \textit{WebSockets}. As seen in Figure~\ref{fig:design:architecture:container:process:diagram:fleet} a bidirectional channel is created between the frontend and backend so that data can be sent directly from the backend to the frontend as we can see in the step \textbf{2.5}. Fist the frontend must subscribe to new information with a valid \textit{access token} - steps \textbf{1.2} to \textbf{1.6} - then this channel is maintained till the user leaves the page. Once the user leaves the page the subscription is closed in the frontend and subsequently in the backend - steps \textbf{3.2} to \textbf{3.5}.
+
+\begin{figure}[H]
+   \centering
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/process/device-live-location.pdf}
+   \caption[Consult Device Live Location - Container Level - Process View Diagram]{Consult Device Live Location - Container Level - Process View Diagram}
+   \label{fig:design:architecture:container:process:diagram:fleet}
+\end{figure}
+
+\subsection{Notification Management}
+\label{subsubsec:design:architecture:solutions:notification}
+
+The logical view of Notification Management service is presented in Figure~\ref{fig:design:architecture:solutions:containers:logical:noti}.
+
+\begin{figure}[H]
+   \centering
+   \includegraphics[page=1,width=0.8\columnwidth]{assets/diagrams/design/architectural/level2/logical/notification-management-context.pdf}
+   \caption[Notification Management - Container Level - Logical View Diagram]{Notification Management - Container Level - Logical View Diagram}
+   \label{fig:design:architecture:solutions:containers:logical:noti}
+\end{figure}
+
+This service is composed by a simple three layers architecture and has a separated container responsible for dispatching SMS and emails, the Notification Dispatcher Backend container. Information regarding the type of alerts each user is interested in are exchanged between the Backend and Dispatcher containers through the Message Broker. The details related to this service are discussed in Section~\ref{subsubsec:design:domain:bounded_contexts:notification}.
+
+The next diagram in Figure~\ref{fig:design:architecture:container:process:diagram:notification} describes how a user receives notifications via several different delivery channels. For brevity reasons the subscription process is omitted.
+
+As a brief description the diagram in Figure~\ref{fig:design:architecture:container:process:diagram:notification} describes what happens when an alert is dispatched inside \textbf{Sensae Console}. An alert is created in Alert Dispatcher Backend, flows though Device Ownership Backend to be enriched with the domains that own it and is then collected by, at least, the Notification Management Service. Notification Management Backend deliveries alerts in the form of \gls{UI} notifications - step \textbf{2.5} and \textbf{2.6} - and stores this alert as a notification for later use - step \textbf{2.3}. Notification Dispatcher Backend deliveries alerts in the form of Emails - step \textbf{3.4} - and SMS - step \textbf{3.7}.
+
+\begin{figure}[H]
+   \centering
+   \includegraphics[page=1,width=\columnwidth]{assets/diagrams/design/architectural/level2/process/notification-dispatch.pdf}
+   \caption[Receive Notification - Container Level - Process View Diagram]{Receive Notification - Container Level - Process View Diagram}
+   \label{fig:design:architecture:container:process:diagram:notification}
+\end{figure}
+
+\subsection{Smart Irrigation}
+\label{subsubsec:design:architecture:solutions:irrigation}
+
+The logical view of the Smart Irrigation service is presented in Figure~\ref{fig:design:architecture:solutions:containers:logical:irrigation}.
+
+This service is composed by a three layers architecture, the \textbf{Data Layer} is divided in two databases, one responsible for storing device measures and another responsible for storing information regarding the Irrigation Zones and device information. The details related to this service are discussed in Section~\ref{subsubsec:design:domain:bounded_contexts:irrigation}.
+
+Certain types of alerts are also collected by Smart Irrigation Backend to automatically control conditions inside an irrigation zone. The diagram in Figure \ref{fig:design:architecture:container:process:diagram:irrigation} presents this process.
+
+\begin{figure}[H]
+   \centering
+   \includegraphics[page=1,width=0.75\columnwidth]{assets/diagrams/design/architectural/level2/logical/smart-irrigation-context.pdf}
+   \caption[Smart Irrigation - Container Level - Logical View Diagram]{Smart Irrigation - Container Level - Logical View Diagram}
+   \label{fig:design:architecture:solutions:containers:logical:irrigation}
+\end{figure}
+
+\begin{figure}[H]
+   \centering
+   \includegraphics[page=1,width=0.9\columnwidth]{assets/diagrams/design/architectural/level2/process/smart-irrigation.pdf}
+   \caption[Valve Activation Process - Container Level - Process View Diagram]{Valve Activation - Container Level - Process View Diagram}
+   \label{fig:design:architecture:container:process:diagram:irrigation}
+\end{figure}
+
+The alerts created in \textbf{Sensae Console} are captured by \textbf{Business Applications}'s containers so that they can immediately act based on those alerts (Figure~\ref{fig:design:architecture:container:process:diagram:irrigation}).
+
+The Smart Irrigation Backend subscribes to three types of \textit{Sub Category} alerts, all with the same \textit{Category} - \textit{Smart Irrigation}:
+
+\begin{itemize}
+   \item \textbf{Damped Environment}: a valve needs to be closed;
+   \item \textbf{Dry Environment}: a valve needs to be open;
+   \item \textbf{Valve Open For Lengthy Period}: a valve needs to be close.
+\end{itemize}
 
 \section{Synopsis}
 \label{sec:design:synopsis}

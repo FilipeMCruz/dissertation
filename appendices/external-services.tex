@@ -83,7 +83,7 @@ As presented in the following diagram, Figure~\ref{fig:design:domain:bounded_con
 As a brief description:
 
 \begin{itemize}
-   \item The \textbf{RemoteControl} defines if a \textbf{Valve} can be controlled remotely. A valve can be controlled remotely only if two specific types of \textbf{Command}s (as defined in the \nameref{subsec:design:domain:shared_model}) are sent with the device's \textbf{Data Unit}: \textit{OpenValve} and \textit{CloseValve};
+   \item The \textbf{RemoteControl} defines if a \textbf{Valve} can be controlled remotely. A valve can be controlled remotely only if two specific types of \textbf{Command}s (as defined in the \nameref{sec:design:domain}) are sent with the device's \textbf{Data Unit}: \textit{OpenValve} and \textit{CloseValve};
    \item A \textbf{Device} is identified by its \textbf{DeviceId};
    \item Each \textbf{Device} stores an history of all its changes such as name, location or metadata in \textbf{Content}, the same \textbf{LedgerEntry} is used as long as this values don't change;
    \item There are three types of \textbf{Device}: (i) Green House Sensor, (ii) Park Sensor, (iii) Valve. Each of this types collect different measures discussed in Figure\ref{fig:design:domain:bounded_contexts:irrigation:diagram:reading}.

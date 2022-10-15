@@ -329,7 +329,7 @@ This action then proceeds to download and setup java and maven - lines \textbf{1
 
 The \textbf{Sensae Console} has an action to deal with Continuous Integration - Code Sample~\ref{code:implementation:decisions:actions:cisensae}, where changes made to the software are tested.
 
-\begin{lstlisting}[style=yaml, caption=Configuration File for \textbf{Sensae Console} Continuous Integration, label={code:implementation:decisions:actions:cisensae}]
+\begin{lstlisting}[style=yaml, caption=Configuration File for Sensae Console Continuous Integration, label={code:implementation:decisions:actions:cisensae}]
 name: Sensae Console - Continuous Integration - Test changes
 on:
   push:
@@ -955,7 +955,7 @@ The tool used to ease the formulation of integration tests was \citetitle{testco
 
 The code in Listing~\ref{code:implementation:tests:inte1} verifies that the message broker can be reached by \textbf{Device Ownership Flow}.
 
-\begin{lstlisting}[style=Java, caption=Integration Test - Message Broker - \textbf{Device Ownership Flow}, label={code:implementation:tests:inte1}]
+\begin{lstlisting}[style=Java, caption=Integration Test - Message Broker - Device Ownership Flow, label={code:implementation:tests:inte1}]
 $$@QuarkusTest
 class DeviceInformationEmitterTest {
 
@@ -996,7 +996,7 @@ The class tested is \textit{DeviceInformationEmitter}, line \textbf{5}. As we ca
 
 The code in Listing~\ref{code:implementation:tests:inte2} verifies that the database can be reached by the \textbf{Notification Management Backend}.
 
-\begin{lstlisting}[style=Java, caption=Integration Test - Database - \textbf{Notification Management Backend}, label={code:implementation:tests:inte2}]
+\begin{lstlisting}[style=Java, caption=Integration Test - Database - Notification Management Backend, label={code:implementation:tests:inte2}]
 public class NotificationRepositoryImplTest extends IntegrationTest {
 
     $$@Autowired
@@ -1022,7 +1022,7 @@ This section, as an example, starts to focus on functional tests performed in th
 
 The tool used to ease the formulation of functional tests was, once again, \citetitle{testcontainers}. Contrary to \citetitle{quarkus}, \citetitle{springboot} doesn't provide a ready to use environment according to the application needs, for that reason, the following Listings~\ref{code:implementation:tests:func1} and \ref{code:implementation:tests:func2} present the needed setup to run functional tests using \citetitle{testcontainers} and \citetitle{springboot}.
 
-\begin{lstlisting}[style=Java, caption=Functional Test - Message Broker - \textbf{Data Decoder Master Backend} Setup, label={code:implementation:tests:func1}]
+\begin{lstlisting}[style=Java, caption=Functional Test - Message Broker - Data Decoder Backend Setup, label={code:implementation:tests:func1}]
 public class DatabaseContainerTest extends PostgreSQLContainer<DatabaseContainerTest> {
 
     private static final String IMAGE_VERSION = "data-decoder-database";
@@ -1056,7 +1056,7 @@ The \textit{DatabaseContainerTest} follows the Singleton Pattern to ensure that 
 
 The Listing~\ref{code:implementation:tests:func2} presents the foundation of functional and integration tests.
 
-\begin{lstlisting}[style=Java, caption=Functional Test - Foundation - \textbf{Data Decoder Master Backend} Setup, label={code:implementation:tests:func2}]
+\begin{lstlisting}[style=Java, caption=Functional Test - Foundation - Data Decoder Backend Setup, label={code:implementation:tests:func2}]
 $$@SpringBootTest
 $$@Testcontainers
 $$@ContextConfiguration(initializers = {IntegrationTest.Initializer.class})
@@ -1103,7 +1103,7 @@ The application environment properties are loaded in line \textbf{10} to \textbf
 
 The following sample, Listing~\ref{code:implementation:tests:func3}, presents a functional test related to the database.
 
-\begin{lstlisting}[style=Java, caption=Functional Test - Database Interaction - \textbf{Data Decoder Master Backend}, label={code:implementation:tests:func3}]
+\begin{lstlisting}[style=Java, caption=Functional Test - Database Interaction - Data Decoder Backend, label={code:implementation:tests:func3}]
 public class DataDecodersRepositoryImplTest extends IntegrationTest {
 
     $$@Autowired
@@ -1133,7 +1133,7 @@ As we can see this test extends the foundation described before. In line \textbf
 
 The test presented in Listing~\ref{code:implementation:tests:func4}, verifies the correct interaction with the message broker container.
 
-\begin{lstlisting}[style=Java, caption=Functional Test - Message Broker Interaction - \textbf{Data Decoder Master Backend}, label={code:implementation:tests:func4}]
+\begin{lstlisting}[style=Java, caption=Functional Test - Message Broker Interaction - Data Decoder Backend, label={code:implementation:tests:func4}]
 public class DataDecoderInfoEmitterTest extends IntegrationTest {
 
     $$@Autowired
@@ -1188,7 +1188,7 @@ An update is published in line \textbf{35} using the \textit{DataDecoderHandlerS
 
 The \textbf{Data Gateway} Container was tested against different post requests to its data retention endpoint, an example of this tests is described in Listing~\ref{code:implementation:tests:func5}.
 
-\begin{lstlisting}[style=Java, caption=Functional Test - Rest Client Interaction - \textbf{Data Gateway}, label={code:implementation:tests:func5}]
+\begin{lstlisting}[style=Java, caption=Functional Test - Rest Client Interaction - Data Gateway, label={code:implementation:tests:func5}]
 $$@QuarkusTest
 class DataControllerTest {
 
@@ -1219,7 +1219,7 @@ All end-to-end tests rely on \citetitle{cypress}, an end-to-end testing framewor
 To improve tests readability new cypress commands were created.
 The methods \textit{anonymous}, \textit{logout} and \textit{goToIdentityPage} are some examples of this commands - Listing~\ref{code:implementation:tests:e2e2}.
 
-\begin{lstlisting}[style=javascript, caption=End-to-End Test - Custom Commands - \textbf{UI Aggregator}, label={code:implementation:tests:e2e2}]
+\begin{lstlisting}[style=javascript, caption=End-to-End Test - Custom Commands - UI Aggregator, label={code:implementation:tests:e2e2}]
 declare namespace Cypress {
     interface Chainable<Subject> {
         anonymous(): void;
@@ -1251,7 +1251,7 @@ As an example, the \textit{anonymous} command searches for something with the te
 
 The Listing~\ref{code:implementation:tests:e2e1} presents a test that ensures anyone can enter the system as an anonymous user.
 
-\begin{lstlisting}[style=javascript, caption=End-to-End Test - Anonymous Authentication - \textbf{UI Aggregator}, label={code:implementation:tests:e2e1}]
+\begin{lstlisting}[style=javascript, caption=End-to-End Test - Anonymous Authentication - UI Aggregator, label={code:implementation:tests:e2e1}]
 describe('ui-aggregator', () => {
     beforeEach(() => cy.visit('/'));
     it('should display welcome message for anonymous user', () => {
@@ -1266,7 +1266,7 @@ The test verifies that a successful login notification is received in line \text
 
 The Listing~\ref{code:implementation:tests:e2e3} presents a test that walks though the \textbf{Identity Management Page} verifying that an authenticated manager can see every available domain.
 
-\begin{lstlisting}[style=javascript, caption=End-to-End Test - Discover Available Domains - \textbf{Identity Management}, label={code:implementation:tests:e2e3}]
+\begin{lstlisting}[style=javascript, caption=End-to-End Test - Discover Available Domains - Identity Management, label={code:implementation:tests:e2e3}]
 describe('ui-aggregator', () => {
     beforeEach(() => cy.visit('/'));
     it('should present various default domains', () => {
@@ -1292,7 +1292,7 @@ The tool used was ArchUnit, according to \cite{archunit}, it ``provides a variet
 
 The Listing~\ref{code:implementation:tests:arch1} presents an example of the tests made for \textbf{Configuration / External Services Scope} backend containers.
 
-\begin{lstlisting}[style=Java, caption=Architectural Test - Onion Architecture - \textbf{Device Management Master Backend}, label={code:implementation:tests:arch1}]
+\begin{lstlisting}[style=Java, caption=Architectural Test - Onion Architecture - Device Management Backend, label={code:implementation:tests:arch1}]
 $$@AnalyzeClasses(packages = "pt.sensae.services")
 public class ApplicationArchitectureTest {
 
@@ -1326,7 +1326,7 @@ The test \textit{architecture} at lines \textbf{4} to \textbf{14} ensures that t
 
 The Listing~\ref{code:implementation:tests:arch2} presents an example of the tests made for \textbf{Data Flow Scope}.
 
-\begin{lstlisting}[style=Java, caption=Architectural Test - Simplified Onion Architecture - \textbf{Data Processor Flow}, label={code:implementation:tests:arch2}]
+\begin{lstlisting}[style=Java, caption=Architectural Test - Simplified Onion Architecture - Data Processor Flow, label={code:implementation:tests:arch2}]
 $$@AnalyzeClasses(packages = "pt.sensae.services")
 public class ArchitecturalTest {
 

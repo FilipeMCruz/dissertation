@@ -1018,7 +1018,7 @@ This test verifies that the \textit{NotificationRepositoryImpl} can reach the da
 \subsection{Functional Tests}
 \label{subsec:implementation:tests:functional}
 
-This section, as an example, starts to focus on functional tests performed in the \textbf{Data Decoder Master Backend}. Other service and configuration scope backend containers rely on similar tests.
+This section, as an example, starts to focus on functional tests performed in the \textbf{Data Decoder Backend}. Other service and configuration scope backend containers rely on similar tests.
 
 The tool used to ease the formulation of functional tests was, once again, \citetitle{testcontainers}. Contrary to \citetitle{quarkus}, \citetitle{springboot} doesn't provide a ready to use environment according to the application needs, for that reason, the following Listings~\ref{code:implementation:tests:func1} and \ref{code:implementation:tests:func2} present the needed setup to run functional tests using \citetitle{testcontainers} and \citetitle{springboot}.
 
@@ -1052,7 +1052,7 @@ public class DatabaseContainerTest extends PostgreSQLContainer<DatabaseContainer
 }
 \end{lstlisting}
 
-The \textit{DatabaseContainerTest} follows the Singleton Pattern to ensure that all tests use the same instance. In line \textbf{8} we can see that the base image is \citetitle{postgressql}, but the image actually used is \textit{data-decoder-database}. This image is \citetitle{postgressql} with the data decoder schema and built in line \textbf{11} of the script referenced in Listing~\ref{code:implementation:decisions:actions:testscript}. The same notion is applied for the Message Broker Container. Theses two containers are the ones that \textbf{Data Decoder Master Backend} depends on.
+The \textit{DatabaseContainerTest} follows the Singleton Pattern to ensure that all tests use the same instance. In line \textbf{8} we can see that the base image is \citetitle{postgressql}, but the image actually used is \textit{data-decoder-database}. This image is \citetitle{postgressql} with the data decoder schema and built in line \textbf{11} of the script referenced in Listing~\ref{code:implementation:decisions:actions:testscript}. The same notion is applied for the Message Broker Container. Theses two containers are the ones that \textbf{Data Decoder Backend} depends on.
 
 The Listing~\ref{code:implementation:tests:func2} presents the foundation of functional and integration tests.
 

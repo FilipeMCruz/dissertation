@@ -91,7 +91,7 @@ The Anonymous User role is disregarded here since his/her goal is to simply bene
 \subsubsection{Manager}
 \label{subsubsec:requirements:functional:sensae:manager}
 
-The purpose of the Manager is to supervise an instance of \textbf{Sensae Console} and its costumers. This role is an extension of the Costumer role and can do and see everything a Costumer can. A Manager is assign to an instance of \textbf{Sensae Console} at creation time and belongs to the highest domain, the \textit{Root Organization} as described at Section~\ref{subsubsec:design:domain:bounded_contexts:identity}.
+The purpose of the Manager is to supervise an instance of \textbf{Sensae Console} and its costumers. This role is an extension of the Costumer role and can do and see everything a Costumer can. A Manager is assign to an instance of \textbf{Sensae Console} at creation time and belongs to the highest domain, the \textit{Root Organization} as described in Section~\ref{subsubsec:design:domain:bounded_contexts:identity}.
 
 The following list documents the functional requirements related to this actor regarding the \textbf{Sensae Console} administration:
 
@@ -199,8 +199,6 @@ Regarding the Functionality category, the following requirements were identified
     \item Autonomicity: The system shall enable autonomous goal-driven (task-driven) collaboration between devices or services (UNI.010);
     \item Data parameterization: The system shall provide a resolution infrastructure for naming, addressing and assignment of virtual entities and services (UNI.030);
     \item Data Storage: The system shall provide historical information about the \gls{IoT} device (physical entity) (UNI.041);
-    \item Data Interoperability: the system  shall provide interoperable naming and addressing (UNI.048);
-    \item Auditing and Traceability: All actions performed against the system must be recorded/logged;
     \item Security in Communication: The use of secure protocols between clients and the system is mandatory, e.g.: https instead of http;
     \item Security in User-provided code: All user-provided code must run in sandbox's to prevent permission escalation, data theft and other related concerns;
     \item Data Analysis: The system shall support the integration with a \gls{CEP} component (UNI.232);
@@ -269,7 +267,7 @@ The \textit{'\gls{IoT} Middleware Downlink Rest API'} may require a different im
 \subsection{Implementation Requirements}
 \label{subsec:requirements:non_functional:implementation}
 
-In the Implementation category, the system's shall provide a \gls{SPA} to end users.
+In the Implementation category, the system's shall provide \gls{SPA} for end users to interact with.
 
 \subsection{Interface Requirements}
 \label{subsec:requirements:non_functional:interface}
@@ -295,7 +293,7 @@ As for the \textbf{External Services}:
 In the Physical category, the following requirements were identified:
 
 \begin{enumerate}
-    \item The system must be publicly available under a single \gls{FQDN};
+    \item The multi-tenant, cloud deployed instance must be publicly available under a single \gls{FQDN};
     \item The system shall be deployed in machines running a Linux kernel;
     \item The various system components shall be containerized using docker;
     \item The various system components shall be orchestrated using docker-compose or kubernetes.

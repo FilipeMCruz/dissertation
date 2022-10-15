@@ -1,0 +1,164 @@
+\chapter{Requirements Report}
+\label{appendix:requirement}
+
+This appendix presents a report targeted to the requirements answered by the solution.
+
+\section{Functional Requirements}
+
+All functional requirements were fully answered.
+
+\section{Non Functional Requirements}
+
+The tables presented below reference the \nameref{sec:requirements:non_functional} of the project and adopted the same numeration of the lists in each category.
+
+\subsection{Functionality Requirements}
+\label{appendix:requirement:functionality}
+
+\begin{table}[H]
+    \caption{Functionality Requirements Process Report}
+    \label{tab:requirements:functionality}
+    \centering
+    \begin{tabular}{@{}lll@{}}
+    \toprule
+    \textbf{No.} & \textbf{Progress} & \textbf{Details} \\ \midrule
+    1           & Done              & Via OpenID Connect.                              \\
+    2           & Done              & Via Access Tokens verified in Backend.           \\
+    3           & Done              & Users can move their devices to a public domain. \\
+    4           & Done              & Via Message Broker and Streaming API.            \\
+    5           & Done              & Via Rule Management concern.                     \\
+    6           & Done              & Via canonical model in \textit{iot-core} package.         \\
+    7 &
+      Done, partially &
+      \begin{tabular}[c]{@{}l@{}}Data Store is not accessible an only stores data.\\ Implemented separately in each external service.\end{tabular} \\
+    8           & Done              & Use of HTTPs, WSS and AMQP with TLS1.3.          \\
+    9 &
+      Done, partially &
+      \begin{tabular}[c]{@{}l@{}}Data Decoders run in a separate sandbox, \\ Rule Scenarios can be used to steal \\ information from other costumers.\end{tabular} \\
+    11 &
+      Done, partially &
+      \begin{tabular}[c]{@{}l@{}}Via Rule Management concern, but only supports\\ dispatching of alerts and analysis reports.\end{tabular} \\
+    10 &
+      Done &
+      \begin{tabular}[c]{@{}l@{}}Via Data Validator, a better alternative \\ should be discussed in the future, \\ e.g. use of one-class Support Vector Machine.\end{tabular} \\
+    11 &
+      Done &
+      \begin{tabular}[c]{@{}l@{}}Via Notification Management, with support \\ for UI Notifications, SMS and Email.\end{tabular} \\
+    12 &
+      Done, partially &
+      \begin{tabular}[c]{@{}l@{}}Only the external services provide \\ real-time information.\end{tabular} \\ \bottomrule
+    \end{tabular}
+    \end{table}
+
+\subsection{Usability Requirements}
+\label{appendix:requirement:usability}
+
+No requirements defined.
+
+\subsection{Reliability Requirements}
+\label{appendix:requirement:reliability}
+
+\begin{table}[H]
+    \caption{Reliability Requirements Process Report}
+    \label{tab:requirements:reliability}
+    \centering
+    \begin{tabular}{@{}lll@{}}
+    \toprule
+    \textbf{No.} &
+      \textbf{Progress} &
+      \textbf{Details} \\ \midrule
+    1 &
+      Done &
+      \begin{tabular}[c]{@{}l@{}}All inputs are verified first in the \\ frontend and then in the backend.\end{tabular} \\
+    2 &
+      Done &
+      \begin{tabular}[c]{@{}l@{}}Docker compose is configured to \\ restart any failing container.\end{tabular} \\
+    3 &
+      Done &
+      \begin{tabular}[c]{@{}l@{}}Message Broker stores messages while\\ failing containers restart, ensuring \\ nothing of importance is lost.\end{tabular} \\
+    4 &
+      Done, partially &
+      \begin{tabular}[c]{@{}l@{}}The \textit{iot-core} package enforces\\ compatibility on a system level via its\\ version, data decoders and rule scenarios\\ may fail between different \textit{iot-core} versions.\\ Only rule scenarios are verified after\\ a system update.\end{tabular} \\ \bottomrule
+    \end{tabular}
+    \end{table}
+
+\subsection{Performance Requirements}
+\label{appendix:requirement:performance}
+
+\begin{table}[H]
+    \caption{Performance Requirements Process Report}
+    \label{tab:requirements:performance}
+    \centering
+    \begin{tabular}{@{}lll@{}}
+    \toprule
+    \textbf{No.} & \textbf{Progress} & \textbf{Details}           \\ \midrule
+    1           & Done              & Attested in Chapter~\ref{chap:evaluation}. \\
+    2           & Done              & Attested in Chapter~\ref{chap:evaluation}. \\
+    3           & Done              & Attested in Chapter~\ref{chap:evaluation}. \\
+    4           & Done              & Attested in Chapter~\ref{chap:evaluation}. \\ \bottomrule
+    \end{tabular}
+    \end{table}
+
+\subsection{Supportability Requirements}
+\label{appendix:requirement:supportability}
+
+\begin{table}[H]
+    \caption{Supportability Requirements Process Report}
+    \label{tab:requirements:supportability}
+    \centering
+    \begin{tabular}{@{}lll@{}}
+    \toprule
+    \textbf{No.} & \textbf{Progress} & \textbf{Details}                                                                                                       \\ \midrule
+    1           & Done              & Via Data Decoders and Data Processors                                                                                  \\
+    2 &
+      Done &
+      \begin{tabular}[c]{@{}l@{}}Relies only on OpenID Connect, a standard,\\ if the need to change provider arrives,\\ only the configuration needs to be changed.\end{tabular} \\
+    3           & Done              & Via \textit{iot-core} and Sensae API for External Services. \\
+    4           & Done              & Via \textit{iot-core} and Sensae API for External Services. \\
+    5 &
+      Done, partially &
+      \begin{tabular}[c]{@{}l@{}}Supports Helium Console and data ingestion\\ from any IoT Middleware that supports \\ HTTP Webhooks, device commands can only \\ be sent to Helium Console.\end{tabular} \\ \bottomrule
+    \end{tabular}
+    \end{table}
+
+\subsection{Design Requirements}
+\label{appendix:requirement:design}
+
+All requirements fully addressed.
+
+\subsection{Implementation Requirements}
+\label{appendix:requirement:implementation}
+
+All requirements fully addressed, an SPA was developed.
+
+\subsection{Interface Requirements}
+\label{appendix:requirement:interface}
+
+\begin{table}[H]
+    \caption{Interface Requirements Process Report}
+    \label{tab:requirements:interface}
+    \centering
+    \begin{tabular}{@{}lll@{}}
+    \toprule
+    \textbf{No.} & \textbf{Progress} & \textbf{Details}     \\ \midrule
+    1 & Done & \begin{tabular}[c]{@{}l@{}}Done, currently using Azure Active Directory\\ and Google Identity Platform.\end{tabular} \\
+    2           & Done              & Via Device Commander. \\
+    3           & Done              & Via Data Gateway.    \\ \bottomrule
+    \end{tabular}
+    \end{table}
+
+\subsection{Physical Requirements}
+\label{appendix:requirement:physical}
+
+\begin{table}[H]
+    \caption{Physical Requirements Process Report}
+    \label{tab:requirements:physical}
+    \centering
+    \begin{tabular}{@{}lll@{}}
+    \toprule
+    \textbf{No.} & \textbf{Progress} & \textbf{Details}     \\ \midrule
+    1 & Done & Accessible at \url{https://location-tracking.sharespot.dev/}. \\
+    2           & Done              & Running in a Ubuntu Server.            \\
+    3           & Done              & Explained in Appendix~\ref{appendix:docker}. \\
+    3           & Done              & Explained in Appendix~\ref{appendix:docker}. \\ \bottomrule
+    \end{tabular}
+    \end{table}

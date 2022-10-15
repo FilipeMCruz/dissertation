@@ -13,7 +13,7 @@ interface "SMS Dispatcher\nAPI" as SMTP_ENDPOINT
 interface "Email Dispatcher\nAPI" as SMS_ENDPOINT
 interface "Message\nBroker API" as MB_API
 
-component "External Services" <<System>> {
+component "Business Applications" <<System>> {
     component "UI Aggregator" as UIAG <<Container>>
     component "Fleet Management Frontend" as LTF <<Container>>
     component "Smart Irrigation Frontend" as SIF <<Container>>

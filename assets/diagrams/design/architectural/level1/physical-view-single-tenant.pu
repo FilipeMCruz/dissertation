@@ -10,12 +10,12 @@ skinparam packageStyle rectangle
 
 node "On-Permise / Cloud Linux VM Instance" <<Device>> {
     node "Sensae Console" <<System>> as SYSTEM1
-    node "   <<External Service>>\nWaste Management" <<System>> as SYSTEM2
-    node "     <<External Service>>\nFleet Management" <<System>> as SYSTEM4
+    node "   <<Business Application>>\nWaste Management" <<System>> as SYSTEM2
+    node "     <<Business Application>>\nFleet Management" <<System>> as SYSTEM4
 }
 
 node "On-Permise / Cloud\nLinux VM Instance" <<Device>> as D {
-    node "   <<External Service>>\nSmart Parking" <<System>> as SYSTEM3
+    node "   <<Business Application>>\nSmart Parking" <<System>> as SYSTEM3
 }
 
 SYSTEM1 -- SYSTEM2 : "<<protocol>>\namqp"

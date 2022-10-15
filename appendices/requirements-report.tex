@@ -29,7 +29,7 @@ The tables presented below reference the \nameref{sec:requirements:non_functiona
     6           & Done              & Via canonical model in \textit{iot-core} package.         \\
     7 &
       Done, partially &
-      \begin{tabular}[c]{@{}l@{}}Data Store is not accessible an only stores data.\\ Implemented separately in each external service.\end{tabular} \\
+      \begin{tabular}[c]{@{}l@{}}Data Store is not accessible an only stores data.\\ Implemented separately in each business application.\end{tabular} \\
     8           & Done              & Use of HTTPs, WSS and AMQP with TLS1.3.          \\
     9 &
       Done, partially &
@@ -45,7 +45,7 @@ The tables presented below reference the \nameref{sec:requirements:non_functiona
       \begin{tabular}[c]{@{}l@{}}Via Notification Management, with support \\ for UI Notifications, SMS and Email.\end{tabular} \\
     12 &
       Done, partially &
-      \begin{tabular}[c]{@{}l@{}}Only the external services provide \\ real-time information.\end{tabular} \\ \bottomrule
+      \begin{tabular}[c]{@{}l@{}}Only the business applications provide \\ real-time information.\end{tabular} \\ \bottomrule
     \end{tabular}
     \end{table}
 
@@ -112,8 +112,8 @@ No requirements defined.
     2 &
       Done &
       \begin{tabular}[c]{@{}l@{}}Relies only on OpenID Connect, a standard,\\ if the need to change provider arrives,\\ only the configuration needs to be changed.\end{tabular} \\
-    3           & Done              & Via \textit{iot-core} and Sensae API for External Services. \\
-    4           & Done              & Via \textit{iot-core} and Sensae API for External Services. \\
+    3           & Done              & Via \textit{iot-core} and Sensae API for Business Applications. \\
+    4           & Done              & Via \textit{iot-core} and Sensae API for Business Applications. \\
     5 &
       Done, partially &
       \begin{tabular}[c]{@{}l@{}}Supports Helium Console and data ingestion\\ from any IoT Middleware that supports \\ HTTP Webhooks, device commands can only \\ be sent to Helium Console.\end{tabular} \\ \bottomrule

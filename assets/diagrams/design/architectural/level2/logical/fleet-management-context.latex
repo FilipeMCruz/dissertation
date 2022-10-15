@@ -52,8 +52,8 @@
 \node at (547.5292pt,167.5pt)[below right,color=black]{\textit{\guillemotleft System\guillemotright }};
 \node at (525pt,186.5679pt)[below right,color=black]{Sensae Console};
 \draw[pstyle1] (466pt,181.5pt) ellipse (8pt and 8pt);
-\node at (399.3652pt,198.5pt)[below right,color=black]{Sensae API for};
-\node at (399.3652pt,217.5679pt)[below right,color=black]{External Services};
+\node at (383.221pt,198.5pt)[below right,color=black]{Sensae API for};
+\node at (383.221pt,217.5679pt)[below right,color=black]{Business Applications};
 \draw[pstyle0] (328.23pt,328.5pt) ..controls (339.74pt,328.5pt) and (351.26pt,328.5pt) .. (362.77pt,328.5pt);
 \draw[pstyle0] (111.23pt,328.5pt) ..controls (122.69pt,328.5pt) and (134.16pt,328.5pt) .. (145.62pt,328.5pt);
 \draw[pstyle0] (114pt,23.43pt) ..controls (114pt,44.18pt) and (114pt,98.85pt) .. (114pt,137.85pt);

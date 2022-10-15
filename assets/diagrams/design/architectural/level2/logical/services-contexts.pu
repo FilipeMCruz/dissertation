@@ -1,6 +1,6 @@
 @startuml services-contexts
 
-component "External Services" <<System>> {
+component "Business Applications" <<System>> {
     component "Fleet Management" <<Context>> as FLEET
     component "Notification Management" <<Context>> as NOTIF
     component "Smart Irrigation" <<Context>> as IRRIG

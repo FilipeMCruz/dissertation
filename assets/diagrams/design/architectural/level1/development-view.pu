@@ -1,7 +1,0 @@
-@startuml development-view
-
-folder "iot-core"
-
-folder "sensae-console"
-
-@enduml

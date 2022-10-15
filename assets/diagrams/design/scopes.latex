@@ -2,7 +2,7 @@
 \definecolor{plantucolor0000}{RGB}{24,24,24}
 \definecolor{plantucolor0001}{RGB}{0,0,0}
 \definecolor{plantucolor0002}{RGB}{241,241,241}
-\begin{tikzpicture}[font=\Large,yscale=-1
+\begin{tikzpicture}[yscale=-1,font=\Large
 ,pstyle0/.style={color=plantucolor0000,line width=1.0pt}
 ,pstyle1/.style={color=plantucolor0000,fill=plantucolor0002,line width=0.5pt}
 ,pstyle2/.style={color=plantucolor0000,line width=0.5pt}
@@ -20,16 +20,16 @@
 \draw[pstyle1] (329.2pt,23.5pt) ellipse (8pt and 8pt);
 \draw[pstyle2] (329.2pt,31.5pt) -- (329.2pt,58.5pt)(316.2pt,39.5pt) -- (342.2pt,39.5pt)(329.2pt,58.5pt) -- (316.2pt,73.5pt)(329.2pt,58.5pt) -- (342.2pt,73.5pt);
 \node at (295pt,75pt)[below right,color=black]{Manager};
-\draw[pstyle1] (648.2421pt,14pt) ellipse (8pt and 8pt);
-\draw[pstyle2] (648.2421pt,22pt) -- (648.2421pt,49pt)(635.2421pt,30pt) -- (661.2421pt,30pt)(648.2421pt,49pt) -- (635.2421pt,64pt)(648.2421pt,49pt) -- (661.2421pt,64pt);
-\node at (583pt,65.5pt)[below right,color=black]{Costumer or};
-\node at (583pt,84.5679pt)[below right,color=black]{Anonymous User};
+\draw[pstyle1] (656.2421pt,14pt) ellipse (8pt and 8pt);
+\draw[pstyle2] (656.2421pt,22pt) -- (656.2421pt,49pt)(643.2421pt,30pt) -- (669.2421pt,30pt)(656.2421pt,49pt) -- (643.2421pt,64pt)(656.2421pt,49pt) -- (669.2421pt,64pt);
+\node at (591pt,65.5pt)[below right,color=black]{Costumer or};
+\node at (591pt,84.5679pt)[below right,color=black]{Anonymous User};
 \draw[pstyle1] (11pt,435pt) arc (180:270:5pt) -- (16pt,430pt) -- (151.5429pt,430pt) arc (270:360:5pt) -- (156.5429pt,435pt) -- (156.5429pt,460.0679pt) arc (0:90:5pt) -- (151.5429pt,465.0679pt) -- (16pt,465.0679pt) arc (90:180:5pt) -- (11pt,460.0679pt) -- cycle;
 \draw[pstyle1] (7pt,431pt) arc (180:270:5pt) -- (12pt,426pt) -- (147.5429pt,426pt) arc (270:360:5pt) -- (152.5429pt,431pt) -- (152.5429pt,456.0679pt) arc (0:90:5pt) -- (147.5429pt,461.0679pt) -- (12pt,461.0679pt) arc (90:180:5pt) -- (7pt,456.0679pt) -- cycle;
 \node at (15pt,434pt)[below right,color=black]{IoT Middlewares};
-\draw[pstyle1] (571.5pt,248.5pt) arc (180:270:5pt) -- (576.5pt,243.5pt) -- (719.7696pt,243.5pt) arc (270:360:5pt) -- (724.7696pt,248.5pt) -- (724.7696pt,296.6358pt) arc (0:90:5pt) -- (719.7696pt,301.6358pt) -- (576.5pt,301.6358pt) arc (90:180:5pt) -- (571.5pt,296.6358pt) -- cycle;
-\node at (581.5pt,253.5pt)[below right,color=black]{External Services};
-\node at (581.5pt,272.5679pt)[below right,color=black]{Scope};
+\draw[pstyle1] (563pt,248.5pt) arc (180:270:5pt) -- (568pt,243.5pt) -- (743.558pt,243.5pt) arc (270:360:5pt) -- (748.558pt,248.5pt) -- (748.558pt,296.6358pt) arc (0:90:5pt) -- (743.558pt,301.6358pt) -- (568pt,301.6358pt) arc (90:180:5pt) -- (563pt,296.6358pt) -- cycle;
+\node at (573pt,253.5pt)[below right,color=black]{Business Applications};
+\node at (573pt,272.5679pt)[below right,color=black]{Scope};
 \draw[pstyle0] (157.18pt,463.49pt) ..controls (166.42pt,465.14pt) and (175.77pt,466.55pt) .. (184.75pt,467.5pt) ..controls (248.39pt,474.24pt) and (265.38pt,476.46pt) .. (328.75pt,467.5pt) ..controls (336.07pt,466.47pt) and (343.66pt,464.9pt) .. (351.1pt,463.07pt);
 \draw[pstyle3] (356.22pt,461.76pt) -- (346.5093pt,460.1159pt) -- (351.3761pt,462.9995pt) -- (348.4925pt,467.8662pt) -- (356.22pt,461.76pt) -- cycle;
 \node at (185.75pt,449.5pt)[below right,color=black]{feeds device uplinks};
@@ -45,20 +45,20 @@
 \node at (379pt,332.5pt)[below right,color=black]{informs about};
 \node at (402.5642pt,350.206pt)[below right,color=black]{notable};
 \node at (386.3619pt,367.912pt)[below right,color=black]{occurrences};
-\draw[pstyle0] (566.75pt,302.32pt) ..controls (550.57pt,310.26pt) and (534.44pt,319.95pt) .. (521pt,331.5pt) ..controls (498.84pt,350.54pt) and (505.16pt,365.35pt) .. (485pt,386.5pt) ..controls (474.58pt,397.43pt) and (461.87pt,407.69pt) .. (449.68pt,416.47pt);
-\draw[pstyle3] (571.31pt,300.13pt) -- (561.4652pt,300.4134pt) -- (566.8013pt,302.2913pt) -- (564.9233pt,307.6274pt) -- (571.31pt,300.13pt) -- cycle;
+\draw[pstyle0] (565.03pt,303.82pt) ..controls (549.39pt,311.41pt) and (534.01pt,320.57pt) .. (521pt,331.5pt) ..controls (498.63pt,350.29pt) and (505.16pt,365.35pt) .. (485pt,386.5pt) ..controls (474.58pt,397.43pt) and (461.87pt,407.69pt) .. (449.68pt,416.47pt);
+\draw[pstyle3] (569.89pt,301.52pt) -- (560.0442pt,301.7659pt) -- (565.3731pt,303.6641pt) -- (563.4748pt,308.993pt) -- (569.89pt,301.52pt) -- cycle;
 \node at (522pt,341.5pt)[below right,color=black]{feeds sanitized data};
 \node at (555.7803pt,359.206pt)[below right,color=black]{and alerts};
-\draw[pstyle0] (663.05pt,301.67pt) ..controls (674.07pt,326.61pt) and (684.11pt,362.66pt) .. (665pt,386.5pt) ..controls (639.66pt,418.11pt) and (527.25pt,433.62pt) .. (458.8pt,440.26pt);
+\draw[pstyle0] (668.18pt,301.76pt) ..controls (676.85pt,326.76pt) and (683.95pt,362.85pt) .. (665pt,386.5pt) ..controls (639.66pt,418.11pt) and (527.25pt,433.62pt) .. (458.8pt,440.26pt);
 \draw[pstyle3] (453.54pt,440.76pt) -- (462.8766pt,443.895pt) -- (458.5178pt,440.2893pt) -- (462.1235pt,435.9305pt) -- (453.54pt,440.76pt) -- cycle;
-\node at (677.589pt,341.5pt)[below right,color=black]{dispatches};
-\node at (676pt,359.206pt)[below right,color=black]{commands};
+\node at (678.589pt,341.5pt)[below right,color=black]{dispatches};
+\node at (677pt,359.206pt)[below right,color=black]{commands};
 \draw[pstyle0] (329pt,94.12pt) ..controls (329pt,135.11pt) and (329pt,199.23pt) .. (329pt,238.12pt);
 \draw[pstyle3] (329pt,243.2pt) -- (333pt,234.2pt) -- (329pt,238.2pt) -- (325pt,234.2pt) -- (329pt,243.2pt) -- cycle;
 \node at (330pt,134.5pt)[below right,color=black]{configures};
 \node at (341.3892pt,152.206pt)[below right,color=black]{the ETL};
-\draw[pstyle0] (648pt,103.71pt) ..controls (648pt,144.59pt) and (648pt,202.17pt) .. (648pt,238.14pt);
-\draw[pstyle3] (648pt,243.28pt) -- (652pt,234.28pt) -- (648pt,238.28pt) -- (644pt,234.28pt) -- (648pt,243.28pt) -- cycle;
-\node at (649pt,134.5pt)[below right,color=black]{interacts with the};
-\node at (651.6562pt,152.206pt)[below right,color=black]{sevices available};
+\draw[pstyle0] (656pt,103.71pt) ..controls (656pt,144.59pt) and (656pt,202.17pt) .. (656pt,238.14pt);
+\draw[pstyle3] (656pt,243.28pt) -- (660pt,234.28pt) -- (656pt,238.28pt) -- (652pt,234.28pt) -- (656pt,243.28pt) -- cycle;
+\node at (657pt,134.5pt)[below right,color=black]{interacts with the};
+\node at (659.6562pt,152.206pt)[below right,color=black]{sevices available};
 \end{tikzpicture}

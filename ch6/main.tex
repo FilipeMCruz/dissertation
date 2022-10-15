@@ -18,7 +18,7 @@ Since the company and this project's solution were both in the early stages of c
 \section{Objectives}
 \label{sec:evaluation:objectives}
 
-The objective of this evaluation is to determine the throughput limits of the entire solution (\textbf{Sensae Console} and \textbf{External Services}) regarding data ingestion, within the requirements detailed in Section~\ref{sec:requirements:non_functional}.
+The objective of this evaluation is to determine the throughput limits of the entire solution (\textbf{Sensae Console} and \textbf{Business Applications}) regarding data ingestion, within the requirements detailed in Section~\ref{sec:requirements:non_functional}.
 
 Since the solution was designed to scale infinitely and handle high-levels of throughput, the performance of it in a multi-tenant instance is undermined. The evaluation should instead focus on environments where resources are more constrained.
 
@@ -42,7 +42,7 @@ The approach taken to evaluate the solution was to send increasingly higher volu
 
 Given the type of organizations that require this deployment mode, it is expected that the number of devices installed doesn't go beyond 500\footnote{500 devices in use by a single entity is expected to be a huge amount of devices for the realistic business needs of small/medium organizations}.
 
-The evaluation encompasses 4 test scenarios, one for the platform and one for each external service: (i) Sensae Console, (ii) Fleet Management, (iii) Smart Irrigation, (iv) Notification Management.
+The evaluation encompasses 4 test scenarios, one for the platform and one for each business application: (i) Sensae Console, (ii) Fleet Management, (iii) Smart Irrigation, (iv) Notification Management.
 
 The performance tests use the \citetitle{k6} tool. This tool allows one to design performance tests entirely in \textit{Javascript}. An example of the scripts developed is presented in Appendix~\ref{AppendixF}. The \citetitle{k6} tool produces various metrics that are then analyzed using \textit{R}. An example of the analysis scripts developed is presented in Appendix~\ref{AppendixG}.
 
@@ -119,7 +119,7 @@ The results of each scenario will be presented in the next sections. The results
 \subsection{Sensae Console Experience Scenario}
 \label{subsec:evaluation:experiences:platform}
 
-This scenario focus on the platform developed. It mimics an hosting option that separates the External Services from the Sensae Console. The Table~\ref{tab:evaluation:experiences:platform:results} presents the results related to the time it takes for a Data Unit to be processed and supplied to a potential external service.
+This scenario focus on the platform developed. It mimics an hosting option that separates the Business Applications from the Sensae Console. The Table~\ref{tab:evaluation:experiences:platform:results} presents the results related to the time it takes for a Data Unit to be processed and supplied to a potential business application.
 
 \begin{table}[H]
     \caption{Results for the Sensae Console Scenario (in seconds)}
@@ -139,7 +139,7 @@ This scenario focus on the platform developed. It mimics an hosting option that 
     \end{tabular}
 \end{table}
 
-These results show that, a system focused only on processing and delivering Data Units to External Services, can successfully handle 125 Data Units per second while answering the defined requirements.
+These results show that, a system focused only on processing and delivering Data Units to Business Applications, can successfully handle 125 Data Units per second while answering the defined requirements.
 
 The experience \textbf{H} had the measures supplied with a delay of 20 seconds on average. These results are far from the optimal response time defined in the requirements.
 
@@ -253,8 +253,8 @@ Looking at the architecture the five logical bottlenecks are:
     \item The \nameref{subsec:implementation:description:ingestion} that collects requests (in the \textbf{Data Relayer} Container);
     \item The process of filling the \textbf{Data Flow Scope} Caches with the information managed by the various containers in the \textbf{Configuration Scope};
     \item The \textbf{Message Broker} that routes data units through the system;
-    \item The databases in the \textbf{External Services} that store measures or notifications;
-    \item The Websocket implementation used by GraphQL to supply measures and notifications in the Backends of the \textbf{External Services}.
+    \item The databases in the \textbf{Business Applications} that store measures or notifications;
+    \item The Websocket implementation used by GraphQL to supply measures and notifications in the Backends of the \textbf{Business Applications}.
 \end{itemize}
 
 \subsection{Data Ingestion Endpoint Performance}
@@ -342,7 +342,7 @@ In the following charts, Figures~\ref{fig:evaluation:overview:cache:chart:s2eB} 
     \label{fig:evaluation:overview:cache:chart:s1eD}
 \end{figure}
 
-\subsection{External Services Database Performance}
+\subsection{Business Applications Database Performance}
 \label{subsec:evaluation:overview:servicedatabase}
 
 Another important question is whether the observed performance degradation is due to database access or not.

@@ -12,7 +12,7 @@
 \draw[pstyle0] (1134pt,69pt) rectangle (1138pt,71pt);
 \draw[pstyle0] (1134pt,73pt) rectangle (1138pt,75pt);
 \node at (545.9492pt,75pt)[below right,color=black]{\textit{\guillemotleft System\guillemotright }};
-\node at (506.2462pt,94.0679pt)[below right,color=black]{\textbf{External Services}};
+\node at (486.2672pt,94.0679pt)[below right,color=black]{\textbf{Business Applications}};
 \draw[pstyle1] (397.5pt,124pt) arc (180:270:5pt) -- (402.5pt,119pt) -- (541.1947pt,119pt) arc (270:360:5pt) -- (546.1947pt,124pt) -- (546.1947pt,182.1358pt) arc (0:90:5pt) -- (541.1947pt,187.1358pt) -- (402.5pt,187.1358pt) arc (90:180:5pt) -- (397.5pt,182.1358pt) -- cycle;
 \draw[pstyle1] (526.1947pt,124pt) rectangle (541.1947pt,134pt);
 \draw[pstyle1] (524.1947pt,126pt) rectangle (528.1947pt,128pt);

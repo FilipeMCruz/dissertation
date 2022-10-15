@@ -9,7 +9,7 @@ skinparam packageStyle rectangle
 
 () "Sensae UI" as UI
 () "Sensae Management\nAPI" as API
-() "Sensae API for\nExternal Services" as DATA_API
+() "Sensae API for\nBusiness Applications" as DATA_API
 () "IoT Middleware\nDownlink\nRest API" as OUT_ENDPOINT
 () "Sensae Console\nUplink\nRest API" as IN_ENDPOINT
 () "Identity Provider\nOpenID Connect\nAPI" as OPEN_ID

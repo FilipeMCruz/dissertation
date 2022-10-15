@@ -41,7 +41,7 @@ In the following sub sections a brief description and justification of the techn
 \subsubsection{Programming Language Used}
 \label{subsubsec:implementation:decisions:backend:prog}
 
-A package named \textit{iot-core}, an idealized \gls{SDK} for \textbf{Sensae Console}, was developed to define the information that flows inside the system and is served to External Services.
+A package named \textit{iot-core}, an idealized \gls{SDK} for \textbf{Sensae Console}, was developed to define the information that flows inside the system and is served to Business Applications.
 The \textit{iot-core} package was developed in \textit{Java}.
 
 In the future, more programming languages may be supported though new \gls{SDK}s. The \textit{Rust} programming language is the next candidate due to its low memory footprint, fast startup times and expressive syntax.
@@ -139,7 +139,7 @@ This library can render custom maps and is bundled with powerful data visualizat
 \subsection{Backend Services Expose a GraphQL API}
 \label{subsec:implementation:decisions:graphql}
 
-The \gls{API} discussed in this section refers to the interfaces exposed to the outside world by backend containers of the Configuration and External Services Scopes and isn't related to the internal communication or device data ingestion interface exposed by the \textbf{Data Relayer} Container.
+The \gls{API} discussed in this section refers to the interfaces exposed to the outside world by backend containers of the Configuration and Business Applications Scopes and isn't related to the internal communication or device data ingestion interface exposed by the \textbf{Data Relayer} Container.
 
 The two approaches considered were: (i) \citetitle{rest} and (ii) \citetitle{graphql}.
 
@@ -418,7 +418,7 @@ It runs the following steps:
 \section{Technical Description}
 \label{sec:implementation:description}
 
-This section guides the reader through \textbf{Sensae Console} and \textbf{External Services} with a technical description of the various elements that are exposed to the final costumers and platform managers.
+This section guides the reader through \textbf{Sensae Console} and \textbf{Business Applications} with a technical description of the various elements that are exposed to the final costumers and platform managers.
 
 It describes the following topics:
 
@@ -464,7 +464,7 @@ From this page, if the user has sufficient permissions, he/she can access config
 
 In this page the user can see when was the last time the device interacted with the platform, create and delete devices and edit the details of each device according to the model presented in Section\nameref{subsubsec:design:domain:bounded_contexts:device} of the \textit{Bounded Contexts}.
 
-From the home page, if the UI Aggregator was configured to fetch external services, one can access those services' pages too, as an example the \textbf{Smart Irrigation Page} is displayed in Figure~\ref{fig:implementation:description:ui:smartirrigation}.
+From the home page, if the UI Aggregator was configured to fetch business applications, one can access those services' pages too, as an example the \textbf{Smart Irrigation Page} is displayed in Figure~\ref{fig:implementation:description:ui:smartirrigation}.
 This page presents a map where the user can see, search and create irrigation zones. Device measures are updated in real time via \textit{Websocket}s. The user can also see the irrigation zone details after clicking on it. From there it's possible to open/close valves an see the history of measures of each device.
 
 \begin{figure}[H]
@@ -473,7 +473,7 @@ This page presents a map where the user can see, search and create irrigation zo
     {
        \includegraphics{assets/figures/ui/smart-irrigation.png}
     }
-    \caption[External Services - Smart Irrigation Page]{External Services - Smart Irrigation Page}
+    \caption[Business Applications - Smart Irrigation Page]{Business Applications - Smart Irrigation Page}
     \label{fig:implementation:description:ui:smartirrigation}
 \end{figure}
 
@@ -492,7 +492,7 @@ The following image, Figure~\ref{fig:implementation:description:maps:irrig} pres
     {
        \includegraphics{assets/figures/maps/custom-map.png}
     }
-    \caption[External Services - Smart Irrigation Page - Custom Map]{External Services - Smart Irrigation Page - Custom Map}
+    \caption[Business Applications - Smart Irrigation Page - Custom Map]{Business Applications - Smart Irrigation Page - Custom Map}
     \label{fig:implementation:description:maps:irrig}
 \end{figure}
 
@@ -501,7 +501,7 @@ The road trajectory mismatch present in the map could be reduced by taking pictu
 \subsection{Sensae Console Backend API}
 \label{subsec:implementation:description:api}
 
-The \textbf{Sensae Console} and \textbf{External Services} \gls{API}s are served as a \citetitle{graphql} \gls{API}, one for each configuration/service concern. These \gls{API}s are described with a schema.
+The \textbf{Sensae Console} and \textbf{Business Applications} \gls{API}s are served as a \citetitle{graphql} \gls{API}, one for each configuration/service concern. These \gls{API}s are described with a schema.
 
 As an example the Smart Irrigation \gls{API} is presented in the Code Sample~\ref{code:implementation:description:api:irrigation}.
 
@@ -732,10 +732,10 @@ const convert = dataUnit => ({
 
 As we can see, this code sample decodes an EM300-TH \textbf{Data Unit}. The function \textit{convert} is the one mentioned in the guidelines, it assigns values such as \textit{id}, \textit{name}, \textit{reported\_at}, \textit{downlink\_url}, \textit{uuid} to its correct place and calls the function \textit{decodePayload} to gather the device measures. The \textit{decodePayload} stores every measure in the \textit{controller} key - value \textit{0}. The function \textit{base64ToHex} is the function that reads a Base 64 string and transforms it into a Hex Array - to reduce bandwidth the device normally encodes and sends data as a base 64 string. The function \textit{decoder}, \textit{readInt16LE} and \textit{readUInt16LE} were adapted from the TTN decoder\footnote{\href {https://www.milesight-iot.com/lorawan/sensor/em300-th}{Milesight EM300-TH Decoder}} of this device.
 
-\subsection{Solutions - External Services}
+\subsection{Solutions - Business Applications}
 \label{subsec:implementation:description:services}
 
-This section discusses how external services interact with the Sensae \gls{API}, this was briefly mentioned in Section~\ref{subsubsec:design:domain:shared_model:routing}.
+This section discusses how business applications interact with the Sensae \gls{API}, this was briefly mentioned in Section~\ref{subsubsec:design:domain:shared_model:routing}.
 
 In order to provide an easy to understand integration with the platform, the routing keys concept was introduced. The idea, from the point of view of someone developing a service, is to start by defining what type of information that service should capture.
 
@@ -1277,11 +1277,11 @@ This test verifies that a user in the root domain can see all default domains in
 \label{subsec:implementation:tests:arch}
 
 This section presents some of the architectural tests of \textbf{Sensae Console}'s Containers. This tests are only performed in the backend containers.
-As an example it will be displayed one test for the \textbf{Configuration / External Services Scope} and another for the \textbf{Data Flow Scope}.
+As an example it will be displayed one test for the \textbf{Configuration / Business Applications Scope} and another for the \textbf{Data Flow Scope}.
 
 The tool used was ArchUnit, according to \cite{archunit}, it ``provides a variety of predefined governance rules codified as unit tests and allows architects to write specific tests that address modularity"".
 
-The Listing~\ref{code:implementation:tests:arch1} presents an example of the tests made for \textbf{Configuration / External Services Scope} backend containers.
+The Listing~\ref{code:implementation:tests:arch1} presents an example of the tests made for \textbf{Configuration / Business Applications Scope} backend containers.
 
 \begin{lstlisting}[style=Java, caption=Architectural Test - Onion Architecture - Device Management Backend, label={code:implementation:tests:arch1}]
 $$@AnalyzeClasses(packages = "pt.sensae.services")

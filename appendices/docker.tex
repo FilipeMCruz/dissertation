@@ -1,7 +1,7 @@
 \chapter{Production Deployment Details}
 \label{appendix:docker}
 
-This appendix details how \textbf{Sensae Console} and the \textbf{External Services} are currently managed in production. 
+This appendix details how \textbf{Sensae Console} and the \textbf{Business Applications} are currently managed in production. 
 
 \section{Containerization of services via Docker}
 \label{subsec:implementation:decisions:docker}
@@ -99,7 +99,7 @@ COPY --from=build /workspace/dist/apps/ui-aggregator /usr/share/nginx/html
 
 This Dockerfile contains two stages to reduce the size of the final image. The first stage, lines \textbf{1} to \textbf{6}, builds the project. The second one, containing only \citetitle{nginx} and the code that was previously built, is used to serve the UI Aggregator Frontend and route requests. The \citetitle{nginx} configuration file at line \textbf{9} is discussed in the \ref{subsec:implementation:description:nginx} Section.
 
-The second sample, Listing~\ref{code:implementation:description:docker:spring}, refers to \textbf{Fleet Management Backend} and is similar to all backend containers in the Configuration Scope or External Services.
+The second sample, Listing~\ref{code:implementation:description:docker:spring}, refers to \textbf{Fleet Management Backend} and is similar to all backend containers in the Configuration Scope or Business Applications.
 
 \begin{lstlisting}[caption=Dockerfile for Fleet Management Backend, label={code:implementation:description:docker:spring}]
 FROM maven:3.8.5-openjdk-18 AS build
@@ -163,7 +163,7 @@ This sample, once again, is also a multi-stage Dockerfile. It was adapted from t
 \section{Sensae Console Orchestration}
 \label{subsec:implementation:description:compose}
 
-As described in Section~\ref{par:design:architecture:platform:container:physical}, \citetitle{dockercompose} was the tool used to orchestrate the whole solution, the \textbf{Sensae Console} and External Services. This tool consumes a configuration file to know what containers, and their configurations, are needed. The complete configuration file for production is vast, a summarized version will be presented containing only the \textbf{Data Processor} Context' related containers.
+As described in Section~\ref{par:design:architecture:platform:container:physical}, \citetitle{dockercompose} was the tool used to orchestrate the whole solution, the \textbf{Sensae Console} and Business Applications. This tool consumes a configuration file to know what containers, and their configurations, are needed. The complete configuration file for production is vast, a summarized version will be presented containing only the \textbf{Data Processor} Context' related containers.
 
 \begin{lstlisting}[style=yaml, caption=Docker Compose Configuration File for Production, label={code:implementation:description:compose:file}]
 services:
@@ -305,7 +305,7 @@ The following conclusions can be inferred:
 \section{Sensae Console Configuration Files}
 \label{subsec:implementation:description:config}
 
-This section describes how a \textbf{Sensae Console} and External Services are configured. One of the problems that arise from a microservice architecture is how to maintain all configurations for each container developed and configured. Following the \citetitle{confcentral}, all configurations are defined via configuration files that support three environments: \textit{dev}, \textit{test} and \textit{prod}.
+This section describes how a \textbf{Sensae Console} and Business Applications are configured. One of the problems that arise from a microservice architecture is how to maintain all configurations for each container developed and configured. Following the \citetitle{confcentral}, all configurations are defined via configuration files that support three environments: \textit{dev}, \textit{test} and \textit{prod}.
 
 This configurations are defined, for each environment, in a single file. This file, Listing~\ref{code:implementation:description:config:file}, has the following structure:
 

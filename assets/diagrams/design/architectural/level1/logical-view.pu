@@ -6,16 +6,16 @@ skinparam componentStyle uml2
 skinparam packageStyle rectangle
 
 [Sensae Console] as S <<System>>
-component "External Service [ i ]" as EXTER <<System>>
+component "Business Application [ i ]" as EXTER <<System>>
 
 () "Sensae UI" as UI
 () "Sensae Management\nAPI" as API
-() "Sensae API for\nExternal Services" as DATA_API
+() "Sensae API for\nBusiness Application" as DATA_API
 () "IoT Middleware\nDownlink\nRest API" as OUT_ENDPOINT
 () "Sensae Console\nUplink\nRest API" as IN_ENDPOINT
 () "Identity Provider\nOpenID Connect\nAPI" as OPEN_ID
-() "External Services UI" as EXTER_UI
-() "External Services\nAPI" as EXTER_API
+() "Business Application UI" as EXTER_UI
+() "Business Application\nAPI" as EXTER_API
 () "SMS Dispatching\nService API" as SMS
 () "Email Dispatching\nService API" as EMAIL
 

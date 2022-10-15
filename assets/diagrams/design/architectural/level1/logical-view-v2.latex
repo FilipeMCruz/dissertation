@@ -2,7 +2,7 @@
 \definecolor{plantucolor0000}{RGB}{241,241,241}
 \definecolor{plantucolor0001}{RGB}{24,24,24}
 \definecolor{plantucolor0002}{RGB}{0,0,0}
-\begin{tikzpicture}[font=\Large,yscale=-1
+\begin{tikzpicture}[yscale=-1,font=\Large
 ,pstyle0/.style={color=plantucolor0001,fill=plantucolor0000,line width=0.5pt}
 ,pstyle1/.style={color=plantucolor0001,line width=1.0pt}
 ,pstyle2/.style={color=plantucolor0001,line width=1.5pt}
@@ -19,9 +19,8 @@
 \node at (198.2321pt,31pt)[below right,color=black]{Sensae Management};
 \node at (198.2321pt,50.0679pt)[below right,color=black]{API};
 \draw[pstyle0] (316.4351pt,159pt) ellipse (8pt and 8pt);
-\node at (249.8003pt,176pt)[below right,color=black]{Sensae API for};
-\node at (249.8003pt,195.0679pt)[below right,color=black]{External Services};
-\draw[pstyle0] (109.4351pt,323pt) ellipse (8pt and 8pt);
+\node at (233.6561pt,176pt)[below right,color=black]{Sensae API for};
+\node at (233.6561pt,195.0679pt)[below right,color=black]{Business Applications};
 \node at (48.2502pt,340pt)[below right,color=black]{IoT Middleware};
 \node at (48.2502pt,359.0679pt)[below right,color=black]{Downlink};
 \node at (48.2502pt,378.1358pt)[below right,color=black]{Rest API};
@@ -29,7 +28,6 @@
 \node at (221.3551pt,340pt)[below right,color=black]{Sensae Console};
 \node at (221.3551pt,359.0679pt)[below right,color=black]{Uplink};
 \node at (221.3551pt,378.1358pt)[below right,color=black]{Rest API};
-\draw[pstyle0] (72.4351pt,159pt) ellipse (8pt and 8pt);
 \node at (6pt,176pt)[below right,color=black]{Identity Provider};
 \node at (6pt,195.0679pt)[below right,color=black]{OpenID Connect};
 \node at (6pt,214.1358pt)[below right,color=black]{API};

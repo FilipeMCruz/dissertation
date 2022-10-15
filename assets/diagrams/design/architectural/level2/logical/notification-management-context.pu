@@ -20,7 +20,7 @@ component "Notification Management" <<System>> {
 }
 
 component "Sensae Console" <<System>> as MB
-interface "Sensae API for\nExternal Services" as MB_API
+interface "Sensae API for\nBusiness Applications" as MB_API
 
 interface "SMS Dispatcher API" as SMS
 interface "Email Dispatcher API" as EMAIL

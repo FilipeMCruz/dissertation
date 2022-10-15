@@ -57,7 +57,7 @@ Functional Requirements define the user-faced functionalities/operations that th
 
 According to \cite{van2009requirements}, ``Functional requirements define the functional effects that the software-to-be is required to have on its environment. The effects characterized by such requirements result from operations to be automated by the software. Functional requirements may also refer to environmental conditions under which operations should be applied.''
 
-The following sections describe the requirements associated with each role inside \textbf{Sensae Console}, the solution that this project aims to deliver, and the \gls{PoC}s developed, refereed as \textbf{External Services}.
+The following sections describe the requirements associated with each role inside \textbf{Sensae Console}, the solution that this project aims to deliver, and the \gls{PoC}s developed, refereed as \textbf{Business Applications}.
 
 \subsection{Roles}
 \label{subsec:requirements:functional:roles}
@@ -65,12 +65,12 @@ The following sections describe the requirements associated with each role insid
 The meetings that took place during this project's time span lead to the definition of three main roles:
 
 \begin{itemize}
-    \item \textbf{Manager}: a role with full control over the \textbf{Sensae Console} and all its data. He/She has also full control of all \textbf{External Services};
-    \item \textbf{Costumer}: a role with restricted control over \textbf{Sensae Console}, controlling only the devices, employees and departments registered under his/her own organization. He/She has access to the requested \textbf{External Services};
-    \item \textbf{Anonymous User}: a role with no account in the system. He/She has access to the publicly available \textbf{External Services} and data feed from \textit{'public'} devices in the system.
+    \item \textbf{Manager}: a role with full control over the \textbf{Sensae Console} and all its data. He/She has also full control of all \textbf{Business Applications};
+    \item \textbf{Costumer}: a role with restricted control over \textbf{Sensae Console}, controlling only the devices, employees and departments registered under his/her own organization. He/She has access to the requested \textbf{Business Applications};
+    \item \textbf{Anonymous User}: a role with no account in the system. He/She has access to the publicly available \textbf{Business Applications} and data feed from \textit{'public'} devices in the system.
 \end{itemize}
 
-Apart from the basic costumer requirements inside \textbf{Sensae Console}, each \textbf{External Service} has specific use cases that will be detailed in the section~\ref{subsubsec:requirements:functional:sensae:costumer}.
+Apart from the basic costumer requirements inside \textbf{Sensae Console}, each \textbf{Business Application} has specific use cases that will be detailed in the section~\ref{subsubsec:requirements:functional:sensae:costumer}.
 
 Essentially, the difference between these roles boils down to what permissions each has and the extent of data each one can visualize. The Section~\ref{subsubsec:design:domain:bounded_contexts:identity} details how this is handled by the solution.
 
@@ -78,15 +78,15 @@ The following sections will be divided in:
 
 \begin{itemize}
     \item Sensae Console: presenting the functional requirements associated with each role;
-    \item External Services: presenting the functional requirements associated with each business case supported.
+    \item Business Applications: presenting the functional requirements associated with each business case supported.
 \end{itemize}
 
 \subsection{Sensae Console}
 \label{subsec:requirements:functional:sensae}
 
-The idea behind Sensae Console functional requirements boils down to the core functionalities it should provide so that creating and maintaining external services is simplified.
+The idea behind Sensae Console functional requirements boils down to the core functionalities it should provide so that creating and maintaining business applications is simplified.
 
-The Anonymous User role is disregarded here since his/her goal is to simply benefit from curated and publicly available information provided by the external services.
+The Anonymous User role is disregarded here since his/her goal is to simply benefit from curated and publicly available information provided by the business applications.
 
 \subsubsection{Manager}
 \label{subsubsec:requirements:functional:sensae:manager}
@@ -126,14 +126,14 @@ The following list documents the universal functional requirements related to th
     \item A Costumer must be able to move a sensor from one department to another department under his/hers organization.
 \end{enumerate}
 
-\subsection{External Services}
+\subsection{Business Applications}
 \label{subsec:requirements:functional:services}
 
-This section describes the functional requirements associated with each external service needs from the point of view of a costumer.
+This section describes the functional requirements associated with each business application needs from the point of view of a costumer.
 
-The Anonymous User role was created to answer organization A concerns regarding the Public Health Surveillance business case. The external service should be available for the public to consult the current and past \gls{AQI} levels measured in the city without needing to create an account. Even though this business case was abandoned, the Anonymous User role was integrated in the solution.
+The Anonymous User role was created to answer organization A concerns regarding the Public Health Surveillance business case. The business application should be available for the public to consult the current and past \gls{AQI} levels measured in the city without needing to create an account. Even though this business case was abandoned, the Anonymous User role was integrated in the solution.
 
-Each supported external service has specific use cases defined below.
+Each supported business application has specific use cases defined below.
 
 \subsubsection{Fleet Management}
 \label{subsubsec:requirements:functional:services:fleet}
@@ -244,7 +244,7 @@ In the Supportability category the following requirements were identified:
 \begin{enumerate}
     \item The system must be highly configurable so that support for any type of device, specially payload decoding, can be added without the need for restarting/rebuilding it;
     \item The system must be agnostic to cloud computing platforms and be independent of any service provided by cloud computing platforms. This ensures that it can be deployed on-site or on a single cloud computing platform;
-    \item The system must provide simple methods to integrate external services that answer new business cases without the need to rebuilding it;
+    \item The system must provide simple methods to integrate business applications that answer new business cases without the need to rebuilding it;
     \item The system shall be extensible for future technologies (UNI.093);
     \item The system must attempt to be agnostic to \gls{IoT} middleware platforms, being able to exchange data with most of them without the need to restarting/rebuilding it. At least \citetitle{helium} has to be supported.
 \end{enumerate}
@@ -252,7 +252,7 @@ In the Supportability category the following requirements were identified:
 \subsection{Design Requirements}
 \label{subsec:requirements:non_functional:design}
 
-The Design Requirements identified are related to how \textbf{Sensae Console} must interact with External Systems, namely \gls{IoT} middlewares and Identity Providers. This requirements also describe what \gls{API} should be served to Costumers, Organizations and \textbf{External Services}.
+The Design Requirements identified are related to how \textbf{Sensae Console} must interact with External Systems, namely \gls{IoT} middlewares and Identity Providers. This requirements also describe what \gls{API} should be served to Costumers, Organizations and \textbf{Business Applications}.
 
 \begin{figure}[H]
     \centering
@@ -280,11 +280,11 @@ In the Interface category, the following requirements for \textbf{Sensae Console
     \item The system shall support the ingestion of uplinks from devices using, at least, the \citetitle{helium}.
 \end{enumerate}
 
-As for the \textbf{External Services}:
+As for the \textbf{Business Applications}:
 
 \begin{enumerate}
-    \item The Indoor Fire Retention related External Service shall support the dispatch of emails using \gls{SMTP};
-    \item The Indoor Fire Retention related External Service shall support the dispatch of messages using \gls{SMS}.
+    \item The Indoor Fire Retention related Business Application shall support the dispatch of emails using \gls{SMTP};
+    \item The Indoor Fire Retention related Business Application shall support the dispatch of messages using \gls{SMS}.
 \end{enumerate}
 
 \subsection{Physical Requirements}
@@ -302,7 +302,7 @@ In the Physical category, the following requirements were identified:
 \section{Synopsis}
 \label{subsec:requirements:synopsis}
 
-This chapter mentioned the functional requirements of the project defined during its lifespan. This requirements addressed the needs of the various shareholders, divided in three major roles: (i) manager, (ii) costumer and (iii) anonymous user. While the focus of the project lays in supporting common functionalities of \gls{IoT} related services within \textbf{Sensae Console}, this chapter also mentioned the \textbf{External Services} requested by third-parties, and their specific requirements.
+This chapter mentioned the functional requirements of the project defined during its lifespan. This requirements addressed the needs of the various shareholders, divided in three major roles: (i) manager, (ii) costumer and (iii) anonymous user. While the focus of the project lays in supporting common functionalities of \gls{IoT} related services within \textbf{Sensae Console}, this chapter also mentioned the \textbf{Business Applications} requested by third-parties, and their specific requirements.
 
 Although more vague, the non-functional requirements of the project were also presented using the FURPS+ model.
 

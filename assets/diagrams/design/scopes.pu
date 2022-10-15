@@ -15,7 +15,7 @@ component "Sensae Console"<<System>> {
     component "Data Flow\nScope" as DataFlow
 }
 
-component "External Services\nScope" as Service
+component "Business Applications\nScope" as Service
 
 ExternalSystem -> DataFlow : feeds device uplinks
 ExternalSystem <- DataFlow : feeds device downlinks

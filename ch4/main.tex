@@ -5,7 +5,7 @@ This chapter's goal is to describe the overall system design to the reader.
 
 The contents here presented corresponds to the final phase of the project, referenced as Phase IV in Section~\ref{sec:introduction:approach}. The conclusions and necessities gathered in each phase of the project lead to this outcome. 
 
-First, the system scopes will be introduced to present the reader a high-level picture of the system. After this, the system's architectural design will be presented and major decisions/alternatives are discussed. Then, a more detailed vision of the canonical data model (related to the \textit{Sensae API for External Services})is mentioned.
+First, the system scopes will be introduced to present the reader a high-level picture of the system. After this, the system's architectural design will be presented and major decisions/alternatives are discussed. Then, a more detailed vision of the canonical data model (related to the \textit{Sensae API for Business Applications})is mentioned.
 
 According to \cite{DIAS2022100529}, \gls{IoT} solutions, on a high-level, are commonly composed by three tiers:
 
@@ -27,7 +27,7 @@ The solution designed can be divided in three main scopes as disclosed in Figure
 
 The \textbf{Sensae Console} is composed by two scopes, \textbf{Configuration Scope} and \textbf{Data Flow Scope}. These scopes are static and always available in any installation. They answer core/common functionalities of any \gls{IoT}-based platform. \textbf{Sensae Console} is similar to the "Smart City Platform" in the proposed architecture for Smart Cities (\nameref{subsubsec:stateofart:arch:p2413}) or the "Event Processing and Analytics Layer" of \nameref{subsubsec:stateofart:arch:wso2}.
 
-The \textbf{External Services Scope} is where actual business cases concerns are tackled. This scope is dynamic, meaning that an installation can have different types of external services depending on the costumer needs. The requested \gls{PoC}s belong to this scope. This scope is analogous to the "Embedded IoT Applications" in \nameref{subsubsec:stateofart:arch:sat} or the "Application Layer" in the proposed architecture for Smart Cities (\nameref{subsubsec:stateofart:arch:p2413}).
+The \textbf{Business Applications Scope} is where actual business cases concerns are tackled. This scope is dynamic, meaning that an installation can have different types of business applications depending on the costumer needs. The requested \gls{PoC}s belong to this scope. This scope is analogous to the "Embedded IoT Applications" in \nameref{subsubsec:stateofart:arch:sat} or the "Application Layer" in the proposed architecture for Smart Cities (\nameref{subsubsec:stateofart:arch:p2413}).
 
 \begin{figure}[H]
    \centering
@@ -38,9 +38,9 @@ The \textbf{External Services Scope} is where actual business cases concerns are
 
 The \textbf{Configuration Scope} refers to the configuration and visualization of internal processes/concerns, such as: (i) data decoders, (ii) data mappers (iii) device inventory, (iv) warning rule scenarios definition and (v) device ownership - related to the \textbf{Data Flow Scope}. It is also possible to manage users' access and permissions in the \textbf{Configuration Scope}.
 
-The \textbf{Data Flow Scope} acts as a pipeline where raw data - device uplink - goes through various stages till it is sanitized and ready to be supplied to the \textbf{External Services Scope}. The \textbf{Data Flow Scope} is where internal processes occur, such as: (i) data transformation, (ii) data enrichment, (iii) data validation, (iv) data ownership clarification and (v) alert dispatching. It behaves according to what is defined in the \textbf{Configuration Scope}.
+The \textbf{Data Flow Scope} acts as a pipeline where raw data - device uplink - goes through various stages till it is sanitized and ready to be supplied to the \textbf{Business Applications Scope}. The \textbf{Data Flow Scope} is where internal processes occur, such as: (i) data transformation, (ii) data enrichment, (iii) data validation, (iv) data ownership clarification and (v) alert dispatching. It behaves according to what is defined in the \textbf{Configuration Scope}.
 
-The \textbf{External Services Scope} is comprised of services that present and act according to the sanitized data and alerts that were supplied to them. These services applicability range from (i) smart irrigation, (ii) fleet management, (iii) fire detection, (iv) physical security access monitoring, (v) air quality monitoring and anything else deemed interesting. The services currently developed are smart irrigation, fleet management and notification management. These will be addressed throughout this and the \nameref{chap:implementation} chapter.
+The \textbf{Business Applications Scope} is comprised of services that present and act according to the sanitized data and alerts that were supplied to them. These services applicability range from (i) smart irrigation, (ii) fleet management, (iii) fire detection, (iv) physical security access monitoring, (v) air quality monitoring and anything else deemed interesting. The services currently developed are smart irrigation, fleet management and notification management. These will be addressed throughout this and the \nameref{chap:implementation} chapter.
 
 \subsection{Configuration Scope}
 \label{subsec:design:system_scopes:configuration_scope}
@@ -97,10 +97,10 @@ The \textbf{Configuration Scope} requires scarce but heavy computations that alt
 
 Due to this discrepancy it's expected for each scope to have different requirements regarding horizontal scaling. With the addition of more devices to the platform, and subsequently higher ingress volume, \textbf{Data Flow Scope} will need to scale. Since the \textbf{Configuration Scope} is intended mostly for the manager of the platform, a small user pool, the need to scale is smaller.
 
-\subsection{External Services Scope}
+\subsection{Business Applications Scope}
 \label{subsec:design:system_scopes:service_scope}
 
-The \textbf{External Services Scope} is responsible for presenting \gls{IoT} business cases to end users. This scope is detached from the \textbf{Sensae Console} due to its dynamic nature. The services that belong to this scope are analogous to plugins.
+The \textbf{Business Applications Scope} is responsible for presenting \gls{IoT} business cases to end users. This scope is detached from the \textbf{Sensae Console} due to its dynamic nature. The services that belong to this scope are analogous to plugins.
 
 The scope is comprised of services that consume data and publish commands to \textbf{Data Flow Scope}. Currently, as a \gls{MVP} the implemented business cases are:
 
@@ -112,7 +112,7 @@ The scope is comprised of services that consume data and publish commands to \te
 
 Each service is bounded to what type of data receives and sends back to the \textbf{Data Flow Scope} as later detailed in the \nameref{subsec:implementation:description:services} Section. The type of data each service handles is enforces by the concepts discussed in Sections~\ref{subsec:design:domain:taxonomy} and \ref{subsec:design:domain:shared_model}.
 
-Just like plugins, services in this scope are validated and attached to the final deployment by the entity that manages that specific instance. When working in a multi-tenant instance, custom external services can't be properly verified and therefore their usage is denied.
+Just like plugins, services in this scope are validated and attached to the final deployment by the entity that manages that specific instance. When working in a multi-tenant instance, custom business applications can't be properly verified and therefore their usage is denied.
 
 \section{Architectural Design}
 \label{sec:design:architecture}
@@ -155,13 +155,13 @@ The C4 level 4, code, will not be exhibited.
 \subsection{C4 Level 1 - Context}
 \label{subsec:design:architecture:context}
 
-The context level aims at introducing the system as a whole. The external systems and users that communicate/interact with the system, \textbf{Sensae Console}, and solutions, \textbf{External Services} are demonstrated.
+The context level aims at introducing the system as a whole. The external systems and users that communicate/interact with the system, \textbf{Sensae Console}, and solutions, \textbf{Business Applications} are demonstrated.
 Throughout this section the relevant C4 views of level 1 (context level) are presented.
 
 \subsubsection{Context Level - Logical View}
 \label{subsubsec:design:architecture:context:logical}
 
-The logical view of the system is introduced here, complete but not detailed, in order to answer the use cases and requirements discussed in Chapter~\ref{chap:requirements}. This takes into account the interactions of \textbf{Sensae Console} and \textbf{External Services} with foreign systems and their interactions with the various actors of the system (Figure~\ref{fig:design:architecture:context:logical:diagram}) as required by Section~\ref{subsec:requirements:non_functional:design}.
+The logical view of the system is introduced here, complete but not detailed, in order to answer the use cases and requirements discussed in Chapter~\ref{chap:requirements}. This takes into account the interactions of \textbf{Sensae Console} and \textbf{Business Applications} with foreign systems and their interactions with the various actors of the system (Figure~\ref{fig:design:architecture:context:logical:diagram}) as required by Section~\ref{subsec:requirements:non_functional:design}.
 
 \begin{figure}[H]
    \centering
@@ -170,7 +170,7 @@ The logical view of the system is introduced here, complete but not detailed, in
    \label{fig:design:architecture:context:logical:diagram}
 \end{figure}
 
-The \textbf{External Services} are represented as an independent collection of systems that consume the \textbf{Sensae Console} \gls{API}. This \gls{API} is responsible for streaming information such as device measures, device commands, alerts and internal state asynchronously. These concept's semantics and structure are enforced by a library, \textit{iot-core}, also developed and discussed in Section~\ref{subsec:design:domain:shared_model}.
+The \textbf{Business Applications} are represented as an independent collection of systems that consume the \textbf{Sensae Console} \gls{API}. This \gls{API} is responsible for streaming information such as device measures, device commands, alerts and internal state asynchronously. These concept's semantics and structure are enforced by a library, \textit{iot-core}, also developed and discussed in Section~\ref{subsec:design:domain:shared_model}.
 
 All systems provide an \gls{API} for automated management/control and a \gls{UI} for ease of use and data visualization.
 
@@ -206,8 +206,8 @@ There are two major options when deploying a new \textbf{Sensae Console}: (i) cl
 Each deployment can be a:
 
 \begin{itemize}
-   \item Multi-Tenant Instance (Figure~\ref{fig:design:architecture:context:physical:diagram:multi}): This deployment serves various costumers and therefore, all external services are developed and validated by the company to avoid interacting with services that may abuse the system in nefarious ways. Currently, for this type of instance, the Sensae Console and the External Services run in a single instance. The external services correspond to the developed \gls{PoC}s.
-   \item Single-Tenant Instance (Figure~\ref{fig:design:architecture:context:physical:diagram:single}): This deployment serves a single costumer, therefore he/she can connect custom external services that aren't validated or developed by the company. The two custom external services serve as an example of the freedom given to the costumer to interact with the system. 
+   \item Multi-Tenant Instance (Figure~\ref{fig:design:architecture:context:physical:diagram:multi}): This deployment serves various costumers and therefore, all business applications are developed and validated by the company to avoid interacting with services that may abuse the system in nefarious ways. Currently, for this type of instance, the Sensae Console and the Business Applications run in a single instance. The business applications correspond to the developed \gls{PoC}s.
+   \item Single-Tenant Instance (Figure~\ref{fig:design:architecture:context:physical:diagram:single}): This deployment serves a single costumer, therefore he/she can connect custom business applications that aren't validated or developed by the company. The two custom business applications serve as an example of the freedom given to the costumer to interact with the system. 
 \end{itemize}
 
 The connections to external systems and interactions with users were hidden for brevity reasons. The reason for these distinct deployment options derive from the discussion in Chapter~\ref{chap:requirements}.  
@@ -218,7 +218,7 @@ The connections to external systems and interactions with users were hidden for 
 The context level introduces the reader to the bigger picture of the whole solution, but it contains little to no information about how the system functions internally.
 
 The process view was not represented since at this level the interactions between the system, actors and external systems, are too abstract to be relevant for the reader.
-The implementation view was also not represented since the \textbf{Sensae Console} and \textbf{External Services} were developed as a single project.
+The implementation view was also not represented since the \textbf{Sensae Console} and \textbf{Business Applications} were developed as a single project.
 
 The Sections~\nameref{subsec:design:architecture:platform} and \nameref{subsec:design:architecture:solutions} will dive into the internal of the \textbf{Sensae Console} and the solutions developed.
 
@@ -248,7 +248,7 @@ As seen in the diagram:
 \begin{itemize}
    \item Each concern exposes a \gls{UI} and an \gls{API}, these are aggregated in the \textbf{UI Aggregator} container that then exposes everything as a single \gls{UI} and \gls{API} for management;
    \item The Device Management concern consumes the \gls{IoT} Middleware API since it is responsible for sending downlinks to devices;
-   \item The Message Broker exposes an \gls{API}, this is the \gls{API} that the \textbf{External Services} consume to access the information that flow in \textbf{Sensae Console};
+   \item The Message Broker exposes an \gls{API}, this is the \gls{API} that the \textbf{Business Applications} consume to access the information that flow in \textbf{Sensae Console};
    \item The Identity Management concern consumes the Identity Provider's OpenID Connect API to handle User Authentication;
    \item The Message Broker is responsible for routing messages through the system and ensuring that the various containers communicate;
    \item The Data Store Backend and Data Store Database are responsible for storing data in a specific format, defined at startup via configuration;
@@ -344,7 +344,7 @@ This concern is responsible for managing rule scenarios that produce alerts base
 
 The Alert Dispatcher is responsible for publishing alerts based on the rule scenarios published by the Rule Management Backend. The Rule Management Backend ensures that the rules submitted are valid. This concern is explored in Section~\ref{subsubsec:design:domain:bounded_contexts:rule}. This data flow container does not publishes any metrics, its interactions are better described with the help of sequence diagrams available in Figures~\ref{fig:design:architecture:platform:container:process:diagram:init} and \ref{fig:design:architecture:platform:component:process:diagram:rule}.
 
-As the diagrams above presented, all communication between backend containers of both scopes is guaranteed by the Message Broker. This Message Broker exposes its \gls{API} so that External Services can consume all information and act according to it. The Section~\ref{subsec:design:architecture:solutions} explores the solutions developed.
+As the diagrams above presented, all communication between backend containers of both scopes is guaranteed by the Message Broker. This Message Broker exposes its \gls{API} so that Business Applications can consume all information and act according to it. The Section~\ref{subsec:design:architecture:solutions} explores the solutions developed.
 
 In the following section the internal communication of the system is clarified.
 
@@ -483,7 +483,7 @@ The user identity and credentials validation are assured by an external identity
    \label{fig:design:architecture:platform:container:process:diagram:authorization}
 \end{figure}
 
-In this diagram the expected behavior for any pair of frontend and backend containers in \textbf{Configuration Scope} (and \textbf{External Services}, when served from the \textbf{UI Aggregator}) is presented. Each frontend displays only the actions and information that the user permissions allow. The user permissions are once again verified in the backend to secure the system against malicious accesses. Other alternatives related to authentication and authorization are presented in  Appendix~\ref{appendix:design:alternatives:auth}.
+In this diagram the expected behavior for any pair of frontend and backend containers in \textbf{Configuration Scope} (and \textbf{Business Applications}, when served from the \textbf{UI Aggregator}) is presented. Each frontend displays only the actions and information that the user permissions allow. The user permissions are once again verified in the backend to secure the system against malicious accesses. Other alternatives related to authentication and authorization are presented in  Appendix~\ref{appendix:design:alternatives:auth}.
 
 \subsubsection{Container Level - Implementation View}
 \label{par:design:architecture:platform:container:development}
@@ -558,10 +558,10 @@ In the future, if the need arises, \textbf{Sensae Console} should be orchestrate
 
 This section presented the architecture used in the \textbf{Sensae Console} platform, how software is organized and how some internal process are executed inside this platform. The \gls{PoC}s developed are discussed in the following section.
 
-\subsection{Solutions - External Services}
+\subsection{Solutions - Business Applications}
 \label{subsec:design:architecture:solutions}
 
-This section will explore the details of each External Service developed as a \gls{PoC} from an architectural point of view.
+This section will explore the details of each Business Application developed as a \gls{PoC} from an architectural point of view.
 Some of the similarities shared between the architecture of all services are:
 
 \begin{itemize}
@@ -572,7 +572,7 @@ Some of the similarities shared between the architecture of all services are:
    \item All follow the idea behind the separation of responsibilities seen in a three layer architecture.
 \end{itemize}
 
-Even though it isn't required, the \textbf{UI Aggregator} can be configured to consume the \gls{UI} and \gls{API} belonging to each External Service. By doing so, the complete solution, \gls{UI} and \gls{API} can be presented under a single \gls{FQDN}. This view can be seen in Appendix~\ref{AppendixB}.
+Even though it isn't required, the \textbf{UI Aggregator} can be configured to consume the \gls{UI} and \gls{API} belonging to each Business Application. By doing so, the complete solution, \gls{UI} and \gls{API} can be presented under a single \gls{FQDN}. This view can be seen in Appendix~\ref{AppendixB}.
 
 For brevity reasons the C4 level 3 of the solutions will not be discussed, the architecture of most containers follows what was discussed in Appendix~\ref{appendix:design:architecture:platform:components} Section. The frontend containers behave exactly as the ones designed for the platform and most backend containers follow the same ideas behind the Configuration Backend Architecture for containers in the platform. The architectures that diverge a bit can be consulted in Appendix~\ref{AppendixC2}.
 
@@ -592,7 +592,7 @@ This service is composed by a simple three layers architecture. The details rela
 
 Next, to better understand the internal processes of this service, Figure~\ref{fig:design:architecture:container:process:diagram:fleet} presents how a user can see the current location of a device. Authentication details are omitted for brevity reasons.
 
-In order to provide live information to the user, the Fleet Management service (and all other \textbf{External Services}) relies on \textit{WebSockets}. A bidirectional channel is created between the frontend and backend so that data can be sent directly from the backend to the frontend as we can see in the step \textbf{2.5}. Fist the frontend must subscribe to new information with a valid \textit{access token} - steps \textbf{1.2} to \textbf{1.6} - then this channel is maintained till the user leaves the page. Once the user leaves the page the subscription is closed in the frontend and subsequently in the backend - steps \textbf{3.2} to \textbf{3.5}.
+In order to provide live information to the user, the Fleet Management service (and all other \textbf{Business Applications}) relies on \textit{WebSockets}. A bidirectional channel is created between the frontend and backend so that data can be sent directly from the backend to the frontend as we can see in the step \textbf{2.5}. Fist the frontend must subscribe to new information with a valid \textit{access token} - steps \textbf{1.2} to \textbf{1.6} - then this channel is maintained till the user leaves the page. Once the user leaves the page the subscription is closed in the frontend and subsequently in the backend - steps \textbf{3.2} to \textbf{3.5}.
 
 \begin{figure}[H]
    \centering
@@ -649,7 +649,7 @@ Certain types of alerts are also collected by Smart Irrigation Backend to automa
    \label{fig:design:architecture:container:process:diagram:irrigation}
 \end{figure}
 
-The alerts created in \textbf{Sensae Console} are captured by \textbf{External Services}'s containers so that they can immediately act based on those alerts.
+The alerts created in \textbf{Sensae Console} are captured by \textbf{Business Applications}'s containers so that they can immediately act based on those alerts.
 
 The Smart Irrigation Backend subscribes to three types of \textit{Sub Category} alerts, all with the same \textit{Category} - \textit{Smart Irrigation}:
 
@@ -683,14 +683,14 @@ But, to pick one of this architectures, the most important question to ask is: W
 
 \begin{itemize}
    \item Time To Market: a \gls{MVP} should be available and ready to use as soon as possible;
-   \item Extensibility of the solution: it should be easy to extend the solution with new External Services;
+   \item Extensibility of the solution: it should be easy to extend the solution with new Business Applications;
    \item Operation Cost: the solution has to be efficient to lower the infrastructure costs, tied to the system performance;
    \item System performance: the solution has to be capable of processing high volumes of data efficiently, tied to the system performance.
 \end{itemize}
 
 The first concern, Time to Market, weights heavily in favor of the Monolith approach when developing a \gls{MVP}, \cite{atlassianmono}. This approach is simpler to develop, deploy and has less cognitive overhead when compared to the other two approaches.
 
-Regarding the extensibility of the solution, a Monolith is inherently rigid and hard to extend as the business evolves. This problem is inflated by the fact that the business model envisioned relies heavily on the creation of several External Services. On the order hand the \gls{SOA} and Microservices architecture are preferred since, due to their inherently decoupled nature, they are easier to extend using the interfaces they expose - \cite{microsoftmicro}.
+Regarding the extensibility of the solution, a Monolith is inherently rigid and hard to extend as the business evolves. This problem is inflated by the fact that the business model envisioned relies heavily on the creation of several Business Applications. On the order hand the \gls{SOA} and Microservices architecture are preferred since, due to their inherently decoupled nature, they are easier to extend using the interfaces they expose - \cite{microsoftmicro}.
 
 The last two concerns are related to the scalability of the solution. A Monolithic Backend can only be scaled up by increasing the resources - RAM, CPU, GPU and Dick Capacity - of the physical server where the solution is deployed, this is commonly referred as Vertical Scaling. A \gls{SOA} or Micro Service Backend Architecture, apart from the Vertical Scaling option, can also be scaled up by increasing the number of physical servers where the solution is deployed, this is commonly referred as Horizontal Scaling.
 
@@ -721,9 +721,9 @@ The decision made was based on the following assumptions, perceptions and findin
 \begin{itemize}
    \item There are well defined boundaries between the various business processes that the project needs to support;
    \item There is a perception that the solution will need to scale early on the road due to high volumes of \gls{IoT} data to process and store;
-   \item There are a high number of completely independent external services to develop and deploy;
+   \item There are a high number of completely independent business applications to develop and deploy;
    \item There are different types of costumers with diverse requirements regarding the deployment and development of the solution;
-   \item Each costumer is interested in their specific business case or cases and therefore requires different combinations of external services.
+   \item Each costumer is interested in their specific business case or cases and therefore requires different combinations of business applications.
 \end{itemize}
 
 \gls{SOA} was discarded since: ``Although the concept of a share-as-much-as-possible architecture solves issues associated with the duplication of business functionality, it also tends to lead to tightly coupled components and increases the overall risk associated with change''. \parencite{richards2015microservices}. Microservices are more easily extended when/if needed compared with \gls{SOA} since the focus is on loose coupling services and not highly reusable services.
@@ -735,7 +735,7 @@ Despite this, the solution adopted some architecture decisions that are usually 
 
 This section tackles the need for segregating the frontend into various independent frontends - Microfrontends, \cite{microfrontends} - or to develop a single Frontend to answer the identified requirements.
 
-The non-functional requirements discussed in Section~\ref{sec:requirements:non_functional} enhance the need to develop a product that can be fully extensible and yet close for modifications, following the idea behind the \gls{OCP} (introduced by \cite{martin2003agile}). This need arises so that costumer entities can easily create new external services without the need to alter any close source code that is produced internally.
+The non-functional requirements discussed in Section~\ref{sec:requirements:non_functional} enhance the need to develop a product that can be fully extensible and yet close for modifications, following the idea behind the \gls{OCP} (introduced by \cite{martin2003agile}). This need arises so that costumer entities can easily create new business applications without the need to alter any close source code that is produced internally.
 
 The Microfrontends Architecture when applied to this project has the same oversights, assumptions and perceptions that lead to the decision taken in the \nameref{subsec:design:alternatives:backend} Section. As such, the decision was to drop the design and development of a single frontend in favor of a Microfrontends Architecture.
 
@@ -876,7 +876,7 @@ The main drawback of this approach is that the container can't keep just the nee
 The idea behind this section is to introduce core communication concepts of \textbf{Sensae Console} to the reader. To represent this ideas the \gls{UML} notation is used.
 
 This section is split into two pieces: (i) taxonomy and (ii) model.
-The various domains inside \textbf{Sensae Console} and \textbf{External Services} are discussed in Appendix~\ref{appendix:design:domain:bounded_contexts} and \ref{appendix:design:domain:services_contexts}, respectively.
+The various domains inside \textbf{Sensae Console} and \textbf{Business Applications} are discussed in Appendix~\ref{appendix:design:domain:bounded_contexts} and \ref{appendix:design:domain:services_contexts}, respectively.
 
 \subsection{Taxonomy}
 \label{subsec:design:domain:taxonomy}
@@ -901,9 +901,9 @@ In order for the reader to better understand how the system operates, some conce
 Currently the \textbf{Topic}s that flow in the system are:
 
 \begin{itemize}
-   \item \textbf{Data}: This topic references the \textbf{Data Unit} concept and is intended to be processed by the \textbf{Data Flow Scope} and consumed by the \textbf{External Services};
-   \item \textbf{Command}: This topic references the \textbf{Device Command} concept and is intended to be used mainly by the \textbf{External Services};
-   \item \textbf{Alert}: This topic references the \textbf{Alert} concept and is intended to be consumed mainly by the \textbf{External Services};
+   \item \textbf{Data}: This topic references the \textbf{Data Unit} concept and is intended to be processed by the \textbf{Data Flow Scope} and consumed by the \textbf{Business Applications};
+   \item \textbf{Command}: This topic references the \textbf{Device Command} concept and is intended to be used mainly by the \textbf{Business Applications};
+   \item \textbf{Alert}: This topic references the \textbf{Alert} concept and is intended to be consumed mainly by the \textbf{Business Applications};
    \item \textbf{Internal}: This topic references the internal state maintained in the \textbf{Configuration Scope} and \textbf{Data Flow Scope}.
 \end{itemize}
 
@@ -912,9 +912,9 @@ This concepts are referenced across the document.
 \subsection{Model}
 \label{subsec:design:domain:shared_model}
 
-The canonical model is comprised of concepts that transverse the entire \textbf{Sensae Console} business model, and by extension any \textbf{External Service}. Therefore, it is built as a library, \textit{iot-core}, that can be used by entities that rely on the exchange of information with/inside \textbf{Sensae Console}. It can be seen as a domain that focus on defining the protocol of exchange of information between the various entities of the system.
+The canonical model is comprised of concepts that transverse the entire \textbf{Sensae Console} business model, and by extension any \textbf{Business Application}. Therefore, it is built as a library, \textit{iot-core}, that can be used by entities that rely on the exchange of information with/inside \textbf{Sensae Console}. It can be seen as a domain that focus on defining the protocol of exchange of information between the various entities of the system.
 
-The intent behind this Shared Model is to alleviate one of the issues related to distributed systems - heterogeneity in data formats \parencite{nadiminti2006distributed} - and to provide a simple \gls{SDK} for third-parties to develop new external services that interact with \textbf{Sensae Console}. It can be seen as an explicit schema. According to \cite{explicitsharedmodel}, ``any implementation of event-based communication between a producer and consumer that lacks an explicit predefined schema will inevitably end up relying on an implicit schema. Implicit data contracts are brittle and susceptible to uncontrolled change, which can cause much undue hardship to downstream consumers.''
+The intent behind this Shared Model is to alleviate one of the issues related to distributed systems - heterogeneity in data formats \parencite{nadiminti2006distributed} - and to provide a simple \gls{SDK} for third-parties to develop new business applications that interact with \textbf{Sensae Console}. It can be seen as an explicit schema. According to \cite{explicitsharedmodel}, ``any implementation of event-based communication between a producer and consumer that lacks an explicit predefined schema will inevitably end up relying on an implicit schema. Implicit data contracts are brittle and susceptible to uncontrolled change, which can cause much undue hardship to downstream consumers.''
 
 According to \cite{integration}, ``while we have historically drawn up our project plans and costs around the boxes — the digital products we are introducing — the lines are the hidden and often primary driver of organizational tech debt. They are the reason that things just take longer now than they used to.'' The \textit{'lines'} in this solution are a first class citizen and, instead of just linking the system together, they act as the pillars that shape the entire ecosystem.
 
@@ -1121,7 +1121,7 @@ The routing key \textit{OperationType} from the \textbf{Internal} topic can have
 
 The \textit{ContextType}, used to identity what piece of the state is referenced, can currently have the following values: (i) \textit{Data Processor}, (ii) \textit{Data Decoder}, (iii) \textit{Device Information}, (iv) \textit{Device Identity}, (v) \textit{Tenant Identity}, (vi) \textit{Addressee Configuration} and (vii) \textit{Rule Management}.
 
-Routing keys help to strengthen the boundaries that a container is expected to have. As an example, an external service related to Waste Management would subscribe to the \textit{Data Topic} with the following \textit{Routing Keys}:
+Routing keys help to strengthen the boundaries that a container is expected to have. As an example, an business application related to Waste Management would subscribe to the \textit{Data Topic} with the following \textit{Routing Keys}:
 
 \begin{itemize}
    \item \textit{Info Type Options}: PROCESSED;
@@ -1216,4 +1216,4 @@ As expected, the structure and semantics of the information subscribed to are kn
 \section{Synopsis}
 \label{sec:design:synopsis}
 
-This chapter presented the design of the platform, \textbf{Sensae Console}, and the solutions, \textbf{External Services}. Topics such as the domain, the architectural design and alternatives have been discussed here. To complement the description of the system, the next chapter introduces how, following the design proposed, this whole solution was implemented.
+This chapter presented the design of the platform, \textbf{Sensae Console}, and the solutions, \textbf{Business Applications}. Topics such as the domain, the architectural design and alternatives have been discussed here. To complement the description of the system, the next chapter introduces how, following the design proposed, this whole solution was implemented.

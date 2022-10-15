@@ -108,7 +108,7 @@ As for the framework/library used, the following table, Table~\ref{tab:implement
     \end{tabular}
 \end{table}
 
-Both tools have a wide support from the community and excellent documentation. For the author, Angular outclasses React in this project since it enforces the use of good design principles via the first and second entry described in Table~\ref{tab:implementation:decisions:frontend:prog}.
+Both tools presented in Table~\ref{tab:implementation:decisions:frontend:prog} have a wide support from the community and excellent documentation. For the author, Angular outclasses React in this project since it enforces the use of good design principles via the first and second entry described in Table~\ref{tab:implementation:decisions:frontend:prog}.
 
 \subsubsection{Technologies used to create a Micro Frontend Architecture}
 \label{subsubsec:implementation:decisions:frontend:micro}
@@ -324,7 +324,7 @@ jobs:
           MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
 \end{lstlisting}
 
-As we can see in lines \textbf{2} to \textbf{6}, this action is triggered every time a new git tag is pushed to the repository.
+Looking at Listing~\ref{code:implementation:decisions:actions:iotcore}, in lines \textbf{2} to \textbf{6}, one can see that action is triggered every time a new git tag is pushed to the repository.
 This action then proceeds to download and setup java and maven - lines \textbf{12} to \textbf{20}. Finally it runs a maven command to deploy the new version to the artifact repository - lines \textbf{21} to \textbf{26}.
 
 The \textbf{Sensae Console} has an action to deal with Continuous Integration - Code Sample~\ref{code:implementation:decisions:actions:cisensae}, where changes made to the software are tested.
@@ -356,7 +356,7 @@ jobs:
 
 \end{lstlisting}
 
-As we can see in lines \textbf{2} to \textbf{6}, this action is triggered every time a new commit is push to the \textit{dev} and \textit{master} branches.
+Looking at Listing~\ref{code:implementation:decisions:actions:cisensae}, in lines \textbf{2} to \textbf{6}, one can see that the action is triggered every time a new commit is push to the \textit{dev} and \textit{master} branches.
 This action then proceeds to download and setup java and maven - lines \textbf{10} to \textbf{16}, and then node and npm - lines \textbf{17} to \textbf{20}. Finally it runs a script that tests the solution - line \textbf{23}. The script requires the displayed secrets to run some tests that will be discussed in the \nameref{sec:implementation:testing} Section.
 
 The mentioned script has the following structure - Code Sample~\ref{code:implementation:decisions:actions:testscript}.
@@ -400,7 +400,7 @@ npm run e2e-all
 docker-compose -f ../docker-compose.test.yml down
 \end{lstlisting}
 
-This script first intent is to defined a basic environment where tests can be run.
+The script in Listing~\ref{code:implementation:decisions:actions:testscript} first intent is to defined a basic environment where tests can be run.
 The flag \textit{set -eo pipefail} ensures that if any command fails the script will terminate and exit with an error.
 It runs the following steps:
 
@@ -450,7 +450,7 @@ The Figure~\ref{fig:implementation:description:ui:home} represents the main layo
     \label{fig:implementation:description:ui:home}
 \end{figure}
 
-From this page, if the user has sufficient permissions, he/she can access configuration pages, as an example the \textbf{Device Management Page} is displayed in Figure~\ref{fig:implementation:description:ui:device}.
+From the page displayed in Figure~\ref{fig:implementation:description:ui:home}, if the user has sufficient permissions, he/she can access configuration pages, as an example the \textbf{Device Management Page} is displayed in Figure~\ref{fig:implementation:description:ui:device}.
 
 \begin{figure}[H]
     \centering
@@ -462,9 +462,9 @@ From this page, if the user has sufficient permissions, he/she can access config
     \label{fig:implementation:description:ui:device}
 \end{figure}
 
-In this page the user can see when was the last time the device interacted with the platform, create and delete devices and edit the details of each device according to the model presented in Section\nameref{subsubsec:design:domain:bounded_contexts:device} of the \textit{Bounded Contexts}.
+From the page displayed in Figure~\ref{fig:implementation:description:ui:device} the user can see when was the last time the device interacted with the platform, create and delete devices and edit the details of each device according to the model presented in Section~\nameref{subsubsec:design:domain:bounded_contexts:device} of \nameref{appendix:design:domain:bounded_contexts} Appendix.
 
-From the home page, if the UI Aggregator was configured to fetch business applications, one can access those services' pages too, as an example the \textbf{Smart Irrigation Page} is displayed in Figure~\ref{fig:implementation:description:ui:smartirrigation}.
+From the home page (Figure~\ref{fig:implementation:description:ui:home}), if the UI Aggregator was configured to fetch business applications, one can access those applications' pages too, as an example the \textbf{Smart Irrigation Page} is displayed in Figure~\ref{fig:implementation:description:ui:smartirrigation}.
 This page presents a map where the user can see, search and create irrigation zones. Device measures are updated in real time via \textit{Websocket}s. The user can also see the irrigation zone details after clicking on it. From there it's possible to open/close valves an see the history of measures of each device.
 
 \begin{figure}[H]
@@ -496,7 +496,7 @@ The following image, Figure~\ref{fig:implementation:description:maps:irrig} pres
     \label{fig:implementation:description:maps:irrig}
 \end{figure}
 
-The road trajectory mismatch present in the map could be reduced by taking pictures from more angles. \citetitle{arcgis} would create a better model with a wider pool of information.
+The road trajectory mismatch presented in the map (Figure~\ref{fig:implementation:description:maps:irrig}) could be reduced by taking pictures from more angles. \citetitle{arcgis} would create a better model with a wider pool of information.
 
 \subsection{Sensae Console Backend API}
 \label{subsec:implementation:description:api}
@@ -524,7 +524,7 @@ type Mutation {
 }
 \end{lstlisting}
 
-From the observation of the code sample one can see that:
+From the observation of Listing~\ref{code:implementation:description:api:irrigation} one can see that:
 
 \begin{itemize}
     \item The \textit{data} function serves new \textit{SensorData} in real-time according to the filters provided in the \textit{filters} parameter;
@@ -569,7 +569,7 @@ The rule engine, is tailored to managers or developers and not for final clients
 
 To clarify the guidelines the following Code Samples~\ref{code:implementation:description:rule:sample1}, ~\ref{code:implementation:description:rule:sample2} and \ref{code:implementation:description:rule:sample3} are presented.
 
-The first Code Sample presents the beginning of the rule scenario, where imports and new Facts are created.
+The first Code Sample (Listing~\ref{code:implementation:description:rule:sample1}) presents the beginning of the rule scenario, where imports and new Facts are created.
 
 \begin{lstlisting}[style=drools, caption=Rule Scenario Example - Part 1, label={code:implementation:description:rule:sample1}]
 package rules.project.two;
@@ -589,10 +589,10 @@ declare StoveSensorData
 end
 \end{lstlisting}
 
-As we can see, at line \textbf{3} the interface that defines how an alert can be sent is imported for later use.
+As we can seein Listing~\ref{code:implementation:description:rule:sample1}, at line \textbf{3} the interface that defines how an alert can be sent is imported for later use.
 From line \textbf{5} to \textbf{15} two facts are declared, this can later be used as simple \textit{Java} POJOs. A fact defined with the \textit{event} role means that it occurred at a specific time (upon creation) and can be used for \gls{CEP}.
 
-The following code sample presents a simple rule to store \textit{StoveSensorData} facts in the working memory of \citetitle{drools}.
+The following code sample (Listing~\ref{code:implementation:description:rule:sample2}) presents a simple rule to store \textit{StoveSensorData} facts in the working memory of \citetitle{drools}.
 
 \begin{lstlisting}[style=drools, caption=Rule Scenario Example - Part 2, label={code:implementation:description:rule:sample2}]
 rule "Collect stove sensor data that belongs to Project #002"
@@ -617,7 +617,7 @@ rule "Collect stove sensor data that belongs to Project #002"
 end
 \end{lstlisting}
 
-As we can see this rule is composed by two sections, the \textit{when} and \textit{then} sections. In the \textit{when} the following conditions are defined:
+As we can see the rule inListing~\ref{code:implementation:description:rule:sample2} is composed by two sections, the \textit{when} and \textit{then} sections. In the \textit{when} the following conditions are defined:
 
 \begin{itemize}
     \item The captured DataUnitDTO has AIR HUMIDITY RELATIVE PERCENTAGE and TEMPERATURE measures - lines \textbf{3} to \textbf{8};
@@ -627,7 +627,7 @@ As we can see this rule is composed by two sections, the \textit{when} and \text
 
 Once this conditions are meet a \textit{StoveSensorData} is created with all the needed information and then inserted into the working memory - lines \textbf{14} to \textbf{19}.
 
-The following code sample presents a simple rule to dispatch an \textbf{Alert} after some conditions are meet.
+The following code sample (Listing~\ref{code:implementation:description:rule:sample3}) presents a simple rule to dispatch an \textbf{Alert} after some conditions are meet.
 
 \begin{lstlisting}[style=drools, caption=Rule Scenario Example - Part 3, label={code:implementation:description:rule:sample3}]
 rule "Dispatch Stove Alarm - Dry Soil Scenario - Project #002"
@@ -652,7 +652,7 @@ rule "Dispatch Stove Alarm - Dry Soil Scenario - Project #002"
 end
 \end{lstlisting}
 
-As we can see this rule matches when the same device reports measures of air humidity higher than 50\% and temperature lower than 26 Celsius degrees for more than 11 minutes.
+As we can see the rule in Listing~\ref{code:implementation:description:rule:sample3} matches when the same device reports measures of air humidity higher than 50\% and temperature lower than 26 Celsius degrees for more than 11 minutes.
 
 Once the rule is matched, an Alert is dispatched using the referenced dispatcher in Code Sample~\ref{code:implementation:description:rule:sample1}. The Alert can be created using the builder pattern.
 
@@ -730,7 +730,7 @@ const convert = dataUnit => ({
 });
 \end{lstlisting}
 
-As we can see, this code sample decodes an EM300-TH \textbf{Data Unit}. The function \textit{convert} is the one mentioned in the guidelines, it assigns values such as \textit{id}, \textit{name}, \textit{reported\_at}, \textit{downlink\_url}, \textit{uuid} to its correct place and calls the function \textit{decodePayload} to gather the device measures. The \textit{decodePayload} stores every measure in the \textit{controller} key - value \textit{0}. The function \textit{base64ToHex} is the function that reads a Base 64 string and transforms it into a Hex Array - to reduce bandwidth the device normally encodes and sends data as a base 64 string. The function \textit{decoder}, \textit{readInt16LE} and \textit{readUInt16LE} were adapted from the TTN decoder\footnote{\href {https://www.milesight-iot.com/lorawan/sensor/em300-th}{Milesight EM300-TH Decoder}} of this device.
+As we can see, the code sample in Listing~\ref{code:implementation:description:decoder:em300th} decodes an EM300-TH \textbf{Data Unit}. The function \textit{convert} is the one mentioned in the guidelines, it assigns values such as \textit{id}, \textit{name}, \textit{reported\_at}, \textit{downlink\_url}, \textit{uuid} to its correct place and calls the function \textit{decodePayload} to gather the device measures. The \textit{decodePayload} stores every measure in the \textit{controller} key - value \textit{0}. The function \textit{base64ToHex} is the function that reads a Base 64 string and transforms it into a Hex Array - to reduce bandwidth the device normally encodes and sends data as a base 64 string. The function \textit{decoder}, \textit{readInt16LE} and \textit{readUInt16LE} were adapted from the TTN decoder\footnote{\href {https://www.milesight-iot.com/lorawan/sensor/em300-th}{Milesight EM300-TH Decoder}} of this device.
 
 \subsection{Solutions - Business Applications}
 \label{subsec:implementation:description:services}
@@ -989,7 +989,7 @@ class DeviceInformationEmitterTest {
 }
 \end{lstlisting}
 
-In this example a \textit{RabbitMQ} instance, the only system that this container depends on, is started by the \citetitle{testcontainers} library before running the tests and shuted down once they end.
+In Listing~\ref{code:implementation:tests:inte1}, a \textit{RabbitMQ} instance, the only system that this container depends on, is started by the \citetitle{testcontainers} library before running the tests and shuted down once they end.
 
 The class tested is \textit{DeviceInformationEmitter}, line \textbf{5}. As we can see, a message is sent in line \textbf{26} and, as expected it is received in line \textbf{28}.
 
@@ -1011,7 +1011,7 @@ public class NotificationRepositoryImplTest extends IntegrationTest {
 }
 \end{lstlisting}
 
-This test verifies that the \textit{NotificationRepositoryImpl} can reach the database by ensuring that no exception is thrown when executing a query to it. This class extends \textit{IntegrationTest}, the behavior of it is similar to the \textit{IntegrationTest} class discussed in the next section.
+This test (Listing~\ref{code:implementation:tests:inte1}) verifies that the \textit{NotificationRepositoryImpl} can reach the database by ensuring that no exception is thrown when executing a query to it. This class extends \textit{IntegrationTest}, the behavior of it is similar to the \textit{IntegrationTest} class discussed in the next section.
 
 \subsection{Functional Tests}
 \label{subsec:implementation:tests:functional}
@@ -1043,7 +1043,7 @@ public class DatabaseContainerTest extends PostgreSQLContainer<DatabaseContainer
 }
 \end{lstlisting}
 
-The \textit{DatabaseContainerTest} follows the Singleton Pattern to ensure that all tests use the same instance. In line \textbf{8} we can see that the base image is \citetitle{postgressql}, but the image actually used is \textit{data-decoder-database}. This image is \citetitle{postgressql} with the data decoder schema and built in line \textbf{11} of the script referenced in Listing~\ref{code:implementation:decisions:actions:testscript}. The same notion is applied for the Message Broker Container. Theses two containers are the ones that \textbf{Data Decoder Backend} depends on.
+The \textit{DatabaseContainerTest} in Listing~\ref{code:implementation:tests:func1} follows the Singleton Pattern to ensure that all tests use the same instance. In line \textbf{8} we can see that the base image is \citetitle{postgressql}, but the image actually used is \textit{data-decoder-database}. This image is \citetitle{postgressql} with the data decoder schema and built in line \textbf{11} of the script referenced in Listing~\ref{code:implementation:decisions:actions:testscript}. The same notion is applied for the Message Broker Container. Theses two containers are the ones that \textbf{Data Decoder Backend} depends on.
 
 The Listing~\ref{code:implementation:tests:func2} presents the foundation of functional and integration tests.
 
@@ -1090,7 +1090,7 @@ public abstract class IntegrationTest {
 }
 \end{lstlisting}
 
-The application environment properties are loaded in line \textbf{10} to \textbf{18} according to the containers used. The \textit{@SpringBootTest} annotation indicates that the full application has to be started, the \textit{@TestContainers} and \textit{@Container} annotations indicate that docker containers are to be used, and the \textit{@ActiveProfiles} annotation changes the profile in use so that specific beans are not loaded.
+As presented in Listing~\ref{code:implementation:tests:func2}, the application environment properties are loaded in line \textbf{10} to \textbf{18} according to the containers used. The \textit{@SpringBootTest} annotation indicates that the full application has to be started, the \textit{@TestContainers} and \textit{@Container} annotations indicate that docker containers are to be used, and the \textit{@ActiveProfiles} annotation changes the profile in use so that specific beans are not loaded.
 
 The following sample, Listing~\ref{code:implementation:tests:func3}, presents a functional test related to the database.
 
@@ -1120,7 +1120,7 @@ public class DataDecodersRepositoryImplTest extends IntegrationTest {
 }
 \end{lstlisting}
 
-As we can see this test extends the foundation described before. In line \textbf{4} the service to be tested, \textit{DataDecodersRepositoryImpl}, is loaded. In the test presented a new Data Decoder is stored directly in the database and then the repository service attempts to fetch it. A database clean up is preformed after each test as described in lines \textbf{6} to \textbf{9}.
+As we can see in Listing~\ref{code:implementation:tests:func3}, the test extends the foundation described before. In line \textbf{4} the service to be tested, \textit{DataDecodersRepositoryImpl}, is loaded. In the test presented a new Data Decoder is stored directly in the database and then the repository service attempts to fetch it. A database clean up is preformed after each test as described in lines \textbf{6} to \textbf{9}.
 
 The test presented in Listing~\ref{code:implementation:tests:func4}, verifies the correct interaction with the message broker container.
 
@@ -1174,10 +1174,10 @@ public class DataDecoderInfoEmitterTest extends IntegrationTest {
 }
 \end{lstlisting}
 
-In this test the class to verify is the \textit{DataDecoderHandlerService}. Once again this test extends the \textit{IntegrationTest} class. Using \textit{RabbitAdmin}, its created a queue that subscribes to the expected type of routing keys in lines \textbf{18} to \textbf{29} and then binded to the expected topic - \textit{INTERNAL\_TOPIC}.
+In this test (Listing~\ref{code:implementation:tests:func4}) the class to verify is the \textit{DataDecoderHandlerService}. Once again this test extends the \textit{IntegrationTest} class. Using \textit{RabbitAdmin}, its created a queue that subscribes to the expected type of routing keys in lines \textbf{18} to \textbf{29} and then binded to the expected topic - \textit{INTERNAL\_TOPIC}.
 An update is published in line \textbf{35} using the \textit{DataDecoderHandlerService} and then captured with \textit{RabbitTemplate} in line \textbf{38}.
 
-The \textbf{Data Gateway} Container was tested against different post requests to its data retention endpoint, an example of this tests is described in Listing~\ref{code:implementation:tests:func5}.
+The \textbf{Data Gateway} Container was tested against different POST requests to its data retention endpoint, an example of this tests is described in Listing~\ref{code:implementation:tests:func5}.
 
 \begin{lstlisting}[style=Java, caption=Functional Test - Rest Client Interaction - Data Gateway, label={code:implementation:tests:func5}]
 $$@QuarkusTest
@@ -1198,7 +1198,7 @@ class DataControllerTest {
 }
 \end{lstlisting}
 
-This test simply attempts to send an HTTP POST request to an invalid resource - line \textbf{11}.
+The test in Listing~\ref{code:implementation:tests:func5} simply attempts to send an HTTP POST request to an invalid resource - line \textbf{11}.
 
 \subsection{End-to-End Tests}
 \label{subsec:implementation:tests:endtoend}
@@ -1238,7 +1238,7 @@ Cypress.Commands.add('goToIdentityPage', () => {
 });
 \end{lstlisting}
 
-As an example, the \textit{anonymous} command searches for something with the text \textit{Login}, and clicks on it.
+As an example, the \textit{anonymous} command in Listing~\ref{code:implementation:tests:e2e2} searches for something with the text \textit{Login}, and clicks on it.
 
 The Listing~\ref{code:implementation:tests:e2e1} presents a test that ensures anyone can enter the system as an anonymous user.
 
@@ -1253,7 +1253,7 @@ describe('ui-aggregator', () => {
 });
 \end{lstlisting}
 
-The test verifies that a successful login notification is received in line \textbf{5}. Both of the commands previously described are used in this test.
+The test in Listing~\ref{code:implementation:tests:e2e1} verifies that a successful login notification is received in line \textbf{5}. Both of the commands previously described are used in this test.
 
 The Listing~\ref{code:implementation:tests:e2e3} presents a test that walks though the \textbf{Identity Management Page} verifying that an authenticated manager can see every available domain.
 
@@ -1271,7 +1271,7 @@ describe('ui-aggregator', () => {
 });
 \end{lstlisting}
 
-This test verifies that a user in the root domain can see all default domains in the \textbf{Identity Management Page}, as described in \nameref{subsubsec:design:domain:bounded_contexts:identity} Concern  (Appendix~\ref{appendix:design:domain:bounded_contexts}).
+The test in Listing~\ref{code:implementation:tests:e2e3} verifies that a user in the root domain can see all default domains in the \textbf{Identity Management Page}, as described in \nameref{subsubsec:design:domain:bounded_contexts:identity} Concern  (Appendix~\ref{appendix:design:domain:bounded_contexts}).
 
 \subsection{Architectural Tests}
 \label{subsec:implementation:tests:arch}
@@ -1309,7 +1309,7 @@ public class ApplicationArchitectureTest {
 }
 \end{lstlisting}
 
-The test \textit{architecture} at lines \textbf{3} to \textbf{12} ensures that the onion architecture is followed. The test \textit{domainMustNotDependOnFrameworks} at lines \textbf{14} to \textbf{23} ensures that the domain and domain services components are free of dependencies.
+The test \textit{architecture} in Listing~\ref{code:implementation:tests:arch1}, at lines \textbf{3} to \textbf{12} ensures that the onion architecture is followed. The test \textit{domainMustNotDependOnFrameworks} at lines \textbf{14} to \textbf{23} ensures that the domain and domain services components are free of dependencies.
 
 The Listing~\ref{code:implementation:tests:arch2} presents an example of the tests made for \textbf{Data Flow Scope}.
 
@@ -1345,7 +1345,7 @@ public class ArchitecturalTest {
 }
 \end{lstlisting}
 
-The test \textit{architecture} at lines \textbf{4} to \textbf{12} ensures that, such as the previous test, the onion architecture is followed. The difference between the two is that this one allows empty components - line \textbf{12}, since the \textbf{Data Flow Scope} containers have no domain services. The test \textit{domainMustNotDependOnFrameworks} at lines \textbf{14} to \textbf{26} ensures that the domain component are free of dependencies.
+The test \textit{architecture} in Listing~\ref{code:implementation:tests:arch2}, at lines \textbf{4} to \textbf{12} ensures that, such as the previous test, the onion architecture is followed. The difference between the two is that this one allows empty components - line \textbf{12}, since the \textbf{Data Flow Scope} containers have no domain services. The test \textit{domainMustNotDependOnFrameworks} at lines \textbf{14} to \textbf{26} ensures that the domain component are free of dependencies.
 
 \section{Synopsis}
 \label{sec:implementation:synopsis}

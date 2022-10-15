@@ -36,11 +36,11 @@ The \textbf{Business Applications Scope} is where actual business cases concerns
    \label{fig:design:system_scopes:scopes}
 \end{figure}
 
-The \textbf{Configuration Scope} refers to the configuration and visualization of internal processes/concerns, such as: (i) data decoders, (ii) data mappers (iii) device inventory, (iv) warning rule scenarios definition and (v) device ownership - related to the \textbf{Data Flow Scope}. It is also possible to manage users' access and permissions in the \textbf{Configuration Scope}.
+The \textbf{Configuration Scope} in Figure~\ref{fig:design:system_scopes:scopes} refers to the configuration and visualization of internal processes/concerns, such as: (i) data decoders, (ii) data mappers (iii) device inventory, (iv) warning rule scenarios definition and (v) device ownership - related to the \textbf{Data Flow Scope}. It is also possible to manage users' access and permissions in the \textbf{Configuration Scope}.
 
-The \textbf{Data Flow Scope} acts as a pipeline where raw data - device uplink - goes through various stages till it is sanitized and ready to be supplied to the \textbf{Business Applications Scope}. The \textbf{Data Flow Scope} is where internal processes occur, such as: (i) data transformation, (ii) data enrichment, (iii) data validation, (iv) data ownership clarification and (v) alert dispatching. It behaves according to what is defined in the \textbf{Configuration Scope}.
+The \textbf{Data Flow Scope} in Figure~\ref{fig:design:system_scopes:scopes} acts as a pipeline where raw data - device uplink - goes through various stages till it is sanitized and ready to be supplied to the \textbf{Business Applications Scope}. The \textbf{Data Flow Scope} is where internal processes occur, such as: (i) data transformation, (ii) data enrichment, (iii) data validation, (iv) data ownership clarification and (v) alert dispatching. It behaves according to what is defined in the \textbf{Configuration Scope}.
 
-The \textbf{Business Applications Scope} is comprised of services that present and act according to the sanitized data and alerts that were supplied to them. These services applicability range from (i) smart irrigation, (ii) fleet management, (iii) fire detection, (iv) physical security access monitoring, (v) air quality monitoring and anything else deemed interesting. The services currently developed are smart irrigation, fleet management and notification management. These will be addressed throughout this and the \nameref{chap:implementation} chapter.
+The \textbf{Business Applications Scope} in Figure~\ref{fig:design:system_scopes:scopes} is comprised of services that present and act according to the sanitized data and alerts that were supplied to them. These services applicability range from (i) smart irrigation, (ii) fleet management, (iii) fire detection, (iv) physical security access monitoring, (v) air quality monitoring and anything else deemed interesting. The services currently developed are smart irrigation, fleet management and notification management. These will be addressed throughout this and the \nameref{chap:implementation} chapter.
 
 \subsection{Configuration Scope}
 \label{subsec:design:system_scopes:configuration_scope}
@@ -170,7 +170,7 @@ The logical view of the system is introduced here, complete but not detailed, in
    \label{fig:design:architecture:context:logical:diagram}
 \end{figure}
 
-The \textbf{Business Applications} are represented as an independent collection of systems that consume the \textbf{Sensae Console} \gls{API}. This \gls{API} is responsible for streaming information such as device measures, device commands, alerts and internal state asynchronously. These concept's semantics and structure are enforced by a library, \textit{iot-core}, also developed and discussed in Section~\ref{subsec:design:domain:shared_model}.
+The \textbf{Business Applications} in Figure~\ref{fig:design:architecture:context:logical:diagram} are represented as an independent collection of systems that consume the \textbf{Sensae Console} \gls{API}. This \gls{API} is responsible for streaming information such as device measures, device commands, alerts and internal state asynchronously. These concept's semantics and structure are enforced by a library, \textit{iot-core}, also developed and discussed in Section~\ref{subsec:design:domain:shared_model}.
 
 All systems provide an \gls{API} for automated management/control and a \gls{UI} for ease of use and data visualization.
 
@@ -263,7 +263,7 @@ As seen in the diagram:
       \label{fig:design:architecture:platform:containers:logical:complete}
 \end{sidewaysfigure}
 
-Each concern is composed by containers that belong to the \textbf{Configuration} and \textbf{Data Flow} Scopes (represented in yellow in the following diagrams).
+Each concern in Figure~\ref{fig:design:architecture:platform:containers:logical:complete} is composed by containers that belong to the \textbf{Configuration} and \textbf{Data Flow} Scopes (represented in yellow in the following diagrams).
 The Configuration Scope of each concern is composed by a three layers architecture, as per \cite{3tier}:
 
 \begin{itemize}
@@ -293,7 +293,7 @@ The Data Processor concern group is presented in Figure~\ref{fig:design:architec
    \label{fig:design:architecture:platform:containers:logical:processor}
 \end{figure}
 
-This concern is responsible for transforming the data received in a format and semantic that can be understood by the system, it is explored in detail in Section~\ref{subsubsec:design:domain:bounded_contexts:processor}. The Data Processor Data Flow publishes metrics to the Message Broker regarding the time each Data Processor was used so that the Backend can then report this usages.
+The concern represented in Figure~\ref{fig:design:architecture:platform:containers:logical:processor} is responsible for transforming the data received in a format and semantic that can be understood by the system, it is explored in detail in Section~\ref{subsubsec:design:domain:bounded_contexts:processor}. The Data Processor Data Flow publishes metrics to the Message Broker regarding the time each Data Processor was used so that the Backend can then report this usages.
 
 The Data Decoder concern group is presented in Figure~\ref{fig:design:architecture:platform:containers:logical:decoder}.
 
@@ -304,7 +304,7 @@ The Data Decoder concern group is presented in Figure~\ref{fig:design:architectu
    \label{fig:design:architecture:platform:containers:logical:decoder}
 \end{figure}
 
-This concern is also responsible for transforming the data received in a format and semantic that can be understood by the system. In contrast with the Data Processor, it provides a more flexible but complex way of manipulating data, it is explored in detail in Section~\ref{subsubsec:design:domain:bounded_contexts:decoder}. The Data Decoder Data Flow publishes metrics to the Message Broker regarding the time each Data Decoder was used so that the Backend can then report this usages.
+The concern represented in Figure~\ref{fig:design:architecture:platform:containers:logical:decoder} is also responsible for transforming the data received in a format and semantic that can be understood by the system. In contrast with the Data Processor, it provides a more flexible but complex way of manipulating data, it is explored in detail in Section~\ref{subsubsec:design:domain:bounded_contexts:decoder}. The Data Decoder Data Flow publishes metrics to the Message Broker regarding the time each Data Decoder was used so that the Backend can then report this usages.
 
 The Device Management concern group is presented in Figure~\ref{fig:design:architecture:platform:containers:logical:device}.
 
@@ -315,7 +315,7 @@ The Device Management concern group is presented in Figure~\ref{fig:design:archi
    \label{fig:design:architecture:platform:containers:logical:device}
 \end{figure}
 
-This concern is responsible for maintaining a registry of the devices in use by the platform.
+The concern represented in Figure~\ref{fig:design:architecture:platform:containers:logical:device} is responsible for maintaining a registry of the devices in use by the platform.
 
 The Device Management Data Flow enriches the measures collected with more information regarding the device that sent them. The Device Commander consumes an \gls{IoT} Middleware REST \gls{API} to dispatch downlinks to devices. This downlinks contain commands that control the behavior of the implied actuator.
 This concern is explored in Section~\ref{subsubsec:design:domain:bounded_contexts:device}. The Data Flow containers publishes metrics to the Message Broker regarding the time each device was used so that the Backend can then report this usages.
@@ -329,7 +329,7 @@ The Identity Management concern group is presented in Figure~\ref{fig:design:arc
    \label{fig:design:architecture:platform:containers:logical:identity}
 \end{figure}
 
-This concern is responsible for managing devices ownership, user identity and organization's details. The backend and frontend containers communicate with an identity provider via OpenID Connect to verify the user identity. The Device Ownership Backend enriches the data measures and alerts with information regarding the organizations that own the device responsible for sending the measures or that lead to the dispatch of an alert. This concern is explored in Section~\ref{subsubsec:design:domain:bounded_contexts:identity}. This data flow container publishes metrics to the Message Broker regarding the time each organization information was used.
+The concern represented in Figure~\ref{fig:design:architecture:platform:containers:logical:identity} is responsible for managing devices ownership, user identity and organization's details. The backend and frontend containers communicate with an identity provider via OpenID Connect to verify the user identity. The Device Ownership Backend enriches the data measures and alerts with information regarding the organizations that own the device responsible for sending the measures or that lead to the dispatch of an alert. This concern is explored in Section~\ref{subsubsec:design:domain:bounded_contexts:identity}. This data flow container publishes metrics to the Message Broker regarding the time each organization information was used.
 
 The Rule Management concern group is presented in Figure~\ref{fig:design:architecture:platform:containers:logical:rule}.
 
@@ -340,7 +340,7 @@ The Rule Management concern group is presented in Figure~\ref{fig:design:archite
    \label{fig:design:architecture:platform:containers:logical:rule}
 \end{figure}
 
-This concern is responsible for managing rule scenarios that produce alerts based on the captured device measures.
+The concern represented in Figure~\ref{fig:design:architecture:platform:containers:logical:rule} is responsible for managing rule scenarios that produce alerts based on the captured device measures.
 
 The Alert Dispatcher is responsible for publishing alerts based on the rule scenarios published by the Rule Management Backend. The Rule Management Backend ensures that the rules submitted are valid. This concern is explored in Section~\ref{subsubsec:design:domain:bounded_contexts:rule}. This data flow container does not publishes any metrics, its interactions are better described with the help of sequence diagrams available in Figures~\ref{fig:design:architecture:platform:container:process:diagram:init} and \ref{fig:design:architecture:platform:component:process:diagram:rule}.
 
@@ -366,7 +366,7 @@ The system/container initialization, presented in Figure~\ref{fig:design:archite
    \label{fig:design:architecture:platform:container:process:diagram:init}
 \end{figure}
 
-Not all containers are displayed in this diagram for brevity reasons.
+Not all containers are displayed in the diagram - Figure~\ref{fig:design:architecture:platform:container:process:diagram:init} - for brevity reasons.
 The system relies heavily in the Pub/Sub \parencite{pubsub} pattern to communicate internally via a message broker. In this scenario the first step in a container life cycle is to subscribe to the information that it needs as presented in the diagram above.
 
 Certain containers need the entire state related to their concern to function. So, after subscribing to the needed information, they notify the system that they have entered an \textit{init state} for a specific concern. This triggers the creation of new events to help that container to reach a \textit{ready state}. An example of this interaction is presented in the following diagram, Figure~\ref{fig:design:architecture:platform:container:process:diagram:ready}.
@@ -378,7 +378,7 @@ Certain containers need the entire state related to their concern to function. S
    \label{fig:design:architecture:platform:container:process:diagram:ready}
 \end{figure}
 
-Apart from the Alert Dispatcher Backend, all containers in the \textbf{Data Flow Scope} function with just a portion of a single concern state or no state at all.
+Apart from the Alert Dispatcher Backend, all containers in the \textbf{Data Flow Scope} function with just a portion of a single concern state or no state at all as seen in Figure~\ref{fig:design:architecture:platform:container:process:diagram:ready}.
 
 To dive into this, some common data pipeline operations, related to the Data Flow Scope, are presented next. This operations are intended to behave in a \textit{reactive} manner \parencite{reactivemanifesto} and are therefore non-blocking. The idea behind the Data Flow Scope is analog to a data pipeline. This scope operates mostly with Data Units, transforming, filtering and enriching this data.
 
@@ -391,7 +391,7 @@ The following diagram in Figure~\ref{fig:design:architecture:platform:container:
    \label{fig:design:architecture:platform:container:process:diagram:flow}
 \end{figure}
 
-Most of these containers have just a portion of their concern's state and may be unable to preform the needed operation on some Data Units. The following diagrams, Figure~\ref{fig:design:architecture:platform:container:process:diagram:decoder:1} and Figure~\ref{fig:design:architecture:platform:container:process:diagram:decoder:2}, addresses how state is managed in Data Decoder Flow Backend and most \textbf{Data Flow Scope} containers.
+Most of the containers represented in Figure~\ref{fig:design:architecture:platform:container:process:diagram:flow} have just a portion of their concern's state and may be unable to preform the needed operation on some Data Units. The following diagrams, Figure~\ref{fig:design:architecture:platform:container:process:diagram:decoder:1} and Figure~\ref{fig:design:architecture:platform:container:process:diagram:decoder:2}, addresses how state is managed in Data Decoder Flow Backend and most \textbf{Data Flow Scope} containers.
 
 \begin{figure}
    \centering
@@ -411,7 +411,7 @@ The diagram in Figure~\ref{fig:design:architecture:platform:container:process:di
    \label{fig:design:architecture:platform:container:process:diagram:decoder:2}
 \end{figure}
 
-As we can see, Figure~\ref{fig:design:architecture:platform:container:process:diagram:decoder:2}, Data Decoder Flow Backend, upon receiving an info regarding a data decoder, searches for unhandled Data Units and processes them.
+As we can see, in Figure~\ref{fig:design:architecture:platform:container:process:diagram:decoder:2}, Data Decoder Flow Backend, upon receiving an info regarding a data decoder, searches for unhandled Data Units and processes them.
 To minimize the memory in use, a data decoder has to be continually used in order for it to remain in cache. As seen in step \textbf{2.2}, if \textit{X} hours pass since the last time a decoder was used it is evicted from the container internal state.
 
 The operations described here for the Data Decoder Flow Backend are replicated in the following concerns/containers:
@@ -433,7 +433,7 @@ The next diagrams, in Figure~\ref{fig:design:architecture:platform:container:pro
    \label{fig:design:architecture:platform:container:process:diagram:processor}
 \end{figure}
 
-The diagram presented above represents a simple consult of data mappers, as we can see, only the Data Processor Context in the Configuration Scope is invoked. When a change to the state is made in any Context of the Configuration Scope, events are published. The next diagram, Figure~\ref{fig:design:architecture:platform:container:process:diagram:device} displays an example of this occurrence.
+The diagram presented in Figure~\ref{fig:design:architecture:platform:container:process:diagram:processor} represents a simple consult of data mappers, as we can see, only the Data Processor Context in the Configuration Scope is invoked. When a change to the state is made in any Context of the Configuration Scope, events are published. The next diagram, Figure~\ref{fig:design:architecture:platform:container:process:diagram:device} displays an example of this occurrence.
 
 \begin{figure}
    \centering
@@ -442,7 +442,7 @@ The diagram presented above represents a simple consult of data mappers, as we c
    \label{fig:design:architecture:platform:container:process:diagram:device}
 \end{figure}
 
-In this use case a device information is changed. Since this operation changes the internal state of the device management concern, an event is published in the Internal Topic.
+In this use case - Figure~\ref{fig:design:architecture:platform:container:process:diagram:device} - a device information is changed. Since this operation changes the internal state of the device management concern, an event is published in the Internal Topic.
 
 According to the Section~\ref{subsubsec:design:domain:shared_model:routing}, this specific event uses the following \textit{Routing Keys}:
 
@@ -462,7 +462,7 @@ There are three containers that subscribe to this specific type of event:
    \item \textbf{Identity Management Backend}: so that information related to the device changed is presented according to the latest update. This container maintains local copies of all devices names to present to the user without needing to request Device Management for that information every time.
 \end{itemize}
 
-The step \textbf{1.3} in the last two diagrams references user permissions but there is no mention of how this permissions are associated to the user. In the next diagrams - Figure~\ref{fig:design:architecture:platform:container:process:diagram:authentication} and Figure~\ref{fig:design:architecture:platform:container:process:diagram:authorization} - authentication and authorization in the \textbf{Sensae Console} are addressed, other approaches are discussed in Appendix~\ref{appendix:design:alternatives:auth}.
+The step \textbf{1.3} in the last two diagrams (Figure~\ref{fig:design:architecture:platform:container:process:diagram:processor} and \ref{fig:design:architecture:platform:container:process:diagram:device}) references user permissions but there is no mention of how this permissions are associated to the user. In the next diagrams - Figure~\ref{fig:design:architecture:platform:container:process:diagram:authentication} and Figure~\ref{fig:design:architecture:platform:container:process:diagram:authorization} - authentication and authorization in the \textbf{Sensae Console} are addressed, other approaches are discussed in Appendix~\ref{appendix:design:alternatives:auth}.
 
 The system verifies the identity of a user based on the authentication performed by an external \gls{CIAM} solution using OpenID Connect 1.0, \cite{openid}, an identity layer on top of the OAuth 2.0 protocol. According to \cite{oauth} OAuth2.0 ``enables a third-party application to obtain limited access to an HTTP service''. In this situation the Frontend of \textbf{Sensae Console} is the third-party application and the HTTP service is any of the \textbf{Sensae Console} backend services.
 
@@ -473,7 +473,7 @@ The system verifies the identity of a user based on the authentication performed
    \label{fig:design:architecture:platform:container:process:diagram:authentication}
 \end{figure}
 
-This diagram illustrates how a user can authenticate against \textbf{Sensae Console}.
+The diagram in Figure~\ref{fig:design:architecture:platform:container:process:diagram:authentication} illustrates how a user can authenticate against \textbf{Sensae Console}.
 The user identity and credentials validation are assured by an external identity platform such as \citetitle{googleid} or \citetitle{azureid}. Once an \textit{id token} is provided to \textbf{Sensae Console} it can use it to verify the user identity against the local registry. To ensure that the \textit{id token} is valid, Identity Management Backend checks if it was signed by the platform that supposedly issued it (step \textbf{3.3} and \textbf{3.5}). After validating the \textit{id token} it searches for the needed information to create an \textit{access token} and then provides it. The \textit{access token} can then be used for a limited time to access any protected HTTP resource of \textbf{Sensae Console} as demonstrated in Figure~\ref{fig:design:architecture:platform:container:process:diagram:authorization}.
 
 \begin{figure}[H]
@@ -483,7 +483,7 @@ The user identity and credentials validation are assured by an external identity
    \label{fig:design:architecture:platform:container:process:diagram:authorization}
 \end{figure}
 
-In this diagram the expected behavior for any pair of frontend and backend containers in \textbf{Configuration Scope} (and \textbf{Business Applications}, when served from the \textbf{UI Aggregator}) is presented. Each frontend displays only the actions and information that the user permissions allow. The user permissions are once again verified in the backend to secure the system against malicious accesses. Other alternatives related to authentication and authorization are presented in  Appendix~\ref{appendix:design:alternatives:auth}.
+In this diagram, Figure~\ref{fig:design:architecture:platform:container:process:diagram:authorization}, the expected behavior for any pair of frontend and backend containers in \textbf{Configuration Scope} (and \textbf{Business Applications}, when served from the \textbf{UI Aggregator}) is presented. Each frontend displays only the actions and information that the user permissions allow. The user permissions are once again verified in the backend to secure the system against malicious accesses. Other alternatives related to authentication and authorization are presented in  Appendix~\ref{appendix:design:alternatives:auth}.
 
 \subsubsection{Container Level - Implementation View}
 \label{par:design:architecture:platform:container:development}
@@ -592,7 +592,7 @@ This service is composed by a simple three layers architecture. The details rela
 
 Next, to better understand the internal processes of this service, Figure~\ref{fig:design:architecture:container:process:diagram:fleet} presents how a user can see the current location of a device. Authentication details are omitted for brevity reasons.
 
-In order to provide live information to the user, the Fleet Management service (and all other \textbf{Business Applications}) relies on \textit{WebSockets}. A bidirectional channel is created between the frontend and backend so that data can be sent directly from the backend to the frontend as we can see in the step \textbf{2.5}. Fist the frontend must subscribe to new information with a valid \textit{access token} - steps \textbf{1.2} to \textbf{1.6} - then this channel is maintained till the user leaves the page. Once the user leaves the page the subscription is closed in the frontend and subsequently in the backend - steps \textbf{3.2} to \textbf{3.5}.
+In order to provide live information to the user, the Fleet Management service (and all other \textbf{Business Applications}) relies on \textit{WebSockets}. As seen in Figure~\ref{fig:design:architecture:container:process:diagram:fleet} a bidirectional channel is created between the frontend and backend so that data can be sent directly from the backend to the frontend as we can see in the step \textbf{2.5}. Fist the frontend must subscribe to new information with a valid \textit{access token} - steps \textbf{1.2} to \textbf{1.6} - then this channel is maintained till the user leaves the page. Once the user leaves the page the subscription is closed in the frontend and subsequently in the backend - steps \textbf{3.2} to \textbf{3.5}.
 
 \begin{figure}[H]
    \centering
@@ -617,7 +617,7 @@ This service is composed by a simple three layers architecture and has a separat
 
 The next diagram in Figure~\ref{fig:design:architecture:container:process:diagram:notification} describes how a user receives notifications via several different delivery channels. For brevity reasons the subscription process is omitted.
 
-As a brief description this diagram describes what happens when an alert is dispatched inside \textbf{Sensae Console}. An alert is created in Alert Dispatcher Backend, flows though Device Ownership Backend to be enriched with the domains that own it and is then collected by, at least, the Notification Management Service. Notification Management Backend deliveries alerts in the form of \gls{UI} notifications - step \textbf{2.5} and \textbf{2.6} - and stores this alert as a notification for later use - step \textbf{2.3}. Notification Dispatcher Backend deliveries alerts in the form of Emails - step \textbf{3.4} - and SMS - step \textbf{3.7}.
+As a brief description the diagram in Figure~\ref{fig:design:architecture:container:process:diagram:notification} describes what happens when an alert is dispatched inside \textbf{Sensae Console}. An alert is created in Alert Dispatcher Backend, flows though Device Ownership Backend to be enriched with the domains that own it and is then collected by, at least, the Notification Management Service. Notification Management Backend deliveries alerts in the form of \gls{UI} notifications - step \textbf{2.5} and \textbf{2.6} - and stores this alert as a notification for later use - step \textbf{2.3}. Notification Dispatcher Backend deliveries alerts in the form of Emails - step \textbf{3.4} - and SMS - step \textbf{3.7}.
 
 \begin{figure}[H]
    \centering
@@ -633,7 +633,7 @@ The logical view of the Smart Irrigation service is presented in Figure~\ref{fig
 
 This service is composed by a three layers architecture, the \textbf{Data Layer} is divided in two databases, one responsible for storing device measures and another responsible for storing information regarding the Irrigation Zones and device information. The details related to this service are discussed in Section~\ref{subsubsec:design:domain:bounded_contexts:irrigation}.
 
-Certain types of alerts are also collected by Smart Irrigation Backend to automatically control conditions inside an irrigation zone. In the next diagram, Figure \ref{fig:design:architecture:container:process:diagram:irrigation}, this process is presented.
+Certain types of alerts are also collected by Smart Irrigation Backend to automatically control conditions inside an irrigation zone. The diagram in Figure \ref{fig:design:architecture:container:process:diagram:irrigation} presents this process.
 
 \begin{figure}[H]
    \centering
@@ -649,7 +649,7 @@ Certain types of alerts are also collected by Smart Irrigation Backend to automa
    \label{fig:design:architecture:container:process:diagram:irrigation}
 \end{figure}
 
-The alerts created in \textbf{Sensae Console} are captured by \textbf{Business Applications}'s containers so that they can immediately act based on those alerts.
+The alerts created in \textbf{Sensae Console} are captured by \textbf{Business Applications}'s containers so that they can immediately act based on those alerts (Figure~\ref{fig:design:architecture:container:process:diagram:irrigation}).
 
 The Smart Irrigation Backend subscribes to three types of \textit{Sub Category} alerts, all with the same \textit{Category} - \textit{Smart Irrigation}:
 
@@ -789,7 +789,7 @@ This option ensures that the Data Flow Containers are kept updated by giving the
    \label{fig:design:alternatives:internal:first:diagram}
 \end{figure}
 
-This approach ensures that the Message Broker is only used to transport Data Units, Alerts and Commands, alleviating it from an heavy responsibility.
+The approach in Figure~\ref{fig:design:alternatives:internal:first:diagram} ensures that the Message Broker is only used to transport Data Units, Alerts and Commands, alleviating it from an heavy responsibility.
 That responsibility is assigned to the \textit{X Concern Flow} Container and the \textit{X Concern Database} Container.
 This approach has several drawbacks such as:
 
@@ -814,7 +814,7 @@ This option ensures that the Data Flow Containers are kept updated querying info
    \label{fig:design:alternatives:internal:second:diagram}
 \end{figure}
 
-This approach doesn't suffer from all drawbacks stated for the first option but still requires a blocking call to the \textit{X Concern Backend} Container every time a new message arrives to the \textit{X Concern Flow} Container.
+The approach in Figure~\ref{fig:design:alternatives:internal:second:diagram} doesn't suffer from all drawbacks stated for the first option but still requires a blocking call to the \textit{X Concern Backend} Container every time a new message arrives to the \textit{X Concern Flow} Container.
 
 It's an improvement of the first option but still has some serious drawbacks and therefore it was also abandoned.
 
@@ -830,7 +830,7 @@ This option ensures that the Data Flow Containers are kept updated by allowing t
    \label{fig:design:alternatives:internal:third:diagram}
 \end{figure}
 
-The major improvement of this approach when compared with the options above is that, since \textit{X Concern Flow} Container subscribes to configuration updates, it can reliably keep a cache with just the needed information (and not the entire concern configuration). This works since \textit{X Concern Flow} Containers can discard updates related to information that they currently don't use. Once the container needs that information, it can send an event requesting what it needs and that information arrives later as a normal update to the configuration.
+The major improvement of the approach in Figure~\ref{fig:design:alternatives:internal:third:diagram} when compared with the options above is that, since \textit{X Concern Flow} Container subscribes to configuration updates, it can reliably keep a cache with just the needed information (and not the entire concern configuration). This works since \textit{X Concern Flow} Containers can discard updates related to information that they currently don't use. Once the container needs that information, it can send an event requesting what it needs and that information arrives later as a normal update to the configuration.
 All \textit{X Concern Flow} external interactions also rely on asynchronous communication, ensuring a more robust performance.
 
 The main drawback to this option is that the \textit{Message Broker} becomes responsible for yet another communication topic inside the environment.
@@ -849,7 +849,7 @@ This option ensures that the Data Flow Containers are kept updated by allowing t
    \label{fig:design:alternatives:internal:fourth:diagram}
 \end{figure}
 
-This approach would remove the responsibly from the \textit{Message Broker} to maintaining the internal state updated in the Data Flow Scope.
+The approach in Figure~\ref{fig:design:alternatives:internal:fourth:diagram} would remove the responsibly from the \textit{Message Broker} to maintaining the internal state updated in the Data Flow Scope.
 The \textit{Internal State Database} would in turn store information that \textit{X Content Flow} could query.
 
 The main drawbacks of this approach are the same stated in the second option, even tho they can be mitigated by leveraging technologies that tackle distributed caching problems.
@@ -868,7 +868,7 @@ This option ensures that the Data Flow Containers are kept updated by allowing t
 
 The \textit{X Concern Flow} Container would use event sourcing to reach the current state of its concern configuration on start up and then cache this state internally. New events would then be sent automatically via subscription to keep the state up-to-date.
 
-The main drawback of this approach is that the container can't keep just the needed portion of configurations without recreating the entire state though event sourcing.
+The main drawback of the approach in Figure~\ref{fig:design:alternatives:internal:fifth:diagram} is that the container can't keep just the needed portion of configurations without recreating the entire state though event sourcing.
 
 \section{Canonical Model}
 \label{sec:design:domain}
@@ -907,7 +907,7 @@ Currently the \textbf{Topic}s that flow in the system are:
    \item \textbf{Internal}: This topic references the internal state maintained in the \textbf{Configuration Scope} and \textbf{Data Flow Scope}.
 \end{itemize}
 
-This concepts are referenced across the document.
+These concepts are referenced across the document.
 
 \subsection{Model}
 \label{subsec:design:domain:shared_model}
@@ -932,7 +932,7 @@ The data model represents the \textbf{Data Unit} that \textbf{Sensae Console} is
   \label{fig:design:domain:shared_model:data:diagram}
 \end{figure}
 
-As a brief description:
+As a brief description of Figure~\ref{fig:design:domain:shared_model:data:diagram}:
 
 \begin{itemize}
    \item \textbf{Data Unit} is the entry point to the shared model;
@@ -1070,7 +1070,7 @@ The diagram present in Figure~\ref{fig:design:domain:shared_model:messsage:diagr
   \label{fig:design:domain:shared_model:messsage:diagram}
 \end{figure}
 
-As a brief description:
+As a brief description of Figure~\ref{fig:design:domain:shared_model:messsage:diagram}:
 
 \begin{itemize}
    \item A \textit{MessageSupplied} is created in a issuer system and supplied to start the flow of information in the system;
@@ -1095,7 +1095,7 @@ The diagram presented in Figure~\ref{fig:design:domain:shared_model:routing:diag
   \label{fig:design:domain:shared_model:routing:diagram}
 \end{figure}
 
-As a brief description:
+As a brief description of Figure~\ref{fig:design:domain:shared_model:routing:diagram}:
 
 \begin{itemize}
    \item \textit{RoutingKeys} is the concept referenced in Figure~\ref{fig:design:domain:shared_model:messsage:diagram} and represents a collection of different \textit{RoutingKeyOption}s;
@@ -1119,9 +1119,9 @@ The routing key \textit{OperationType} from the \textbf{Internal} topic can have
    \item \textbf{Ping}: message to notify that an entry of the related \textit{ContextType} was used, e.g. entry X in context Y was just used.
 \end{itemize}
 
-The \textit{ContextType}, used to identity what piece of the state is referenced, can currently have the following values: (i) \textit{Data Processor}, (ii) \textit{Data Decoder}, (iii) \textit{Device Information}, (iv) \textit{Device Identity}, (v) \textit{Tenant Identity}, (vi) \textit{Addressee Configuration} and (vii) \textit{Rule Management}.
+The \textit{ContextType}in Table~\ref{tab:design:domain:shared_model:routing}, used to identity what piece of the state is referenced, can currently have the following values: (i) \textit{Data Processor}, (ii) \textit{Data Decoder}, (iii) \textit{Device Information}, (iv) \textit{Device Identity}, (v) \textit{Tenant Identity}, and (vi) \textit{Rule Management}.
 
-Routing keys help to strengthen the boundaries that a container is expected to have. As an example, an business application related to Waste Management would subscribe to the \textit{Data Topic} with the following \textit{Routing Keys}:
+Routing keys help to strengthen the boundaries that a container is expected to have. As an example, a business application related to Waste Management would subscribe to the \textit{Data Topic} with the following \textit{Routing Keys}:
 
 \begin{itemize}
    \item \textit{Info Type Options}: PROCESSED;

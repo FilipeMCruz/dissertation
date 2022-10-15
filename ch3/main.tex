@@ -46,7 +46,7 @@ These business cases can be vaguely characterized according to the following org
     \end{tabular}
 \end{table}
 
-The requirements detailed in the following sections were founded on top of the requested business cases mentioned above. These requirements were constantly tailored according to the latest talks with the third parties involved. Even though many requested business cases weren't implemented, they guided the author to the design and development of the final solution, \textbf{Sensae Console} and \gls{PoC}s.
+The requirements detailed in the following sections were founded on top of the requested business cases mentioned in Table~\ref{tab:requirements:servicerequests}. These requirements were constantly tailored according to the latest talks with the third parties involved. Even though many requested business cases weren't implemented, they guided the author to the design and development of the final solution, \textbf{Sensae Console} and \gls{PoC}s.
 
 At the time of writing, the \gls{PoC}s developed answer three business cases: (i) Fleet Management, (ii) Smart Irrigation and (iii) Indoor Fire Detention. The other business cases were either abandoned or requested too close to the writing of this dissertation and therefore will not be detailed.
 
@@ -252,7 +252,7 @@ In the Supportability category the following requirements were identified:
 \subsection{Design Requirements}
 \label{subsec:requirements:non_functional:design}
 
-The Design Requirements identified are related to how \textbf{Sensae Console} must interact with External Systems, namely \gls{IoT} middlewares and Identity Providers. This requirements also describe what \gls{API} should be served to Costumers, Organizations and \textbf{Business Applications}.
+The Design Requirements identified are related to how \textbf{Sensae Console} must interact with External Systems, namely \gls{IoT} middlewares and Identity Providers. This requirements also describe what \gls{API} should be served to Costumers, Organizations and \textbf{Business Applications}. Figure~\ref{fig:requirements:non_functional:design} presents the envisioned architecture for the platform.
 
 \begin{figure}[H]
     \centering
@@ -262,7 +262,7 @@ The Design Requirements identified are related to how \textbf{Sensae Console} mu
 \end{figure}
 
 Most Identity Providers adhere to the OpenID Connect Standard, therefore it's possible to develop a single solution that can exchange information with various Identity Providers in a agnostic manner.
-The \textit{'\gls{IoT} Middleware Downlink Rest API'} may require a different implementation for each \gls{IoT} Middleware since there is no Standard that these platforms can follow, according to \cite{KOO20224191}.  
+The \textit{'\gls{IoT} Middleware Downlink Rest API'} in Figure~\ref{fig:requirements:non_functional:design} may require a different implementation for each \gls{IoT} Middleware since there is no Standard that these platforms can follow, according to \cite{KOO20224191}.  
 
 \subsection{Implementation Requirements}
 \label{subsec:requirements:non_functional:implementation}
